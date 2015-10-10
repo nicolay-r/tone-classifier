@@ -32,8 +32,8 @@
                   PRIMARY KEY (`id`),
                   UNIQUE KEY `id` (`twitid`),
                   UNIQUE KEY `id_2` (`twitid`)
-                ) ENGINE=InnoDB AUTO_INCREMENT=5001 DEFAULT CHARSET=utf8;
-            </pma:table>
+                  );
+          </pma:table>
         </pma:database>
     </pma:structure_schemas>
 
@@ -2254,7 +2254,7 @@
             <column name="id">170</column>
             <column name="twitid">492620547990500000</column>
             <column name="date">1406284865</column>
-            <column name="text">В Ростовской области Интернет стал быстрее в 10 раз. 
+            <column name="text">В Ростовской области Интернет стал быстрее в 10 раз.
 &amp;amp;laquo;Мегафон&amp;amp;raquo; включил на объектах связи новейшее техническое оборудование, к</column>
             <column name="beeline">NULL</column>
             <column name="mts">NULL</column>
@@ -3917,7 +3917,7 @@ http://t.co/NnxPy64T6u
             <column name="id">297</column>
             <column name="twitid">492732829428880000</column>
             <column name="date">1406311635</column>
-            <column name="text">RT @MihRRRab: Знакомьтесь. Это лиса на Прививке честности #tele2 
+            <column name="text">RT @MihRRRab: Знакомьтесь. Это лиса на Прививке честности #tele2
 Игроки обещали лисе честно больше не есть по ночам!) http://t.co/H2wOqQnm…</column>
             <column name="beeline">NULL</column>
             <column name="mts">NULL</column>
@@ -6070,7 +6070,7 @@ http://t.co/NnxPy64T6u
             <column name="id">462</column>
             <column name="twitid">492930384272030000</column>
             <column name="date">1406358736</column>
-            <column name="text">Бля,Билайн ожил 
+            <column name="text">Бля,Билайн ожил
 Даже 3G огоо Оо</column>
             <column name="beeline">+-</column>
             <column name="mts">NULL</column>
@@ -6279,7 +6279,7 @@ http://t.co/NnxPy64T6u
             <column name="id">478</column>
             <column name="twitid">492942150511130000</column>
             <column name="date">1406361541</column>
-            <column name="text">Какой номер оператора МТС?#мтс 
+            <column name="text">Какой номер оператора МТС?#мтс
 @ru_mts</column>
             <column name="beeline">NULL</column>
             <column name="mts">0</column>
@@ -6762,7 +6762,7 @@ http://t.co/NnxPy64T6u
             <column name="id">515</column>
             <column name="twitid">492967485877280000</column>
             <column name="date">1406367582</column>
-            <column name="text">мегафон не дает обещанных, а с баллами фигня какая т 
+            <column name="text">мегафон не дает обещанных, а с баллами фигня какая т
 если тебе не будет стыдно обащться с былоаниметянкой.то можно я к те добавлюсь?</column>
             <column name="beeline">NULL</column>
             <column name="mts">NULL</column>
@@ -7888,7 +7888,7 @@ http://t.co/NnxPy64T6u
             <column name="twitid">493051160044240000</column>
             <column name="date">1406387531</column>
             <column name="text">С 1 августа 2014 года участвуйте в акции и приобретайте
-новые модели смартфона или планшета от МТС всего за 1990 рублей! 
+новые модели смартфона или планшета от МТС всего за 1990 рублей!
 
 Акционные сма</column>
             <column name="beeline">NULL</column>
@@ -10029,7 +10029,7 @@ http://t.co/NnxPy64T6u
             <column name="id">765</column>
             <column name="twitid">493251425464750000</column>
             <column name="date">1406435278</column>
-            <column name="text">Новая опция от Мегафона «Вся Россия» для путешествий. 
+            <column name="text">Новая опция от Мегафона «Вся Россия» для путешествий.
 далее #RT</column>
             <column name="beeline">NULL</column>
             <column name="mts">NULL</column>
@@ -11900,7 +11900,7 @@ SMS…</column>
             <column name="twitid">493375087543070000</column>
             <column name="date">1406464761</column>
             <column name="text">Ебучий мтс блять пидор ебанный
-Сам подключил мне услуг на 5000 рублей в день,сам снимает деньги 
+Сам подключил мне услуг на 5000 рублей в день,сам снимает деньги
 А я даже не знаю про их существование</column>
             <column name="beeline">NULL</column>
             <column name="mts">-1</column>
@@ -15713,7 +15713,7 @@ SMS…</column>
             <column name="id">1201</column>
             <column name="twitid">493693706697200000</column>
             <column name="date">1406540726</column>
-            <column name="text">Задачка: 
+            <column name="text">Задачка:
 
 ограничение по траффику 15 гб, мтс LTE по всей России
 Потрачено 8,7 гб.
@@ -16346,7 +16346,7 @@ SMS…</column>
             <column name="id">1249</column>
             <column name="twitid">493733228176370000</column>
             <column name="date">1406550149</column>
-            <column name="text">#summertime теперь можно поставить на рингтон! #мтс #билайн! Отправляем смс и готово! 
+            <column name="text">#summertime теперь можно поставить на рингтон! #мтс #билайн! Отправляем смс и готово!
 А также… http://t.co/XcIl3cSdWF</column>
             <column name="beeline">0</column>
             <column name="mts">0</column>
@@ -16466,7 +16466,7 @@ SMS…</column>
             <column name="date">1406551660</column>
             <column name="text">Да ну
 Я тут через мтс сижу
-Симкас поддержкой 4g 
+Симкас поддержкой 4g
 Жоско быстрый инет</column>
             <column name="beeline">NULL</column>
             <column name="mts">1</column>
@@ -19027,7 +19027,7 @@ SMS…</column>
             <column name="id">1454</column>
             <column name="twitid">493921559028200000</column>
             <column name="date">1406595050</column>
-            <column name="text">когда-нибудь мтс будет работать без перебоев. 
+            <column name="text">когда-нибудь мтс будет работать без перебоев.
 когда-нибудь никогда</column>
             <column name="beeline">NULL</column>
             <column name="mts">-1</column>
@@ -19978,7 +19978,7 @@ http://t.co/IKvuNFvzR0 http://t.co/V1OEbo6Dnh</column>
             <column name="id">1527</column>
             <column name="twitid">493976142672860000</column>
             <column name="date">1406608064</column>
-            <column name="text">Мне пришло смс- награждение от мегафона!!! 
+            <column name="text">Мне пришло смс- награждение от мегафона!!!
 40 бесплатных смс #круто</column>
             <column name="beeline">NULL</column>
             <column name="mts">NULL</column>
@@ -21243,7 +21243,7 @@ http://t.co/IKvuNFvzR0 http://t.co/WSvnbleFZ1</column>
             <column name="id">1624</column>
             <column name="twitid">494026226554900000</column>
             <column name="date">1406620005</column>
-            <column name="text">RT @IDIOTKAKTUS2: @kaktusice мтс 60 кбит/с 
+            <column name="text">RT @IDIOTKAKTUS2: @kaktusice мтс 60 кбит/с
 им норм :D</column>
             <column name="beeline">NULL</column>
             <column name="mts">-1</column>
@@ -22847,7 +22847,7 @@ http://t.co/IKvuNFvzR0 http://t.co/WSvnbleFZ1</column>
             <column name="id">1747</column>
             <column name="twitid">494110233061770000</column>
             <column name="date">1406640034</column>
-            <column name="text">RT @Mgfvolga_Help: @Gordon01_G1 @megafonru 
+            <column name="text">RT @Mgfvolga_Help: @Gordon01_G1 @megafonru
 Ваш вопрос повторно передан на проверку и о решении Вам будет сообщено дополнительно.</column>
             <column name="beeline">NULL</column>
             <column name="mts">NULL</column>
@@ -24195,7 +24195,7 @@ http://t.co/IKvuNFvzR0 http://t.co/WSvnbleFZ1</column>
             <column name="id">1850</column>
             <column name="twitid">494219008095160000</column>
             <column name="date">1406665968</column>
-            <column name="text">у меня вчера ващи связи не было 
+            <column name="text">у меня вчера ващи связи не было
 ипаный мтс</column>
             <column name="beeline">NULL</column>
             <column name="mts">-1</column>
@@ -24418,7 +24418,7 @@ http://t.co/IKvuNFvzR0 http://t.co/WSvnbleFZ1</column>
             <column name="id">1867</column>
             <column name="twitid">494234294513310000</column>
             <column name="date">1406669612</column>
-            <column name="text">Ого Билайн отжег. http://t.co/wxkd2Va1Jl 
+            <column name="text">Ого Билайн отжег. http://t.co/wxkd2Va1Jl
 Прям 2G отработал на все 100</column>
             <column name="beeline">1</column>
             <column name="mts">NULL</column>
@@ -25173,7 +25173,7 @@ http://t.co/IKvuNFvzR0 http://t.co/WSvnbleFZ1</column>
             <column name="id">1925</column>
             <column name="twitid">494289207251440000</column>
             <column name="date">1406682705</column>
-            <column name="text">RT @borisovich_m2: УРАААА!!! 
+            <column name="text">RT @borisovich_m2: УРАААА!!!
 МТС ЗАРАБОТАЛ ;)</column>
             <column name="beeline">NULL</column>
             <column name="mts">1</column>
@@ -27794,7 +27794,7 @@ Tele2, альтернативный оператор мобильной связ
             <column name="id">2126</column>
             <column name="twitid">494428774432520000</column>
             <column name="date">1406715980</column>
-            <column name="text">@ru_mts Не подскажите, 
+            <column name="text">@ru_mts Не подскажите,
 если деньги не поступают за инет Супер Бит, то он блокируется и помегабайтная оплата идет или как-то еще?</column>
             <column name="beeline">NULL</column>
             <column name="mts">0</column>
@@ -27834,7 +27834,7 @@ Tele2, альтернативный оператор мобильной связ
             <column name="id">2129</column>
             <column name="twitid">494430327138700000</column>
             <column name="date">1406716350</column>
-            <column name="text">@MegaFonHelp Добрый день! По адресу Ленинский пр-т, 2 постоянно отваливается сеть и интернет. 
+            <column name="text">@MegaFonHelp Добрый день! По адресу Ленинский пр-т, 2 постоянно отваливается сеть и интернет.
 +7 (919) 998-80-90 http://t.co/kLCXRumE7K</column>
             <column name="beeline">NULL</column>
             <column name="mts">NULL</column>
@@ -29998,8 +29998,8 @@ Tele2, альтернативный оператор мобильной связ
             <column name="id">2295</column>
             <column name="twitid">494549664235280000</column>
             <column name="date">1406744802</column>
-            <column name="text">RT @Ss_donetchina: Авдеевка. Связь МТС нет уже третий день. 
-В Авдеевку дозвониться невозможно. 
+            <column name="text">RT @Ss_donetchina: Авдеевка. Связь МТС нет уже третий день.
+В Авдеевку дозвониться невозможно.
 Из Авдеевки иногда звонки проходят.</column>
             <column name="beeline">NULL</column>
             <column name="mts">-1</column>
@@ -30937,7 +30937,7 @@ https://t.co/5kBleTD5…</column>
             <column name="id">2367</column>
             <column name="twitid">494719228369720000</column>
             <column name="date">1406785230</column>
-            <column name="text">Спасибо большое Inessa Shlapak 
+            <column name="text">Спасибо большое Inessa Shlapak
 Как мне нравится слоган &quot;НАВСТРЕЧУ ПЕРЕМЕНАМ&quot;
 
 Tele2 Kazakhstan  Reach for Change... http://t.co/2IxXiisWYJ</column>
@@ -32868,7 +32868,7 @@ http://t.co/6s5k2QY325 http://t.co/mc2O3iI6uI</column>
             <column name="id">2515</column>
             <column name="twitid">494789634652920000</column>
             <column name="date">1406802016</column>
-            <column name="text">&quot;Мегафон&quot; переведет 40% капитала в гонконгские доллары 
+            <column name="text">&quot;Мегафон&quot; переведет 40% капитала в гонконгские доллары
 
 http://t.co/5SZzsH3nkD</column>
             <column name="beeline">NULL</column>
@@ -34112,7 +34112,7 @@ http://t.co/5SZzsH3nkD</column>
             <column name="id">2610</column>
             <column name="twitid">494844871103230000</column>
             <column name="date">1406815185</column>
-            <column name="text">RT @Rostelecom_NW: #Калининград - прекрасный город, как же его не любить;) Вот самое западное #сердцегорода! 
+            <column name="text">RT @Rostelecom_NW: #Калининград - прекрасный город, как же его не любить;) Вот самое западное #сердцегорода!
 #Ростелеком #sputnikru http:/…</column>
             <column name="beeline">NULL</column>
             <column name="mts">NULL</column>
@@ -35532,7 +35532,7 @@ http://t.co/FAzhBi7Suv
             <column name="id">2718</column>
             <column name="twitid">494917431350280000</column>
             <column name="date">1406832485</column>
-            <column name="text">«Мегафон» перевел 40 процентов оборотного капитала в гонконгские доллары 
+            <column name="text">«Мегафон» перевел 40 процентов оборотного капитала в гонконгские доллары
 http://t.co/eckfkaBqyU http://t.co/mkZOVPP3Jl</column>
             <column name="beeline">NULL</column>
             <column name="mts">NULL</column>
@@ -37567,7 +37567,7 @@ http://t.co/eckfkaBqyU http://t.co/mkZOVPP3Jl</column>
             <column name="id">2874</column>
             <column name="twitid">495075368534300000</column>
             <column name="date">1406870140</column>
-            <column name="text">- Операторы &quot;Билайн&quot;, а вы за что деньги на счету снимаете? 
+            <column name="text">- Операторы &quot;Билайн&quot;, а вы за что деньги на счету снимаете?
 - Да прост))))0))</column>
             <column name="beeline">-1</column>
             <column name="mts">NULL</column>
@@ -38611,8 +38611,8 @@ http://t.co/eckfkaBqyU http://t.co/mkZOVPP3Jl</column>
             <column name="id">2954</column>
             <column name="twitid">495121699050780000</column>
             <column name="date">1406881186</column>
-            <column name="text">роутер ростелеком: здравствуйте!) 
-можно ли настроить халявный роутер от ростелекома на другой сети?) 
+            <column name="text">роутер ростелеком: здравствуйте!)
+можно ли настроить халявный роутер от ростелекома на другой сети?)
 пользов... http://t.co/Ch4VChoSIm</column>
             <column name="beeline">NULL</column>
             <column name="mts">NULL</column>
@@ -40159,8 +40159,8 @@ http://t.co/ydlJpjabnk http://t.co/YiY5RG2wEq</column>
             <column name="id">3072</column>
             <column name="twitid">495188310872980000</column>
             <column name="date">1406897068</column>
-            <column name="text">маме звонит папа. 
-брату пишет его девушка. 
+            <column name="text">маме звонит папа.
+брату пишет его девушка.
 мне - мтс - я крутая.©</column>
             <column name="beeline">NULL</column>
             <column name="mts">0</column>
@@ -40369,7 +40369,7 @@ http://t.co/ydlJpjabnk http://t.co/YiY5RG2wEq</column>
             <column name="id">3088</column>
             <column name="twitid">495198366901760000</column>
             <column name="date">1406899465</column>
-            <column name="text">RT @InezBlasdel: Спасибо МТС 
+            <column name="text">RT @InezBlasdel: Спасибо МТС
 я тя оч лю , ага</column>
             <column name="beeline">NULL</column>
             <column name="mts">1</column>
@@ -42862,7 +42862,7 @@ Leto^^</column>
             <column name="id">3279</column>
             <column name="twitid">495478090186120000</column>
             <column name="date">1406966156</column>
-            <column name="text">МТС 
+            <column name="text">МТС
 СУКА
 ТЫ МЕДЛЕННАЯ
 ОТКРОЙ МНЕ ИНСТАГРАМ БЛЯТЬ</column>
@@ -43138,7 +43138,7 @@ Leto^^</column>
             <column name="id">3300</column>
             <column name="twitid">495510447169470000</column>
             <column name="date">1406973871</column>
-            <column name="text">Здравствуйте, @MegaFon_SZ_Help !Больше нет мОчи терпеть!Сделайте что-нибудь уже, а?! 
+            <column name="text">Здравствуйте, @MegaFon_SZ_Help !Больше нет мОчи терпеть!Сделайте что-нибудь уже, а?!
 Карелия,Питкярантский р-н,Ууксу http://t.co/NII3mBuALW</column>
             <column name="beeline">NULL</column>
             <column name="mts">NULL</column>
@@ -43334,7 +43334,7 @@ Leto^^</column>
             <column name="id">3315</column>
             <column name="twitid">495529518569130000</column>
             <column name="date">1406978418</column>
-            <column name="text">@ru_mts огромные замечания 
+            <column name="text">@ru_mts огромные замечания
 Где моя &quot;максимальная скорость&quot;?</column>
             <column name="beeline">NULL</column>
             <column name="mts">-1</column>
@@ -43860,7 +43860,7 @@ http://t.co/BfmBviPmtK</column>
             <column name="id">3355</column>
             <column name="twitid">495577857306150000</column>
             <column name="date">1406989943</column>
-            <column name="text">Теперь у меня на даче есть пристойный интернет! 
+            <column name="text">Теперь у меня на даче есть пристойный интернет!
 Ибо Билайн, да.</column>
             <column name="beeline">1</column>
             <column name="mts">NULL</column>
@@ -43952,8 +43952,8 @@ http://t.co/BfmBviPmtK</column>
             <column name="id">3362</column>
             <column name="twitid">495588235234770000</column>
             <column name="date">1406992417</column>
-            <column name="text">как же мне нравится реклама &quot;билайн&quot;( про интернет на все устройства) 
--А мне интернет! 
+            <column name="text">как же мне нравится реклама &quot;билайн&quot;( про интернет на все устройства)
+-А мне интернет!
 -всем интернет.</column>
             <column name="beeline">1</column>
             <column name="mts">NULL</column>
@@ -44085,7 +44085,7 @@ http://t.co/BfmBviPmtK</column>
             <column name="twitid">495599476065970000</column>
             <column name="date">1406995097</column>
             <column name="text">RT @tweewhores: Люблю МТС
-Трафика 0,а могу сидеть в вк и тви 
+Трафика 0,а могу сидеть в вк и тви
 И фотки кидать иногда</column>
             <column name="beeline">NULL</column>
             <column name="mts">1</column>
@@ -44372,7 +44372,7 @@ http://t.co/BfmBviPmtK</column>
             <column name="id">3394</column>
             <column name="twitid">495642640697000000</column>
             <column name="date">1407005388</column>
-            <column name="text">RT @kolydka: Мегафон сообщил, что полностью вывел свои валютные резервы 
+            <column name="text">RT @kolydka: Мегафон сообщил, что полностью вывел свои валютные резервы
 - из евро - и долларов и перевел их в рубли - и гонконгские доллар…</column>
             <column name="beeline">NULL</column>
             <column name="mts">NULL</column>
@@ -45639,7 +45639,7 @@ http://t.co/BfmBviPmtK</column>
             <column name="id">3491</column>
             <column name="twitid">495873124773400000</column>
             <column name="date">1407060340</column>
-            <column name="text">#Пчелайн как всегда на высоте со своей рекламой. http://t.co/bqbQrNaLqM серия роликов про скоростной инет. 
+            <column name="text">#Пчелайн как всегда на высоте со своей рекламой. http://t.co/bqbQrNaLqM серия роликов про скоростной инет.
 Снимала команда  @AVSoloviev</column>
             <column name="beeline">1</column>
             <column name="mts">NULL</column>
@@ -46485,7 +46485,7 @@ http://t.co/iII9WF7llN</column>
             <column name="date">1407090842</column>
             <column name="text">А из крыма валит украинский мтс :с
 Тяжко нам без него будет :с
-Вот они сволочи, а.... 
+Вот они сволочи, а....
 Десятки тысяч человеков без связи...даже сотни..</column>
             <column name="beeline">NULL</column>
             <column name="mts">-1</column>
@@ -47985,7 +47985,7 @@ http://t.co/iII9WF7llN</column>
             <column name="id">3670</column>
             <column name="twitid">496206606695420000</column>
             <column name="date">1407139848</column>
-            <column name="text">RT @wylsacom: У Билайн в Москве нет LTE, одно название. 
+            <column name="text">RT @wylsacom: У Билайн в Москве нет LTE, одно название.
 RT @Serpantes: @wylsacom ну как бы тебе сказать.. http://t.co/NDnkXVcv42</column>
             <column name="beeline">-1</column>
             <column name="mts">NULL</column>
@@ -48147,7 +48147,7 @@ RT @Serpantes: @wylsacom ну как бы тебе сказать.. http://t.co/
             <column name="id">3682</column>
             <column name="twitid">496219393010170000</column>
             <column name="date">1407142897</column>
-            <column name="text">#ИН #Перевальск, 4-й магазин, &quot;МТС&quot;, &quot;Life ;)&quot; лежат, автобус с террористами поехал в сторону #Степановка’и 
+            <column name="text">#ИН #Перевальск, 4-й магазин, &quot;МТС&quot;, &quot;Life ;)&quot; лежат, автобус с террористами поехал в сторону #Степановка’и
 
 #Стоптеррор</column>
             <column name="beeline">NULL</column>
@@ -48175,7 +48175,7 @@ RT @Serpantes: @wylsacom ну как бы тебе сказать.. http://t.co/
             <column name="id">3684</column>
             <column name="twitid">496223600098410000</column>
             <column name="date">1407143900</column>
-            <column name="text">Задолженность 1416548 руб. 
+            <column name="text">Задолженность 1416548 руб.
 #люблюМТС</column>
             <column name="beeline">NULL</column>
             <column name="mts">-1</column>
@@ -50065,7 +50065,7 @@ RT @Serpantes: @wylsacom ну как бы тебе сказать.. http://t.co/
             <column name="id">3829</column>
             <column name="twitid">496511127950750000</column>
             <column name="date">1407212452</column>
-            <column name="text">RT @euromaidan: Команда Коломойского предлагает национализировать МТС и &quot;Киевстар&quot; 
+            <column name="text">RT @euromaidan: Команда Коломойского предлагает национализировать МТС и &quot;Киевстар&quot;
 http://t.co/LCTdRaN0JY</column>
             <column name="beeline">NULL</column>
             <column name="mts">0</column>
@@ -50093,8 +50093,8 @@ http://t.co/LCTdRaN0JY</column>
             <column name="id">3831</column>
             <column name="twitid">496514775409770000</column>
             <column name="date">1407213321</column>
-            <column name="text">RT @morya4ka: #мтс умер. 
-Умер? Ну и хуй с ним!!! 
+            <column name="text">RT @morya4ka: #мтс умер.
+Умер? Ну и хуй с ним!!!
 Трррр</column>
             <column name="beeline">NULL</column>
             <column name="mts">-1</column>
@@ -50121,7 +50121,7 @@ http://t.co/LCTdRaN0JY</column>
             <column name="id">3833</column>
             <column name="twitid">496516480851530000</column>
             <column name="date">1407213728</column>
-            <column name="text">У Коломойского хотят национализировать «Киевстар» и «МТС». 
+            <column name="text">У Коломойского хотят национализировать «Киевстар» и «МТС».
 
  Команда днепропетровского губернатора Игоря Кол</column>
             <column name="beeline">NULL</column>
@@ -50188,7 +50188,7 @@ http://t.co/LCTdRaN0JY</column>
             <column name="id">3838</column>
             <column name="twitid">496523491873920000</column>
             <column name="date">1407215400</column>
-            <column name="text">У кого-то паранойя “@euromaidan: Команда Коломойского предлагает национализировать МТС и &quot;Киевстар&quot; 
+            <column name="text">У кого-то паранойя “@euromaidan: Команда Коломойского предлагает национализировать МТС и &quot;Киевстар&quot;
 http://t.co/FkdD2zZsNA”</column>
             <column name="beeline">NULL</column>
             <column name="mts">0</column>
@@ -50454,7 +50454,7 @@ http://t.co/gHzeA8i7TH http://t.co/5WtQmuJfyL</column>
             <column name="id">3858</column>
             <column name="twitid">496536930050270000</column>
             <column name="date">1407218604</column>
-            <column name="text">RT @knuckztve: 4 августа МТС «слышат впервые» про отключение связи в Крыму: http://t.co/lIIzmVGhNt 
+            <column name="text">RT @knuckztve: 4 августа МТС «слышат впервые» про отключение связи в Крыму: http://t.co/lIIzmVGhNt
 5 августа связь отключается: http://t.c…</column>
             <column name="beeline">NULL</column>
             <column name="mts">-1</column>
@@ -51551,7 +51551,7 @@ http://t.co/gHzeA8i7TH http://t.co/5WtQmuJfyL</column>
             <column name="id">3942</column>
             <column name="twitid">496586921838380000</column>
             <column name="date">1407230522</column>
-            <column name="text">В Крыму прекращено обслуживание клиентов «МТС-Украина» 
+            <column name="text">В Крыму прекращено обслуживание клиентов «МТС-Украина»
  http://t.co/9gEuVvdb40</column>
             <column name="beeline">NULL</column>
             <column name="mts">-1</column>
@@ -53308,7 +53308,7 @@ http://t.co/gHzeA8i7TH http://t.co/5WtQmuJfyL</column>
             <column name="id">4077</column>
             <column name="twitid">496666830657050000</column>
             <column name="date">1407249574</column>
-            <column name="text">Сегодня в тренде - посты с новым номером телефона. 
+            <column name="text">Сегодня в тренде - посты с новым номером телефона.
 Прощай, МТС Украина http://t.co/l9YcgTxJ9t</column>
             <column name="beeline">NULL</column>
             <column name="mts">-1</column>
@@ -55055,7 +55055,7 @@ http://t.co/gHzeA8i7TH http://t.co/5WtQmuJfyL</column>
             <column name="id">4211</column>
             <column name="twitid">496845549040310000</column>
             <column name="date">1407292184</column>
-            <column name="text">МТС провела сеть 3G на юг Алтайского края. Связь третьего поколения теперь доступна в Солонешенском и Чарышском. 
+            <column name="text">МТС провела сеть 3G на юг Алтайского края. Связь третьего поколения теперь доступна в Солонешенском и Чарышском.
 http://t.co/NTtS0XQfD0</column>
             <column name="beeline">NULL</column>
             <column name="mts">1</column>
@@ -55290,7 +55290,7 @@ http://t.co/NTtS0XQfD0</column>
             <column name="id">4229</column>
             <column name="twitid">496877412647730000</column>
             <column name="date">1407299781</column>
-            <column name="text">RT @kazantip_region: Сегодня в нашем районе отключена сеть #МТС Украина 
+            <column name="text">RT @kazantip_region: Сегодня в нашем районе отключена сеть #МТС Украина
 #Крым #Украина #ua #crimea</column>
             <column name="beeline">NULL</column>
             <column name="mts">-1</column>
@@ -55842,7 +55842,7 @@ http://t.co/a1ptM4w7Ik #news #Crimea #Крым</column>
             <column name="id">4271</column>
             <column name="twitid">496902466894850000</column>
             <column name="date">1407305754</column>
-            <column name="text">@UkrCrimea крым - страна тупарей!https://t.co/sHtQpQViufМатеринская компания 
+            <column name="text">@UkrCrimea крым - страна тупарей!https://t.co/sHtQpQViufМатеринская компания
 Россия ОАО МТСс 2003 года
 ОАО «МТС» (Россия), 100 % акций</column>
             <column name="beeline">NULL</column>
@@ -56367,7 +56367,7 @@ http://t.co/cJo3zY5WGz http://t.co/3YW0bY4myD</column>
             <column name="id">4311</column>
             <column name="twitid">496923747090060000</column>
             <column name="date">1407310828</column>
-            <column name="text">В Севастополе «МТС-Украина» прекратил работу - 
+            <column name="text">В Севастополе «МТС-Украина» прекратил работу -
 &amp;amp;#1042; ... - &amp;amp;#1042; ... - http://t.co/Pa3VmNZmbd http://t.co/2gWwvECx4b</column>
             <column name="beeline">NULL</column>
             <column name="mts">-1</column>
@@ -58550,7 +58550,7 @@ http://t.co/bcyd89w0lS http://t.co/rKCoqulUiL</column>
             <column name="id">4478</column>
             <column name="twitid">496992180066870000</column>
             <column name="date">1407327144</column>
-            <column name="text">RT @mrCrimea: МТС отключает в Крыму МТС, все идут, стоят на жаре в очереди и снова покупают МТС, который отключил МТС. 
+            <column name="text">RT @mrCrimea: МТС отключает в Крыму МТС, все идут, стоят на жаре в очереди и снова покупают МТС, который отключил МТС.
 
 #крымчанетерпилы</column>
             <column name="beeline">NULL</column>
@@ -59073,7 +59073,7 @@ http://t.co/bcyd89w0lS http://t.co/rKCoqulUiL</column>
             <column name="id">4518</column>
             <column name="twitid">497010797114310000</column>
             <column name="date">1407331582</column>
-            <column name="text">МТС предлагает покупателям смартфонов Lenovo три месяца безлимитов, - пресс-релиз. 
+            <column name="text">МТС предлагает покупателям смартфонов Lenovo три месяца безлимитов, - пресс-релиз.
 Киев, Украина &amp;amp;ndash; Оператор мобильной связи &amp;amp;laquo;</column>
             <column name="beeline">NULL</column>
             <column name="mts">1</column>
@@ -60481,8 +60481,8 @@ http://t.co/bcyd89w0lS http://t.co/rKCoqulUiL</column>
             <column name="id">4626</column>
             <column name="twitid">497050725281960000</column>
             <column name="date">1407341102</column>
-            <column name="text">@megafonru Платеж не прошёл. 
-Отказано в списании средств со счета абонента у оператора. 
+            <column name="text">@megafonru Платеж не прошёл.
+Отказано в списании средств со счета абонента у оператора.
 Абоненту не разрешено использование услуги Почему?</column>
             <column name="beeline">NULL</column>
             <column name="mts">NULL</column>
@@ -60717,7 +60717,7 @@ http://t.co/bcyd89w0lS http://t.co/rKCoqulUiL</column>
             <column name="id">4644</column>
             <column name="twitid">497064101529800000</column>
             <column name="date">1407344291</column>
-            <column name="text">Кстати,МТС и в бердянске не работает. 
+            <column name="text">Кстати,МТС и в бердянске не работает.
 Инфа от аборигенов</column>
             <column name="beeline">NULL</column>
             <column name="mts">-1</column>
@@ -60887,8 +60887,8 @@ http://t.co/bcyd89w0lS http://t.co/rKCoqulUiL</column>
             <column name="id">4657</column>
             <column name="twitid">497073311969740000</column>
             <column name="date">1407346487</column>
-            <column name="text">сначала они повредили кабель интернет-сети, теперь они отключили мтс 
-блять, вы что, серьёзно? 
+            <column name="text">сначала они повредили кабель интернет-сети, теперь они отключили мтс
+блять, вы что, серьёзно?
 вы решили меня добить?</column>
             <column name="beeline">NULL</column>
             <column name="mts">-1</column>
@@ -61819,7 +61819,7 @@ http://t.co/MqbP4F50eV</column>
             <column name="id">4728</column>
             <column name="twitid">497110817779640000</column>
             <column name="date">1407355429</column>
-            <column name="text">RT @yuliankatopka: @gogooingtomars Вк как и МТС - на шаг впереди. 
+            <column name="text">RT @yuliankatopka: @gogooingtomars Вк как и МТС - на шаг впереди.
 Вы еще не придумали сообщение? Зато мы уже его отослали!
  Вк - на шаг вп…</column>
             <column name="beeline">NULL</column>
@@ -63685,8 +63685,8 @@ http://t.co/nQ…</column>
             <column name="id">4871</column>
             <column name="twitid">497258864669360000</column>
             <column name="date">1407390726</column>
-            <column name="text">Оператор МТС предлагает мне набрать определенный номер и отказаться от рассылки. 
-Чего ради я должен? 
+            <column name="text">Оператор МТС предлагает мне набрать определенный номер и отказаться от рассылки.
+Чего ради я должен?
 Я эту фигню не заказывал !</column>
             <column name="beeline">NULL</column>
             <column name="mts">-1</column>
@@ -63922,7 +63922,7 @@ http://t.co/PEnCHcJOBd</column>
             <column name="id">4889</column>
             <column name="twitid">497278354199170000</column>
             <column name="date">1407395373</column>
-            <column name="text">RT @RostelecomSouth: #Ростелеком поддержал  юных шахматистов #Дагестан  
+            <column name="text">RT @RostelecomSouth: #Ростелеком поддержал  юных шахматистов #Дагестан
 http://t.co/m8t7lSdXDF</column>
             <column name="beeline">NULL</column>
             <column name="mts">NULL</column>
@@ -63949,7 +63949,7 @@ http://t.co/m8t7lSdXDF</column>
             <column name="id">4891</column>
             <column name="twitid">497278868588600000</column>
             <column name="date">1407395495</column>
-            <column name="text">Утро началось с того, что мегафон чуть не на*бал на 2700 р. 
+            <column name="text">Утро началось с того, что мегафон чуть не на*бал на 2700 р.
 Но, естественно, моя еврейская душа этого не допустили.</column>
             <column name="beeline">NULL</column>
             <column name="mts">NULL</column>
@@ -64772,7 +64772,7 @@ http://t.co/W46MyMbS4Y #news #Crimea #Крым</column>
             <column name="twitid">497330771020250000</column>
             <column name="date">1407407870</column>
             <column name="text">@megafonru @sedavlas
-Абонентского номера&quot;  со страницы: http://t.co/evAx9D5H7o 
+Абонентского номера&quot;  со страницы: http://t.co/evAx9D5H7o
 2) Заполнить данное заявление и поставить свою подпись.</column>
             <column name="beeline">NULL</column>
             <column name="mts">NULL</column>
@@ -64930,7 +64930,7 @@ http://t.co/W46MyMbS4Y #news #Crimea #Крым</column>
             <column name="id">4966</column>
             <column name="twitid">497340807666750000</column>
             <column name="date">1407410263</column>
-            <column name="text">В Перми появится &quot;большая четверка&quot; операторов связи. 
+            <column name="text">В Перми появится &quot;большая четверка&quot; операторов связи.
 
 К &quot;МТС&quot;, &quot;Билайн&quot; и &quot;Мегафон&quot; прибавится новый - Tele2: http://t.co/VrlXaI3Gv5</column>
             <column name="beeline">0</column>

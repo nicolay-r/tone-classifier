@@ -32,7 +32,7 @@
                   `rshb` int(11) DEFAULT NULL,
                   PRIMARY KEY (`id`),
                   UNIQUE KEY `id` (`twitid`)
-                ) ENGINE=InnoDB AUTO_INCREMENT=5001 DEFAULT CHARSET=utf8;
+                );
             </pma:table>
         </pma:database>
     </pma:structure_schemas>
@@ -704,7 +704,7 @@
             <column name="id">48</column>
             <column name="twitid">492521065252650000</column>
             <column name="date">1406261147</column>
-            <column name="text">В наш сбербанк пришел американец и попросил сфоткаться с ним у банкомата ;D 
+            <column name="text">В наш сбербанк пришел американец и попросил сфоткаться с ним у банкомата ;D
 я ваще была в шоке и на фотке полюбому получилась смешная xD</column>
             <column name="sberbank">1</column>
             <column name="vtb">NULL</column>
@@ -1492,7 +1492,7 @@ http://t.co/Fg88U95jHX</column>
             <column name="twitid">492625878577610000</column>
             <column name="date">1406286136</column>
             <column name="text">Сотрудники Банка расскажут, как грамотно инвестировать в рынок ценных бумаг и получать от этого прибыль...
-   
+
 . Поволжский Сбербанк провед</column>
             <column name="sberbank">1</column>
             <column name="vtb">NULL</column>
@@ -11628,7 +11628,7 @@ http://t.co/rr1azKW5Lq http://t.co/aWnoIhVBO3</column>
             <column name="id">827</column>
             <column name="twitid">493969162042360000</column>
             <column name="date">1406606400</column>
-            <column name="text">а с октября скорее всего устроюсь на работу в Сбербанк 
+            <column name="text">а с октября скорее всего устроюсь на работу в Сбербанк
 
 но тогда будут проблемы с поездкой
 
@@ -11890,7 +11890,7 @@ http://t.co/5ty4gx3jPq</column>
             <column name="twitid">493977100282790000</column>
             <column name="date">1406608293</column>
             <column name="text">В число компаний, против которых Евросоюз договорился ввести санкции из-за ситуации на Украине, попали Сбербанк и ВТБ.
- 
+
  Об этом пишет в п</column>
             <column name="sberbank">-1</column>
             <column name="vtb">-1</column>
@@ -12833,7 +12833,7 @@ http://t.co/5ty4gx3jPq</column>
             <column name="id">912</column>
             <column name="twitid">494022203252300000</column>
             <column name="date">1406619046</column>
-            <column name="text">Евросоюз готовится включить в санкционный список Сбербанк - 
+            <column name="text">Евросоюз готовится включить в санкционный список Сбербанк -
 &amp;amp;#1042; ... - &amp;amp;#1042; ... - http://t.co/22XzwMKxIa http://t.co/GdHDqXNxlq</column>
             <column name="sberbank">-1</column>
             <column name="vtb">NULL</column>
@@ -14694,7 +14694,7 @@ http://t.co/6JdCYQs9Jj
             <column name="date">1406662793</column>
             <column name="text">RT @stabilizec: Свежие шишки от США:
 
-Банк Москвы 
+Банк Москвы
 Россельхозбанк
 ВТБ http://t.co/fnj8Sk0RSf</column>
             <column name="sberbank">NULL</column>
@@ -16337,8 +16337,8 @@ http://t.co/6JdCYQs9Jj
             <column name="id">1161</column>
             <column name="twitid">494254084321720000</column>
             <column name="date">1406674331</column>
-            <column name="text">США ввели санкции против ВТБ, Россельхозбанка, Банка Москвы и Объединенной судостроительной корпорации 
- 
+            <column name="text">США ввели санкции против ВТБ, Россельхозбанка, Банка Москвы и Объединенной судостроительной корпорации
+
 США расширила санкционный список</column>
             <column name="sberbank">NULL</column>
             <column name="vtb">-1</column>
@@ -20888,7 +20888,7 @@ http://t.co/rLTT4YA5w7
             <column name="id">1484</column>
             <column name="twitid">494409120942790000</column>
             <column name="date">1406711294</column>
-            <column name="text">RT @GazetaRu: Американские #санкции против ВТБ, Банка Москвы и Россельхозбанка отразятся на заемщиках.  
+            <column name="text">RT @GazetaRu: Американские #санкции против ВТБ, Банка Москвы и Россельхозбанка отразятся на заемщиках.
 http://t.co/KRyvmaffGj http://t.co…</column>
             <column name="sberbank">NULL</column>
             <column name="vtb">-1</column>
@@ -21982,7 +21982,7 @@ http://t.co/AS1qGzZvm1 ht…</column>
             <column name="id">1562</column>
             <column name="twitid">494461772917520000</column>
             <column name="date">1406723847</column>
-            <column name="text">RT @Dbnmjr: #Сбербанк подпадет под третий раунд санкций ЕС. 
+            <column name="text">RT @Dbnmjr: #Сбербанк подпадет под третий раунд санкций ЕС.
 График по состоянию на 12:00 30.07.2014 http://t.co/lZ9sNqRnDi</column>
             <column name="sberbank">-1</column>
             <column name="vtb">NULL</column>
@@ -23370,7 +23370,7 @@ https://t.co/ogwZqBVoON</column>
             <column name="id">1661</column>
             <column name="twitid">494536234556190000</column>
             <column name="date">1406741601</column>
-            <column name="text">Как говорится в пресс-релизе агентства, это связано с понижением суверенного рейтинга России. 
+            <column name="text">Как говорится в пресс-релизе агентства, это связано с понижением суверенного рейтинга России.
 
 Понижен рейтинг, среди прочих, Райффайзен</column>
             <column name="sberbank">NULL</column>
@@ -28298,7 +28298,7 @@ http://t.co/SpnzvEJyO8</column>
             <column name="twitid">494879195076780000</column>
             <column name="date">1406823369</column>
             <column name="text">RT @Mr_Sonar: @spina_putina @CIO_Optimal Сбербанк то ладно ,
-а вот Газпромбанк - 
+а вот Газпромбанк -
 КАК ПОВЛИЯЕТ НА #ЭХО_МОСКВЫ.
 вроде ж кенты , а санкции то…</column>
             <column name="sberbank">0</column>
@@ -32327,7 +32327,7 @@ http://t.co/D…</column>
             <column name="id">2299</column>
             <column name="twitid">495026248364470000</column>
             <column name="date">1406858429</column>
-            <column name="text">RT @ilycalyvop: RT @artemem2: #Сбербанк 
+            <column name="text">RT @ilycalyvop: RT @artemem2: #Сбербанк
 Лонг с целью на 89 - 90 и стопом ниже 83
 #акции #фондовый #биржа #трейдер #идея #торги #торговыеид…</column>
             <column name="sberbank">0</column>
@@ -39940,7 +39940,7 @@ http://t.co/YvUK6qMtIJ
             <column name="date">1407147509</column>
             <column name="text">СМИ: российские власти отказались от идеи разделить Россельхозбанк
 
-По словам заместителя министра 
+По словам заместителя министра
 Читать далее: http://t.co/C3u1i68VVZ</column>
             <column name="sberbank">NULL</column>
             <column name="vtb">NULL</column>
@@ -40575,7 +40575,7 @@ http://t.co/YvUK6qMtIJ
             <column name="date">1407176401</column>
             <column name="text">FTSE может исключить из индексов Сбербанк и ВТБ
 
-Автор: Workle Editor 
+Автор: Workle Editor
 
 Провайдер индексов #FTSE может исключить... http://t.co/fXQfOo5Vew</column>
             <column name="sberbank">-1</column>
@@ -40607,7 +40607,7 @@ http://t.co/YvUK6qMtIJ
             <column name="date">1407178339</column>
             <column name="text">&amp;amp;nbsp;
 
-Мордовский филиал Россельхозбанка за 2013 год и в первый квартал 
+Мордовский филиал Россельхозбанка за 2013 год и в первый квартал
 2014 года выдал более 667,5 млн рублей на развитие сельхозпредпр</column>
             <column name="sberbank">NULL</column>
             <column name="vtb">NULL</column>
@@ -40694,7 +40694,7 @@ http://t.co/YvUK6qMtIJ
             <column name="date">1407181941</column>
             <column name="text">Россельхозбанк помогает фермерству развиваться.&amp;amp;nbsp;
 
-Мордовский филиал Россельхозбанка за 2013 год и в первый квартал 
+Мордовский филиал Россельхозбанка за 2013 год и в первый квартал
 2014 года выдал б</column>
             <column name="sberbank">NULL</column>
             <column name="vtb">NULL</column>
@@ -42137,8 +42137,8 @@ http://t.co/YvUK6qMtIJ
             <column name="id">2997</column>
             <column name="twitid">496653969637130000</column>
             <column name="date">1407246508</column>
-            <column name="text">Сбербанк приступил к выпуску банковских карт ПРО100: 
-            
+            <column name="text">Сбербанк приступил к выпуску банковских карт ПРО100:
+
                 Сбербанк приступил к выпуск... http://t.co/ER4dhoWbAJ</column>
             <column name="sberbank">0</column>
             <column name="vtb">NULL</column>
@@ -47142,7 +47142,7 @@ http://t.co/FeAi8dFsxH http://t.co/bfhbCqds8w</column>
             <column name="id">3354</column>
             <column name="twitid">497295791158230000</column>
             <column name="date">1407399530</column>
-            <column name="text">RT @GazetaRu: Сбербанк увеличивает выдачу ипотечных кредитов и по банковским картам на 61%. 
+            <column name="text">RT @GazetaRu: Сбербанк увеличивает выдачу ипотечных кредитов и по банковским картам на 61%.
 http://t.co/xgL9Gh8rgi http://t.co/VPFVx4u70P</column>
             <column name="sberbank">1</column>
             <column name="vtb">NULL</column>
@@ -47692,7 +47692,7 @@ http://t.co/tQrNs7WC1s</column>
             <column name="id">3393</column>
             <column name="twitid">497366197432640000</column>
             <column name="date">1407416316</column>
-            <column name="text">Новости банков: #Россельхозбанк в пять раз увеличит присутствие в Москве и Подмосковье к концу 2020 года 
+            <column name="text">Новости банков: #Россельхозбанк в пять раз увеличит присутствие в Москве и Подмосковье к концу 2020 года
 
 #еда
 http://t.co/qp6xeORbno</column>
@@ -48452,7 +48452,7 @@ http://t.co/qp6xeORbno</column>
             <column name="id">3447</column>
             <column name="twitid">497595668807320000</column>
             <column name="date">1407471026</column>
-            <column name="text">7 августа 2014, 14:13, Travel.ru  - 
+            <column name="text">7 августа 2014, 14:13, Travel.ru  -
  Оплата консульского сбора на визу в США через банк ВТБ 24 больше невозможна: это связано с включение</column>
             <column name="sberbank">NULL</column>
             <column name="vtb">-1</column>
@@ -66931,7 +66931,7 @@ The best mobile app in Russ…</column>
             <column name="id">4766</column>
             <column name="twitid">498959878007060000</column>
             <column name="date">1407796279</column>
-            <column name="text">Банк ВТБ 24 прекратил прием консульских сборов за оформление виз США. 
+            <column name="text">Банк ВТБ 24 прекратил прием консульских сборов за оформление виз США.
 
 «Решение об отказе от сотрудничества принято компанией CGI Group In</column>
             <column name="sberbank">NULL</column>
