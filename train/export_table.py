@@ -3,11 +3,11 @@
 
 import sys
 import libxml2
-from psycopg2 import connect
+from psycopg2 import connect, extensions
 from db_converter import parse
 
 if len(sys.argv) == 1:
-        print 'usage: train_table <xmlFile> <pgDatabase>'
+        print 'usage: train_table <xmlFile>'
         exit(0)
 # Getting SQL script from xmlFile
 xmlFile = sys.argv[1]
@@ -33,16 +33,27 @@ with open(".pgsql", "r") as f:
 createTable = createTable.replace("AUTO_INCREMENT", "")
 
 # Connecting to postgeSQL database
-database = sys.argv[2]
+database = ctx.xpathEval("/pma_xml_export/database")[0].prop('name').lower()
 
-connSettings = """dbname=%s user=%s password=%s host=%s"""%(
+connSettings = "dbname=%s user=%s password=%s host=%s"%(
+        "postgres", "postgres", "postgres", "localhost")
+conn = connect(connSettings)
+cursor = conn.cursor()
+
+try:
+        conn.set_isolation_level(extensions.ISOLATION_LEVEL_AUTOCOMMIT)
+        cursor.execute("CREATE DATABASE %s;"%(database))
+        cursor.close()
+        conn.close()
+except:
+        pass
+
+connSettings = "dbname=%s user=%s password=%s host=%s"%(
         database, "postgres", "postgres", "localhost")
 conn = connect(connSettings)
 cursor = conn.cursor()
 cursor.execute(createTable)
-
 cursor.close()
-
 conn.commit()
 conn.close()
 
