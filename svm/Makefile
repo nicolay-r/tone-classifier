@@ -13,11 +13,20 @@ MODEL_TEST=$(MODEL_ROOT)$(MODEL_NAME).test
 MODEL_OUT=$(MODEL_ROOT)$(MODEL_NAME).out
 
 
-baseline_data: MODEL = BASELINE_BANK
-baseline_data: MODEL_NAME = baseline_bank
-baseline_data: core
+baseline_bank: MODEL = BASELINE_BANK
+baseline_bank: MODEL_NAME = baseline_bank
+baseline_bank: core
+
+baseline_bank_np_only: MODEL = BASELINE_BANK_NP_ONLY
+baseline_bank_np_only: MODEL_NAME = baseline_bank_np_only
+baseline_bank_np_only: core
 
 core:
+	mkdir -p $(MODEL_ROOT)
+	# Extracting a problem for SVN
+	$(DATA_ROOT)$(MODEL_NAME).py romipdata bank_train_noname $(MODEL_PROB)
+	# Extracting testing data
+	$(DATA_ROOT)$(MODEL_NAME).py romipdata bank_test_etalon_noname $(MODEL_TEST)
 	# Training on data
 	$(SVM_ROOT)svm-train $(MODEL_OPTIONS) $(MODEL_PROB) $(MODEL_MODEL)
 	# Testing
