@@ -4,20 +4,21 @@ SVM_ROOT=../libsvm-3.20/
 DATA_ROOT=../models/
 
 # Defining a default model
-MODEL=BASELINE_BANK
-MODEL_NAME=baseline_bank
+MODEL_OPTIONS=
+MODEL_ROOT=$(DATA_ROOT)$(MODEL_NAME)/
+MODEL_PROB=$(MODEL_ROOT)$(MODEL_NAME).prob
+MODEL_TRAIN=$(MODEL_ROOT)$(MODEL_NAME).train
+MODEL_MODEL=$(MODEL_TRAIN).model
+MODEL_TEST=$(MODEL_ROOT)$(MODEL_NAME).test
+MODEL_OUT=$(MODEL_ROOT)$(MODEL_NAME).out
 
-$(MODEL)_ROOT=$(DATA_ROOT)$(MODEL_NAME)/
-$(MODEL)_PROB=$($(MODEL)_ROOT)$(MODEL_NAME).prob
-$(MODEL)_TRAIN=$($(MODEL)_ROOT)$(MODEL_NAME).train
-$(MODEL)_MODEL=$($(MODEL)_TRAIN).model
-$(MODEL)_TEST=$($(MODEL)_ROOT)$(MODEL_NAME).test
-$(MODEL)_OUT=$($(MODEL)_ROOT)$(MODEL_NAME).out
 
-baseline_data:
-	$(MODEL)=BASELINE_BANK
-	$(MODEL_NAME)=baseline_bank
+baseline_data: MODEL = BASELINE_BANK
+baseline_data: MODEL_NAME = baseline_bank
+baseline_data: core
+
+core:
 	# Training on data
-	$(SVM_ROOT)svm-train $($(MODEL)_PROB) $($(MODEL)_MODEL)
+	$(SVM_ROOT)svm-train $(MODEL_OPTIONS) $(MODEL_PROB) $(MODEL_MODEL)
 	# Testing
-	$(SVM_ROOT)svm-predict $($(MODEL)_TEST) $($(MODEL)_MODEL) $($(MODEL)_OUT)
+	$(SVM_ROOT)svm-predict $(MODEL_OPTIONS) $(MODEL_TEST) $(MODEL_MODEL) $(MODEL_OUT)
