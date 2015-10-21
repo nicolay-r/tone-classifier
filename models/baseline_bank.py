@@ -7,7 +7,7 @@ from TermVocabulary import TermVocabulary
 from twit import Twit
 # Text Processing
 def textProcessing(mystem, text, tvoc):
-        twit = Twit(text)
+        twit = Twit(text, mystem)
         twit.normalize()
         terms = twit.getLemmas()
 

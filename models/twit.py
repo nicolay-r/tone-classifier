@@ -10,7 +10,9 @@ class Twit:
                 return self.ignored
 
         def getLemmas(self):
-                return self.words
+                lemmas = self.mystem.lemmatize(' '.join(self.words))
+                return lemmas
+
         def normalize(self):
                 words = self.words
 
@@ -41,5 +43,6 @@ class Twit:
                 self.words = words
                 self.ignored = ignored
 
-        def __init__(self, message):
+        def __init__(self, message, mystem):
+                self.mystem = mystem
                 self.words = filter(None, message.split(' '))
