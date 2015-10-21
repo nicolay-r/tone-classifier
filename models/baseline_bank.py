@@ -4,10 +4,15 @@ import sys
 from psycopg2 import connect
 from pymystem3 import Mystem
 from TermVocabulary import TermVocabulary
-
+from twit import Twit
 # Text Processing
 def textProcessing(mystem, text, tvoc):
-        terms = m.lemmatize(text)
+        twit = Twit(text)
+        twit.normalize()
+        terms = twit.getLemmas()
+
+        terms += twit.getIgnored()
+
         tvoc.addTerms(terms)
         return terms
 
