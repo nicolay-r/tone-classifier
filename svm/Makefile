@@ -23,7 +23,7 @@ baseline_bank_np_only: core
 
 core:
 	mkdir -p $(MODEL_ROOT)
-	# Extracting a problem for SVN
+	# Extracting a problem for SVM
 	$(DATA_ROOT)$(MODEL_NAME).py romipdata bank_train_noname $(MODEL_PROB)
 	# Extracting testing data
 	$(DATA_ROOT)$(MODEL_NAME).py romipdata bank_test_etalon_noname $(MODEL_TEST)
