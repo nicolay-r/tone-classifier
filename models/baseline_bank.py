@@ -5,6 +5,8 @@ from psycopg2 import connect
 from pymystem3 import Mystem
 from TermVocabulary import TermVocabulary
 from twit import Twit
+import sys
+
 # Text Processing
 def textProcessing(mystem, text, tvoc):
         twit = Twit(text, mystem)
@@ -39,7 +41,9 @@ if (argc == 1):
                 "<train_table> -- table with training data for bank",
                 "<output> -- file to save tonality vectors")
         exit(0)
-
+testVectors = False
+if (argc > 4 and sys.argv[4] == '-a'):
+        testVectors = True
 #make problem
 m = Mystem(entire_input=False)
 tvoc = TermVocabulary()
@@ -52,9 +56,15 @@ connSettings = """dbname=%s user=%s password=%s host=%s"""%(
 conn = connect(connSettings)
 cursor = conn.cursor()
 
+if (testVectors):
+        # taking all results
+        limit = sys.maxint
+else:
+        limit = 350
+
 for score in [-1, 0, 1]:
     # getting twits with the same score
-    getTwits(cursor, sys.argv[2], score, 350)
+    getTwits(cursor, sys.argv[2], score, limit)
     # processing twits
     row = cursor.fetchone()
     while row is not None:

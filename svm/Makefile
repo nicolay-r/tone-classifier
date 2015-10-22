@@ -22,7 +22,7 @@ core:
 	# Extracting a problem for SVM
 	$(DATA_ROOT)$(MODEL_NAME).py romipdata bank_train_noname $(MODEL_PROB)
 	# Extracting testing data
-	$(DATA_ROOT)$(MODEL_NAME).py romipdata bank_test_etalon_noname $(MODEL_TEST)
+	$(DATA_ROOT)$(MODEL_NAME).py romipdata bank_test_etalon_noname $(MODEL_TEST) -a
 	# Training on data
 	$(SVM_ROOT)svm-train $(MODEL_OPTIONS) $(MODEL_PROB) $(MODEL_MODEL)
 	# Testing
