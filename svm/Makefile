@@ -17,10 +17,6 @@ baseline_bank: MODEL = BASELINE_BANK
 baseline_bank: MODEL_NAME = baseline_bank
 baseline_bank: core
 
-baseline_bank_np_only: MODEL = BASELINE_BANK_NP_ONLY
-baseline_bank_np_only: MODEL_NAME = baseline_bank_np_only
-baseline_bank_np_only: core
-
 core:
 	mkdir -p $(MODEL_ROOT)
 	# Extracting a problem for SVM
