@@ -27,7 +27,7 @@ def trainVector(tone, indexes):
         return v
 
 def getTwits(cursor, table, score, limit):
-    cursor.execute("""SELECT text, sberbank, vtb, gazprom, alfabank,
+    cursor.execute("""SELECT text, id, sberbank, vtb, gazprom, alfabank,
         bankmoskvy, raiffeisen, uralsib, rshb FROM %s WHERE
         (sberbank=\'%d\' OR vtb=\'%d\' OR gazprom=\'%d\' OR alfabank=\'%d\' OR bankmoskvy=\'%d\'
         OR raiffeisen=\'%d\' OR uralsib=\'%d\' OR rshb=\'%d\') LIMIT(\'%d\');"""%(sys.argv[2],
@@ -71,9 +71,13 @@ for score in [-1, 0, 1]:
     row = cursor.fetchone()
     while row is not None:
             text = row[0]
+            index = row[1]
             terms = textProcessing(m, text, tvoc)
-            # change to getTrainVector() method
-            problem.append(trainVector(score, tvoc.getIndexes(terms)))
+
+            if (argc > 4): # in case of test collection
+                problem.append(trainVector(index, tvoc.getIndexes(terms)))
+            else: # in case of train collection
+                problem.append(trainVector(score, tvoc.getIndexes(terms)))
 
             row = cursor.fetchone()
 
