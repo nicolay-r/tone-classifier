@@ -29,4 +29,4 @@ core:
 	# Predicting
 	python/predict.py $(MODEL_PROB) $(MODEL_MODEL) $(MODEL_PCONF)
 	# Exporting Result into XML
-	../train/pg2x_data.py romipdata RomipData $(MODEL_NAME)_results $(MODEL_OUT)
+	../train/pg2x_data.py $(MODEL_PCONF) RomipData $(MODEL_OUT)

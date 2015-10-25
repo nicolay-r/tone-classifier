@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import json
 from psycopg2 import connect
 import xml.etree.cElementTree as ET
 import xml.dom.minidom as minidom
@@ -31,23 +32,23 @@ def data2xml(root_node, data_cursor, database_name, table_name):
 
 argc = len(sys.argv)
 if (argc == 1):
-    print "usage: ./pg2x_data <database> <database_xml_name> <table> <output>"
+    print "usage: ./pg2x_data <pconf_filepath> <xml_database_name> <output>"
     exit(0)
 
-connSettings = """dbname=%s user=%s password=%s host=%s"""%(
-    sys.argv[1], "postgres", "postgres", "localhost")
+with open(sys.argv[1]) as f:
+    config = json.load(f)
 
-conn = connect(connSettings)
+conn = connect(config["conn_settings"])
 cursor = conn.cursor()
 
-cursor.execute("SELECT * FROM %s;"%(sys.argv[3]))
+cursor.execute("SELECT * FROM %s;"%(config["out_table"]))
 
 root_node = ET.Element("pma_xml_export")
 # converting data into xml_tree
-data2xml(root_node, cursor, sys.argv[2], sys.argv[3])
+data2xml(root_node, cursor, sys.argv[2], config["out_table"])
 
 tree = ET.ElementTree(root_node)
 
 # save xml
-with open(sys.argv[4], "w") as out:
+with open(sys.argv[3], "w") as out:
     out.write(to_pretty(tree))
