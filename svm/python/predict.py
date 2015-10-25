@@ -45,14 +45,14 @@ cursor.execute('CREATE TABLE %s AS TABLE %s'%(
 conn.commit()
 
 # filling answers
+print "Tests count:", len(ids)
 for msgIndex in range(0, len(ids)):
-    print msgIndex
+    #print msgIndex
     rowId = ids[msgIndex]
     label = p_label[msgIndex]
     # setting answers
     for col in config['columns']:
         setResult(cursor, config['out_table'], col, rowId, label)
-
 
 
 
