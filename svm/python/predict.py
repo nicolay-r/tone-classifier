@@ -54,5 +54,8 @@ for msgIndex in range(0, len(ids)):
     for col in config['columns']:
         setResult(cursor, config['out_table'], col, rowId, label)
 
-
+cursor.close()
+# commiting data
+conn.commit()
+conn.close()
 
