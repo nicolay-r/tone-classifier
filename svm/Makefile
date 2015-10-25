@@ -10,6 +10,7 @@ MODEL_PROB=$(MODEL_ROOT)$(MODEL_NAME).prob
 MODEL_TRAIN=$(MODEL_ROOT)$(MODEL_NAME).train
 MODEL_MODEL=$(MODEL_TRAIN).model
 MODEL_TEST=$(MODEL_ROOT)$(MODEL_NAME).test
+MODEL_PCONF=$(MODEL_ROOT)$(MODEL_NAME).pconf
 MODEL_OUT=$(MODEL_ROOT)$(MODEL_NAME).out
 
 
@@ -22,7 +23,7 @@ core:
 	# Extracting a problem for SVM
 	$(DATA_ROOT)$(MODEL_NAME).py romipdata bank_train_noname $(MODEL_PROB)
 	# Extracting testing data
-	$(DATA_ROOT)$(MODEL_NAME).py romipdata bank_test_etalon_noname $(MODEL_TEST) -a
+	$(DATA_ROOT)$(MODEL_NAME).py romipdata bank_test_etalon_noname $(MODEL_TEST) $(MODEL_PCONF)
 	# Training on data
 	$(SVM_ROOT)svm-train $(MODEL_OPTIONS) $(MODEL_PROB) $(MODEL_MODEL)
 	# Testing

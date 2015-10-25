@@ -5,6 +5,7 @@ from psycopg2 import connect
 from pymystem3 import Mystem
 from TermVocabulary import TermVocabulary
 from twit import Twit
+import pconf
 import sys
 
 # Text Processing
@@ -35,14 +36,15 @@ def getTwits(cursor, table, score, limit):
 argc = len(sys.argv)
 
 if (argc == 1):
-        print """%s\n%s\n%s\n%s"""%(
+        print """%s\n%s\n%s\n%s\n%s"""%(
                 "Usage: baseline_bank <database> <train_table> <output>",
                 "<database> -- database to connect for training data",
                 "<train_table> -- table with training data for bank",
-                "<output> -- file to save tonality vectors")
+                "<output> -- file to save tonality vectors"
+                "<pconf_output> -- file to save configuration for predict.py")
         exit(0)
 testVectors = False
-if (argc > 4 and sys.argv[4] == '-a'):
+if (argc > 4):
         testVectors = True
 #make problem
 m = Mystem(entire_input=False)
@@ -83,6 +85,8 @@ with open(sys.argv[3], "w") as f:
                         f.write("%s:%s "%(index, value))
                 f.write("\n");
 
-exit(0)
-
+#save .pconf
+if (argc > 4):
+    pconf.save("bank", sys.argv[2],
+        "baseline_bank_results", sys.argv[4])
 
