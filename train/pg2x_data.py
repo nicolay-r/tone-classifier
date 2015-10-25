@@ -32,6 +32,7 @@ def data2xml(root_node, data_cursor, database_name, table_name):
 argc = len(sys.argv)
 if (argc == 1):
     print "usage: ./pg2x_data <database> <database_xml_name> <table> <output>"
+    exit(0)
 
 connSettings = """dbname=%s user=%s password=%s host=%s"""%(
     sys.argv[1], "postgres", "postgres", "localhost")

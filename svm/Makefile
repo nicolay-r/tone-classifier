@@ -26,5 +26,7 @@ core:
 	$(DATA_ROOT)$(MODEL_NAME).py romipdata bank_test_etalon_noname $(MODEL_TEST) $(MODEL_PCONF)
 	# Training on data
 	$(SVM_ROOT)svm-train $(MODEL_OPTIONS) $(MODEL_PROB) $(MODEL_MODEL)
-	# Testing
-	$(SVM_ROOT)svm-predict $(MODEL_OPTIONS) $(MODEL_TEST) $(MODEL_MODEL) $(MODEL_OUT)
+	# Predicting
+	python/predict.py $(MODEL_PROB) $(MODEL_MODEL) $(MODEL_PCONF)
+	# Exporting Result into XML
+	../train/pg2x_data.py romipdata RomipData $(MODEL_NAME)_results $(MODEL_OUT)
