@@ -13,41 +13,45 @@ def setResult(cursor, table, column, rowIndex, label):
 
 argc = len(sys.argv)
 if (argc == 1):
-    print "usage: predict.py <config_file>\n<config_file> -- .pconf file in model folder"
+    print "%s\n%s\n%s\n%s"%(
+        "usage: predict.py <problem_file> <model_file> <config_file>",
+        "<problem_file> -- file with a problem to predict",
+        "<model_file> -- file with a SVM model",
+        "<config_file> -- .pconf file in model folder")
     exit(0)
 
-with open(sys.argv[1]) as f:
+with open(sys.argv[3]) as f:
     config = json.load(f)
 
 # reading a problem
-y, ids = svm_read_problem(config['problem_file'])
-# preparing a model
-m = svm_load_model(config['model_file'])
-# predicting
-p_label, p_acc, p_val = svm_predict(y, x, m)
+ids, x = svm_read_problem(sys.argv[1])
 
-# answers
-print p_label
+# preparing a model
+m = svm_load_model(sys.argv[2])
+# predicting
+y = [0]*len(x)
+p_label, p_acc, p_val = svm_predict(y, x, m)
 
 # database
 conn = connect(config['conn_settings'])
 cursor = conn.cursor()
 
 # prepare table for a results
-cursor.execute('DROP TABLE %s'%(config['out_table']))
+cursor.execute('DROP TABLE IF EXISTS %s'%(config['out_table']))
 conn.commit()
+cursor = conn.cursor()
 cursor.execute('CREATE TABLE %s AS TABLE %s'%(
     config['out_table'], config['orig_table']))
 conn.commit()
 
 # filling answers
 for msgIndex in range(0, len(ids)):
+    print msgIndex
     rowId = ids[msgIndex]
     label = p_label[msgIndex]
     # setting answers
     for col in config['columns']:
         setResult(cursor, config['out_table'], col, rowId, label)
-
 
 
 
