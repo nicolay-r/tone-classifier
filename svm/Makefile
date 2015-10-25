@@ -29,9 +29,9 @@ core:
 	# Training on data
 	$(SVM_ROOT)svm-train $(MODEL_OPTIONS) $(MODEL_PROB) $(MODEL_MODEL)
 	# Predicting
-	python/predict.py $(MODEL_PROB) $(MODEL_MODEL) $(MODEL_PCONF)
+	python/predict.py $(MODEL_TEST) $(MODEL_MODEL) $(MODEL_PCONF)
 	# Exporting Result into XML
 	../train/pg2x_data.py $(MODEL_PCONF) RomipData $(MODEL_OUT)
 	# Estimating model
-	cd ../eval/twit-calc-win64/ && nodejs calc.js $(TASK_TYPE) ../../svm/$(MODEL_OUT) ../../svm/$(ETALON_RESULT)
+	cd ../eval/ && nodejs calc.js $(TASK_TYPE) ../svm/$(MODEL_OUT) ../svm/$(ETALON_RESULT)
 
