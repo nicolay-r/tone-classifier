@@ -3,7 +3,7 @@
 import sys
 from psycopg2 import connect
 from pymystem3 import Mystem
-from TermVocabulary import TermVocabulary
+from tvoc import TermVocabulary
 from twit import Twit
 import pconf
 import sys
