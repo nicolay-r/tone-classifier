@@ -5,30 +5,13 @@ from psycopg2 import connect
 from pymystem3 import Mystem
 from inspect import getsourcefile
 from os.path import abspath, dirname
+import model_core
 
 sys.path.insert(0, dirname(abspath(getsourcefile(lambda:0))) + '/..')
 from tvoc import TermVocabulary
 from msg import Message
 import pconf
 import twits
-
-# Text Processing
-def textProcessing(mystem, text, tvoc):
-    message = Message(text, mystem)
-    message.normalize()
-
-    terms = message.getLemmas()
-    terms += message.getIgnored()
-
-    tvoc.addTerms(terms)
-    return terms
-
-# Build Problem Vector
-def trainVector(tone, indexes):
-    v = [tone, {}]
-    for index in tvoc.getIndexes(terms):
-        v[1][index] = 1
-    return v
 
 argc = len(sys.argv)
 if (argc == 1):
@@ -39,13 +22,10 @@ if (argc == 1):
         "<output> -- file to save tonality vectors",
         "<pconf_output> -- file to save configuration for predict.py")
     exit(0)
+
 testVectors = False
 if (argc > 4):
     testVectors = True
-#make problem
-m = Mystem(entire_input=False)
-tvoc = TermVocabulary()
-problem = []
 
 # Connect to a database
 connSettings = """dbname=%s user=%s password=%s host=%s"""%(
@@ -60,22 +40,26 @@ if (testVectors):
 else:
     limit = 350
 
+# make problem
+m = Mystem(entire_input=False)
+tvoc = TermVocabulary()
+problem = []
 for score in [-1, 0, 1]:
     # getting twits with the same score
     twits.get("bank", cursor, sys.argv[2], score, limit)
     # processing twits
     row = cursor.fetchone()
     while row is not None:
-            text = row[0]
-            index = row[1]
-            terms = textProcessing(m, text, tvoc)
+        text = row[0]
+        index = row[1]
+        terms = model_core.process_text(m, text, tvoc)
 
-            if (argc > 4): # in case of test collection
-                problem.append(trainVector(index, tvoc.getIndexes(terms)))
-            else: # in case of train collection
-                problem.append(trainVector(score, tvoc.getIndexes(terms)))
-
-            row = cursor.fetchone()
+        if (argc > 4): # in case of test collection
+            problem.append(model_core.train_vector(index, tvoc, terms))
+        else: # in case of train collection
+            problem.append(model_core.train_vector(score, tvoc, terms))
+        # next row
+        row = cursor.fetchone()
 
 #save problem
 with open(sys.argv[3], "w") as f:
@@ -89,4 +73,3 @@ with open(sys.argv[3], "w") as f:
 if (argc > 4):
     pconf.save("bank", sys.argv[2],
         "baseline_bank_results", sys.argv[4])
-
