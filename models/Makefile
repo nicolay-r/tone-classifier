@@ -1,6 +1,7 @@
 BASELINE_BANK_DIR=bank/baseline/out
 TF_IDF_BANK_DIR=bank/tf_idf/out
 
+
 baseline_bank:
 	mkdir $(BASELINE_BANK_DIR)
 	# Extracting a problem for SVM
@@ -11,9 +12,9 @@ baseline_bank:
 tf_idf_bank:
 	mkdir $(TF_IDF_BANK_DIR)
 	# Extracting a problem for SVM
-	./bank/tf_idf/tf_idf_train.py romipdata bank_train_noname $(TF_IDF_BANK_DIR)/baseline_bank.prob
+	./bank/tf_idf/tf_idf_train.py romipdata bank_train_noname $(TF_IDF_BANK_DIR)/tf_idf.prob
 	# Extracting testing data
-	./bank/tf_idf/tf_idf_test.py romipdata bank_test_etalon_noname $(TF_IDF_BANK_DIR)/baseline_bank.test $(TF_IDF_BANK_DIR)/baseline_bank.pconf
+	./bank/tf_idf/tf_idf_test.py romipdata bank_test_etalon_noname $(TF_IDF_BANK_DIR)/tf_idf.test $(TF_IDF_BANK_DIR)/tf_idf.pconf
 
 
 clean:
