@@ -1,5 +1,5 @@
 # Root Folder of the LibSVM classifier library
-SVM_ROOT=../libsvm-3.20/
+SVM_ROOT=../libsvm/
 # Root of the problem and training data
 DATA_ROOT=../models/
 
