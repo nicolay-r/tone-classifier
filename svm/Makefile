@@ -14,15 +14,18 @@ MODEL_PCONF	=	$(MODEL_OUTDIR)$(MODEL_NAME).pconf
 MODEL_OUT	=	$(MODEL_OUTDIR)$(MODEL_NAME).out
 MODEL_MODEL	=	$(MODEL_TRAIN).model
 
-
 baseline_bank_imbalanced: TASK_TYPE = bank
-baseline_bank_imbalanced: MODEL = BASELINE_BANK
 baseline_bank_imbalanced: MODEL_NAME = baseline
 baseline_bank_imbalanced: ETALON_RESULT = ../train/data/bank_test_etalon.xml
 baseline_bank_imbalanced: core
 
+tf_idf_bank_imbalanced: TASK_TYPE = bank
+tf_idf_bank_imbalanced: MODEL_NAME = tf_idf
+tf_idf_bank_imbalanced: ETALON_RESULT = ../train/data/bank_test_etalon.xml
+tf_idf_bank_imbalanced: core
+
 core:
-	mkdir -p $(MODEL_ROOT)
+	mkdir -p $(MODEL_OUTDIR)
 	# Extracting a problem for SVM
 	$(MODEL_ROOT)/$(MODEL_NAME)_train.py romipdata bank_train_noname $(MODEL_PROB)
 	# Extracting testing data
