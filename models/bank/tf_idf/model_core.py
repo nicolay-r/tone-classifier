@@ -25,12 +25,12 @@ def train_vector(tone, tvoc, terms):
 
 def tf(term, doc_terms):
     "calculate tf measure for a doc"
-    in_doc = 0.0
+    in_doc = 0
     for d_term in doc_terms:
         if (term == d_term):
             in_doc += 1
 
-    return in_doc/len(doc_terms)
+    return in_doc*1.0/len(doc_terms)
 
 def idf(term, tvoc):
     'calculate idf measure for tvoc'
