@@ -33,7 +33,7 @@ cursor = conn.cursor()
 m = Mystem(entire_input=False)
 tvoc = TermVocabulary()
 problem = []
-limit = 350
+limit = sys.maxint # no limits
 for score in [-1, 0, 1]:
     # getting twits with the same score
     twits.get("bank", cursor, sys.argv[2], score, limit)

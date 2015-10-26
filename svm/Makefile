@@ -15,11 +15,11 @@ MODEL_OUT	=	$(MODEL_OUTDIR)$(MODEL_NAME).out
 MODEL_MODEL	=	$(MODEL_TRAIN).model
 
 
-baseline_bank: TASK_TYPE = bank
-baseline_bank: MODEL = BASELINE_BANK
-baseline_bank: MODEL_NAME = baseline
-baseline_bank: ETALON_RESULT = ../train/data/bank_test_etalon.xml
-baseline_bank: core
+baseline_bank_imbalanced: TASK_TYPE = bank
+baseline_bank_imbalanced: MODEL = BASELINE_BANK
+baseline_bank_imbalanced: MODEL_NAME = baseline
+baseline_bank_imbalanced: ETALON_RESULT = ../train/data/bank_test_etalon.xml
+baseline_bank_imbalanced: core
 
 core:
 	mkdir -p $(MODEL_ROOT)
