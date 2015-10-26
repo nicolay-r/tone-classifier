@@ -39,7 +39,7 @@ if (argc == 1):
         "Usage: baseline_bank <database> <train_table> <output>",
         "<database> -- database to connect for training data",
         "<train_table> -- table with training data for bank",
-        "<output> -- file to save tonality vectors"
+        "<output> -- file to save tonality vectors",
         "<pconf_output> -- file to save configuration for predict.py")
     exit(0)
 testVectors = False
