@@ -4,7 +4,7 @@ SVM_ROOT=../libsvm/
 DATA_ROOT=../models/
 
 # Defining a default model
-MODEL_OPTIONS=
+MODEL_OPTIONS=	-t 0
 MODEL_ROOT	=	$(DATA_ROOT)$(TASK_TYPE)/$(MODEL_NAME)
 MODEL_OUTDIR= 	$(MODEL_ROOT)/out/
 MODEL_PROB	=	$(MODEL_OUTDIR)$(MODEL_NAME).prob
