@@ -17,10 +17,11 @@ import prob
 argc = len(sys.argv)
 if (argc == 1):
     print """%s\n%s\n%s\n%s\n%s"""%(
-        "Usage: baseline_bank <database> <train_table> <output>",
+        "Usage: baseline_bank_test <database> <train_table> <output> <pconf_output>",
         "<database> -- database to connect for training data",
         "<train_table> -- table with training data for bank",
-        "<output> -- file to save tonality vectors")
+        "<output> -- file to save tonality vectors",
+        "<pconf_output> -- file to save configuration for predict.py")
     exit(0)
 
 # Connect to a database
@@ -33,7 +34,7 @@ cursor = conn.cursor()
 m = Mystem(entire_input=False)
 tvoc = TermVocabulary()
 problem = []
-limit = 350
+limit = sys.maxint
 for score in [-1, 0, 1]:
     # getting twits with the same score
     twits.get("bank", cursor, sys.argv[2], score, limit)
@@ -44,9 +45,12 @@ for score in [-1, 0, 1]:
         index = row[1]
         terms = model_core.process_text(m, text, tvoc)
 
-        problem.append(model_core.train_vector(score, tvoc, terms))
+        problem.append(model_core.train_vector(index, tvoc, terms))
         # next row
         row = cursor.fetchone()
 
 #save problem
 prob.save(problem, sys.argv[3])
+
+#save .pconf
+pconf.save("bank", sys.argv[2], "baseline_bank_results", sys.argv[4])
