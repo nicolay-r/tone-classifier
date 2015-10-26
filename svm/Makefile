@@ -5,27 +5,28 @@ DATA_ROOT=../models/
 
 # Defining a default model
 MODEL_OPTIONS=
-MODEL_ROOT=$(DATA_ROOT)$(TASK_TYPE)/$(MODEL_NAME)/
-MODEL_PROB=$(MODEL_ROOT)$(MODEL_NAME).prob
-MODEL_TRAIN=$(MODEL_ROOT)$(MODEL_NAME).train
-MODEL_MODEL=$(MODEL_TRAIN).model
-MODEL_TEST=$(MODEL_ROOT)$(MODEL_NAME).test
-MODEL_PCONF=$(MODEL_ROOT)$(MODEL_NAME).pconf
-MODEL_OUT=$(MODEL_ROOT)$(MODEL_NAME).out
+MODEL_ROOT	=	$(DATA_ROOT)$(TASK_TYPE)/$(MODEL_NAME)
+MODEL_OUTDIR= 	$(MODEL_ROOT)/out/
+MODEL_PROB	=	$(MODEL_OUTDIR)$(MODEL_NAME).prob
+MODEL_TRAIN	=	$(MODEL_OUTDIR)$(MODEL_NAME).train
+MODEL_TEST	=	$(MODEL_OUTDIR)$(MODEL_NAME).test
+MODEL_PCONF	=	$(MODEL_OUTDIR)$(MODEL_NAME).pconf
+MODEL_OUT	=	$(MODEL_OUTDIR)$(MODEL_NAME).out
+MODEL_MODEL	=	$(MODEL_TRAIN).model
 
 
 baseline_bank: TASK_TYPE = bank
 baseline_bank: MODEL = BASELINE_BANK
-baseline_bank: MODEL_NAME = baseline_bank
+baseline_bank: MODEL_NAME = baseline
 baseline_bank: ETALON_RESULT = ../train/data/bank_test_etalon.xml
 baseline_bank: core
 
 core:
 	mkdir -p $(MODEL_ROOT)
 	# Extracting a problem for SVM
-	$(DATA_ROOT)$(TASK_TYPE)/$(MODEL_NAME)_train.py romipdata bank_train_noname $(MODEL_PROB)
+	$(MODEL_ROOT)/$(MODEL_NAME)_train.py romipdata bank_train_noname $(MODEL_PROB)
 	# Extracting testing data
-	$(DATA_ROOT)$(TASK_TYPE)/$(MODEL_NAME)_test.py romipdata bank_test_etalon_noname $(MODEL_TEST) $(MODEL_PCONF)
+	$(MODEL_ROOT)/$(MODEL_NAME)_test.py romipdata bank_test_etalon_noname $(MODEL_TEST) $(MODEL_PCONF)
 	# Training on data
 	$(SVM_ROOT)svm-train $(MODEL_OPTIONS) $(MODEL_PROB) $(MODEL_MODEL)
 	# Predicting
