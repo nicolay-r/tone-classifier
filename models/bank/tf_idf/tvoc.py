@@ -9,6 +9,9 @@ class TermVocabulary:
     def getTermInVocCount(self, term):
         return self.voc_count[term]
 
+    def getDocsCount(self):
+        return self.documents
+
     def getIndexes(self, terms):
         indexes = []
         for term in terms:
@@ -17,7 +20,7 @@ class TermVocabulary:
 
     def add_doc(self, terms):
         used = []
-        self.doc_count += 1
+        self.documents += 1
         for term in terms:
             # update voc_count
             if not(term in self.voc_count):
@@ -29,7 +32,7 @@ class TermVocabulary:
                 self.term_ind[term] = self.index
                 self.index += 1
             # update doc_count
-            if not(term in used)):
+            if not(term in used):
                 if term in self.doc_count:
                     self.doc_count[term] += 1
                 else:
@@ -40,5 +43,5 @@ class TermVocabulary:
         self.term_ind = {}
         self.voc_count = {}
         self.doc_count = {}
-        self.docs_count = 0
+        self.documents = 0
         self.index = 1

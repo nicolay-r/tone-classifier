@@ -12,7 +12,7 @@ def process_text(mystem, text, tvoc):
     terms = message.getLemmas()
     terms += message.getIgnored()
 
-    tvoc.addTerms(terms)
+    tvoc.add_doc(terms)
     return terms
 
 def train_vector(tone, tvoc, terms):
@@ -34,4 +34,4 @@ def tf(term, doc_terms):
 
 def idf(term, tvoc):
     'calculate idf measure for tvoc'
-    return log(float(tvoc.getDocsCount())/tvoc.getTermInDocsCount(term))
+    return log(tvoc.getDocsCount()*1.0/tvoc.getTermInDocsCount(term))
