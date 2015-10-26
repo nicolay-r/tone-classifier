@@ -4,7 +4,7 @@
 import re
 from pymystem3 import Mystem
 
-class Twit:
+class Message:
         # Returns list of lemmas
         def getIgnored(self):
                 return self.ignored
