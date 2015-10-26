@@ -1,5 +1,15 @@
 ## **Installing:** ##
-1. Install eval package -- script to estimate a model quality.
+1. Compile libsvm library
+```
+#!bash
+git clone https://github.com/cjlin1/libsvm
+cd libsvm/python
+make
+cp *.py ../../svm/python
+cp ../libsvm.so.2 ../../svm/
+```
+
+2. Install eval package -- script to estimate a model quality.
 ```
 #!bash
 cd eval
