@@ -29,8 +29,12 @@ ids, x = svm_read_problem(sys.argv[1])
 # preparing a model
 m = svm_load_model(sys.argv[2])
 # predicting
-y = [0]*len(x)
+y = [-2]*len(x)
 p_label, p_acc, p_val = svm_predict(y, x, m)
+
+print "-1: %s (%s%%)"%(p_label.count(-1), p_label.count(-1)*100.0/len(p_label))
+print "0: %s (%s%%)"%(p_label.count(0), p_label.count(0)*100.0/len(p_label))
+print "1: %s (%s%%)"%(p_label.count(1), p_label.count(1)*100.0/len(p_label))
 
 # database
 conn = connect(config['conn_settings'])
