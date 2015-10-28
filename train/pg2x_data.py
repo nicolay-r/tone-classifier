@@ -11,8 +11,8 @@ def to_pretty(xml_tree):
     reparsed = minidom.parseString(rough_string)
     return reparsed.toprettyxml(indent='\t')
 
-def data2xml(root_node, data_cursor, database_name, table_name):
-    database_node = ET.SubElement(root_node, "database", name=database_name)
+def data2xml(root_node, data_cursor, table_name):
+    database_node = ET.SubElement(root_node, "database")
 
     # getting columns
     row_cols = [desc[0] for desc in cursor.description]
@@ -34,7 +34,7 @@ def export_and_save(table, out_filename):
     # export
     cursor.execute("SELECT * FROM %s;"%(table))
     root_node = ET.Element("pma_xml_export")
-    data2xml(root_node, cursor, sys.argv[2], table)
+    data2xml(root_node, cursor, table)
     tree = ET.ElementTree(root_node)
     # save
     with open(out_filename, "w") as out:
@@ -42,7 +42,7 @@ def export_and_save(table, out_filename):
 
 argc = len(sys.argv)
 if (argc == 1):
-    print "usage: ./pg2x_data <pconf_filepath> <xml_database_name> <result_output> <etalon_output>"
+    print "usage: ./pg2x_data <pconf_filepath> <result_output> <etalon_output>"
     exit(0)
 
 with open(sys.argv[1]) as f:
@@ -51,7 +51,7 @@ with open(sys.argv[1]) as f:
 conn = connect(config["conn_settings"])
 cursor = conn.cursor()
 
-export_and_save(config["out_table"], sys.argv[3])
-export_and_save(config["orig_table"], sys.argv[4])
+export_and_save(config["out_table"], sys.argv[2])
+export_and_save(config["orig_table"], sys.argv[3])
 
 
