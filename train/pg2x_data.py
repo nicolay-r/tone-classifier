@@ -30,9 +30,19 @@ def data2xml(root_node, data_cursor, database_name, table_name):
         # go to next line
         row = data_cursor.fetchone()
 
+def export_and_save(table, out_filename):
+    # export
+    cursor.execute("SELECT * FROM %s;"%(table))
+    root_node = ET.Element("pma_xml_export")
+    data2xml(root_node, cursor, sys.argv[2], table)
+    tree = ET.ElementTree(root_node)
+    # save
+    with open(out_filename, "w") as out:
+        out.write(to_pretty(tree))
+
 argc = len(sys.argv)
 if (argc == 1):
-    print "usage: ./pg2x_data <pconf_filepath> <xml_database_name> <output>"
+    print "usage: ./pg2x_data <pconf_filepath> <xml_database_name> <result_output> <etalon_output>"
     exit(0)
 
 with open(sys.argv[1]) as f:
@@ -41,14 +51,7 @@ with open(sys.argv[1]) as f:
 conn = connect(config["conn_settings"])
 cursor = conn.cursor()
 
-cursor.execute("SELECT * FROM %s;"%(config["out_table"]))
+export_and_save(config["out_table"], sys.argv[3])
+export_and_save(config["orig_table"], sys.argv[4])
 
-root_node = ET.Element("pma_xml_export")
-# converting data into xml_tree
-data2xml(root_node, cursor, sys.argv[2], config["out_table"])
 
-tree = ET.ElementTree(root_node)
-
-# save xml
-with open(sys.argv[3], "w") as out:
-    out.write(to_pretty(tree))
