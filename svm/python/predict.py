@@ -44,6 +44,7 @@ cursor = conn.cursor()
 cursor.execute('DROP TABLE IF EXISTS %s'%(config['out_table']))
 conn.commit()
 cursor = conn.cursor()
+print "result table:", config['out_table']
 cursor.execute('CREATE TABLE %s AS TABLE %s'%(
     config['out_table'], config['orig_table']))
 conn.commit()
