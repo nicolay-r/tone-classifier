@@ -29,27 +29,32 @@ connSettings = """dbname=%s user=%s password=%s host=%s"""%(
 conn = connect(connSettings)
 cursor = conn.cursor()
 
-# make problem
+# make a term vocabulary
 m = Mystem(entire_input=False)
 tvoc = TermVocabulary()
 problem = []
 limit = sys.maxint # no limits
+vectors = []
 for score in [-1, 0, 1]:
     # getting twits with the same score
     twits.get("bank", cursor, sys.argv[2], score, limit)
-    vectors = 0
     # processing twits
     row = cursor.fetchone()
+    count = 0
     while row is not None:
         text = row[0]
         index = row[1]
         terms = model_core.process_text(m, text, tvoc)
-
-        problem.append(model_core.train_vector(score, tvoc, terms))
+        vectors.append({'score': score, 'terms' : terms})
         # next row
         row = cursor.fetchone()
-        vectors += 1
-    print "class %s;\tvectors:%s"%(score, vectors)
+        count += 1
+    print "class %s;\tvectors:%s"%(score, count)
+
+# make problem
+for vector in vectors:
+    problem.append(model_core.train_vector(
+        vector['score'], tvoc, vector['terms']))
 
 #save problem
 prob.save(problem, sys.argv[3])
