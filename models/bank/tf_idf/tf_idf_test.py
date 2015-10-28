@@ -61,4 +61,4 @@ for vector in vectors:
 prob.save(problem, sys.argv[3])
 
 #save .pconf
-pconf.save("bank", sys.argv[2], "baseline_bank_results", sys.argv[4])
+pconf.save("bank", sys.argv[2], "tf_idf_bank_results", sys.argv[4])
