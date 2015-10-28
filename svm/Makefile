@@ -29,7 +29,7 @@ core:
 	# Extracting a problem for SVM
 	$(MODEL_ROOT)/$(MODEL_NAME)_train.py romipdata bank_train_noname $(MODEL_PROB)
 	# Extracting testing data
-	$(MODEL_ROOT)/$(MODEL_NAME)_test.py romipdata bank_test_etalon_noname $(MODEL_TEST) $(MODEL_PCONF)
+	$(MODEL_ROOT)/$(MODEL_NAME)_test.py romipdata bank_test_noname $(MODEL_TEST) $(MODEL_PCONF)
 	# Training on data
 	$(SVM_ROOT)svm-train $(MODEL_OPTIONS) $(MODEL_PROB) $(MODEL_MODEL)
 	# Predicting
