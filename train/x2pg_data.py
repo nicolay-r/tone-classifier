@@ -15,7 +15,7 @@ def getRow(tableNode):
                         # Check that text is not "NULL"
                         if (colValue != "NULL"):
                                 # String data type
-                                row[colName] = "\'%s\'"%(colValue.replace('\'', '\\\''))
+                                row[colName] = "\'%s\'"%(colValue.replace('\'', '\'\''))
                 columnNode = columnNode.next
         return row
 
