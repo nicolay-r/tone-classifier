@@ -36,26 +36,26 @@ tvoc = TermVocabulary()
 problem = []
 limit = sys.maxint
 vectors = []
+count = 0
 for score in [-1, 0, 1]:
     # getting twits with the same score
     twits.get("bank", cursor, sys.argv[2], score, limit)
     # processing twits
-    count = 0
     row = cursor.fetchone()
     while row is not None:
         text = row[0]
         index = row[1]
         terms = model_core.process_text(m, text, tvoc)
-        vectors.append({'score': score, 'terms' : terms})
+        vectors.append({'id': index, 'terms' : terms})
         # next row
         row = cursor.fetchone()
         count += 1
-    print "class %s;\tvectors:%s"%(score, count)
+print "vectors count:", count
 
 # make problem
 for vector in vectors:
     problem.append(model_core.train_vector(
-        vector['score'], tvoc, vector['terms']))
+        vector['id'], tvoc, vector['terms']))
 
 #save problem
 prob.save(problem, sys.argv[3])
