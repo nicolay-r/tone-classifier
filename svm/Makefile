@@ -23,7 +23,12 @@ tf_idf_bank_imbalanced: TASK_TYPE = bank
 tf_idf_bank_imbalanced: MODEL_NAME = tf_idf
 tf_idf_bank_imbalanced: core
 
+tf_idf_dict_bank: TASK_TYPE = bank
+tf_idf_dict_bank: MODEL_NAME = tf_idf_dict
+tf_idf_dict_bank: core
+
 core:
+	echo $(MODEL_OPTIONS)
 	mkdir -p $(MODEL_OUTDIR)
 	# Extracting a problem for SVM
 	$(MODEL_ROOT)/$(MODEL_NAME)_train.py romipdata bank_train_noname $(MODEL_PROB)
