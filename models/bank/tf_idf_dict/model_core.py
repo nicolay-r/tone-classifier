@@ -30,7 +30,7 @@ def tf(term, doc_terms):
 def idf(term, etvoc, tvoc):
     'calculate idf measure for tvoc'
     tterm = term.decode('utf-8').upper().encode('utf-8')
-    if (etvoc.getTermInDocsCount(tterm) != 0):
-        return etvoc.df(tterm)
-    else:
-        return tvoc.df(term)
+    # concatenate dictionaries
+    return log( (etvoc.getTermInDocsCount(tterm) +
+        tvoc.getTermInDocsCount(term)) * 1.0 /
+        (etvoc.getDocsCount() + tvoc.getDocsCount()) )
