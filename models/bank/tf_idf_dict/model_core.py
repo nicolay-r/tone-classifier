@@ -29,10 +29,8 @@ def tf(term, doc_terms):
 
 def idf(term, etvoc, tvoc):
     'calculate idf measure for tvoc'
-    e_idf = etvoc.df(term.decode('utf-8').upper().encode('utf-8'))
-
-    if (e_idf != 0):
-        return e_idf
+    tterm = term.decode('utf-8').upper().encode('utf-8')
+    if (etvoc.getTermInDocsCount(tterm) != 0):
+        return etvoc.df(tterm)
     else:
-        print "not found: ", term
         return tvoc.df(term)

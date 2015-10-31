@@ -1,4 +1,7 @@
 #/usr/bin/python
+
+from math import log
+
 class TermVocabulary:
     def getTermIndex(self, term):
         return self.term_ind[term]
@@ -20,7 +23,7 @@ class TermVocabulary:
 
     def df(self, term):
         'calculate df for a term'
-        return self.getTermInDocsCount(term) *1.0 / self.getDocsCount()
+        return log(self.getTermInDocsCount(term) *1.0 / self.getDocsCount())
 
     def add_doc(self, terms):
         used = []

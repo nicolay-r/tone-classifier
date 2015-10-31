@@ -1,6 +1,8 @@
 #/usr/bin/python
 # -*- coding: utf-8 -*-
 
+from math import log
+
 class ExtendedTermVocabulary:
 
     def getDocsCount(self):
@@ -14,7 +16,7 @@ class ExtendedTermVocabulary:
 
     def df(self, term):
         'calculate.doc_freq for a term'
-        return self.getTermInDocsCount(term) * 1.0 / self.getDocsCount()
+        return log(self.getTermInDocsCount(term) * 1.0 / self.getDocsCount())
 
     def __init__(self, filename):
         self.doc_freq = {}
