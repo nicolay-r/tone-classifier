@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 from sys import argv
+import io
 import psycopg2
 
 argc = len(argv)
@@ -21,16 +22,20 @@ connSettings = """dbname=%s user=%s password=%s host=%s"""%(
 conn = psycopg2.connect(connSettings)
 cursor = conn.cursor()
 
-with open(config["filepath"]) as f:
+with io.open(config["filepath"], 'rt', newline='\r\n') as f:
     # twit_id, text
     lines = f.readlines()
     for line in lines:
-        row = line.split(';')
-        tid = row[0]
-        ttext = row[3]
-        print ttext
-        cursor.execute("INSERT INTO %s(id, text) VALUES (%s, %s)"%(
-                config['table'], tid.replace('\"', '\''), ttext.replace('\"', '\'')))
+        row = line.split('";')
+        tid = row[0][1:]
+        ttext = row[3][1:]
+        cursor.execute("INSERT INTO %s(id, text) VALUES ('%s', '%s')"%(
+            config['table'], tid, ttext.replace('\'', '\'\'')))
 
 conn.commit()
 conn.close()
+
+
+# update standart tables
+# insert into bank_train_balanced(twitid, text, sberbank) AS select id, text, rank from positive limit(3230);
+# insert into bank_train_balanced(twitid, text, sberbank) AS select id, text, rank from negative limit(2519);
