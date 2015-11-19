@@ -6,8 +6,13 @@ import io
 import psycopg2
 from pymystem3 import Mystem
 
-most_positive = ['спасибо'.decode('utf-8'), 'ура'.decode('utf-8'), 'axa'.decode('utf-8')]
-most_negative = ['ужас'.decode('utf-8')]
+most_positive = [#'хорошо'.decode('utf-8'),
+                #'aха'.decode('utf-8'),
+                'сотрудничество'.decode('utf-8'),
+                'льготa'.decode('utf-8'),
+                'выгода'.decode('utf-8')]
+most_negative = ['блокировка'.decode('utf-8'),
+                'никогда'.decode('utf-8')]
 
 def filter_positive(text, mystem):
     words = filter(None, text.split(' '))
