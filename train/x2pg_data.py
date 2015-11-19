@@ -38,7 +38,7 @@ def insertRow(cursor, tableName, row):
 
 if (len(sys.argv) == 1):
         print "usage: export_data <xmlFile>"
-
+        exit(0)
 # Parsing Xml File
 xmlFile = sys.argv[1]
 
