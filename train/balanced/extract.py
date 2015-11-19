@@ -6,8 +6,8 @@ import io
 import psycopg2
 from pymystem3 import Mystem
 
-most_positive = ['спасибо'.decode('utf-8')]
-most_negative = []
+most_positive = ['спасибо'.decode('utf-8'), 'ура'.decode('utf-8'), 'axa'.decode('utf-8')]
+most_negative = ['ужас'.decode('utf-8')]
 
 def filter_positive(text, mystem):
     words = filter(None, text.split(' '))
@@ -20,6 +20,9 @@ def filter_positive(text, mystem):
             break
 
     if result:
+        for w in words:
+            print w,
+        print '\n'
         for l in lemmas:
             print l,
         print '\n-'
@@ -27,7 +30,24 @@ def filter_positive(text, mystem):
     return result
 
 def filter_negative(text, mystem):
-    pass
+    words = filter(None, text.split(' '))
+    lemmas = mystem.lemmatize(' '.join(words))
+
+    result = False
+    for l in lemmas:
+        if (l in most_negative):
+            result = True
+            break
+
+    if result:
+        for w in words:
+            print w,
+        print '\n'
+        for l in lemmas:
+            print l,
+        print '\n-'
+
+    return result
 
 argc = len(argv)
 
