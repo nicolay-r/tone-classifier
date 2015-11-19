@@ -6,10 +6,27 @@ import io
 import psycopg2
 from pymystem3 import Mystem
 
-def filter_positive():
-    pass
+most_positive = ['спасибо'.decode('utf-8')]
+most_negative = []
 
-def filter_negative():
+def filter_positive(text, mystem):
+    words = filter(None, text.split(' '))
+    lemmas = mystem.lemmatize(' '.join(words))
+
+    result = False
+    for l in lemmas:
+        if (l in most_positive):
+            result = True
+            break
+
+    if result:
+        for l in lemmas:
+            print l,
+        print '\n-'
+
+    return result
+
+def filter_negative(text, mystem):
     pass
 
 argc = len(argv)
@@ -27,9 +44,10 @@ config = {
 connSettings = """dbname=%s user=%s password=%s host=%s"""%(
     config["database"], "postgres", "postgres", "localhost")
 
+m = Mystem(entire_input=False)
+
 conn = psycopg2.connect(connSettings)
 cursor = conn.cursor()
-
 
 cursor.execute("""DROP TABLE IF EXISTS %s"""%(config['table']));
 cursor.execute("""CREATE TABLE IF NOT EXISTS %s (id bigint NOT NULL,
@@ -41,20 +59,23 @@ ignored = 0
 with io.open(config["filepath"], 'rt', newline='\r\n') as f:
     # twit_id, text
     lines = f.readlines()
-    print "lines count: ", len(lines)
     for line in lines:
-        added += 1
         row = line.split('";')
         tid = row[0][1:]
         ttext = row[3][1:]
-        try:
-            cursor.execute("INSERT INTO %s(id, text) VALUES ('%s', '%s')"%(
-                config['table'], tid, ttext.replace('\'', '\'\'')))
-        except Exception, e:
-            print str(e)
-            added -= 1
-            ignored += 1
-        conn.commit()
+        if ((config['table'] == 'positive' and
+                filter_positive(ttext, m) == True) or
+            (config['table'] == 'negative' and
+                filter_negative(ttext, m) == True)):
+            try:
+                added += 1
+                cursor.execute("INSERT INTO %s(id, text) VALUES ('%s', '%s')"%(
+                    config['table'], tid, ttext.replace('\'', '\'\'')))
+            except Exception, e:
+                print str(e)
+                ignored += 1
+            conn.commit()
+
 print "rows ignored: ", ignored
 print "rows added: ", added
 conn.close()
