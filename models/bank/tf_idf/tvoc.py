@@ -1,4 +1,7 @@
 #/usr/bin/python
+
+import operator
+
 class TermVocabulary:
     def getTermIndex(self, term):
         return self.term_ind[term]
@@ -11,6 +14,13 @@ class TermVocabulary:
 
     def getDocsCount(self):
         return self.documents
+
+    def top(self, n):
+        r = sorted(self.voc_count.items(),
+            key=operator.itemgetter(1))
+        print "top %d:"%(n)
+        for i in range(n):
+            print r[i][0], ', ',
 
     def getIndexes(self, terms):
         indexes = []

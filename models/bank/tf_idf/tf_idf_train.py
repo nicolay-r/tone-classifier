@@ -36,6 +36,7 @@ problem = []
 limit = sys.maxint # no limits
 vectors = []
 for score in [-1, 0, 1]:
+    tmpvoc = TermVocabulary()
     # getting twits with the same score
     twits.get("bank", cursor, sys.argv[2], score, limit)
     # processing twits
@@ -45,10 +46,12 @@ for score in [-1, 0, 1]:
         text = row[0]
         index = row[1]
         terms = model_core.process_text(m, text, tvoc)
+        model_core.process_text(m, text, tmpvoc)
         vectors.append({'score': score, 'terms' : terms})
         # next row
         row = cursor.fetchone()
         count += 1
+    tmpvoc.top(30)
     print "class %s;\tvectors:%s"%(score, count)
 
 # make problem
