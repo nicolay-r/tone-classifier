@@ -19,7 +19,7 @@ class TermVocabulary:
         r = sorted(self.voc_count.items(),
             key=operator.itemgetter(1))
         print "top %d:"%(n)
-        for i in range(n):
+        for i in range(min(len(self.voc_count), n)):
             print r[i][0], ', ',
 
     def getIndexes(self, terms):

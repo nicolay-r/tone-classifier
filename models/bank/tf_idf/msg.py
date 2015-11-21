@@ -5,10 +5,6 @@ import re
 from pymystem3 import Mystem
 
 class Message:
-        # Returns list of lemmas
-        def getIgnored(self):
-                return self.ignored
-
         def getLemmas(self):
                 lemmas = self.mystem.lemmatize(' '.join(self.words))
                 return lemmas
@@ -24,24 +20,33 @@ class Message:
                     r'(?::\d+)?' # optional port
                     r'(?:/?|[/?]\S+)$', re.IGNORECASE)
 
-                ignored = []
+                urls = []
+                users = []
+                hash_tags = []
+                retweet = []
                 for word in words:
                     if (word[0] == '@'):
                         # user in Twitter
-                        ignored.append(word)
+                        users.append(word)
                     elif (word[0] == '#'):
                         # hash tags
-                        ignored.append(word)
+                        hash_tags.append(word)
                     elif (re.search(url_pattern, word)):
                         # url
-                        ignored.append(word)
+                        urls.append(word)
+                    elif(word == 'RT'):
+                        # retweet
+                        retweet.append(word)
 
-                for f in ignored:
+                for f in urls + users + hash_tags + retweet:
                     if f in words:
                         words.remove(f)
 
                 self.words = words
-                self.ignored = ignored
+                self.urls = urls
+                self.users = users
+                self.hash_tags = hash_tags
+                self.retweet = retweet
 
         def __init__(self, message, mystem):
                 self.mystem = mystem

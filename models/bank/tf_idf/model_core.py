@@ -10,7 +10,11 @@ def process_text(mystem, text, tvoc):
     message.normalize()
 
     terms = message.getLemmas()
-    terms += message.getIgnored()
+
+    terms += message.urls
+    terms += message.hash_tags
+    terms += message.users
+    terms += message.retweet
 
     tvoc.add_doc(terms)
     return terms
