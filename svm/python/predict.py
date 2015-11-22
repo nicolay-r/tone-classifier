@@ -7,9 +7,10 @@ from svm import *
 from svmutil import *
 from psycopg2 import connect
 
-def setResult(cursor, table, column, rowIndex, label):
-    cursor.execute("UPDATE %s SET %s=%s WHERE (id=%s AND %s IS NOT NULL)"%(
-        table, column, label, rowIndex, column))
+def setResult(cursor, table, columns, rowIndex, label):
+    cursor.execute("UPDATE %s SET %s WHERE id=%s"%(
+        table, ','.join(map(lambda c: c + '=' + str(label), columns)),
+        rowIndex))
 
 argc = len(sys.argv)
 if (argc == 1):
@@ -56,8 +57,8 @@ for msgIndex in range(0, len(ids)):
     rowId = ids[msgIndex]
     label = p_label[msgIndex]
     # setting answers
-    for col in config['columns']:
-        setResult(cursor, config['out_table'], col, rowId, label)
+    setResult(cursor, config['out_table'],
+        config['columns'], rowId, label)
 
 cursor.close()
 # commiting data
