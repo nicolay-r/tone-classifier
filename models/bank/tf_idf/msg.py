@@ -4,9 +4,13 @@
 import re
 from pymystem3 import Mystem
 
+min_word_len = 4
+print "Use filter len(w) > %s"%(min_word_len)
+
 class Message:
         def getLemmas(self):
-                lemmas = self.mystem.lemmatize(' '.join(self.words))
+                lemmas = filter(lambda l: len(l.decode('utf-8')) > min_word_len,
+                    self.mystem.lemmatize(' '.join(self.words)))
                 return lemmas
 
         def normalize(self):
