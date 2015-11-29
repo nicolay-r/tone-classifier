@@ -7,7 +7,7 @@ from inspect import getsourcefile
 from os.path import abspath, dirname
 import model_core
 
-sys.path.insert(0, dirname(abspath(getsourcefile(lambda:0))) + '/../..')
+sys.path.insert(0, dirname(abspath(getsourcefile(lambda:0))) + '/../aux')
 from tvoc import TermVocabulary
 from msg import Message
 import pconf

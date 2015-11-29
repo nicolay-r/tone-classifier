@@ -9,24 +9,21 @@ import model_core
 from etvoc import ExtendedTermVocabulary
 
 curr_dir = dirname(abspath(getsourcefile(lambda:0)))
-sys.path.insert(0, curr_dir + '/../..')
+sys.path.insert(0, curr_dir + '/../aux')
 from tvoc import TermVocabulary
 from msg import Message
 import pconf
 import twits
 import prob
-import test
 
 argc = len(sys.argv)
 if (argc == 1):
     print """%s\n%s\n%s\n%s\n%s"""%(
-        "Usage: baseline_bank_test <database> <train_table> <output> <pconf_output>",
+        "Usage: baseline_bank <database> <train_table> <output>",
         "<database> -- database to connect for training data",
-        "<test_table> -- table with testing data for bank",
-        "<output> -- file to save tonality vectors",
-        "<pconf_output> -- file to save configuration for predict.py")
+        "<train_table> -- table with training data for bank",
+        "<output> -- file to save tonality vectors")
     exit(0)
-etalon_table = sys.argv[2]
 
 # Connect to a database
 connSettings = """dbname=%s user=%s password=%s host=%s"""%(
@@ -34,13 +31,7 @@ connSettings = """dbname=%s user=%s password=%s host=%s"""%(
 conn = connect(connSettings)
 cursor = conn.cursor()
 
-# create new etalon table
-new_etalon_table = "tf_idf_dict_bank_new_etalon"
-print "create_table:", new_etalon_table
-test.create_table_as(conn, new_etalon_table, etalon_table)
-columns = twits.get_score_columns("bank", cursor, new_etalon_table)
-
-# make problem
+# make a term vocabulary
 m = Mystem(entire_input=False)
 tvoc = TermVocabulary()
 problem = []
@@ -48,7 +39,7 @@ limit = sys.maxint
 vectors = []
 for score in [-1, 0, 1]:
     # getting twits with the same score
-    twits.get("bank", cursor, etalon_table, score, limit)
+    twits.get("bank", cursor, sys.argv[2], score, limit)
     # processing twits
     row = cursor.fetchone()
     count = 0
@@ -56,24 +47,18 @@ for score in [-1, 0, 1]:
         text = row[0]
         index = row[1]
         terms = model_core.process_text(m, text, tvoc)
-        test.add_row(conn, new_etalon_table, columns, row[2:])
-        vectors.append({'id': index, 'terms' : terms})
+        vectors.append({'score': score, 'terms' : terms})
         # next row
         row = cursor.fetchone()
         count += 1
-    print "class:\t%s; %s"%(score, count)
+    print "class %s;\tvectors:%s"%(score, count)
 
 # make problem
 print "build extended term vocabulary"
 etvoc = ExtendedTermVocabulary(curr_dir + "/russian.tsv")
 for vector in vectors:
     problem.append(model_core.train_vector(
-        vector['id'], tvoc, etvoc, vector['terms']))
+        vector['score'], tvoc, etvoc, vector['terms']))
 
 #save problem
 prob.save(problem, sys.argv[3])
-
-#save .pconf
-pconf.save("bank",
-    new_etalon_table, # new etalon table
-    "tf_idf_dict_bank_results", sys.argv[4])

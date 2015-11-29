@@ -7,7 +7,7 @@ from inspect import getsourcefile
 from os.path import abspath, dirname
 import model_core
 
-sys.path.insert(0, dirname(abspath(getsourcefile(lambda:0))) + '/../..')
+sys.path.insert(0, dirname(abspath(getsourcefile(lambda:0))) + '/../aux')
 from tvoc import TermVocabulary
 from msg import Message
 import pconf
@@ -29,35 +29,27 @@ connSettings = """dbname=%s user=%s password=%s host=%s"""%(
 conn = connect(connSettings)
 cursor = conn.cursor()
 
-# make a term vocabulary
+# make problem
 m = Mystem(entire_input=False)
 tvoc = TermVocabulary()
 problem = []
 limit = sys.maxint # no limits
-vectors = []
 for score in [-1, 0, 1]:
-    tmpvoc = TermVocabulary()
     # getting twits with the same score
     twits.get("bank", cursor, sys.argv[2], score, limit)
+    vectors = 0
     # processing twits
     row = cursor.fetchone()
-    count = 0
     while row is not None:
         text = row[0]
         index = row[1]
         terms = model_core.process_text(m, text, tvoc)
-        model_core.process_text(m, text, tmpvoc)
-        vectors.append({'score': score, 'terms' : terms})
+
+        problem.append(model_core.train_vector(score, tvoc, terms))
         # next row
         row = cursor.fetchone()
-        count += 1
-    tmpvoc.top(30)
-    print "class %s;\tvectors:%s"%(score, count)
-
-# make problem
-for vector in vectors:
-    problem.append(model_core.train_vector(
-        vector['score'], tvoc, vector['terms']))
+        vectors += 1
+    print "class %s;\tvectors:%s"%(score, vectors)
 
 #save problem
 prob.save(problem, sys.argv[3])

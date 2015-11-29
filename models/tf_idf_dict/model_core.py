@@ -4,10 +4,10 @@ from msg import Message
 from tvoc import TermVocabulary
 from math import log
 
-urls_used = True
-ht_used = True
-users_used = True
-retweet_used = True
+urls_used = False
+ht_used = False
+users_used = False
+retweet_used = False
 print "urls:\t", urls_used
 print "ht:\t", ht_used
 print "users:\t", users_used
