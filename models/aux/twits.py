@@ -15,12 +15,19 @@ def next_row(cursor, expected_score):
         if next_row is not None:
             # skip text and id
             for i in range(2, len(next_row)):
-                if next_row[i] != None and expected_score != int(next_row[i]):
+                if next_row[i] != None and is_int(next_row[i]) and expected_score != int(next_row[i]):
                     notFound = True
                     break
         else:
             break
     return next_row
+
+def is_int(s):
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
 
 def get(task_type, cursor, table, score, limit):
     if (task_type == 'bank'):
