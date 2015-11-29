@@ -20,14 +20,22 @@ argc = len(sys.argv)
 if (argc == 1):
     print """%s\n%s\n%s\n%s\n%s"""%(
         "Usage: baseline_bank <database> <train_table> <output>",
+        '<task_type> -- type of task',
         "<database> -- database to connect for training data",
         "<train_table> -- table with training data for bank",
         "<output> -- file to save tonality vectors")
     exit(0)
 
+config = {
+    'task_type' : sys.argv[1],
+    'database' : sys.argv[2],
+    'train_table' : sys.argv[3],
+    'output' : sys.argv[4]
+}
+
 # Connect to a database
 connSettings = """dbname=%s user=%s password=%s host=%s"""%(
-    sys.argv[1], "postgres", "postgres", "localhost")
+    config['database'], "postgres", "postgres", "localhost")
 conn = connect(connSettings)
 cursor = conn.cursor()
 
@@ -39,7 +47,7 @@ limit = sys.maxint
 vectors = []
 for score in [-1, 0, 1]:
     # getting twits with the same score
-    twits.get("bank", cursor, sys.argv[2], score, limit)
+    twits.get(config['task_type'], cursor, config['train_table'], score, limit)
     # processing twits
     row = cursor.fetchone()
     count = 0
@@ -61,4 +69,4 @@ for vector in vectors:
         vector['score'], tvoc, etvoc, vector['terms']))
 
 #save problem
-prob.save(problem, sys.argv[3])
+prob.save(problem, config['output'])
