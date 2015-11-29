@@ -16,6 +16,6 @@ def get(task_type, cursor, table, score, limit):
     elif (task_type == 'ttk'):
         cursor.execute("""SELECT text, id, beeline, mts, megafon,
             tele2, rostelecom, komstar, skylink FROM %s WHERE
-            (mts=\'%d\' OR megafon=\'%d\' OR tele2=\'%d\' OR rostelecom=\'%d\'
+            (beeline=\'%d\' OR mts=\'%d\' OR megafon=\'%d\' OR tele2=\'%d\' OR rostelecom=\'%d\'
             OR komstar=\'%d\' OR skylink=\'%d\') LIMIT(\'%d\')"""%(table,
-            score, score, score, score, score, score, limit))
+            score, score, score, score, score, score, score, limit))
