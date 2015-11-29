@@ -21,14 +21,20 @@ if (argc == 1):
         "<config_file> -- .pconf file in model folder")
     exit(0)
 
-with open(sys.argv[3]) as f:
+args = {
+    'problem_file' : sys.argv[1],
+    'model_file' : sys.argv[2],
+    'config_file' : sys.argv[3]
+}
+
+with open(args['config_file']) as f:
     config = json.load(f)
 
 # reading a problem
-ids, x = svm_read_problem(sys.argv[1])
+ids, x = svm_read_problem(args['problem_file'])
 
 # preparing a model
-m = svm_load_model(sys.argv[2])
+m = svm_load_model(args['model_file'])
 # predicting
 y = [-2]*len(x)
 p_label, p_acc, p_val = svm_predict(y, x, m)
