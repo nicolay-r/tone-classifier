@@ -6,6 +6,22 @@ def get_score_columns(task_type):
     if (task_type == 'ttk'):
         return ['beeline', 'mts', 'megafon', 'tele2', 'rostelecom', 'komstar', 'skylink']
 
+def next_row(cursor, expected_score):
+    # filtering rows
+    notFound = True
+    while notFound:
+        notFound = False
+        next_row = cursor.fetchone()
+        if next_row is not None:
+            # skip text and id
+            for i in range(2, len(next_row)):
+                if next_row[i] != None and expected_score != int(next_row[i]):
+                    notFound = True
+                    break
+        else:
+            break
+    return next_row
+
 def get(task_type, cursor, table, score, limit):
     if (task_type == 'bank'):
         cursor.execute("""SELECT text, id, sberbank, vtb, gazprom, alfabank,

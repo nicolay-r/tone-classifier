@@ -48,7 +48,7 @@ for score in [-1, 0, 1]:
     # getting twits with the same score
     twits.get(config['task_type'], cursor, config['train_table'], score, limit)
     # processing twits
-    row = cursor.fetchone()
+    row = twits.next_row(cursor, score)
     count = 0
     while row is not None:
         text = row[0]
@@ -57,7 +57,7 @@ for score in [-1, 0, 1]:
         model_core.process_text(m, text, tmpvoc)
         vectors.append({'score': score, 'terms' : terms})
         # next row
-        row = cursor.fetchone()
+        row = twits.next_row(cursor, score)
         count += 1
     tmpvoc.top(30)
     print "class %s;\tvectors:%s"%(score, count)
