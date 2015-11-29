@@ -37,6 +37,7 @@ ids, x = svm_read_problem(args['problem_file'])
 m = svm_load_model(args['model_file'])
 # predicting
 y = [-2]*len(x)
+print "len(x) = ", len(x)
 p_label, p_acc, p_val = svm_predict(y, x, m)
 
 print "-1: %s (%s%%)"%(p_label.count(-1), p_label.count(-1)*100.0/len(p_label))
