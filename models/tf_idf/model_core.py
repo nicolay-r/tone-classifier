@@ -1,5 +1,10 @@
 #!/usr/bin/python
 
+import sys
+from inspect import getsourcefile
+from os.path import abspath, dirname
+sys.path.insert(0, dirname(abspath(getsourcefile(lambda:0))) + '/../aux')
+
 from msg import Message
 from tvoc import TermVocabulary
 from math import log
