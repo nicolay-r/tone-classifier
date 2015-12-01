@@ -5,13 +5,14 @@ from psycopg2 import connect
 from pymystem3 import Mystem
 from inspect import getsourcefile
 from os.path import abspath, dirname
-import model_core
 from etvoc import ExtendedTermVocabulary
+import vec
 
 curr_dir = dirname(abspath(getsourcefile(lambda:0)))
 sys.path.insert(0, curr_dir + '/../aux')
 from tvoc import TermVocabulary
 from msg import Message
+import model_core
 import pconf
 import twits
 import prob
@@ -54,8 +55,8 @@ for score in [-1, 0, 1]:
     while row is not None:
         text = row[0]
         index = row[1]
-        terms = model_core.process_text(m, text, tvoc)
-        vectors.append({'score': score, 'terms' : terms})
+        terms, features = model_core.process_text(m, text, tvoc)
+        vectors.append({'score': score, 'terms' : terms, 'features' : features})
         # next row
         row = twits.next_row(cursor, score, 'train')
         count += 1
@@ -65,8 +66,8 @@ for score in [-1, 0, 1]:
 print "build extended term vocabulary"
 etvoc = ExtendedTermVocabulary(curr_dir + "/russian.tsv")
 for vector in vectors:
-    problem.append(model_core.train_vector(
-        vector['score'], tvoc, etvoc, vector['terms']))
+    problem.append(vec.train_vector(
+        vector['score'], tvoc, etvoc, vector['terms'], vector['features']))
 
 #save problem
 prob.save(problem, config['output'])

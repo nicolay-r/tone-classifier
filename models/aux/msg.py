@@ -3,7 +3,7 @@
 
 from pymystem3 import Mystem
 
-min_word_len = 4
+min_word_len = 1
 print "Use filter len(w) > %s"%(min_word_len)
 
 class Message:
@@ -15,10 +15,12 @@ class Message:
     def normalize(self):
         words = self.words
 
+        retweet_term = 'RT'
+
         urls = []
         users = []
         hash_tags = []
-        retweet = []
+        has_retweet = False
         for word in words:
             if (word[0] == '@'):
                 # user in Twitter
@@ -29,11 +31,11 @@ class Message:
             elif (word.find('http:') == 0):
                 # url
                 urls.append(word)
-            elif(word == 'RT'):
+            elif(word == retweet_term):
                 # retweet
-                retweet.append(word)
+                has_retweet = True
 
-        for f in urls + users + hash_tags + retweet:
+        for f in urls + users + hash_tags + [retweet_term]:
             if f in words:
                 words.remove(f)
 
@@ -41,7 +43,7 @@ class Message:
         self.urls = urls
         self.users = users
         self.hash_tags = hash_tags
-        self.retweet = retweet
+        self.has_retweet = has_retweet
 
     def __init__(self, message, mystem):
         self.mystem = mystem

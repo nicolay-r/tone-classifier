@@ -1,47 +1,21 @@
 #!/usr/bin/python
 
-from tvoc import TermVocabulary
-
 import sys
 from inspect import getsourcefile
 from os.path import abspath, dirname
 curr_dir = dirname(abspath(getsourcefile(lambda:0)))
 sys.path.insert(0, curr_dir + '/../aux')
 
-from msg import Message
 from math import log
+from msg import Message
+from tvoc import TermVocabulary
 
-urls_used = False
-ht_used = False
-users_used = False
-retweet_used = False
-print "urls:\t", urls_used
-print "ht:\t", ht_used
-print "users:\t", users_used
-print "rt:\t", retweet_used
-
-def process_text(mystem, text, tvoc):
-    "process a text by Mystem analyzer"
-    message = Message(text, mystem)
-    message.normalize()
-
-    terms = message.getLemmas()
-
-    if (urls_used):
-        terms += message.urls
-    if (ht_used):
-        terms += message.hash_tags
-    if (users_used):
-        terms += message.users
-    if (retweet_used):
-        terms += message.retweet
-
-    tvoc.add_doc(terms)
-    return terms
-
-def train_vector(tone, tvoc, etvoc, terms):
+def train_vector(tone, tvoc, etvoc, terms, features):
     "build vector"
     vector = [tone, {}]
+    for feature_name in features.keys():
+        index = tvoc.getTermIndex(feature_name)
+        vector[1][index] = features[feature_name]
     for term in terms:
         index = tvoc.getTermIndex(term)
         vector[1][index] = tf(term, terms) * idf(term, etvoc, tvoc)
