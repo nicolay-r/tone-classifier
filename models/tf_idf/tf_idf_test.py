@@ -8,7 +8,7 @@ from os.path import abspath, dirname
 import vec
 
 sys.path.insert(0, dirname(abspath(getsourcefile(lambda:0))) + '/../aux')
-from tvoc import TermVocabulary
+from vocs import TermVocabulary, DocVocabulary
 from msg import Message
 import model_core
 import pconf
@@ -23,6 +23,7 @@ if (argc == 1):
         "<task_type> -- type of task",
         "<database> -- database to connect for training data",
         "<test_table> -- table with testing data for bank",
+        "<vocabulary> -- vocabulary",
         "<output> -- file to save tonality vectors",
         "<pconf_output> -- file to save configuration for predict.py")
     exit(0)
@@ -31,8 +32,9 @@ config = {
     'task_type' : sys.argv[1],
     'database' : sys.argv[2],
     'test_table' : sys.argv[3],
-    'output' : sys.argv[4],
-    'pconf_output' : sys.argv[5]
+    'vocabulary' : sys.argv[4],
+    'output' : sys.argv[5],
+    'pconf_output' : sys.argv[6]
 }
 
 etalon_table = config['test_table']
@@ -52,7 +54,8 @@ columns = twits.get_score_columns(config['task_type'])
 
 # make problem
 m = Mystem(entire_input=False)
-tvoc = TermVocabulary()
+term_voc = TermVocabulary(config['vocabulary'])
+doc_voc = DocVocabulary()
 problem = []
 limit = sys.maxint
 vectors = []
@@ -65,8 +68,10 @@ for score in [-1, 0, 1]:
     while row is not None:
         text = row[0]
         index = row[1]
-        terms, features = model_core.process_text(m, text, tvoc)
+        terms, features = model_core.process_text(m, text)
         test.add_row(conn, new_etalon_table, columns, row[2:])
+        # feature: name: value
+        doc_voc.add_doc(terms)
         vectors.append({'id': index, 'terms' : terms, 'features' : features})
         # next row
         row = twits.next_row(cursor, score, 'test')
@@ -76,7 +81,7 @@ for score in [-1, 0, 1]:
 # make problem
 for vector in vectors:
     problem.append(vec.train_vector(vector['id'],
-        tvoc, vector['terms'], vector['features']))
+        term_voc, doc_voc, vector['terms'], vector['features']))
 
 #save problem
 prob.save(problem, config['output'])

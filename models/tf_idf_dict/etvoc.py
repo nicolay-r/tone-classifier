@@ -3,10 +3,10 @@
 
 class ExtendedTermVocabulary:
 
-    def getDocsCount(self):
+    def get_docs_count(self):
         return self.docs_count
 
-    def getTermInDocsCount(self, term):
+    def get_term_in_docs_count(self, term):
         if (term in self.doc_freq):
             return self.doc_freq[term]
         else:

@@ -18,12 +18,14 @@ MODEL_ETALON_OUT = $(MODEL_OUTDIR)$(MODEL_NAME).etalon.out
 MODEL_MODEL	=	$(MODEL_TRAIN).model
 
 tf_idf_bank_imbalanced: TASK_TYPE = bank
+tf_idf_bank_imbalanced: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
 tf_idf_bank_imbalanced: ETALON_TABLE = bank_test_etalon_noname
 tf_idf_bank_imbalanced: MODEL_NAME = tf_idf
 tf_idf_bank_imbalanced: TRAIN_TABLE = bank_train_noname
 tf_idf_bank_imbalanced: core
 
 tf_idf_dict_bank_imbalanced: TASK_TYPE = bank
+tf_idf_dict_bank_imbalanced: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
 tf_idf_dict_bank_imbalanced: ETALON_TABLE = bank_test_etalon_noname
 tf_idf_dict_bank_imbalanced: MODEL_NAME = tf_idf_dict
 tf_idf_dict_bank_imbalanced: TRAIN_TABLE = bank_train_noname
@@ -42,12 +44,14 @@ tf_idf_dict_bank_balanced: TRAIN_TABLE = bank_train_balanced
 tf_idf_dict_bank_balanced: core
 
 tf_idf_ttk_imbalanced: TASK_TYPE = ttk
+tf_idf_ttk_imbalanced: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
 tf_idf_ttk_imbalanced: ETALON_TABLE = ttk_test_etalon_noname
 tf_idf_ttk_imbalanced: MODEL_NAME = tf_idf
 tf_idf_ttk_imbalanced: TRAIN_TABLE = ttk_train_noname
 tf_idf_ttk_imbalanced: core
 
 tf_idf_dict_ttk_imbalanced: TASK_TYPE = ttk
+tf_idf_dict_ttk_imbalanced: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
 tf_idf_dict_ttk_imbalanced: ETALON_TABLE = ttk_test_etalon_noname
 tf_idf_dict_ttk_imbalanced: MODEL_NAME = tf_idf_dict
 tf_idf_dict_ttk_imbalanced: TRAIN_TABLE = ttk_train_noname
@@ -56,10 +60,12 @@ tf_idf_dict_ttk_imbalanced: core
 core:
 	echo $(MODEL_OPTIONS)
 	mkdir -p $(MODEL_OUTDIR)
+	# Build Vocabulary
+	$(DATA_ROOT)/aux/indexer.py romipdata $(VOCABULARY_PATH) $(TRAIN_TABLE) $(ETALON_TABLE)
 	# Extracting a problem for SVM
-	$(MODEL_ROOT)/$(MODEL_NAME)_train.py $(TASK_TYPE) romipdata $(TRAIN_TABLE) $(MODEL_PROB)
+	$(MODEL_ROOT)/$(MODEL_NAME)_train.py $(TASK_TYPE) romipdata $(TRAIN_TABLE) $(VOCABULARY_PATH) $(MODEL_PROB)
 	# Extracting testing data
-	$(MODEL_ROOT)/$(MODEL_NAME)_test.py $(TASK_TYPE) romipdata $(ETALON_TABLE) $(MODEL_TEST) $(MODEL_PCONF)
+	$(MODEL_ROOT)/$(MODEL_NAME)_test.py $(TASK_TYPE) romipdata $(ETALON_TABLE) $(VOCABULARY_PATH) $(MODEL_TEST) $(MODEL_PCONF)
 	# Training on data
 	$(SVM_ROOT)svm-train $(MODEL_OPTIONS) $(MODEL_PROB) $(MODEL_MODEL)
 	# Predicting

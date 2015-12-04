@@ -3,7 +3,7 @@
 
 from pymystem3 import Mystem
 
-min_word_len = 1
+min_word_len = 4
 print "Use filter len(w) > %s"%(min_word_len)
 
 class Message:
