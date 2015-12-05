@@ -32,12 +32,14 @@ tf_idf_dict_bank_imbalanced: TRAIN_TABLE = bank_train_noname
 tf_idf_dict_bank_imbalanced: core
 
 tf_idf_bank_balanced: TASK_TYPE = bank
+tf_idf_bank_balanced: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
 tf_idf_bank_balanced: ETALON_TABLE = bank_test_etalon_noname
 tf_idf_bank_balanced: MODEL_NAME = tf_idf
 tf_idf_bank_balanced: TRAIN_TABLE = bank_train_balanced
 tf_idf_bank_balanced: core
 
 tf_idf_dict_bank_balanced: TASK_TYPE = bank
+tf_idf_dict_bank_balanced: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
 tf_idf_dict_bank_balanced: ETALON_TABLE = bank_test_etalon_noname
 tf_idf_dict_bank_balanced: MODEL_NAME = tf_idf_dict
 tf_idf_dict_bank_balanced: TRAIN_TABLE = bank_train_balanced

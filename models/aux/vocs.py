@@ -14,12 +14,14 @@ class TermVocabulary:
     def get_term_in_voc_count(self, term):
         return self.term_in_voc_count[self.term_index[term]]
 
-#    def top(self, n):
-#        r = sorted(self.term_in_voc_count.items(),
-#            key=operator.itemgetter(1))[::-1]
-#        print "top %d:"%(n)
-#        for i in range(min(len(self.term_in_voc_count), n)):
-#            print r[i][0], ', ',
+    def top(self, n):
+        r = sorted(self.term_in_voc_count.items(),
+            key=operator.itemgetter(1))[::-1]
+        print "top %d:"%(n)
+        for i in range(min(len(self.term_in_voc_count), n)):
+            for w, index in self.term_index.iteritems():
+                if (index == r[i][0]):
+                    print w, ', ',
 
     def get_indexes(self, terms):
         return [self.term_index[term] for term in terms]

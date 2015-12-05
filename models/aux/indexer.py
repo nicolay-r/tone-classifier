@@ -4,10 +4,10 @@
 import sys
 from psycopg2 import connect
 from vocs import TermVocabulary, DocVocabulary
-from model_core import process_text
+from msg import Message
 from pymystem3 import Mystem
 
-if len(sys.argv) == 1:
+if len(sys.argv) == 0:
     print "usage: indexer.py <database> <out> <tablelist>"
     exit(0)
 
@@ -24,15 +24,20 @@ connection = connect(settings)
 cursor = connection.cursor()
 
 term_voc = TermVocabulary()
-mystem = Mystem()
+mystem = Mystem(entire_input=False)
 for table in config['tables']:
     print table
     cursor.execute("""SELECT text FROM %s;"""%(table))
     row = cursor.fetchone()
+    count = 0
     while (row is not None):
-        terms, features = process_text(mystem, row[0])
+        message = Message(row[0], mystem)
+        message.process()
+        terms, features = message.get_terms_and_features()
         for t in terms + features.keys():
             term_voc.insert_term(t)
         row = cursor.fetchone()
-
+        count += 1
+    print "messages count: ", count
+term_voc.top(30)
 term_voc.save(config['out'])
