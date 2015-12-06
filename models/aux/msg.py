@@ -7,8 +7,8 @@ ht_used = True
 users_used = False
 retweet_used = False
 
-use_stop_words = False
-use_bigram_processor = False
+use_stop_words = True
+use_bigram_processor = True
 
 print "use urls:\t", urls_used
 print "use hashtags:\t", ht_used
@@ -26,9 +26,6 @@ class Message:
         print
     @staticmethod
     def transform(terms):
-        # filter stop words
-        if (use_stop_words):
-            terms = [t for t in terms if not(t in abs_stop_words)]
         # process as bigrams
         if (use_bigram_processor):
             to_remove = []
@@ -49,6 +46,9 @@ class Message:
                     else:
                         i += 1
             terms = [terms[i] for i in range(len(terms)) if not(i in to_remove)]
+        # filter stop words
+        if (use_stop_words):
+            terms = [t for t in terms if not(t in abs_stop_words)]
         return terms
 
     def get_terms_and_features(self):
