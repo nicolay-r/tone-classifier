@@ -6,22 +6,14 @@ import io
 import psycopg2
 from pymystem3 import Mystem
 
-most_positive = ['сбербанк'.decode('utf-8'),
-                'банк'.decode('utf-8'),
-                'кредит'.decode('utf-8'),
-                'россия'.decode('utf-8'),
-                'онлайн'.decode('utf-8'),
-                'xороший'.decode('utf-8'),
-                'пообещать'.decode('utf-8'),
-                'признавать'.decode('utf-8'),
-                'млрд'.decode('utf-8')]
-most_negative = ['попадать'.decode('utf-8'),
-                'вводить'.decode('utf-8'),
-                'список'.decode('utf-8'),
-                'приостанавливать'.decode('utf-8'),
-                'санкция'.decode('utf-8'),
-                'запрет'.decode('utf-8'),
-                'против'.decode('utf-8')]
+most_positive = ['сбербанк', 'банк', 'кредит', 'россия', 'онлайн', 'xороший',
+    'пообещать', 'признавать', 'млрд', 'хорошо', 'весьма', 'просто', 'сильно',
+    'спад', 'явный']
+
+most_negative = ['попадать', 'вводить', 'список', 'приостанавливать', 'санкция',
+    'запрет', 'против', 'нельзя', 'снизиться', 'ликвидировать', 'недостаточно',
+    'потерять', 'отмена', 'утрата', 'утрачивать', 'снизиться', 'разрушать',
+    'разрушение', 'разрушить', 'нечего', 'дефицит', 'без', 'отсутствие']
 
 def filter_positive(text, mystem):
     words = filter(None, text.split(' '))
@@ -29,7 +21,7 @@ def filter_positive(text, mystem):
 
     result = False
     for l in lemmas:
-        if (l in most_positive):
+        if (l.encode('utf-8') in most_positive):
             result = True
             break
 
@@ -49,7 +41,7 @@ def filter_negative(text, mystem):
 
     result = False
     for l in lemmas:
-        if (l in most_negative):
+        if (l.encode('utf-8') in most_negative):
             result = True
             break
 
