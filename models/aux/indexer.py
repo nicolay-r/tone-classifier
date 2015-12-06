@@ -39,5 +39,5 @@ for table in config['tables']:
         row = cursor.fetchone()
         count += 1
     print "messages count: ", count
-term_voc.top(30)
+term_voc.top(50)
 term_voc.save(config['out'])

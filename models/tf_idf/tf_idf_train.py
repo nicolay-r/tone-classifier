@@ -64,6 +64,8 @@ for score in [-1, 0, 1]:
         vectors.append({'score': score, 'terms' : terms, 'features': features})
         # next row
         row = twits.next_row(cursor, score, 'train')
+        count += 1
+    print "class %d: %d"%(score, count)
 
 # make problem
 for vector in vectors:
