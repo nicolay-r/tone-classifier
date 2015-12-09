@@ -11,7 +11,6 @@ curr_dir = dirname(abspath(getsourcefile(lambda:0)))
 sys.path.insert(0, curr_dir + '/../aux')
 from vocs import TermVocabulary, DocVocabulary
 from msg import Message
-import model_core
 import pconf
 import twits
 import prob
@@ -54,7 +53,7 @@ test.create_table_as(conn, new_etalon_table, etalon_table)
 columns = twits.get_score_columns(config['task_type'])
 
 # make problem
-m = Mystem(entire_input=False)
+mystem = Mystem(entire_input=False)
 term_voc = TermVocabulary(config['vocabulary'])
 doc_voc = DocVocabulary()
 problem = []
@@ -69,7 +68,9 @@ for score in [-1, 0, 1]:
     while row is not None:
         text = row[0]
         index = row[1]
-        terms, features = model_core.process_text(m, text)
+        message = Message(text, mystem)
+        message.process()
+        terms, features = message.get_terms_and_features()
         test.add_row(conn, new_etalon_table, columns, row[2:])
         doc_voc.add_doc(terms)
         vectors.append({'id': index, 'terms' : terms, 'features' : features})

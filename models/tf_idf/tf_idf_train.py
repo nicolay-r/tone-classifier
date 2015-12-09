@@ -58,7 +58,6 @@ for score in [-1, 0, 1]:
         message = Message(text, mystem)
         message.process()
         terms, features = message.get_terms_and_features()
-        message.process()
         # feature: name: value
         doc_voc.add_doc(terms)
         vectors.append({'score': score, 'terms' : terms, 'features': features})
