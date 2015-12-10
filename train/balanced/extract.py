@@ -6,42 +6,44 @@ import io
 import psycopg2
 from pymystem3 import Mystem
 
-most_positive = ['сбербанк', 'банк', 'кредит', 'россия', 'онлайн', 'xороший',
-    'пообещать', 'признавать', 'млрд', 'хорошо', 'весьма', 'просто', 'сильно',
-    'спад', 'явный', 'избыток', 'гораздо', 'нереально', 'рекордно', 'большой']
+bank = { "positive" : ['сбербанк', 'банк', 'кредит', 'россия', 'онлайн',
+'xороший', 'пообещать', 'признавать', 'млрд', 'хорошо', 'весьма', 'просто',
+'сильно', 'спад', 'явный', 'избыток', 'гораздо', 'нереально', 'рекордно',
+'большой'], 'negative' : ['попадать', 'вводить', 'список', 'приостанавливать',
+'санкция', 'запрет', 'против', 'нельзя', 'снизиться', 'ликвидировать',
+'недостаточно', 'потерять', 'отмена', 'утрата', 'утрачивать', 'снизиться',
+'разрушать', 'разрушение', 'разрушить', 'нечего', 'дефицит', 'без',
+'отсутствие'] }
 
-most_negative = ['попадать', 'вводить', 'список', 'приостанавливать', 'санкция',
-    'запрет', 'против', 'нельзя', 'снизиться', 'ликвидировать', 'недостаточно',
-    'потерять', 'отмена', 'утрата', 'утрачивать', 'снизиться', 'разрушать',
-    'разрушение', 'разрушить', 'нечего', 'дефицит', 'без', 'отсутствие']
+ttk = { "positive" : ['сбербанк', 'банк', 'кредит', 'россия', 'онлайн',
+'xороший', 'пообещать', 'признавать', 'млрд', 'хорошо', 'весьма', 'просто',
+'сильно', 'спад', 'явный', 'избыток', 'гораздо', 'нереально', 'рекордно',
+'большой'], 'negative' : ['попадать', 'вводить', 'список', 'приостанавливать',
+'санкция', 'запрет', 'против', 'нельзя', 'снизиться', 'ликвидировать',
+'недостаточно', 'потерять', 'отмена', 'утрата', 'утрачивать', 'снизиться',
+'разрушать', 'разрушение', 'разрушить', 'нечего', 'дефицит', 'без',
+'отсутствие'] }
 
-def filter_positive(text, mystem):
+def get_data(task_type):
+    if (task_type == 'bank'):
+        return bank
+    else:
+        return ttk
+
+def get_tone(data, tone):
+    if (tone == 'positive'):
+        return data['positive']
+    else:
+        return data['negative']
+
+def tone_filter(text, mystem, task_type, tone):
     words = filter(None, text.split(' '))
     lemmas = mystem.lemmatize(' '.join(words))
-
+    special_words = get_tone(get_data(task_type), tone)
     result = False
+
     for l in lemmas:
-        if (l.encode('utf-8') in most_positive):
-            result = True
-            break
-
-    if result:
-        for w in words:
-            print w,
-        print '\n'
-        for l in lemmas:
-            print l,
-        print '\n-'
-
-    return result
-
-def filter_negative(text, mystem):
-    words = filter(None, text.split(' '))
-    lemmas = mystem.lemmatize(' '.join(words))
-
-    result = False
-    for l in lemmas:
-        if (l.encode('utf-8') in most_negative):
+        if (l.encode('utf-8') in special_words):
             result = True
             break
 
@@ -58,13 +60,14 @@ def filter_negative(text, mystem):
 argc = len(argv)
 
 if argc == 1:
-    print 'usage: ./extract.py <filename.csv> <database> <table>'
+    print 'usage: ./extract.py <filename.csv> <database> <table> <task_type>'
     exit(0)
 
 config = {
     "filepath" : argv[1],
     "database" : argv[2],
-    "table" : argv[3]
+    "table" : argv[3],
+    "task_type" : argv[4]
     }
 
 connSettings = """dbname=%s user=%s password=%s host=%s"""%(
@@ -89,10 +92,10 @@ with io.open(config["filepath"], 'rt', newline='\r\n') as f:
         row = line.split('";')
         tid = row[0][1:]
         ttext = row[3][1:]
-        if ((config['table'] == 'positive' and
-                filter_positive(ttext, m) == True) or
-            (config['table'] == 'negative' and
-                filter_negative(ttext, m) == True)):
+        if ((config['table'] == config['task_type'] + '_positive' and
+                tone_filter(ttext, m, config['task_type'], 'positive') == True) or
+            (config['table'] == config['task_type'] + '_negative' and
+                tone_filter(ttext, m, config['task_type'], 'negative') == True)):
             try:
                 added += 1
                 cursor.execute("INSERT INTO %s(id, text) VALUES ('%s', '%s')"%(
