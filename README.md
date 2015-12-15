@@ -16,6 +16,12 @@ cd eval
 node install
 ```
 
+3. Install Tweepy
+
+p install 'pip>1.5' --upgradeimport urllib
+pip install tweepy
+pip install six --upgrade
+
 ## **References:** ##
 Contest training data, [gdrive folder](http://goo.gl/qHeAVo)
 
