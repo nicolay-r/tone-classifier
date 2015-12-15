@@ -8,10 +8,13 @@ import os
 import time
 
 if (len(sys.argv) == 1):
-    print "usage: ./getter.py <keys_file>"
+    print "usage: ./getter.py <keys_file> <path_prefix>"
     exit(0)
 
-with open(sys.argv[1]) as data:
+keys_filename = sys.argv[1]
+prefix = sys.argv[2]
+
+with open(keys_filename) as data:
     keys = json.load(data)
 
 print "Get auth object ..."
@@ -21,11 +24,12 @@ auth.set_access_token(keys['access_token'], keys['access_secret'])
 print "Getting API ..."
 api = tweepy.API(auth)
 
-out_folder = 'log'
+out_folder = os.path.join(prefix, 'log')
 if not os.path.exists(out_folder):
     os.mkdir(out_folder)
 
-out_filepath = os.path.join(out_folder, str(time.ctime()).replace(' ', '_'))
+out_filepath = os.path.join(out_folder,
+    str(time.ctime()).replace(' ', '_'))
 
 with open(out_filepath, 'w') as out:
 
