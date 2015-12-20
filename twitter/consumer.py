@@ -34,12 +34,15 @@ class StdOutListener(tweepy.StreamListener):
 
 
 if (len(sys.argv) == 1):
-    print "usage: ./getter.py <keys_file> <out_folder>"
+    print "usage: ./getter.py <keys_file> <out_folder> <log_folder>"
     exit(0)
 
 keys_filename = sys.argv[1]
 out_folder = sys.argv[2]
-out_filepath = os.path.join(out_folder, str(time.ctime()).replace(' ', '_'))
+log_folder = sys.argv[3]
+curr_time = str(time.ctime())
+out_filepath = os.path.join(out_folder, curr_time.replace(' ', '_'))
+out_log = os.path.join(log_folder, curr_time.replace(' ', '_'))
 with open(keys_filename) as data:
     keys = json.load(data)
 
@@ -53,10 +56,11 @@ auth.set_access_token(keys['access_token'], keys['access_secret'])
 stream = tweepy.Stream(auth, listener)
 
 # Setting up streamer
-while (True):
-    print "Reconnect ..."
-    try:
-        stream.filter(track=['twitter'], languages=['ru'])
-    except Exception as e:
-        print "Exception: ", str(e)
+with open(out_log, 'w') as log:
+    while (True):
+        log.write("Reconnect ...")
+        try:
+            stream.filter(track=['twitter'], languages=['ru'])
+        except Exception as e:
+            log.write("Exception: %s"%(str(e)))
 
