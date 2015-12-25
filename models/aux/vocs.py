@@ -7,6 +7,8 @@ import io
 
 # create WholeVocabulary
 class TermVocabulary:
+    def get_terms(self):
+        return self.term_index.keys()
 
     def get_term_index(self, term):
         return self.term_index[term.decode('utf-8')]
