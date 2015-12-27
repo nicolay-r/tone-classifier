@@ -14,7 +14,7 @@ class TermVocabulary:
         return self.term_index[term.decode('utf-8')]
 
     def get_term_in_voc_count(self, term):
-        return self.term_in_voc_count[self.term_index[term]]
+        return self.term_in_voc_count[self.get_term_index('term')]
 
     def top(self, n):
         r = sorted(self.term_in_voc_count.items(),
@@ -26,14 +26,14 @@ class TermVocabulary:
                     print w, ', ',
 
     def get_indexes(self, terms):
-        return [self.term_index[term] for term in terms]
+        return [self.get_term_index(term) for term in terms]
 
     def get_new_index(self):
         self.current_index += 1
         return self.current_index
 
     def insert_term(self, term):
-        if not(term in self.term_index):
+        if not(term.decode('utf-8') in self.term_index):
             self.term_index[term] = self.get_new_index()
             self.term_in_voc_count[self.term_index[term]] = 1
         else:
@@ -67,20 +67,29 @@ class DocVocabulary:
     def get_docs_count(self):
         return self.docs_count
 
+    def get_terms_in_docs_count(self):
+        return self.term_in_docs_count
+
     def add_doc(self, terms):
         used = []
         self.docs_count += 1
         for term in terms:
             # update docs_count
             if not(term in used):
-                if term in self.term_in_docs_count:
-                    self.term_in_docs_count[term] += 1
+                if term.decode('utf-8') in self.term_in_docs_count:
+                    self.term_in_docs_count[term.decode('utf-8')] += 1
                 else:
-                    self.term_in_docs_count[term] = 1
+                    self.term_in_docs_count[term.decode('utf-8')] = 1
                 used.append(term)
 
     def get_term_in_docs_count(self, term):
-        return self.term_in_docs_count[term]
+        return self.term_in_docs_count[term.decode('utf-8')]
+
+    def get_term_in_docs_count_safe(self, term):
+        if (term.decode('utf-8') in self.term_in_docs_count):
+            return self.get_term_in_docs_count(term)
+        else:
+            return 0
 
     def __init__(self):
         self.term_in_docs_count = {}
