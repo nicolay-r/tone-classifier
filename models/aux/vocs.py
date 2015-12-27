@@ -75,12 +75,12 @@ class DocVocabulary:
         self.docs_count += 1
         for term in terms:
             # update docs_count
-            if not(term in used):
+            if not(term.decode('utf-8') in used):
                 if term.decode('utf-8') in self.term_in_docs_count:
                     self.term_in_docs_count[term.decode('utf-8')] += 1
                 else:
                     self.term_in_docs_count[term.decode('utf-8')] = 1
-                used.append(term)
+                used.append(term.decode('utf-8'))
 
     def get_term_in_docs_count(self, term):
         return self.term_in_docs_count[term.decode('utf-8')]
