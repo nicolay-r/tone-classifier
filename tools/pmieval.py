@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 import os
 import sys
@@ -8,52 +9,66 @@ sys.path.insert(0, dirname(abspath(getsourcefile(lambda:0))) + '/../models/aux')
 
 from pymystem3 import Mystem
 from psycopg2 import connect
-from vocs import TermVocabulary
-from math import log10
+from vocs import TermVocabulary, DocVocabulary
+from math import log
 from msg import Message
 import operator
 import json
 import io
 
-def build_vocabulary(mystem, cursor, table_with_text):
+def build_vocabularies(mystem, cursor, table_with_text):
     print 'Processing datata for \'%s\' vocabulary'%(table_with_text)
     cursor.execute('SELECT text from %s'%( table_with_text));
-    vocabulary = TermVocabulary()
+
+    term_voc = TermVocabulary()
+    doc_voc = DocVocabulary()
+
     row = cursor.fetchone()
+    rows = 0
     while (row is not None):
         message = Message(row[0], mystem)
         message.process()
+
         terms, features = message.get_terms_and_features()
         for t in terms:
-            vocabulary.insert_term(t)
+            term_voc.insert_term(t)
+
+        doc_voc.add_doc(terms)
+
         row = cursor.fetchone()
+        rows = rows + 1
 
-    return vocabulary
+    print rows
+    return (term_voc, doc_voc)
 
-def merge_two_dicts(x, y):
-    '''Given two dicts, merge them into a new dict as a shallow copy.'''
-    z = x.copy()
-    z.update(y)
-    return z
+def merge_two_lists(x, y):
+    return list(set(x).union(y))
 
-def PMI(original_voc, opposite_voc):
-    corpus_size = len(merge_two_dicts(original_voc.term_in_voc_count,
-        opposite_voc.term_in_voc_count))
+def p(docs_with_term, total_docs):
+    return float(docs_with_term) / total_docs
+
+def PMI(term, dv1, dv2):
+    t1 = dv1.get_term_in_docs_count_safe(term) + 1
+    t2 = dv2.get_term_in_docs_count_safe(term) + 1
+    N1 = dv1.get_docs_count()
+    N2 = dv2.get_docs_count()
+
+    #if (term.decode('utf-8') == 'на'.decode('utf-8')):
+    #    print t1, ' ', t2
+
+    return log(p(t1, N1 + N2) * float(N1 + N2) /
+        (p(t1 + t2, N1 + N2) * p(N1, N1 + N2)), 2)
+
+def SO(tv1, dv1, tv2, dv2):
+    N = dv1.get_docs_count() + dv2.get_docs_count()
+
     result = {}
-    eps = 10 ** (-3)
-    for term in original_voc.get_terms():
-        fa = original_voc.get_term_in_voc_count(term)
 
-        if (term in opposite_voc.term_in_voc_count):
-            fb = opposite_voc.get_term_in_voc_count(term)
-        else:
-            fb = 0
-        pmi = log10((fa+fb)*corpus_size*1.0/(fa * fb + eps))
-
-        result[term] = pmi
+    all_terms = merge_two_lists(tv1.get_terms(), tv2.get_terms())
+    for term in all_terms:
+        result[term] = PMI(term, dv1, dv2) - PMI(term, dv2, dv1)
 
     result = sorted(result.items(), key=operator.itemgetter(1), reverse=True)
-
     return result
 
 if (len(sys.argv) < 4):
@@ -75,10 +90,10 @@ cursor = connection.cursor()
 
 mystem = Mystem(entire_input=False)
 
-v1 = build_vocabulary(mystem, cursor, original_table)
-v2 = build_vocabulary(mystem, cursor, opposite_table)
+tv1, dv1 = build_vocabularies(mystem, cursor, original_table)
+tv2, dv2 = build_vocabularies(mystem, cursor, opposite_table)
 
-scores = PMI(v1, v2)
+scores = SO(tv1, dv1, tv2, dv2)
 
 with io.open(out_filepath, 'w', encoding='utf-8') as out:
     for pair in scores:
