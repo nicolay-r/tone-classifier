@@ -62,22 +62,30 @@ def PMI(term, dv1, dv2):
 def SO(tv1, dv1, tv2, dv2):
     N = dv1.get_docs_count() + dv2.get_docs_count()
 
-    result = {}
+    r1 = {}
+    r2 = {}
 
     all_terms = merge_two_lists(tv1.get_terms(), tv2.get_terms())
     for term in all_terms:
-        result[term] = PMI(term, dv1, dv2) - PMI(term, dv2, dv1)
+        r1[term] = PMI(term, dv1, dv2) - PMI(term, dv2, dv1)
+        r2[term] = PMI(term, dv2, dv1) - PMI(term, dv1, dv2)
 
-    result = sorted(result.items(), key=operator.itemgetter(1), reverse=True)
-    return result
+    r1 = sorted(r1.items(), key=operator.itemgetter(1), reverse=True)
+    r2 = sorted(r2.items(), key=operator.itemgetter(1), reverse=True)
 
-if (len(sys.argv) < 4):
-    print 'usage ./pmieval.py <original_table> <opposite_table> <out>'
+    return (r1, r2)
+
+def save(filepath, r):
+    with io.open(filepath, 'w', encoding='utf-8') as out:
+        for pair in r:
+            out.write(("\'%s\' = %f\n"%(pair[0], pair[1])).decode('utf-8'))
+
+if (len(sys.argv) < 3):
+    print 'usage ./pmieval.py <original_table> <opposite_table>'
     exit(0)
 
 original_table = sys.argv[1]
 opposite_table = sys.argv[2]
-out_filepath = sys.argv[3]
 
 with open(".conn", "r") as connection:
     conn = json.load(connection, encoding='utf8')
@@ -93,9 +101,7 @@ mystem = Mystem(entire_input=False)
 tv1, dv1 = build_vocabularies(mystem, cursor, original_table)
 tv2, dv2 = build_vocabularies(mystem, cursor, opposite_table)
 
-scores = SO(tv1, dv1, tv2, dv2)
-
-with io.open(out_filepath, 'w', encoding='utf-8') as out:
-    for pair in scores:
-        out.write(("\'%s\' = %f\n"%(pair[0], pair[1])).decode('utf-8'))
-
+r1, r2 = SO(tv1, dv1, tv2, dv2)
+# save results
+save(original_table + '.txt', r1)
+save(opposite_table + '.txt', r2)
