@@ -13,6 +13,7 @@ from msg import Message
 import pconf
 import twits
 import prob
+import json
 
 argc = len(sys.argv)
 if (argc == 1):
@@ -25,37 +26,43 @@ if (argc == 1):
         "<output> -- file to save tonality vectors")
     exit(0)
 
-config = {
-    'task_type' : sys.argv[1],
-    'database' : sys.argv[2],
-    'train_table' : sys.argv[3],
-    'vocabulary' : sys.argv[4],
+arguments = {'task_type' : sys.argv[1], 'database' : sys.argv[2],
+    'train_table' : sys.argv[3], 'vocabulary' : sys.argv[4],
     'output' : sys.argv[5]
 }
 
+# Initialize config files
+with open("conn.conf", "r") as f:
+    conn_config = json.load(f, encoding='utf-8')
+with open("msg.conf", "r") as f:
+    msg_config = json.load(f, encoding='utf8')
+
 # Connect to a database
-connSettings = """dbname=%s user=%s password=%s host=%s"""%(
-    config['database'], "postgres", "postgres", "localhost")
+connSettings = "dbname=%s user=%s password=%s host=%s"%( arguments['database'],
+    conn_config["user"], conn_config["password"], conn_config["host"])
+
 conn = connect(connSettings)
 cursor = conn.cursor()
 
 # make a term vocabulary
 mystem = Mystem(entire_input=False)
-term_voc = TermVocabulary(config['vocabulary'])
+term_voc = TermVocabulary(arguments['vocabulary'])
 doc_voc = DocVocabulary()
 problem = []
 limit = sys.maxint # no limits
 vectors = []
 for score in [-1, 0, 1]:
     # getting twits with the same score
-    twits.get(config['task_type'], cursor, config['train_table'], score, limit)
+    twits.get(arguments['task_type'], cursor,
+        arguments['train_table'], score, limit)
     # processing twits
     row = twits.next_row(cursor, score, 'train')
     count = 0
     while row is not None:
         text = row[0]
         index = row[1]
-        message = Message(text, mystem)
+
+        message = Message(text=text, mystem=mystem, settings=msg_config)
         message.process()
         terms, features = message.get_terms_and_features()
         # feature: name: value
@@ -64,6 +71,7 @@ for score in [-1, 0, 1]:
         # next row
         row = twits.next_row(cursor, score, 'train')
         count += 1
+
     print "class %d: %d"%(score, count)
 
 # make problem
@@ -72,4 +80,4 @@ for vector in vectors:
         term_voc, doc_voc, vector['terms'], vector['features']))
 
 #save problem
-prob.save(problem, config['output'])
+prob.save(problem, arguments['output'])

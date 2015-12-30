@@ -1,21 +1,7 @@
-#!/usr/bin/python
+#/usr/bin/python
 # -*- coding: utf-8 -*-
 
 from pymystem3 import Mystem
-urls_used = False
-ht_used = True
-users_used = False
-retweet_used = False
-
-use_stop_words = False
-use_bigram_processor = False
-
-print "use urls:\t", urls_used
-print "use hashtags:\t", ht_used
-print "use @users:\t", users_used
-print "use 'rt':\t", retweet_used
-print "use absolute stop words:\t", use_stop_words
-print "use bigram tone processor: \t", use_bigram_processor
 
 class Message:
 
@@ -24,48 +10,50 @@ class Message:
         for t in terms:
             print "<%s>"%(t),
         print
-    @staticmethod
-    def transform(terms):
+
+    def transform(self, terms):
         # process as bigrams
-        if (use_bigram_processor):
+        if (self.use_bigram_processor):
             to_remove = []
             i = 0
             while i < len(terms)-1:
-                bigram = terms[i] + ' ' + terms[i+1]
-                if (bigram in tone_prefix) and (i < len(terms)-2):
-                    terms[i+2] = tone_prefix[bigram] + terms[i+2]
+                bigram = terms[i] + ' ' + terms[i + 1]
+                if (bigram in tone_prefix) and (i < len(terms) - 2):
+                    terms[i + 2] = tone_prefix[bigram] + terms[i + 2]
                     to_remove.append(i)
-                    to_remove.append(i+1)
+                    to_remove.append(i + 1)
                     i += 3
                 else:
                     unigram = terms[i]
                     if (unigram in tone_prefix):
-                        terms[i+1] = tone_prefix[unigram] + terms[i+1]
+                        terms[i + 1] = tone_prefix[unigram] + terms[i + 1]
                         to_remove.append(i)
                         i += 2
                     else:
                         i += 1
             terms = [terms[i] for i in range(len(terms)) if not(i in to_remove)]
+
         # filter stop words
-        if (use_stop_words):
+        if (self.use_stop_words):
             terms = [t for t in terms if not(t in abs_stop_words)]
+
         return terms
 
     def get_terms_and_features(self):
         terms = [w.strip() for w in self.mystem.lemmatize(' '.join(self.words))
             if not(w in ['\n', ' ', '\t', '\r'])]
         #Message.show_terms(terms)
-        terms = Message.transform(terms)
+        terms = Message.transform(self, terms)
         #Message.show_terms(terms)
         features = {}
 
-        if (urls_used):
+        if (self.urls_used):
             terms += self.urls
-        if (ht_used):
+        if (self.ht_used):
             terms += self.hash_tags
-        if (users_used):
+        if (self.users_used):
             terms += self.users
-        if (retweet_used):
+        if (self.retweet_used):
             if (self.has_retweet):
                 features['RT'] = 1
 
@@ -104,9 +92,25 @@ class Message:
         self.hash_tags = hash_tags
         self.has_retweet = has_retweet
 
-    def __init__(self, text, mystem):
+    def show(self):
+        print "use urls:\t", self.urls_used
+        print "use hashtags:\t", self.ht_used
+        print "use @users:\t", self.users_used
+        print "use 'rt':\t", self.retweet_used
+        print "use absolute stop words:\t", self.use_stop_words
+        print "use bigram tone processor: \t", self.use_bigram_processor
+
+    def __init__(self, text, mystem, settings):
         self.mystem = mystem
         self.words = [w.strip() for w in filter(None, text.split(' '))]
+
+        # init settings variables
+        self.urls_used = settings['urls_used']
+        self.ht_used = settings['ht_used']
+        self.users_used = settings['users_used']
+        self.retweet_used = settings['retweet_used']
+        self.use_stop_words = settings['use_stop_words']
+        self.use_bigram_processor = settings['use_bigram_processor']
 
 tone_prefix = {"имитировать": "-", "даже если": "-", "снижение": "-",
 "уменьшение": "-", "много": "+", "весьма": "+", "просто": "+", "сильно": "+",

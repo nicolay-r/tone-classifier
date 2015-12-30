@@ -14,6 +14,7 @@ import pconf
 import twits
 import prob
 import test
+import json
 
 argc = len(sys.argv)
 if (argc == 1):
@@ -38,9 +39,15 @@ config = {
 
 etalon_table = config['test_table']
 
+# Initialize config files
+with open("conn.conf", "r") as f:
+    conn_config = json.load(f, encoding='utf-8')
+with open("msg.conf", "r") as f:
+    msg_config = json.load(f, encoding='utf8')
+
 # Connect to a database
-connSettings = """dbname=%s user=%s password=%s host=%s"""%(
-    config['database'], "postgres", "postgres", "localhost")
+connSettings = "dbname=%s user=%s password=%s host=%s"%(config['database'],
+    conn_config["user"], conn_config["password"], conn_config["host"])
 conn = connect(connSettings)
 cursor = conn.cursor()
 
@@ -67,7 +74,7 @@ for score in [-1, 0, 1]:
     while row is not None:
         text = row[0]
         index = row[1]
-        message = Message(text, mystem)
+        message = Message(text=text, mystem=mystem, settings=msg_config)
         message.process()
         terms, features = message.get_terms_and_features()
         test.add_row(conn, new_etalon_table, columns, row[2:])

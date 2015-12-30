@@ -59,6 +59,21 @@ tf_idf_dict_ttk_imbalanced: MODEL_NAME = tf_idf_dict
 tf_idf_dict_ttk_imbalanced: TRAIN_TABLE = ttk_train_noname
 tf_idf_dict_ttk_imbalanced: core
 
+tf_idf_ttk_balanced: TASK_TYPE = ttk
+tf_idf_ttk_balanced: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+tf_idf_ttk_balanced: ETALON_TABLE = ttk_test_etalon_noname
+tf_idf_ttk_balanced: MODEL_NAME = tf_idf
+tf_idf_ttk_balanced: TRAIN_TABLE = ttk_train_balanced
+tf_idf_ttk_balanced: core
+
+tf_idf_dict_ttk_balanced: TASK_TYPE = ttk
+tf_idf_dict_ttk_balanced: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+tf_idf_dict_ttk_balanced: ETALON_TABLE = ttk_test_etalon_noname
+tf_idf_dict_ttk_balanced: MODEL_NAME = tf_idf_dict
+tf_idf_dict_ttk_balanced: TRAIN_TABLE = ttk_train_balanced
+tf_idf_dict_ttk_balanced: core
+
+
 core:
 	echo $(MODEL_OPTIONS)
 	mkdir -p $(MODEL_OUTDIR)

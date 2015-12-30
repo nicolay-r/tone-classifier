@@ -2,24 +2,27 @@
 # -*- coding: utf-8 -*-
 
 import sys
+import json
 from psycopg2 import connect
 from vocs import TermVocabulary, DocVocabulary
 from msg import Message
 from pymystem3 import Mystem
 
-if len(sys.argv) == 0:
+if len(sys.argv) < 4:
     print "usage: indexer.py <database> <out> <tablelist>"
     exit(0)
 
-config = {
-    'database' : sys.argv[1],
-    'out' : sys.argv[2],
-    'tables' : sys.argv[3:]
-}
+config = {'database' : sys.argv[1], 'out':sys.argv[2], 'tables':sys.argv[3:]}
+
+# Init configuration files
+with open("conn.conf", "r") as f:
+    conn_config = json.load(f, encoding='utf-8')
+with open("msg.conf", "r") as f:
+    msg_config = json.load(f, encoding='utf8')
 
 # Connect to a database
-settings = """dbname=%s user=%s password=%s host=%s"""%(
-    config['database'], "postgres", "postgres", "localhost")
+settings = """dbname=%s user=%s password=%s host=%s"""%(config['database'],
+    conn_config["user"], conn_config["password"], conn_config["host"])
 connection = connect(settings)
 cursor = connection.cursor()
 
@@ -31,7 +34,7 @@ for table in config['tables']:
     row = cursor.fetchone()
     count = 0
     while (row is not None):
-        message = Message(row[0], mystem)
+        message = Message(text=row[0], mystem=mystem, settings=msg_config)
         message.process()
         terms, features = message.get_terms_and_features()
         for t in terms + features.keys():
