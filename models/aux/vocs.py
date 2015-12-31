@@ -7,14 +7,24 @@ import io
 
 # create WholeVocabulary
 class TermVocabulary:
+
+    @staticmethod
+    def to_unicode(s):
+        if isinstance(s, str):
+            return unicode(s, 'utf-8')
+        elif isinstance(s, unicode):
+            return s
+
     def get_terms(self):
         return self.term_index.keys()
 
     def get_term_index(self, term):
-        return self.term_index[term.decode('utf-8')]
+        unicode_term = TermVocabulary.to_unicode(term)
+        return self.term_index[unicode_term]
 
     def get_term_in_voc_count(self, term):
-        return self.term_in_voc_count[self.get_term_index('term')]
+        unicode_term = TermVocabulary.to_unicode(term)
+        return self.term_in_voc_count[self.get_term_index(unicode_term)]
 
     def top(self, n):
         r = sorted(self.term_in_voc_count.items(),
@@ -33,11 +43,12 @@ class TermVocabulary:
         return self.current_index
 
     def insert_term(self, term):
-        if not(term.decode('utf-8') in self.term_index):
-            self.term_index[term] = self.get_new_index()
-            self.term_in_voc_count[self.term_index[term]] = 1
+        unicode_term = TermVocabulary.to_unicode(term)
+        if not(unicode_term in self.term_index):
+            self.term_index[unicode_term] = self.get_new_index()
+            self.term_in_voc_count[self.get_term_index(unicode_term)] = 1
         else:
-            self.term_in_voc_count[self.term_index[term]] += 1
+            self.term_in_voc_count[self.get_term_index(unicode_term)] += 1
 
     def __init__(self, filepath = ""):
         if (filepath == ""):
@@ -64,6 +75,14 @@ class TermVocabulary:
             out.write(unicode(data))
 
 class DocVocabulary:
+
+    @staticmethod
+    def to_unicode(s):
+        if isinstance(s, str):
+            return unicode(s, 'utf-8')
+        elif isinstance(s, unicode):
+            return s
+
     def get_docs_count(self):
         return self.docs_count
 
@@ -74,20 +93,23 @@ class DocVocabulary:
         used = []
         self.docs_count += 1
         for term in terms:
+            unicode_term = DocVocabulary.to_unicode(term)
             # update docs_count
-            if not(term.decode('utf-8') in used):
-                if term.decode('utf-8') in self.term_in_docs_count:
-                    self.term_in_docs_count[term.decode('utf-8')] += 1
+            if not(unicode_term in used):
+                if unicode_term in self.term_in_docs_count:
+                    self.term_in_docs_count[unicode_term] += 1
                 else:
-                    self.term_in_docs_count[term.decode('utf-8')] = 1
-                used.append(term.decode('utf-8'))
+                    self.term_in_docs_count[unicode_term] = 1
+                used.append(unicode_term)
 
     def get_term_in_docs_count(self, term):
-        return self.term_in_docs_count[term.decode('utf-8')]
+        unicode_term = DocVocabulary.to_unicode(term)
+        return self.term_in_docs_count[unicode_term]
 
     def get_term_in_docs_count_safe(self, term):
-        if (term.decode('utf-8') in self.term_in_docs_count):
-            return self.get_term_in_docs_count(term)
+        unicode_term = DocVocabulary.to_unicode(term)
+        if (unicode_term in self.term_in_docs_count):
+            return self.get_term_in_docs_count(unicode_term)
         else:
             return 0
 

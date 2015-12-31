@@ -17,8 +17,6 @@ config = {'database' : sys.argv[1], 'out':sys.argv[2], 'tables':sys.argv[3:]}
 # Init configuration files
 with open("conn.conf", "r") as f:
     conn_config = json.load(f, encoding='utf-8')
-with open("msg.conf", "r") as f:
-    msg_config = json.load(f, encoding='utf8')
 
 # Connect to a database
 settings = """dbname=%s user=%s password=%s host=%s"""%(config['database'],
@@ -34,7 +32,7 @@ for table in config['tables']:
     row = cursor.fetchone()
     count = 0
     while (row is not None):
-        message = Message(text=row[0], mystem=mystem, settings=msg_config)
+        message = Message(text=row[0], mystem=mystem, configpath="msg.conf")
         message.process()
         terms, features = message.get_terms_and_features()
         for t in terms + features.keys():

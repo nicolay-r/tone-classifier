@@ -34,8 +34,6 @@ arguments = {'task_type' : sys.argv[1], 'database' : sys.argv[2],
 # Initialize config files
 with open("conn.conf", "r") as f:
     conn_config = json.load(f, encoding='utf-8')
-with open("msg.conf", "r") as f:
-    msg_config = json.load(f, encoding='utf8')
 
 # Connect to a database
 connSettings = "dbname=%s user=%s password=%s host=%s"%( arguments['database'],
@@ -62,7 +60,7 @@ for score in [-1, 0, 1]:
         text = row[0]
         index = row[1]
 
-        message = Message(text=text, mystem=mystem, settings=msg_config)
+        message = Message(text=text, mystem=mystem, configpath="msg.conf")
         message.process()
         terms, features = message.get_terms_and_features()
         # feature: name: value
