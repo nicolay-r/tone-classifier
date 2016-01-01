@@ -45,14 +45,12 @@ class Message:
 
         return unicode_terms
 
-    def get_terms_and_features(self):
+    def get_terms(self):
         unicode_terms = [unicode(w.strip(), 'utf-8') for w in
             self.mystem.lemmatize(' '.join(self.words)) if
             not(w in ['\n', ' ', '\t', '\r'])]
 
         unicode_terms = self.transform(unicode_terms)
-
-        features = {}
 
         if (self.urls_used):
             unicode_terms += self.urls
@@ -60,11 +58,8 @@ class Message:
             unicode_terms += self.hash_tags
         if (self.users_used):
             unicode_terms += self.users
-        if (self.retweet_used):
-            if (self.has_retweet):
-                features['RT'] = 1
 
-        return (unicode_terms, features)
+        return unicode_terms
 
     def process(self):
         words = self.words

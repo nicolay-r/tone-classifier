@@ -64,9 +64,9 @@ for score in [-1, 0, 1]:
         index = row[1]
         message = Message(text=text, mystem=mystem, configpath="msg.conf")
         message.process()
-        terms, features = message.get_terms_and_features()
+        terms = message.get_terms()
         doc_voc.add_doc(terms)
-        vectors.append({'score': score, 'terms' : terms, 'features' : features})
+        vectors.append({'score': score, 'terms' : terms, 'features' : {} })
         # next row
         row = twits.next_row(cursor, score, 'train')
         count += 1

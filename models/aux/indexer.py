@@ -34,7 +34,8 @@ for table in config['tables']:
     while (row is not None):
         message = Message(text=row[0], mystem=mystem, configpath="msg.conf")
         message.process()
-        terms, features = message.get_terms_and_features()
+        terms = message.get_terms()
+        features = {}
         for t in terms + features.keys():
             term_voc.insert_term(t)
         row = cursor.fetchone()
