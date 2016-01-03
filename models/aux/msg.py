@@ -104,7 +104,8 @@ class Message:
 
     def __init__(self, text, mystem, configpath):
         self.mystem = mystem
-        self.words = [w.strip() for w in filter(None, text.split(' '))]
+        self.words = [w.strip() for w in filter(None, text.split(' ')) if
+            len(w.strip()) > 0]
 
         # read config file
         with io.open(configpath, "r") as f:
