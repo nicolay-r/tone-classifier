@@ -16,7 +16,7 @@ import operator
 import json
 import io
 
-def build_vocabularies(mystem, cursor, table_with_text):
+def build_vocabularies(mystem, cursor, table_with_text, msg_config_path):
     print 'Processing datata for \'%s\' vocabulary'%(table_with_text)
     cursor.execute('SELECT text from %s'%( table_with_text));
 
@@ -26,10 +26,10 @@ def build_vocabularies(mystem, cursor, table_with_text):
     row = cursor.fetchone()
     rows = 0
     while (row is not None):
-        message = Message(row[0], mystem)
+        message = Message(text=row[0], mystem=mystem, configpath=msg_config_path)
         message.process()
 
-        terms, features = message.get_terms_and_features()
+        terms = message.get_terms()
         for t in terms:
             term_voc.insert_term(t)
 
@@ -37,7 +37,6 @@ def build_vocabularies(mystem, cursor, table_with_text):
 
         row = cursor.fetchone()
         rows = rows + 1
-
     print rows
     return (term_voc, doc_voc)
 
@@ -59,33 +58,53 @@ def PMI(term, dv1, dv2):
     return log(p(t1, N1 + N2) * float(N1 + N2) /
         (p(t1 + t2, N1 + N2) * p(N1, N1 + N2)), 2)
 
+def to_unicode(term):
+    if isinstance(term, str):
+        return unicode(term, 'utf-8')
+    elif isinstance(term, unicode):
+        return term
+
+
+
 def SO(tv1, dv1, tv2, dv2):
     N = dv1.get_docs_count() + dv2.get_docs_count()
 
     r1 = {}
-    r2 = {}
 
     all_terms = merge_two_lists(tv1.get_terms(), tv2.get_terms())
     for term in all_terms:
-        r1[term] = PMI(term, dv1, dv2) - PMI(term, dv2, dv1)
-        r2[term] = PMI(term, dv2, dv1) - PMI(term, dv1, dv2)
+        r1[to_unicode(term)] = PMI(term, dv1, dv2) - PMI(term, dv2, dv1)
 
     r1 = sorted(r1.items(), key=operator.itemgetter(1), reverse=True)
-    r2 = sorted(r2.items(), key=operator.itemgetter(1), reverse=True)
 
-    return (r1, r2)
+    return r1
 
-def save(filepath, r):
-    with io.open(filepath, 'w', encoding='utf-8') as out:
-        for pair in r:
-            out.write(("\'%s\' = %f\n"%(pair[0], pair[1])).decode('utf-8'))
+def save(connection, out_table, r):
+    cursor = connection.cursor()
+    max_term_length = 50
+    cursor.execute("""CREATE TABLE IF NOT EXISTS {table}(
+                            term VARCHAR({max_length}),
+                            tone REAL)""".format(table = out_table, max_length =
+        max_term_length));
+    cursor.execute("DELETE FROM {table}".format(table = out_table));
+    connection.commit()
+
+    for pair in r:
+        if (len(pair[0]) < max_term_length):
+            cursor.execute("""INSERT INTO {table} ({term}, {value})
+                VALUES (\'{t}\', {v})""".format(term="term", value='tone',
+                table=out_table, t=pair[0].encode('utf-8'), v=pair[1]));
+
+        connection.commit()
 
 if (len(sys.argv) < 3):
-    print 'usage ./pmieval.py <original_table> <opposite_table>'
+    print 'usage ./pmieval.py <original_table> <opposite_table> <result_table>'
     exit(0)
 
 original_table = sys.argv[1]
 opposite_table = sys.argv[2]
+result_table = sys.argv[3]
+msg_config_path = "msg.conf"
 
 with open(".conn", "r") as connection:
     conn = json.load(connection, encoding='utf8')
@@ -98,10 +117,10 @@ cursor = connection.cursor()
 
 mystem = Mystem(entire_input=False)
 
-tv1, dv1 = build_vocabularies(mystem, cursor, original_table)
-tv2, dv2 = build_vocabularies(mystem, cursor, opposite_table)
+tv1, dv1 = build_vocabularies(mystem, cursor, original_table, msg_config_path)
+tv2, dv2 = build_vocabularies(mystem, cursor, opposite_table, msg_config_path)
 
-r1, r2 = SO(tv1, dv1, tv2, dv2)
+r1 = SO(tv1, dv1, tv2, dv2)
+
 # save results
-save(original_table + '.txt', r1)
-save(opposite_table + '.txt', r2)
+save(connection, result_table, r1)
