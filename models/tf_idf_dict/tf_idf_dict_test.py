@@ -11,6 +11,7 @@ curr_dir = dirname(abspath(getsourcefile(lambda:0)))
 sys.path.insert(0, curr_dir + '/../aux')
 from vocs import TermVocabulary, DocVocabulary
 from msg import Message
+from features import Features
 import pconf
 import twits
 import prob
@@ -43,6 +44,8 @@ etalon_table = config['test_table']
 # Initialize config files
 with open("conn.conf", "r") as f:
     conn_config = json.load(f, encoding='utf-8')
+
+features = Features("features.conf")
 
 # Connect to a database
 connSettings = """dbname=%s user=%s password=%s host=%s"""%(config['database'],
@@ -78,7 +81,8 @@ for score in [-1, 0, 1]:
         terms = message.get_terms()
         test.add_row(conn, new_etalon_table, columns, row[2:])
         doc_voc.add_doc(terms)
-        vectors.append({'id': index, 'terms' : terms, 'features' : {} })
+        vectors.append({'id': index, 'terms' : terms,
+            'features' : features.create(terms) })
         # next row
         row = twits.next_row(cursor, score, 'test')
         count += 1

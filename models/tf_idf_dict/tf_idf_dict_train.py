@@ -12,6 +12,7 @@ curr_dir = dirname(abspath(getsourcefile(lambda:0)))
 sys.path.insert(0, curr_dir + '/../aux')
 from vocs import TermVocabulary, DocVocabulary
 from msg import Message
+from features import Features
 import pconf
 import twits
 import prob
@@ -40,6 +41,8 @@ config = {
 with open("conn.conf", "r") as f:
     conn_config = json.load(f, encoding='utf-8')
 
+features = Features("features.conf")
+
 # Connect to a database
 connSettings = "dbname=%s user=%s password=%s host=%s"%(config['database'],
     conn_config["user"], conn_config["password"], conn_config["host"])
@@ -66,7 +69,8 @@ for score in [-1, 0, 1]:
         message.process()
         terms = message.get_terms()
         doc_voc.add_doc(terms)
-        vectors.append({'score': score, 'terms' : terms, 'features' : {} })
+        vectors.append({'score': score, 'terms' : terms,
+            'features' : features.create(terms)})
         # next row
         row = twits.next_row(cursor, score, 'train')
         count += 1

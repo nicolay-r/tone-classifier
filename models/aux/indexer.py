@@ -12,11 +12,13 @@ if len(sys.argv) < 4:
     print "usage: indexer.py <database> <out> <tablelist>"
     exit(0)
 
-config = {'database' : sys.argv[1], 'out':sys.argv[2], 'tables':sys.argv[3:]}
+config = {'database':sys.argv[1], 'out':sys.argv[2], 'tables':sys.argv[3:]}
 
 # Init configuration files
 with open("conn.conf", "r") as f:
     conn_config = json.load(f, encoding='utf-8')
+with open("indexer.conf", "r") as f:
+    indexer_config = json.load(f, encoding='utf-8')
 
 # Connect to a database
 settings = """dbname=%s user=%s password=%s host=%s"""%(config['database'],
@@ -24,6 +26,7 @@ settings = """dbname=%s user=%s password=%s host=%s"""%(config['database'],
 connection = connect(settings)
 cursor = connection.cursor()
 
+# Add all possible words terms
 term_voc = TermVocabulary()
 mystem = Mystem(entire_input=False)
 for table in config['tables']:
@@ -35,11 +38,17 @@ for table in config['tables']:
         message = Message(text=row[0], mystem=mystem, configpath="msg.conf")
         message.process()
         terms = message.get_terms()
-        features = {}
-        for t in terms + features.keys():
+        for t in terms:
             term_voc.insert_term(t)
         row = cursor.fetchone()
         count += 1
     print "messages count: ", count
+
+# Add all possible features
+print "features: %s"%(indexer_config['feature_names'])
+for feature_name in indexer_config['feature_names']:
+    term_voc.insert_term(feature_name)
+
+# Show and save result
 term_voc.top(50)
 term_voc.save(config['out'])

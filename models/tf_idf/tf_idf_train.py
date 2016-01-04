@@ -9,6 +9,7 @@ import vec
 
 sys.path.insert(0, dirname(abspath(getsourcefile(lambda:0))) + '/../aux')
 from vocs import TermVocabulary, DocVocabulary
+from features import Features
 from msg import Message
 import pconf
 import twits
@@ -34,6 +35,8 @@ arguments = {'task_type' : sys.argv[1], 'database' : sys.argv[2],
 # Initialize config files
 with open("conn.conf", "r") as f:
     conn_config = json.load(f, encoding='utf-8')
+
+features = Features("features.conf")
 
 # Connect to a database
 connSettings = "dbname=%s user=%s password=%s host=%s"%( arguments['database'],
@@ -65,7 +68,8 @@ for score in [-1, 0, 1]:
         terms = message.get_terms()
         # feature: name: value
         doc_voc.add_doc(terms)
-        vectors.append({'score': score, 'terms' : terms, 'features': {}})
+        vectors.append( { 'score': score, 'terms' : terms,
+            'features': features.create(terms) } )
         # next row
         row = twits.next_row(cursor, score, 'train')
         count += 1

@@ -10,6 +10,7 @@ import vec
 sys.path.insert(0, dirname(abspath(getsourcefile(lambda:0))) + '/../aux')
 from vocs import TermVocabulary, DocVocabulary
 from msg import Message
+from features import Features
 import pconf
 import twits
 import prob
@@ -44,6 +45,8 @@ with open("conn.conf", "r") as f:
     conn_config = json.load(f, encoding='utf-8')
 with open("msg.conf", "r") as f:
     msg_config = json.load(f, encoding='utf8')
+
+features = Features("features.conf")
 
 # Connect to a database
 connSettings = "dbname=%s user=%s password=%s host=%s"%(config['database'],
@@ -81,7 +84,8 @@ for score in [-1, 0, 1]:
         test.add_row(conn, new_etalon_table, columns, row[2:])
         # feature: name: value
         doc_voc.add_doc(terms)
-        vectors.append({'id': index, 'terms' : terms, 'features' : {} })
+        vectors.append( {'id': index, 'terms' : terms,
+            'features' : features.create(terms)} )
         # next row
         row = twits.next_row(cursor, score, 'test')
         count += 1
