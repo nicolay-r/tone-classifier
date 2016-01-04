@@ -5,6 +5,8 @@ from pymystem3 import Mystem
 import json
 import io
 
+garbage_chars = ['-', ',', '.', '+']
+
 class Message:
 
     @staticmethod
@@ -14,6 +16,13 @@ class Message:
         print
 
     def transform(self, unicode_terms):
+
+        # remove prefix symbols
+        for i in range(len(unicode_terms)):
+            unicode_term = unicode_terms[i]
+            while (len(unicode_term) > 0 and (unicode_term[0] in garbage_chars)):
+                unicode_term = unicode_term[1:]
+            unicode_terms[i] = unicode_term
 
         # process as bigrams
         if (self.use_bigram_processor):
