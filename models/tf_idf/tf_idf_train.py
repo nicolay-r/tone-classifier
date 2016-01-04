@@ -53,12 +53,14 @@ problem = []
 limit = sys.maxint # no limits
 vectors = []
 for score in [-1, 0, 1]:
+    print "class\t%d:"%(score)
     # getting twits with the same score
     twits.get(arguments['task_type'], cursor,
         arguments['train_table'], score, limit)
     # processing twits
     row = twits.next_row(cursor, score, 'train')
-    count = 0
+    processed_rows = 0
+    total_rows = cursor.rowcount
     while row is not None:
         text = row[0]
         index = row[1]
@@ -72,9 +74,11 @@ for score in [-1, 0, 1]:
             'features': features.create(terms) } )
         # next row
         row = twits.next_row(cursor, score, 'train')
-        count += 1
+        processed_rows += 1
 
-    print "class %d: %d"%(score, count)
+        print "\rProgress: %.2f%% [%d/%d]"%(float(processed_rows)*100/total_rows,
+            processed_rows, total_rows),
+    print ""
 
 # make problem
 for vector in vectors:
