@@ -35,7 +35,7 @@ class Lexicon:
         if (unicode_term[0] == '-'):
             unicode_term = unicode_term[1:]
             invert_tone = True
-        else if (unicode_term[0] == '+'):
+        elif (unicode_term[0] == '+'):
             unicode_term = unicode_term[1:]
 
         if (unicode_term in self.cache):
