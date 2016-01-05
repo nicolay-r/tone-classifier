@@ -27,6 +27,10 @@ class Features:
 
         return features
 
+    @staticmethod
+    def str2bool(value):
+        return value.lower() in ('true')
+
     def __init__(self, configpath):
 
         # read config file
@@ -35,7 +39,11 @@ class Features:
 
         self.lexicons = []
         for lexicon_settings in self.settings['lexicons']:
-            self.lexicons.append(Lexicon(lexicon_settings['lexicon_configpath'],
-                lexicon_settings['table'], lexicon_settings['name'],
-                lexicon_settings['term_column_name'],
-                lexicon_settings['value_column_name']));
+            if (Features.str2bool(lexicon_settings['enabled']) == True):
+                self.lexicons.append(Lexicon(
+                    lexicon_settings['lexicon_configpath'],
+                    lexicon_settings['table'], lexicon_settings['name'],
+                    lexicon_settings['term_column_name'],
+                    lexicon_settings['value_column_name']));
+            print "use lexicon: ", lexicon_settings['name']
+
