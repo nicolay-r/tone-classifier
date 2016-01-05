@@ -2,13 +2,21 @@
 
 import json
 from lexicon import Lexicon
+from math import exp
 
 class Features:
 
     @staticmethod
+    def normalize_tone_sum(tone, k):
+        if (tone >= 0):
+            return 1.0 - exp(-abs(tone/k))
+        else:
+            return - (1.0 - exp(-abs(tone/k)))
+
+    @staticmethod
     def lexicon_feature(lex, terms):
         value = sum([lex.get_tone(term) for term in terms])
-        return lex.get_name(), value
+        return lex.get_name(), Features.normalize_tone_sum(value, 10)
 
     def create(self, terms):
         features = {}
