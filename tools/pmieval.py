@@ -16,15 +16,23 @@ import operator
 import json
 import io
 
+def show_progress(message, current, total):
+    print "\r%s: %.2f%% [%d/%d]"%(message, float(current)*100/total, current,
+        total),
+    # Going to the next line in case of Finish
+    if (current == total):
+        print ""
+
 def build_vocabularies(mystem, cursor, table_with_text, msg_config_path):
-    print 'Processing datata for \'%s\' vocabulary'%(table_with_text)
+    print 'Processing data for \'%s\' vocabulary'%(table_with_text)
     cursor.execute('SELECT text from %s'%( table_with_text));
 
     term_voc = TermVocabulary()
     doc_voc = DocVocabulary()
 
     row = cursor.fetchone()
-    rows = 0
+    total_rows = cursor.rowcount
+    processed_rows = 0
     while (row is not None):
         message = Message(text=row[0], mystem=mystem, configpath=msg_config_path)
         message.process()
@@ -34,10 +42,10 @@ def build_vocabularies(mystem, cursor, table_with_text, msg_config_path):
             term_voc.insert_term(t)
 
         doc_voc.add_doc(terms)
-
         row = cursor.fetchone()
-        rows = rows + 1
-    print rows
+        processed_rows += 1
+        show_progress("Building vocabulary", processed_rows, total_rows)
+
     return (term_voc, doc_voc)
 
 def merge_two_lists(x, y):
@@ -64,16 +72,17 @@ def to_unicode(term):
     elif isinstance(term, unicode):
         return term
 
-
-
 def SO(tv1, dv1, tv2, dv2):
     N = dv1.get_docs_count() + dv2.get_docs_count()
 
     r1 = {}
 
     all_terms = merge_two_lists(tv1.get_terms(), tv2.get_terms())
+    processed_terms = 0
     for term in all_terms:
         r1[to_unicode(term)] = PMI(term, dv1, dv2) - PMI(term, dv2, dv1)
+        processed_terms += 1
+        show_progress("Calculating SO", processed_terms, len(all_terms))
 
     r1 = sorted(r1.items(), key=operator.itemgetter(1), reverse=True)
 
