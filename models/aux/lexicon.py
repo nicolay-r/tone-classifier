@@ -31,6 +31,13 @@ class Lexicon:
         unicode_term = Lexicon.to_unicode(term)
         tone = 0
 
+        invert_tone = False
+        if (unicode_term[0] == '-'):
+            unicode_term = unicode_term[1:]
+            invert_tone = True
+        else if (unicode_term[0] == '+'):
+            unicode_term = unicode_term[1:]
+
         if (unicode_term in self.cache):
             tone = self.cache[unicode_term]
         else:
@@ -40,7 +47,7 @@ class Lexicon:
                 self.cache[unicode_term] = tone
 
         # invert term tonality in case of negative mark '-'
-        if (term[0] == '-'):
+        if (invert_tone):
             tone *= -1
 
         return tone

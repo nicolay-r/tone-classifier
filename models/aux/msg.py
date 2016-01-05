@@ -111,6 +111,10 @@ class Message:
         print "use absolute stop words:\t", self.use_stop_words
         print "use bigram tone processor: \t", self.use_bigram_processor
 
+    @staticmethod
+    def str2bool(value):
+        return value.lower() in ('true')
+
     def __init__(self, text, mystem, configpath):
         self.mystem = mystem
         self.words = [w.strip() for w in filter(None, text.split(' ')) if
@@ -121,11 +125,12 @@ class Message:
             settings = json.load(f, encoding='utf8')
 
         # init settings variables
-        self.urls_used = settings['urls_used']
-        self.ht_used = settings['ht_used']
-        self.users_used = settings['users_used']
-        self.retweet_used = settings['retweet_used']
-        self.use_stop_words = settings['use_stop_words']
-        self.use_bigram_processor = settings['use_bigram_processor']
+        self.urls_used = Message.str2bool(settings['urls_used'])
+        self.ht_used = Message.str2bool(settings['ht_used'])
+        self.users_used = Message.str2bool(settings['users_used'])
+        self.retweet_used = Message.str2bool(settings['retweet_used'])
+        self.use_stop_words = Message.str2bool(settings['use_stop_words'])
+        self.use_bigram_processor = Message.str2bool(
+            settings['use_bigram_processor'])
         self.tone_prefix = settings['tone_prefix']
         self.abs_stop_words = settings['abs_stop_words']
