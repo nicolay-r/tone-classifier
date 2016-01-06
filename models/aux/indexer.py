@@ -8,6 +8,13 @@ from vocs import TermVocabulary, DocVocabulary
 from msg import Message
 from pymystem3 import Mystem
 
+def show_progress(message, current, total):
+    print "\r%s: %.2f%% [%d/%d]"%(message, float(current)*100/total, current,
+        total),
+    # Going to the next line in case of Finish
+    if (current == total):
+        print ""
+
 if len(sys.argv) < 4:
     print "usage: indexer.py <database> <out> <tablelist>"
     exit(0)
@@ -30,10 +37,10 @@ cursor = connection.cursor()
 term_voc = TermVocabulary()
 mystem = Mystem(entire_input=False)
 for table in config['tables']:
-    print table
     cursor.execute("""SELECT text FROM %s;"""%(table))
     row = cursor.fetchone()
-    count = 0
+    current_row = 0
+    rowcount = cursor.rowcount
     while (row is not None):
         message = Message(text=row[0], mystem=mystem, configpath="msg.conf")
         message.process()
@@ -41,8 +48,9 @@ for table in config['tables']:
         for t in terms:
             term_voc.insert_term(t)
         row = cursor.fetchone()
-        count += 1
-    print "messages count: ", count
+        current_row += 1
+        show_progress("Extracting terms from messages of '%s' table"%(table),
+            current_row, rowcount)
 
 # Add all possible features
 print "features: %s"%(indexer_config['feature_names'])

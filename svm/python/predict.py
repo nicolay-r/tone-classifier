@@ -12,6 +12,13 @@ def setResult(cursor, table, columns, rowIndex, label):
         table, ','.join(map(lambda c: c + '=' + str(label), columns)),
         rowIndex))
 
+def show_progress(message, current, total):
+    print "\r%s: %.2f%% [%d/%d]"%(message, float(current)*100/total, current,
+        total),
+    # Going to the next line in case of Finish
+    if (current == total):
+        print ""
+
 argc = len(sys.argv)
 if (argc == 1):
     print "%s\n%s\n%s\n%s"%(
@@ -66,6 +73,8 @@ for msgIndex in range(0, len(ids)):
     # setting answers
     setResult(cursor, config['out_table'],
         config['columns'], rowId, label)
+    show_progress("Filling answers in \'%s\' table"%(config['out_table']),
+        msgIndex + 1, len(ids))
 
 cursor.close()
 # commiting data

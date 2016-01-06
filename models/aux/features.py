@@ -45,5 +45,5 @@ class Features:
                     lexicon_settings['table'], lexicon_settings['name'],
                     lexicon_settings['term_column_name'],
                     lexicon_settings['value_column_name']));
-            print "use lexicon: ", lexicon_settings['name']
+                print "use lexicon: ", lexicon_settings['name']
 
