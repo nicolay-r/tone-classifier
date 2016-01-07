@@ -3,26 +3,9 @@
 
 from sys import argv
 import io
+import json
 import psycopg2
 from pymystem3 import Mystem
-
-bank = { "positive" : ['сбербанк', 'банк', 'кредит', 'россия', 'онлайн',
-'xороший', 'пообещать', 'признавать', 'млрд', 'хорошо', 'весьма', 'просто',
-'сильно', 'спад', 'явный', 'избыток', 'гораздо', 'нереально', 'рекордно',
-'большой'], 'negative' : ['попадать', 'вводить', 'список', 'приостанавливать',
-'санкция', 'запрет', 'против', 'нельзя', 'снизиться', 'ликвидировать',
-'недостаточно', 'потерять', 'отмена', 'утрата', 'утрачивать', 'снизиться',
-'разрушать', 'разрушение', 'разрушить', 'нечего', 'дефицит', 'без',
-'отсутствие'] }
-
-ttk = { "positive" : ['сбербанк', 'банк', 'кредит', 'россия', 'онлайн',
-'xороший', 'пообещать', 'признавать', 'млрд', 'хорошо', 'весьма', 'просто',
-'сильно', 'спад', 'явный', 'избыток', 'гораздо', 'нереально', 'рекордно',
-'большой'], 'negative' : ['попадать', 'вводить', 'список', 'приостанавливать',
-'санкция', 'запрет', 'против', 'нельзя', 'снизиться', 'ликвидировать',
-'недостаточно', 'потерять', 'отмена', 'утрата', 'утрачивать', 'снизиться',
-'разрушать', 'разрушение', 'разрушить', 'нечего', 'дефицит', 'без',
-'отсутствие'] }
 
 def get_data(task_type):
     if (task_type == 'bank'):
@@ -43,17 +26,18 @@ def tone_filter(text, mystem, task_type, tone):
     result = False
 
     for l in lemmas:
-        if (l.encode('utf-8') in special_words):
+        if (l in special_words):
             result = True
             break
 
     if result:
-        for w in words:
-            print w,
-        print '\n'
-        for l in lemmas:
-            print l,
-        print '\n-'
+        #for w in words:
+        #    print w,
+        #print '\n'
+        #for l in lemmas:
+        #    print l,
+        #print '\n-'
+        pass
 
     return result
 
@@ -83,6 +67,13 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS %s (id bigint NOT NULL,
     text VARCHAR(512) NOT NULL)"""%(config['table']))
 conn.commit();
 
+# read config file
+with io.open("extract.conf", "r") as f:
+    settings = json.load(f, encoding='utf8')
+
+bank = settings['bank']
+ttk = settings['ttk']
+
 added = 0
 ignored = 0
 with io.open(config["filepath"], 'rt', newline='\r\n') as f:
@@ -101,10 +92,12 @@ with io.open(config["filepath"], 'rt', newline='\r\n') as f:
                 cursor.execute("INSERT INTO %s(id, text) VALUES ('%s', '%s')"%(
                     config['table'], tid, ttext.replace('\'', '\'\'')))
             except Exception, e:
-                print str(e)
+               #print str(e)
                 ignored += 1
             conn.commit()
+        print "\r added:%d, ignored:%d"%(added, ignored),
 
+print ""
 print "rows ignored: ", ignored
 print "rows added: ", added
 conn.close()
