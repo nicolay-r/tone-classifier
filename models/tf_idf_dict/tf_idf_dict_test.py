@@ -78,7 +78,8 @@ for score in [-1, 0, 1]:
     while row is not None:
         text = row[0]
         index = row[1]
-        message = Message(text=text, mystem=mystem, configpath="msg.conf")
+        message = Message(text=text, mystem=mystem, configpath="msg.conf",
+            task_type=config["task_type"])
         message.process()
         terms = message.get_terms()
         test.add_row(conn, new_etalon_table, columns, row[2:])

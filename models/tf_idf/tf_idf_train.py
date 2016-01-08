@@ -65,7 +65,8 @@ for score in [-1, 0, 1]:
         text = row[0]
         index = row[1]
 
-        message = Message(text=text, mystem=mystem, configpath="msg.conf")
+        message = Message(text=text, mystem=mystem, configpath="msg.conf",
+                task_type=arguments['task_type'])
         message.process()
         terms = message.get_terms()
         # feature: name: value

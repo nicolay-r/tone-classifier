@@ -50,7 +50,7 @@ class Message:
         # filter stop words
         if (self.use_stop_words):
             unicode_terms = [t for t in unicode_terms if
-                not(t in self.abs_stop_words)]
+                not(t in self.abs_stop_words) and not(t in self.stop_words)]
 
         return unicode_terms
 
@@ -115,7 +115,7 @@ class Message:
     def str2bool(value):
         return value.lower() in ('true')
 
-    def __init__(self, text, mystem, configpath):
+    def __init__(self, text, mystem, configpath, task_type = "none"):
         self.mystem = mystem
         self.words = [w.strip() for w in filter(None, text.split(' ')) if
             len(w.strip()) > 0]
@@ -134,3 +134,8 @@ class Message:
             settings['use_bigram_processor'])
         self.tone_prefix = settings['tone_prefix']
         self.abs_stop_words = settings['abs_stop_words']
+
+        if (task_type != 'none'):
+            self.stop_words = settings[task_type + '_stop_words']
+        else:
+            self.stop_words = []
