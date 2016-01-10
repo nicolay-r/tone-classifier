@@ -88,7 +88,7 @@ for score in [-1, 0, 1]:
         # feature: name: value
         doc_voc.add_doc(terms)
         vectors.append( {'id': index, 'terms' : terms,
-            'features' : features.create(terms)} )
+            'features' : features.create(terms, message=text)} )
         # next row
         row = twits.next_row(cursor, score, 'test')
         processed_rows += 1

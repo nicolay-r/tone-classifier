@@ -85,7 +85,7 @@ for score in [-1, 0, 1]:
         test.add_row(conn, new_etalon_table, columns, row[2:])
         doc_voc.add_doc(terms)
         vectors.append({'id': index, 'terms' : terms,
-            'features' : features.create(terms) })
+            'features' : features.create(terms, message=text) })
         # next row
         row = twits.next_row(cursor, score, 'test')
         processed_rows += 1
