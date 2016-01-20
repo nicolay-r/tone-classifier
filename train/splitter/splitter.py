@@ -13,6 +13,9 @@ def show_progress(message, current, total):
         print ""
 
 def msg2words(msg):
+    # ignore all message if it's short
+    if len(msg) < 40:
+        return []
     # ignore users and urls
     return [w for w in msg.split(' ')
         if len(w) > 0 and w[0] != '@' and not('http://' in w)]
@@ -53,8 +56,9 @@ def create_table(conn, table_name):
     conn.commit()
 
 def add_msg(twitid, text, table, cursor):
-    cursor.execute("INSERT INTO %s VALUES(\'%s\', \'%s\')"%(
-        table, twitid, text))
+    cursor.execute("""INSERT INTO %s(twitid, text) SELECT \'%s\', \'%s\'
+        WHERE NOT EXISTS(SELECT twitid FROM %s WHERE twitid=%s)"""%(
+        table, twitid, text, table, twitid))
 
 if len(argv) < 2:
     print """Usage: ./splitter.py <raw.csv>"""
