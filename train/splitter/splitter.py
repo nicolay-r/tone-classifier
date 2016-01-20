@@ -50,7 +50,6 @@ def create_table(conn, table_name):
     cursor.execute("""CREATE TABLE IF NOT EXISTS %s (
         twitid BIGINT PRIMARY KEY,
         text VARCHAR(256) DEFAULT NULL)"""%(table_name))
-    cursor.execute("DELETE FROM %s"%(table_name))
 
     cursor.close()
     conn.commit()
@@ -58,7 +57,7 @@ def create_table(conn, table_name):
 def add_msg(twitid, text, table, cursor):
     cursor.execute("""INSERT INTO %s(twitid, text) SELECT \'%s\', \'%s\'
         WHERE NOT EXISTS(SELECT twitid FROM %s WHERE twitid=%s)"""%(
-        table, twitid, text, table, twitid))
+        table, twitid, text.replace('\'', '\'\''), table, twitid))
 
 if len(argv) < 2:
     print """Usage: ./splitter.py <raw.csv>"""
