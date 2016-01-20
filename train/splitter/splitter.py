@@ -14,7 +14,7 @@ def show_progress(message, current, total):
 
 def msg2words(msg):
     # ignore all message if it's short
-    if len(msg) < 40:
+    if len(msg) < 60:
         return []
     # ignore users and urls
     return [w for w in msg.split(' ')
