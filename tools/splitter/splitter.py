@@ -13,11 +13,15 @@ def show_progress(message, current, total):
         print ""
 
 def msg2words(msg):
-    # ignore all message if it's short
     if len(msg) < 60:
+        # ignore all message if it's short
+        return []
+    words = msg.split(' ')
+    if (len(words) > 0 and words[0] == 'RT'):
+        # ignore retweets
         return []
     # ignore users and urls
-    return [w for w in msg.split(' ')
+    return [w for w in words
         if len(w) > 0 and w[0] != '@' and not('http://' in w)]
 
 def get_message_rank(msg, positive_keywords, negative_keywords):
@@ -59,6 +63,14 @@ def add_msg(twitid, text, table, cursor):
         WHERE NOT EXISTS(SELECT twitid FROM %s WHERE twitid=%s)"""%(
         table, twitid, text.replace('\'', '\'\''), table, twitid))
 
+def process_message(text):
+    text = text.replace('\'', '\'\'')
+    if (text[0] == '\"'):
+        text = text[1:]
+    if (text[len(text)-1] == '\"'):
+        text = text[:len(text)-1]
+    return text
+
 if len(argv) < 2:
     print """Usage: ./splitter.py <raw.csv>"""
     exit(0)
@@ -95,7 +107,7 @@ with io.open(raw_filename, 'rt', newline='\r\n') as f:
         if (len(args) == 10):
 
             twitid = args[0]
-            msg = args[3]
+            msg = process_message(args[3])
             rank = get_message_rank(msg, splitter_config['positive_keywords'],
                 splitter_config['negative_keywords'])
 
