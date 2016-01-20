@@ -25,17 +25,18 @@ def get_message_rank(msg, positive_keywords, negative_keywords):
     for keyword in positive_keywords:
         for word in words:
             if (keyword in word):
-                print keyword, ' IN ', msg
+                #print keyword, ' IN ', msg
                 positive += 1
 
     for keyword in negative_keywords:
         for word in words:
             if (keyword in word):
-                print keyword, ' IN ', msg
+                #print keyword, ' IN ', msg
                 negative += 1
-    if (negative == 0):
+
+    if (positive > 0 and negative == 0):
         return 1
-    elif (positive == 0):
+    elif (negative > 0 and positive == 0):
         return -1
     else:
         return 0
@@ -79,11 +80,17 @@ create_table(conn, negative_table_name)
 
 # Filter Messages
 cursor = conn.cursor()
+twits_processed = 0
+positive_twits = 0
+negative_twits = 0
+line_index = 0
 with io.open(raw_filename, 'rt', newline='\r\n') as f:
     lines = f.readlines()
     for line in lines:
+        line_index += 1
         args = line.split(';')
         if (len(args) == 10):
+
             twitid = args[0]
             msg = args[3]
             rank = get_message_rank(msg, splitter_config['positive_keywords'],
@@ -91,11 +98,15 @@ with io.open(raw_filename, 'rt', newline='\r\n') as f:
 
             if (rank == 1):
                 add_msg(twitid, msg, positive_table_name, cursor)
+                positive_twits += 1
             elif (rank == -1):
                 add_msg(twitid, msg, negative_table_name, cursor)
+                negative_twits += 1
 
-        show_progress("twits: %s\t, pos: %s\t, neg: %s\t"%(
+            twits_processed += 1
 
+        show_progress("all: %d| \'+\': %d| \'-\': %d"%(twits_processed,
+            positive_twits, negative_twits), line_index, len(lines))
         conn.commit()
 
 cursor.close()
