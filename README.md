@@ -43,10 +43,15 @@ cd tools/pmieval
 
 2. Setup lexicon based on downloaded stream twitter data:
 
-Use 'splitter' and configuration file splitter.conf
+Use 'splitter' and configuration file splitter.conf, and 'pmieval' tool which
+produces jan16_lexicon based on positive twits table (jan16_positive) and
+negative (jan16_negative)
 ```
 #!bash
 cd tools/splitter
+./splitter.py data
+cd ../pmieval
+./pmieval.py jan16_positive jan16_negative jan16_lexicon
 ```
 
 ## **References:** ##
