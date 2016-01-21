@@ -28,18 +28,26 @@ pip install six --upgrade
 
 ```
 #!bash
-cd train/balanced/2015
+cd tools/balancer/2015
 psql -U postgres -h localhost -W -d romipdata -f train_split.sql
 ```
-After that, to produce a lexicon, use 'pmieval.py' tool
+After that to produce a lexicon, use 'pmieval' tool
 
 ```
 #!bash
-cd tools
+cd tools/pmieval
 ./pmieval.py bank_train_positive bank_train_negative bank_train_lexicon
 ./pmieval.py ttk_train_positive ttk_train_negative ttk_train_lexicon
+
 ```
 
+2. Setup lexicon based on downloaded stream twitter data:
+
+Use 'splitter' and configuration file splitter.conf
+```
+#!bash
+cd tools/splitter
+```
 
 ## **References:** ##
 Contest training data, [gdrive folder](http://goo.gl/qHeAVo)
