@@ -88,6 +88,6 @@ core:
 	# Predicting
 	python/predict.py $(MODEL_TEST) $(MODEL_MODEL) $(MODEL_PCONF)
 	# Exporting Result into XML
-	../train/pg2x_data.py $(MODEL_PCONF) $(MODEL_OUT) $(MODEL_ETALON_OUT)
+	../data/pg2x_data.py $(MODEL_PCONF) $(MODEL_OUT) $(MODEL_ETALON_OUT)
 	# Estimating model
 	cd ../eval/ && nodejs calc.js $(TASK_TYPE) ../svm/$(MODEL_OUT) ../svm/$(MODEL_ETALON_OUT)
