@@ -12,8 +12,8 @@ def show_progress(message, current, total):
     if (current == total):
         print ""
 
-def msg2words(msg):
-    if len(msg) < 40:
+def msg2words(msg, splitter_config):
+    if len(msg) < splitter_config['message_min_len']:
         # ignore all message if it's short
         return []
     words = msg.split(' ')
@@ -24,10 +24,13 @@ def msg2words(msg):
     return [w for w in words
         if len(w) > 0 and w[0] != '@' and not('http://' in w)]
 
-def get_message_rank(msg, positive_keywords, negative_keywords):
+def get_message_rank(msg, splitter_config):
+    positive_keywords = splitter_config['positive_keywords']
+    negative_keywords = splitter_config['negative_keywords']
+
     positive = 0
     negative = 0
-    words = msg2words(msg)
+    words = msg2words(msg, splitter_config)
 
     for keyword in positive_keywords:
         for word in words:
@@ -108,8 +111,7 @@ with io.open(raw_filename, 'rt', newline='\r\n') as f:
 
             twitid = args[0]
             msg = process_message(args[3])
-            rank = get_message_rank(msg, splitter_config['positive_keywords'],
-                splitter_config['negative_keywords'])
+            rank = get_message_rank(msg, splitter_config)
 
             if (rank == 1):
                 add_msg(twitid, msg, positive_table_name, cursor)
