@@ -13,7 +13,7 @@ def show_progress(message, current, total):
         print ""
 
 def msg2words(msg):
-    if len(msg) < 80:
+    if len(msg) < 40:
         # ignore all message if it's short
         return []
     words = msg.split(' ')
