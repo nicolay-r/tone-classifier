@@ -33,6 +33,8 @@ class Features:
             total += unicode_message.count(smile)
             unicode_message.replace(smile, '')
 
+        if total > 0:
+            total = 1
         return total
 
     @staticmethod
@@ -69,10 +71,21 @@ class Features:
             unicode_message = Features.to_unicode(message)
 
             # smiles
-            for setting in self.smiles_settings:
-                if Features.str2bool(setting['enabled']):
-                    features[setting['name']] = Features.smiles_feature(
-                        unicode_message, setting['values'])
+            if Features.str2bool(self.smiles_settings['enabled']):
+                positive = Features.smiles_feature(unicode_message,
+                    self.smiles_settings['positive_values'])
+                negative = -Features.smiles_feature(unicode_message,
+                    self.smiles_settings['negative_values'])
+
+                score = 0
+                if (positive != 0 and negative != 0):
+                    score = 0
+                elif positive != 0:
+                    score = positive
+                elif negative != 0:
+                    score = negative
+
+                features[self.smiles_settings['name']] = score
 
             # signs
             if self.use_signs is True:
