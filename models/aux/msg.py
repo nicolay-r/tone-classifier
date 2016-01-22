@@ -5,8 +5,6 @@ from pymystem3 import Mystem
 import json
 import io
 
-garbage_chars = ['-', ',', '.', '+']
-
 class Message:
 
     @staticmethod
@@ -20,7 +18,8 @@ class Message:
         # remove prefix symbols
         for i in range(len(unicode_terms)):
             unicode_term = unicode_terms[i]
-            while (len(unicode_term) > 0 and (unicode_term[0] in garbage_chars)):
+            while (len(unicode_term) > 0 and (unicode_term[0] in
+                self.garbage_chars)):
                 unicode_term = unicode_term[1:]
             unicode_terms[i] = unicode_term
 
@@ -134,6 +133,7 @@ class Message:
             settings['use_bigram_processor'])
         self.tone_prefix = settings['tone_prefix']
         self.abs_stop_words = settings['abs_stop_words']
+        self.garbage_chars = settings['garbage_chars']
 
         if (task_type != 'none'):
             self.stop_words = settings[task_type + '_stop_words']
