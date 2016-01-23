@@ -22,9 +22,25 @@ class Features:
             return - (1.0 - exp(-abs(tone/k)))
 
     @staticmethod
-    def lexicon_feature(lex, terms):
-        value = sum([lex.get_tone(term) for term in terms])
+    def lexicon_feature(lex, terms, lexicon_settings):
+        mode = lexicon_settings['terms_used']
+        if (mode == 'all'):
+            value = sum([lex.get_tone(term) for term in terms])
+        elif (mode == 'hashtags_only'):
+            value = sum([lex.get_tone(term) for term in terms if len(term) > 0
+                and term[0] == '#'])
         return lex.get_name(), Features.normalize_tone_sum(value, 10)
+
+    @staticmethod
+    def pm_prefix_sum(terms):
+        tone = 0
+        for term in terms:
+            if len(term) > 0:
+                if term[0] == '+':
+                    tone += 1
+                elif term[0] == '-':
+                    tone -= 1
+        return tone
 
     @staticmethod
     def smiles_feature(unicode_message, unicode_smiles):
@@ -64,8 +80,13 @@ class Features:
 
         # lexicon
         for lex in self.lexicons:
-            name, value = Features.lexicon_feature(lex, terms)
+            name, value = Features.lexicon_feature(lex['lexicon'], terms,
+                lex['settings'])
             features[name] = value
+
+        # plus_minus prefix sum
+        if self.pm_prefix_used is True:
+            features[self.pm_prefix_sum_settings['name']] = Features.pm_prefix_sum(terms)
 
         if (message is not None):
             unicode_message = Features.to_unicode(message)
@@ -112,12 +133,20 @@ class Features:
         self.lexicons = []
         for lexicon_settings in settings['lexicons']:
             if (Features.str2bool(lexicon_settings['enabled']) == True):
-                self.lexicons.append(Lexicon(
-                    lexicon_settings['lexicon_configpath'],
-                    lexicon_settings['table'], lexicon_settings['name'],
-                    lexicon_settings['term_column_name'],
-                    lexicon_settings['value_column_name']));
+                self.lexicons.append( {
+                        'lexicon' : Lexicon(
+                            lexicon_settings['lexicon_configpath'],
+                            lexicon_settings['table'], lexicon_settings['name'],
+                            lexicon_settings['term_column_name'],
+                            lexicon_settings['value_column_name']),
+                        'settings' : lexicon_settings
+                    }
+                );
                 print "use lexicon: ", lexicon_settings['name']
+
+        self.pm_prefix_sum_settings = settings['pm_prefix_sum']
+        self.pm_prefix_used = Features.str2bool(
+            self.pm_prefix_sum_settings['enabled'])
 
         self.smiles_settings = settings['smiles']
 
