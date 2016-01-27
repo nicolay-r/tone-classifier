@@ -58,5 +58,5 @@ for feature_name in indexer_config['feature_names']:
     term_voc.insert_term(feature_name)
 
 # Show and save result
-term_voc.top(50)
+# term_voc.top(50)
 term_voc.save(config['out'])
