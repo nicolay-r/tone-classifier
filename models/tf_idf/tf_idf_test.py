@@ -84,7 +84,7 @@ for score in [-1, 0, 1]:
                task_type=config['task_type'])
         message.process()
         terms = message.get_terms()
-        test.add_row(conn, new_etalon_table, columns, row[2:])
+        # test.add_row(conn, new_etalon_table, columns, row[2:])
         # feature: name: value
         doc_voc.add_doc(terms)
         vectors.append( {'id': index, 'terms' : terms,
