@@ -23,7 +23,7 @@ ALTER TABLE ttk_positive ADD COLUMN rank INT DEFAULT 1;
 ALTER TABLE ttk_negative DROP COLUMN IF EXISTS rank;
 ALTER TABLE ttk_negative ADD COLUMN rank INT DEFAULT '-1';
 INSERT INTO ttk_train_balanced_2016(twitid, text, mts)
-    SELECT id, text, rank FROM ttk_positive limit(2584);
+    SELECT id, text, rank FROM ttk_positive limit(2548);
 INSERT INTO ttk_train_balanced_2016(twitid, text, mts)
     SELECT id, text, rank FROM ttk_negative limit(674);
 
