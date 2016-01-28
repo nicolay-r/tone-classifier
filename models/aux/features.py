@@ -54,7 +54,7 @@ class Features:
         return total
 
     @staticmethod
-    def signs_feature(unicode_message, char):
+    def signs_feature(unicode_message, chars):
         total = 0
 
         for char in chars:
