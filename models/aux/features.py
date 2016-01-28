@@ -54,17 +54,13 @@ class Features:
         return total
 
     @staticmethod
-    def signs_feature(unicode_message, chars):
+    def signs_feature(unicode_message, char):
         total = 0
-        max_sequence = 0
-        for char in unicode_message:
-            if char in chars:
-                total += 1
-            else:
-                max_sequence = max(max_sequence, total)
-                total = 0
 
-        return max_sequence
+        for char in chars:
+            total += unicode_message.count(char)
+
+        return total
 
     @staticmethod
     def uppercase_words(unicode_message):
