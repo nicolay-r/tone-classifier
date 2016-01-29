@@ -7,20 +7,18 @@ res="result"
 set -o xtrace
 
 # Создаем каталог с результатом работы
-mkdir -p result
-rm -rf ./result/*
+mkdir -p $res
+rm -rf "./$res/*"
 
 for f in 1;
 do
     echo "Test type: $f"
-    echo "cp $f/*.conf $svm"
-
     # Копируем результаты настроек классификатора
-    cp "$f/*.conf" "$svm"
+    cp $f/*.conf $svm
 
     pushd .
     cd $svm
-        for mode in 16_tf_idf_bank_imbalanced
+        for mode in 16_tf_idf_bank_balanced
         do
             echo "Testing: $mode"
             # make $mode | grep "-1:|0:|1:" > log.out
@@ -29,7 +27,7 @@ do
     popd
 
     # Создаем каталог с результатами
-    out="./result/$f/"
+    out="./$res/$f/"
     mkdir $out
 
     # Копируем все конфигурации, которые использовались при тестировании
