@@ -73,12 +73,12 @@ tf_idf_dict_ttk_balanced: MODEL_NAME = tf_idf_dict
 tf_idf_dict_ttk_balanced: TRAIN_TABLE = ttk_train_balanced
 tf_idf_dict_ttk_balanced: core
 
-16_tf_idf_bank_imbalanced: TASK_TYPE = bank
-16_tf_idf_bank_imbalanced: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
-16_tf_idf_bank_imbalanced: ETALON_TABLE = bank_test_2016
-16_tf_idf_bank_imbalanced: MODEL_NAME = tf_idf
-16_tf_idf_bank_imbalanced: TRAIN_TABLE = bank_train_2016
-16_tf_idf_bank_imbalanced: contest_core
+16_tf_idf_bank_half_balanced: TASK_TYPE = bank
+16_tf_idf_bank_half_balanced: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+16_tf_idf_bank_half_balanced: ETALON_TABLE = bank_test_2016
+16_tf_idf_bank_half_balanced: MODEL_NAME = tf_idf
+16_tf_idf_bank_half_balanced: TRAIN_TABLE = bank_train_balanced
+16_tf_idf_bank_half_balanced: contest_core
 
 16_tf_idf_bank_balanced: TASK_TYPE = bank
 16_tf_idf_bank_balanced: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc

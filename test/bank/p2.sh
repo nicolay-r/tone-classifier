@@ -10,7 +10,7 @@ set -o xtrace
 # Создаем каталог с результатом работы
 mkdir -p $res
 
-for f in 1 2 3 4 5;
+for f in 6 7 8 9 10;
 do
     echo "Test type: $f"
     # Копируем результаты настроек классификатора
@@ -21,7 +21,7 @@ do
         echo "Calculating approximate result ..."
         make tf_idf_bank_balanced | grep "F_R" >> $log
         echo "Apply 2016 model"
-        make 16_tf_idf_bank_balanced
+        make 16_tf_idf_bank_half_balanced
     popd
 
     # Создаем каталог с результатами
