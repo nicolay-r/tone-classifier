@@ -80,6 +80,13 @@ tf_idf_dict_ttk_balanced: core
 16_tf_idf_bank_imbalanced: TRAIN_TABLE = bank_train_2016
 16_tf_idf_bank_imbalanced: contest_core
 
+16_tf_idf_bank_balanced: TASK_TYPE = bank
+16_tf_idf_bank_balanced: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+16_tf_idf_bank_balanced: ETALON_TABLE = bank_test_2016
+16_tf_idf_bank_balanced: MODEL_NAME = tf_idf
+16_tf_idf_bank_balanced: TRAIN_TABLE = bank_train_balanced_2016
+16_tf_idf_bank_balanced: contest_core
+
 core:
 	echo $(MODEL_OPTIONS)
 	mkdir -p $(MODEL_OUTDIR)
@@ -113,3 +120,5 @@ contest_core:
 	python/predict.py $(MODEL_TEST) $(MODEL_MODEL) $(MODEL_PCONF)
 	# Exporting Result into XML
 	../data/pg2x_data.py $(MODEL_PCONF) $(MODEL_OUT) $(MODEL_ETALON_OUT)
+	# Copy result to the current dir
+	cp $(MODEL_OUT) result.out
