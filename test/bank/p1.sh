@@ -2,6 +2,7 @@
 # Скрипт вычисления результатов для контеста
 
 svm="../../svm/"
+log="log.txt"
 res="result"
 
 set -o xtrace
@@ -10,20 +11,18 @@ set -o xtrace
 mkdir -p $res
 rm -rf "./$res/*"
 
-for f in 1;
+for f in 1 2 3 4 5;
 do
     echo "Test type: $f"
     # Копируем результаты настроек классификатора
     cp $f/*.conf $svm
 
     pushd .
-    cd $svm
-        for mode in 16_tf_idf_bank_balanced
-        do
-            echo "Testing: $mode"
-            # make $mode | grep "-1:|0:|1:" > log.out
-            make $mode
-        done
+        cd $svm
+        echo "Calculating approximate result ..."
+        make tf_idf_bank_balanced | grep "F_R" >> $log
+        echo "Apply 2016 model"
+        make 16_tf_idf_bank_balanced
     popd
 
     # Создаем каталог с результатами
@@ -39,4 +38,5 @@ do
     # Копируем ответ и лог выполнения
     outfile="result.out"
     mv "$svm$outfile" "$out"
+    mv "$svm$log" "$out"
 done
