@@ -6,7 +6,7 @@ Tested under Ubuntu 14.04.3 x64.
 ```
 #!bash
 # Install all dependecies.
-sudo apt-get install python-libxml2 python-psycopg2 pip postgresql-9.3 g++ node nodejs npm nodejs-legacy
+sudo apt-get install python-libxml2 python-psycopg2 python-pip postgresql-9.3 g++ node nodejs npm nodejs-legacy
 pip install pymystem3 
 
 # Downloading and compile SVM library.
