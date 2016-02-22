@@ -1,11 +1,12 @@
 # Installing:
 
+Tested under Ubuntu 14.04.3 x64.
+
 ## Main application
-Tested under Ubuntu 14.04.3 x64. 
 ```
 #!bash
 # Install all dependecies.
-sudo apt-get install python-libxml2 python-psycopg2 pip postgresql-9.3 g++ node nodejs npm nodejs-legacy
+sudo apt-get install python-libxml2 python-psycopg2 python-pip postgresql-9.3 g++ node nodejs npm nodejs-legacy
 pip install pymystem3 
 
 # Downloading and compile SVM library.
@@ -13,16 +14,17 @@ git clone https://github.com/cjlin1/libsvm
 make -C libsvm
 make -C libsvm/python
 
-# Copy files in svm folder.
+# Copy builded libraries and *.py files in svm folder.
 cp libsvm/python/*.py ./svm/python
 cp libsvm/libsvm.so.2 ./svm/
 
 # Install eval package -- script which estimates a model result quality.
 cd eval
-node install
+npm install
 ```
 Useful links in case of building errors:
-[LibxmlJs issue (eval script)](https://github.com/gwicke/libxmljs/commit/7e1ceaf96021926871e07a397d53de63c136a22b)
+
+Eval script build errors [LibxmlJs issue](https://github.com/gwicke/libxmljs/commit/7e1ceaf96021926871e07a397d53de63c136a22b)
 
 ## Setup lexicons:
 
