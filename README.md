@@ -3,7 +3,9 @@
 ```
 #!bash
 git clone https://github.com/cjlin1/libsvm
-cd libsvm/python
+cd libsmv
+make
+cd python
 make
 cp *.py ../../svm/python
 cp ../libsvm.so.2 ../../svm/
