@@ -1,38 +1,39 @@
-## **Installing:** ##
-1. Compile libsvm library
-```
-#!bash
-git clone https://github.com/cjlin1/libsvm
-cd libsmv
-make
-cd python
-make
-cp *.py ../../svm/python
-cp ../libsvm.so.2 ../../svm/
-```
+# Installing:
 
-2. Install eval package -- script to estimate a model quality.
+## Main application
+Tested under Ubuntu 14.04.3 x64. 
 ```
 #!bash
+# Install all dependecies.
+sudo apt-get install python-libxml2 python-psycopg2 pip postgresql-9.3 g++ node nodejs npm nodejs-legacy
+pip install pymystem3 
+
+# Downloading and compile SVM library.
+git clone https://github.com/cjlin1/libsvm
+make -C libsvm
+make -C libsvm/python
+
+# Copy files in svm folder.
+cp libsvm/python/*.py ./svm/python
+cp libsvm/libsvm.so.2 ./svm/
+
+# Install eval package -- script which estimates a model result quality.
 cd eval
 node install
 ```
+Useful links in case of building errors:
+[LibxmlJs issue (eval script)](https://github.com/gwicke/libxmljs/commit/7e1ceaf96021926871e07a397d53de63c136a22b)
 
-3. Install Tweepy
+## Setup lexicons:
 
-p install 'pip>1.5' --upgradeimport urllib
-pip install tweepy
-pip install six --upgrade
-
-## **Setup lexicons:** ##
-
-1. Setup lexicon based on train data:
+###  Lexicon based on train data:
 
 ```
 #!bash
 cd tools/balancer/2015
 psql -U postgres -h localhost -W -d romipdata -f train_split.sql
 ```
+
 After that to produce a lexicon, use 'pmieval' tool
 
 ```
@@ -43,11 +44,12 @@ cd tools/pmieval
 
 ```
 
-2. Setup lexicon based on downloaded stream twitter data:
+### Lexicon based on downloaded stream twitter data:
 
 Use 'splitter' and configuration file splitter.conf, and 'pmieval' tool which
 produces jan16_lexicon based on positive twits table (jan16_positive) and
 negative (jan16_negative)
+
 ```
 #!bash
 cd tools/splitter
@@ -55,8 +57,16 @@ cd tools/splitter
 cd ../pmieval
 ./pmieval.py jan16_positive jan16_negative jan16_lexicon
 ```
+## Additional scripts
+Install Tweepy
+```
+#!bash
+pip install 'pip>1.5' --upgradeimport urllib
+pip install tweepy
+pip install six --upgrade
+```
 
-## **References:** ##
+# References:
 Contest training data, [gdrive folder](http://goo.gl/qHeAVo)
 
 Lanyrd's MySQL to PostgreSQL conversion script, [github project](https://github.com/lanyrd/mysql-postgresql-converter)
