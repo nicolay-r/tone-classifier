@@ -7,7 +7,7 @@ Tested under Ubuntu 14.04.3 x64.
 #!bash
 # Install all dependecies.
 sudo apt-get install python-libxml2 python-psycopg2 python-pip postgresql-9.3 g++ node nodejs npm nodejs-legacy
-pip install pymystem3 
+pip install pymystem3
 
 # Downloading and compile SVM library.
 git clone https://github.com/cjlin1/libsvm
@@ -69,7 +69,6 @@ pip install six --upgrade
 ```
 
 # References:
-Contest training data, [gdrive folder](http://goo.gl/qHeAVo)
-
+Contest training data (2015), [gdrive folder](http://goo.gl/qHeAVo)
+Contest training data (2016), [gdrive folder](https://drive.google.com/drive/u/0/folders/0BxlA8wH3PTUfV1F1UTBwVTJPd3c)
 Lanyrd's MySQL to PostgreSQL conversion script, [github project](https://github.com/lanyrd/mysql-postgresql-converter)
-
