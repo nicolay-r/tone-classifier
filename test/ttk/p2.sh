@@ -9,7 +9,6 @@ set -o xtrace
 
 # Создаем каталог с результатом работы
 mkdir -p $res
-rm -rf "./$res/*"
 
 for f in 6 7 8 9 10;
 do
@@ -19,10 +18,8 @@ do
 
     pushd .
         cd $svm
-        echo "Calculating approximate result ..."
-        make tf_idf_ttk_imbalanced | grep "F_R" >> $log
         echo "Apply 2016 model"
-        make 16_tf_idf_ttk_imbalanced
+        make 16_tf_idf_ttk_imbalanced | grep "F_R" >> $f.res
     popd
 
     # Создаем каталог с результатами
@@ -35,8 +32,6 @@ do
     confs="features.conf"
     cp "$svm$confs" "$out"
 
-    # Копируем ответ и лог выполнения
-    outfile="result.out"
-    mv "$svm$outfile" "$out"
-    mv "$svm$log" "$out"
+    # Копируем ответ
+    mv "$svm$f.res" "$out"
 done

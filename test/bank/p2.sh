@@ -18,10 +18,8 @@ do
 
     pushd .
         cd $svm
-        echo "Calculating approximate result ..."
-        make tf_idf_bank_balanced | grep "F_R" >> $log
         echo "Apply 2016 model"
-        make 16_tf_idf_bank_half_balanced
+        make 16_tf_idf_bank_half_balanced | grep "F_R" >> $f.res
     popd
 
     # Создаем каталог с результатами
@@ -35,7 +33,5 @@ do
     cp "$svm$confs" "$out"
 
     # Копируем ответ и лог выполнения
-    outfile="result.out"
-    mv "$svm$outfile" "$out"
-    mv "$svm$log" "$out"
+    mv "$svm$f.res" "$out"
 done
