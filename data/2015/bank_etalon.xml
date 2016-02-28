@@ -22,14 +22,14 @@
                   `twitid` bigint(32) NOT NULL,
                   `date` varchar(128) DEFAULT NULL,
                   `text` varchar(256) DEFAULT NULL,
-                  `sberbank` varchar(10) DEFAULT NULL,
-                  `vtb` varchar(10) DEFAULT NULL,
-                  `gazprom` varchar(10) DEFAULT NULL,
-                  `alfabank` varchar(10) DEFAULT NULL,
-                  `bankmoskvy` varchar(10) DEFAULT NULL,
-                  `raiffeisen` varchar(10) DEFAULT NULL,
-                  `uralsib` varchar(10) DEFAULT NULL,
-                  `rshb` varchar(10) DEFAULT NULL
+                  `sberbank` int(10) DEFAULT NULL,
+                  `vtb` int(10) DEFAULT NULL,
+                  `gazprom` int(10) DEFAULT NULL,
+                  `alfabank` int(10) DEFAULT NULL,
+                  `bankmoskvy` int(10) DEFAULT NULL,
+                  `raiffeisen` int(10) DEFAULT NULL,
+                  `uralsib` int(10) DEFAULT NULL,
+                  `rshb` int(10) DEFAULT NULL
                 );
             </pma:table>
         </pma:database>
