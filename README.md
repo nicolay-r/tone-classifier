@@ -14,10 +14,6 @@ git clone https://github.com/cjlin1/libsvm
 make -C libsvm
 make -C libsvm/python
 
-# Copy builded libraries and *.py files in svm folder.
-cp libsvm/python/*.py ./svm/python
-cp libsvm/libsvm.so.2 ./svm/
-
 # Install eval package -- script which estimates a model result quality.
 cd eval
 npm install

@@ -3,9 +3,15 @@
 import sys
 import json
 import libxml2
+from psycopg2 import connect
+
+from inspect import getsourcefile
+from os.path import abspath, dirname
+sys.path.insert(0, dirname(abspath(getsourcefile(lambda:0))) +
+    '/../../libsvm/python')
+
 from svm import *
 from svmutil import *
-from psycopg2 import connect
 
 def setResult(cursor, table, columns, rowIndex, label):
     cursor.execute("UPDATE %s SET %s WHERE id=%s"%(
