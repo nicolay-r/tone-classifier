@@ -1,4 +1,4 @@
-g!/bin/bash
+#!/bin/bash
 # Скрипт вычисления результатов для контеста
 
 svm="../../svm/"
@@ -10,7 +10,7 @@ set -o xtrace
 # Создаем каталог с результатом работы
 mkdir -p $res
 
-for f in 1 2 3 4 5;
+for f in 01 02 03 04 05;
 do
     echo "Test type: $f"
     # Копируем результаты настроек классификатора
@@ -18,8 +18,13 @@ do
 
     pushd .
         cd $svm
-        echo "Apply 2016 model"
-        make 16_tf_idf_bank_balanced | grep "F_R" >> $f.res
+
+        for model_type in 16_tf_idf_ttk_balanced
+        do
+            echo 'Model:' $model_type >> $f.res
+            make $model_type | grep -E 'F_R|Precision|Recall|Counts' >> $f.res
+        done
+
     popd
 
     # Создаем каталог с результатами
@@ -32,6 +37,6 @@ do
     confs="features.conf"
     cp "$svm$confs" "$out"
 
-    # Копируем ответ и лог выполнения
+    # Копируем ответ
     mv "$svm$f.res" "$out"
 done
