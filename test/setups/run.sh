@@ -1,4 +1,4 @@
-# Скрипт вычисления результатов для контеста
+#!/bin/bash
 
 svm="../../svm/"
 log="log.txt"
@@ -9,7 +9,7 @@ set -o xtrace
 # Создаем каталог с результатом работы
 mkdir -p $res
 
-for f in 01 02 03 04 05;
+for f in 01 02 03 04 05 06 07 08 09 10;
 do
     echo "Test type: $f"
     # Копируем результаты настроек классификатора
@@ -21,7 +21,7 @@ do
         for model_type in 16_tf_idf_ttk_balanced_6k 16_tf_idf_bank_balanced_8k
         do
             echo 'Model:' $model_type >> $f.res
-            make $model_type | grep -E 'F_R|Precision|Recall|Counts' >> $f.res
+            make $model_type | grep -E 'F_R|Precision|Recall|Counts|F  ' >> $f.res
         done
 
     popd
