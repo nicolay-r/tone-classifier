@@ -18,7 +18,7 @@ do
     pushd .
         cd $svm
 
-        for model_type in 16_tf_idf_ttk_balanced_6k 16_tf_idf_bank_balanced_8k
+        for model_type in  16_tf_idf_ttk_imbalanced tf_idf_ttk_balanced 16_tf_idf_ttk_balanced_6k tf_idf_dict_ttk_balanced
         do
             echo 'Model:' $model_type >> $f.res
             make $model_type | grep -E 'F_R|Precision|Recall|Counts|F  ' >> $f.res
