@@ -130,6 +130,12 @@ var recall = {
     'negative' : calculations['negative'].tp / (calculations['negative'].tp + calculations['negative'].fn)
 };
 
+var precision_micro = (calculations['positive'].tp + calculations['negative'].tp) / (calculations['positive'].tp + calculations['negative'].tp + calculations['positive'].fp + calculations['negative'].fp)
+
+var recall_micro = (calculations['positive'].tp + calculations['negative'].tp) / (calculations['positive'].tp + calculations['negative'].tp + calculations['positive'].fn + calculations['negative'].fn)
+
+var F_R_micro = 2*(precision_micro * recall_micro)/(precision_micro + recall_micro);
+
 var F = {
     'positive' : 2 * ((precision['positive'] * recall['positive']) / ((precision['positive'] + recall['positive']))),
     'negative' : 2 * ((precision['negative'] * recall['negative']) / ((precision['negative'] + recall['negative']))),
@@ -142,3 +148,6 @@ console.log('Precision - ', precision);
 console.log('Recall    - ', recall);
 console.log('F         - ', F);
 console.log('F_R       - ', F_R);
+console.log('Precision_micro - ', precision_micro);
+console.log('Recall_micro    - ', recall_micro);
+console.log('F_R_micro       - ', F_R_micro);
