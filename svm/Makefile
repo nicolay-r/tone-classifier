@@ -97,6 +97,15 @@ tf_idf_dict_ttk_balanced: core
 16_tf_idf_bank_balanced: ETALON_RESULT = ../data/2016/$(TASK_TYPE)_etalon_2016.xml
 16_tf_idf_bank_balanced: core
 
+16_tf_idf_bank_balanced_cost0.5: TASK_TYPE = bank
+16_tf_idf_bank_balanced_cost0.5: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+16_tf_idf_bank_balanced_cost0.5: TEST_TABLE = bank_test_2016
+16_tf_idf_bank_balanced_cost0.5: TRAIN_TABLE = bank_train_balanced_2016
+16_tf_idf_bank_balanced_cost0.5: MODEL_NAME = tf_idf
+16_tf_idf_bank_balanced_cost0.5: MODEL_OPTIONS=	-t 0 -c 0.5
+16_tf_idf_bank_balanced_cost0.5: ETALON_RESULT = ../data/2016/$(TASK_TYPE)_etalon_2016.xml
+16_tf_idf_bank_balanced_cost0.5: core
+
 16_tf_idf_bank_balanced_8k: TASK_TYPE = bank
 16_tf_idf_bank_balanced_8k: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
 16_tf_idf_bank_balanced_8k: TEST_TABLE = bank_test_2016
@@ -112,6 +121,24 @@ tf_idf_dict_ttk_balanced: core
 16_tf_idf_ttk_balanced: MODEL_NAME = tf_idf
 16_tf_idf_ttk_balanced: ETALON_RESULT = ../data/2016/$(TASK_TYPE)_etalon_2016.xml
 16_tf_idf_ttk_balanced: core
+
+16_tf_idf_ttk_balanced_cost0.5: TASK_TYPE = ttk
+16_tf_idf_ttk_balanced_cost0.5: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+16_tf_idf_ttk_balanced_cost0.5: TEST_TABLE = ttk_test_2016
+16_tf_idf_ttk_balanced_cost0.5: TRAIN_TABLE = ttk_train_balanced_2016
+16_tf_idf_ttk_balanced_cost0.5: MODEL_NAME = tf_idf
+16_tf_idf_ttk_balanced_cost0.5: MODEL_OPTIONS=	-t 0 -c 0.5
+16_tf_idf_ttk_balanced_cost0.5: ETALON_RESULT = ../data/2016/$(TASK_TYPE)_etalon_2016.xml
+16_tf_idf_ttk_balanced_cost0.5: core
+
+16_tf_idf_ttk_balanced_cost0.05: TASK_TYPE = ttk
+16_tf_idf_ttk_balanced_cost0.05: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+16_tf_idf_ttk_balanced_cost0.05: TEST_TABLE = ttk_test_2016
+16_tf_idf_ttk_balanced_cost0.05: TRAIN_TABLE = ttk_train_balanced_2016
+16_tf_idf_ttk_balanced_cost0.05: MODEL_NAME = tf_idf
+16_tf_idf_ttk_balanced_cost0.05: MODEL_OPTIONS=	-t 0 -c 0.05
+16_tf_idf_ttk_balanced_cost0.05: ETALON_RESULT = ../data/2016/$(TASK_TYPE)_etalon_2016.xml
+16_tf_idf_ttk_balanced_cost0.05: core
 
 16_tf_idf_ttk_balanced_6k: TASK_TYPE = ttk
 16_tf_idf_ttk_balanced_6k: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
