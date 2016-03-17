@@ -1,5 +1,5 @@
 ## **Installing:** ##
-1. Compile libsvm library
+Compile libsvm library
 ```
 #!bash
 git clone https://github.com/cjlin1/libsvm
@@ -9,14 +9,14 @@ cp *.py ../../svm/python
 cp ../libsvm.so.2 ../../svm/
 ```
 
-2. Install eval package -- script to estimate a model quality.
+Install eval package -- script to estimate a model quality.
 ```
 #!bash
 cd eval
 node install
 ```
 
-3. Install Tweepy
+Install Tweepy
 
 p install 'pip>1.5' --upgradeimport urllib
 pip install tweepy
@@ -24,7 +24,7 @@ pip install six --upgrade
 
 ## **Setup lexicons:** ##
 
-1. Setup lexicon based on train data:
+Setup lexicon based on train data:
 
 ```
 #!bash
@@ -41,7 +41,7 @@ cd tools/pmieval
 
 ```
 
-2. Setup lexicon based on downloaded stream twitter data:
+Setup lexicon based on downloaded stream twitter data:
 
 Use 'splitter' and configuration file splitter.conf, and 'pmieval' tool which
 produces jan16_lexicon based on positive twits table (jan16_positive) and
