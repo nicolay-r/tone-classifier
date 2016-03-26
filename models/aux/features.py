@@ -15,7 +15,7 @@ class Features:
             return s
 
     @staticmethod
-    def normalize_tone_sum(tone, k):
+    def normalize_tone(tone, k):
         if (tone >= 0):
             return 1.0 - exp(-abs(tone/k))
         else:
@@ -23,13 +23,27 @@ class Features:
 
     @staticmethod
     def lexicon_feature(lex, terms, lexicon_settings):
-        mode = lexicon_settings['terms_used']
-        if (mode == 'all'):
-            value = sum([lex.get_tone(term) for term in terms])
-        elif (mode == 'hashtags_only'):
-            value = sum([lex.get_tone(term) for term in terms if len(term) > 0
-                and term[0] == '#'])
-        return lex.get_name(), Features.normalize_tone_sum(value, 10)
+        terms_used = lexicon_settings['terms_used']
+
+        tones = []
+        if (terms_used == 'all'):
+            tones = [lex.get_tone(term) for term in terms]
+        elif (terms_used == 'hashtags_only'):
+            tones = [lex.get_tone(term) for term in terms if len(term) > 0
+                and term[0] == '#']
+
+        if ('function' in lexicon_settings):
+            func = lexicon_settings['function']
+        else:
+            func = 'sum'
+        if (func == 'sum'):
+            value = sum(tones)
+        elif (func == 'max'):
+            value = max(tones)
+        elif (func == 'min'):
+            value = min(tones)
+
+        return lex.get_name(), Features.normalize_tone(value, 10)
 
     @staticmethod
     def pm_prefix_sum(terms):
