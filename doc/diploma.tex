@@ -1,0 +1,62 @@
+\documentclass[a4paper,14pt]{extarticle}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage[english,russian]{babel} %используем русский и английский языки с переносами
+\usepackage{amssymb,amsfonts,amsmath,mathtext,cite,enumerate,float} %подключаем нужные пакеты расширений
+
+\usepackage[pdftex]{graphicx, color}
+\usepackage{subfigure}
+\usepackage{color}
+\usepackage{listings}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\usepackage{pdflscape}
+\usepackage{longtable}
+\usepackage{float}
+\floatname{algorithm}{Листинг}
+
+\DeclareGraphicsExtensions{.png,.pdf,.jpg,.mps,.bmp}
+\graphicspath{{pictures/chapter1/}, {pictures/chapter2/}, {pictures/chapter3/}, {pictures/chapter4/}}
+\usepackage{bmpsize}
+
+\usepackage[nooneline]{caption} \captionsetup[table]{justification=raggedleft} \captionsetup[figure]{justification=centering,labelsep=endash}
+
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm,bindingoffset=0cm]{geometry} % Меняем поля страницы
+
+\usepackage{setspace}
+\onehalfspacing % Полуторный интервал
+
+%
+% Начало документа
+%
+\begin{document}
+\renewcommand{\figurename}{Рисунок}
+\input{parts/title.tex}
+\renewcommand{\baselinestretch}{1.5}
+
+%
+% Abstract
+%
+
+
+%
+% Содержание
+%
+\renewcommand{\contentsname}{\centering Содержание}
+\tableofcontents
+
+%
+% Список литературы
+%
+\clearpage
+\newpage
+\bibliographystyle{styles/utf8gost705u}  %% стилевой файл для оформления по ГОСТу
+\addcontentsline{toc}{section}{\large Список Литратуры}
+\begin{flushleft}
+\bibliography{biblio}     %% имя библиографической базы (bib-файла)
+\end{flushleft}
+
+\end{document}
