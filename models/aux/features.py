@@ -32,6 +32,9 @@ class Features:
             tones = [lex.get_tone(term) for term in terms if len(term) > 0
                 and term[0] == '#']
 
+        if (len(tones) == 0):
+            tones.append(0)
+
         if ('function' in lexicon_settings):
             func = lexicon_settings['function']
         else:
