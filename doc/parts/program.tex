@@ -1,15 +1,21 @@
 \lstdefinestyle{bash}
 {
     language=bash,
+    extendedchars=true,
+    keywordstyle=\bfseries,
     basicstyle=\footnotesize,
-    frame=single
+    frame=single,
+    texcl=true
 }
 \lstdefinestyle{xml}
 {
     language=xml,
+    extendedchars=true,
+    keywordstyle=\bfseries,
     basicstyle=\tiny,
     frame=single,
-    tabsize=2
+    tabsize=2,
+    texcl=true
 }
 
 
@@ -116,6 +122,14 @@
         % train и test коллекции. В обоих случаях пусть генерируется словарь.
         % (Нет, они не могут быть разделены). Т.е., это неразделяемые процессы
         % Формат настроек в отдельном разделе, тут писать его не надо !!!
+        Настройки векторизации сообщений указываются и редактируются в следующих
+        конфигурационных файлах:
+        \begin{itemize}
+            \item {\tt msg.conf} --- описывает настройки семантической обработки текста
+            сообщений. % Добавить ссылку на описание формата
+            \item {\tt features.conf} --- предоставляет список дополнительных признаков векторизации. % Добавить ссылку на описание формата
+        \end{itemize}
+
         Чтобы векторизовать содержимое обучающей и тестовых коллекций, пользователю
         необходимо выполнить комманду:
         \begin{center}
@@ -151,6 +165,12 @@
             \item {\tt xxx.res} --- тональные оценки, проставленные
             классификатором (формат см. в листинге ...).
         \end{itemize}
+
+        Для очистки каталога с результатами необходимо использовать следующую
+        комманду:
+        \begin{center}
+            {\tt make clean}
+        \end{center}
 
         \subsubsection{Создание лексиконов на основе сообщений сети
             {\tt Twitter} }
