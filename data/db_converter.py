@@ -81,6 +81,9 @@ def parse(input_filename, output_filename):
                 current_table = line.split('"')[1]
                 tables[current_table] = {"columns": []}
                 creation_lines = []
+            elif line.startswith("DROP TABLE"):
+                output.write(line.encode("utf8") + "\n")
+                print "Dropping table"
             # Inserting data into a table?
             elif line.startswith("INSERT INTO"):
                 output.write(line.encode("utf8").replace("'0000-00-00 00:00:00'", "NULL") + "\n")
@@ -206,9 +209,9 @@ def parse(input_filename, output_filename):
         output.write("%s;\n" % line)
 
     # Write sequences out
-    output.write("\n-- Sequences --\n")
-    for line in sequence_lines:
-        output.write("%s;\n" % line)
+    #output.write("\n-- Sequences --\n")
+    #for line in sequence_lines:
+    #    output.write("%s;\n" % line)
 
     # Write full-text indexkeyses out
     output.write("\n-- Full Text keys --\n")

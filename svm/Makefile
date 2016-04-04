@@ -17,14 +17,16 @@ MODEL_OUT	=	$(MODEL_OUTDIR)$(MODEL_NAME).out
 MODEL_RESULT_OUT = $(MODEL_OUTDIR)$(MODEL_NAME).answer.out
 MODEL_MODEL	=	$(MODEL_TRAIN).model
 
+
 # BANK task 2015
 #
 tf_idf_bank_imbalanced: TASK_TYPE = bank
+tf_idf_bank_imbalanced: COLLECTION_PATH = ../data/collections/SentiRuEval-2015/
 tf_idf_bank_imbalanced: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
 tf_idf_bank_imbalanced: TEST_TABLE = bank_test_noname
 tf_idf_bank_imbalanced: TRAIN_TABLE = bank_train_noname
 tf_idf_bank_imbalanced: MODEL_NAME = tf_idf
-tf_idf_bank_imbalanced: ETALON_RESULT = ../data/2015/$(TASK_TYPE)_etalon.xml
+tf_idf_bank_imbalanced: ETALON_RESULT = $(COLLECTION_PATH)$(TASK_TYPE)_etalon.xml
 tf_idf_bank_imbalanced: core
 
 tf_idf_dict_bank_imbalanced: TASK_TYPE = bank

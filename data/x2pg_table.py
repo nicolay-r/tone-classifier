@@ -18,6 +18,9 @@ ctx.xpathRegisterNs("pma", "http://www.phpmyadmin.net/some_doc_url/")
 
 createTable = ctx.xpathEval("""/pma_xml_export/pma:structure_schemas/
     pma:database/pma:table""")[0].getContent()
+tableName = ctx.xpathEval("""/pma_xml_export/pma:structure_schemas/
+    pma:database/pma:table""")[0].prop('name')
+print tableName
 
 createTable = createTable.replace('`', '\"')
 
@@ -51,6 +54,15 @@ except:
 connSettings = "dbname=%s user=%s password=%s host=%s"%(
     database, "postgres", "postgres", "localhost")
 conn = connect(connSettings)
+
+# Drop existed table
+cursor = conn.cursor()
+print "DROP TABLE IF EXISTS %s;"%(tableName)
+cursor.execute("DROP TABLE IF EXISTS %s;"%(tableName))
+cursor.close()
+conn.commit()
+
+# Execute table creation
 cursor = conn.cursor()
 cursor.execute(createTable)
 cursor.close()
