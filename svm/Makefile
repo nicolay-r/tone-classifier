@@ -2,6 +2,8 @@
 SVM_ROOT=../libsvm/
 # Root of the problem and training data
 DATA_ROOT=../models/
+# SVM prediction script
+SVM_PREDICT=../models/aux/
 
 #remove TASK_TYPE
 
@@ -241,7 +243,7 @@ core:
 	# Training on data
 	$(SVM_ROOT)svm-train $(MODEL_OPTIONS) $(MODEL_PROB) $(MODEL_MODEL)
 	# Predicting
-	python/predict.py $(MODEL_TEST) $(MODEL_MODEL) $(MODEL_PCONF)
+	$(SVM_PREDICT)predict.py $(MODEL_TEST) $(MODEL_MODEL) $(MODEL_PCONF)
 	# Exporting Result into XML
 	../data/pg2x_data.py $(MODEL_PCONF) $(MODEL_OUT) $(MODEL_RESULT_OUT)
 	# Estimating model
