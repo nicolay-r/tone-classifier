@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <pma_xml_export version="1.0" xmlns:pma="http://www.phpmyadmin.net/some_doc_url/">
-    <!--
-    - Structure schemas
-    -->
+
     <pma:structure_schemas>
         <pma:database name="RomipData" collation="utf8_general_ci" charset="utf8">
-            <pma:table name="bank_etalon_user">
-                CREATE TABLE `bank_etalon_user` (
+            <pma:table name="$table">
+                CREATE TABLE `$table` (
                   `id` int(11) NOT NULL AUTO_INCREMENT,
                   `twitid` bigint(32) NOT NULL,
                   `date` varchar(128) DEFAULT NULL,
@@ -27,24 +25,6 @@
         </pma:database>
     </pma:structure_schemas>
 
-    <!--
-    - База данных: 'RomipData'
-    -->
     <database name="RomipData">
-        <!-- Таблица bank_etalon_user -->
-        <table name="bank_etalon_user">
-            <column name="id">1</column>
-            <column name="twitid">615732615576970000</column>
-            <column name="date">1435637069</column>
-            <column name="text">#Автокредит в россельхозбанк 2012 http://t.co/9jc1OCzyv2</column>
-            <column name="sberbank">NULL</column>
-            <column name="vtb">NULL</column>
-            <column name="gazprom">NULL</column>
-            <column name="alfabank">NULL</column>
-            <column name="bankmoskvy">NULL</column>
-            <column name="raiffeisen">NULL</column>
-            <column name="uralsib">NULL</column>
-            <column name="rshb">0</column>
-        </table>
     </database>
 </pma_xml_export>
