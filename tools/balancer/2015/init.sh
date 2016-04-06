@@ -3,7 +3,7 @@
 # Скрипт создания вспомогательных таблиц с положительными и негативными твитами
 # для задач bank и ttk на основе cvs файлов коллекции Рубцовой.
 
-unzip ../../../data/rubtsova/collection.zip ../../../data/rubtsova/
+unzip ../../../data/rubtsova/collection.zip -d ../../../data/rubtsova/
 
 ./extract.py ../../../data/rubtsova/negative.csv romipdata bank_negative bank
 ./extract.py ../../../data/rubtsova/positive.csv romipdata bank_positive bank
