@@ -11,10 +11,12 @@ def insert_message(database_node, message_json, table_name, message_index):
 
     table_node = ET.SubElement(database_node, "table", name=table_name)
 
-    ET.SubElement(table_node, "column", name="id").text = str(message_index)
-    ET.SubElement(table_node, "column", name="twitid").text = str(message_index)
-    ET.SubElement(table_node, "column", name="date").text = str(message_index)
-    ET.SubElement(table_node, "column", name="text").text = message_json["text"]
+    tag = "column"
+
+    ET.SubElement(table_node, tag, name="id").text = str(message_index)
+    ET.SubElement(table_node, tag, name="twitid").text = str(message_index)
+    ET.SubElement(table_node, tag, name="date").text = str(message_index)
+    ET.SubElement(table_node, tag, name="text").text = message_json["text"]
 
     for field in ['sberbank', 'alfabank', 'vtb', 'gazprom', 'bankmoskvy',
             'raiffeisen', 'uralsib', 'rshb']:
@@ -22,7 +24,7 @@ def insert_message(database_node, message_json, table_name, message_index):
             tone = '0'
         else:
             tone = 'NULL'
-        ET.SubElement(table_node, "column", name=field).text = tone
+        ET.SubElement(table_node, tag, name=field).text = tone
 
 def to_pretty(xml_tree):
     rough_string = ET.tostring(xml_tree.getroot(), 'utf-8')
