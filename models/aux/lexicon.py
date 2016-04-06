@@ -15,18 +15,6 @@ class Lexicon:
     def get_name(self):
         return self.name
 
-    def get_tone_from_table(self, unicode_term):
-        cursor = self.connection.cursor()
-        cursor.execute("""SELECT {result} FROM {table} WHERE
-            {column}=\'{value}\'""".format(result = self.value_column_name,
-            table = self.table, column = self.term_column_name,
-            value = unicode_term.encode('utf-8')))
-
-        result = cursor.fetchone()
-        if not (result is None):
-            result = result[0]
-        return result
-
     def get_all_tones_from_table(self):
         print "Caching [%s]..."%(self.name)
         cursor = self.connection.cursor()
