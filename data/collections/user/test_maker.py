@@ -11,10 +11,10 @@ def insert_message(database_node, message_json, table_name, message_index):
 
     table_node = ET.SubElement(database_node, "table", name=table_name)
 
-    ET.SubElement(table_node, "colunn", name="id").text = str(message_index)
-    ET.SubElement(table_node, "colunn", name="twitid").text = str(message_index)
-    ET.SubElement(table_node, "colunn", name="date").text = str(message_index)
-    ET.SubElement(table_node, "colunn", name="text").text = message_json["text"]
+    ET.SubElement(table_node, "column", name="id").text = str(message_index)
+    ET.SubElement(table_node, "column", name="twitid").text = str(message_index)
+    ET.SubElement(table_node, "column", name="date").text = str(message_index)
+    ET.SubElement(table_node, "column", name="text").text = message_json["text"]
 
     for field in ['sberbank', 'alfabank', 'vtb', 'gazprom', 'bankmoskvy',
             'raiffeisen', 'uralsib', 'rshb']:
