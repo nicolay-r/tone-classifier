@@ -81,7 +81,7 @@
     содержащее оценки по метрикам  $F_{macro}(neg, pos)$ и $F_{micro}(neg, pos)$,
     а также вспомогательную информацию, на основе которой эти результаты были
     вычислены. Пример вывода результата качества работы классифкатора представлен
-    в листинге \ref{lst:classifierScores} .
+    в листинге \ref{lst:classifierScores}.
     \lstset{style=xml}
     \lstinputlisting[caption="Формат описания результатов классификатора.", label={lst:classifierScores}]{parts/code/classifierScores.xml}
 
@@ -95,13 +95,21 @@
     \lstset{style=bash}
     \lstinputlisting[caption="Установка зависимостей проекта", label={lst:dependencies}]{parts/code/init.sh}
 
-        \subsubsection{Инициализация обучающих коллекций}
+    \subsubsection{Инициализация обучающих коллекций}
         По-умолчанию, приложение включает в себя данные соревнований {\tt SentiRuEval}
         2015 и 2016 годов в формате {\tt XML}. Для инициализации коллекций в хранилище
         {\tt PostgreSQL}, пользователю необходимо выполнить последовательность
         действий, описанных в листинге \ref{lst:collectionsInit}.
         \lstset{style=bash}
         \lstinputlisting[caption="Инициализация обучающих коллекций", label={lst:collectionsInit}]{parts/code/collectionsInit.sh}
+
+        \subsubsection{Создание сбалансированных обучающих коллекций}
+        Применение балансировки к обучающей повышает качество оценки сообщений. [ссылка]
+        В листинге \ref{lst:collectionsBalancedInit} приводится последовательность
+        комманд, позволяющая создать сбалансированные коллекции на основе обучающих
+        коллекций {\tt SentiRuEval}, дополненных сообщениями из "Корпуса коротких текстов" [ссылка]
+        \lstset{style=bash}
+        \lstinputlisting[caption="Создание сбалансированных коллекций.", label={lst:collectionsBalancedInit}]{parts/code/collectionsBalancedInit.sh}
 
         \subsubsection{Инициализация лексиконов}
         В приложении содержит по-умолчанию лексиконы, представленные в текстовом
@@ -161,9 +169,9 @@
         каталоге {\tt results}, и включать в себя следующие файлы:
         \begin{itemize}
             \item {\tt xxx.calc} --- результы качества работы классификатора
-            (формат см. в листинге ...);
+            (формат см. в листинге \ref{lst:classifierResults});
             \item {\tt xxx.res} --- тональные оценки, проставленные
-            классификатором (формат см. в листинге ...).
+            классификатором (формат см. в листинге \ref{lst:classifierScores}).
         \end{itemize}
 
         Для очистки каталога с результатами необходимо использовать следующую
