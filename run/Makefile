@@ -26,13 +26,15 @@ USERCOLLECTION = ../data/collections/user/
 #
 # Test
 #
-user_tf_idf_bank_imbalanced: TASK_TYPE = bank
-user_tf_idf_bank_imbalanced: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
-user_tf_idf_bank_imbalanced: TEST_TABLE = bank_test_user
-user_tf_idf_bank_imbalanced: TRAIN_TABLE = bank_train_noname
-user_tf_idf_bank_imbalanced: MODEL_NAME = tf_idf
-user_tf_idf_bank_imbalanced: ETALON_RESULT = $(USERCOLLECTION)$(TASK_TYPE)_etalon_user.xml
-user_tf_idf_bank_imbalanced: core
+user_tf_idf_bank_balanced_2016: TASK_TYPE = bank
+user_tf_idf_bank_balanced_2016: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+user_tf_idf_bank_balanced_2016: TEST_TABLE = bank_test_user
+user_tf_idf_bank_balanced_2016: TRAIN_TABLE = bank_train_balanced_2016
+user_tf_idf_bank_balanced_2016: MODEL_OPTIONS= -t 0 -c 0.5
+user_tf_idf_bank_balanced_2016: MODEL_NAME = tf_idf
+user_tf_idf_bank_balanced_2016: ETALON_RESULT = $(USERCOLLECTION)$(TASK_TYPE)_etalon_user.xml
+user_tf_idf_bank_balanced_2016: refresh_user_collection
+user_tf_idf_bank_balanced_2016: core
 
 #
 # BANK task 2015
@@ -263,3 +265,7 @@ core:
 	../data/pg2x_data.py $(MODEL_PCONF) $(MODEL_OUT) $(MODEL_RESULT_OUT)
 	# Estimating model
 	cd ../eval/ && nodejs calc.js $(TASK_TYPE) ../run/$(MODEL_OUT) ../run/$(ETALON_RESULT)
+
+
+refresh_user_collection:
+	cd $(USERCOLLECTION) && ./init.sh
