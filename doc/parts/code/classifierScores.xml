@@ -1,0 +1,6 @@
+Counts    -  positive { tp: 91, tn: 34453, fp: 121, fn: 259 }
+             negative { tp: 298, tn: 32268, fp: 191, fn: 372 }
+Precision -  { positive: 0.42924528301886794, negative: 0.6094069529652352 }
+Recall    -  { positive: 0.26, negative: 0.44477611940298506 }
+F_R_macro -  0.41903991353449255
+F_R_micro -  0.45206275421266706
