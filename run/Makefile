@@ -263,9 +263,16 @@ core:
 	$(SVM_PREDICT)predict.py $(MODEL_TEST) $(MODEL_MODEL) $(MODEL_PCONF)
 	# Exporting Result into XML
 	../data/pg2x_data.py $(MODEL_PCONF) $(MODEL_OUT) $(MODEL_RESULT_OUT)
+	# Creating result folder
+	mkdir -p result
+	# Copy result into result directory
+	cp $(MODEL_OUT) ./result
 	# Estimating model
 	cd ../eval/ && nodejs calc.js $(TASK_TYPE) ../run/$(MODEL_OUT) ../run/$(ETALON_RESULT)
 
 
 refresh_user_collection:
 	cd $(USERCOLLECTION) && ./init.sh
+
+clean_results:
+	rm ./result/*.out
