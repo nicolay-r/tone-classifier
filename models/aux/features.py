@@ -155,7 +155,7 @@ class Features:
                         'settings' : lexicon_settings
                     }
                 );
-                print "use lexicon: ", lexicon_settings['name']
+                #print "use lexicon: ", lexicon_settings['name']
 
         self.pm_prefix_sum_settings = settings['pm_prefix_sum']
         self.pm_prefix_used = Features.str2bool(
