@@ -32,11 +32,13 @@ class Lexicon:
         tone = 0
 
         invert_tone = False
+        positive_tone = False
         if (unicode_term[0] == '-'):
             unicode_term = unicode_term[1:]
             invert_tone = True
         elif (unicode_term[0] == '+'):
             unicode_term = unicode_term[1:]
+            positive_tone = True
 
         if (self.cached == False):
             self.get_all_tones_from_table()
@@ -45,13 +47,15 @@ class Lexicon:
         if (unicode_term in self.cache):
             tone = self.cache[unicode_term]
 
-        # invert term tonality in case of negative mark '-'
+        # invert term tonality in case of negative mark '-' and '+'
         if (invert_tone):
-            tone *= -1
+            tone *= -self.prefix_multiplier
+        if (positive_tone):
+            tone *= self.prefix_multiplier
 
         return tone
 
-    def __init__(self, configpath, table, name,
+    def __init__(self, configpath, table, name, prefix_multiplier,
         term_column_name, value_column_name):
 
         self.cached = False
@@ -72,3 +76,4 @@ class Lexicon:
         self.table = table
         self.term_column_name = term_column_name
         self.value_column_name = value_column_name
+        self.prefix_multiplier = prefix_multiplier
