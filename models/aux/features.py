@@ -150,7 +150,7 @@ class Features:
                         'lexicon' : Lexicon(
                             lexicon_settings['lexicon_configpath'],
                             lexicon_settings['table'], lexicon_settings['name'],
-                            1,
+                            lexicon_settings['multiplier'],
                             lexicon_settings['term_column_name'],
                             lexicon_settings['value_column_name']),
                         'settings' : lexicon_settings
