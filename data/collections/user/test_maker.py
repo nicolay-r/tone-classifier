@@ -20,10 +20,7 @@ def insert_message(database_node, message_json, table_name, message_index):
 
     for field in ['sberbank', 'alfabank', 'vtb', 'gazprom', 'bankmoskvy',
             'raiffeisen', 'uralsib', 'rshb']:
-        if field in message_json:
-            tone = '0'
-        else:
-            tone = 'NULL'
+        tone = '0'
         ET.SubElement(table_node, tag, name=field).text = tone
 
 def to_pretty(xml_tree):
