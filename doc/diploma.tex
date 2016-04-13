@@ -43,9 +43,16 @@
 \renewcommand{\baselinestretch}{1.5}
 
 %
-% Abstract
+% Аннотация
 %
+\renewcommand{\abstractname}{{Аннотация}}
+\input{parts/abstract}
+\clearpage
 
+%
+% Введение
+%
+\input{parts/introduction}
 
 %
 % Содержание
@@ -53,6 +60,9 @@
 \renewcommand{\contentsname}{\centering Содержание}
 \tableofcontents
 
+%
+% Программная реализация
+%
 \newpage
 \input{parts/program}
 
