@@ -1,6 +1,6 @@
 #!/bin/bash
 
-svm="../../svm/"
+run="../../run/"
 log="log.txt"
 res="result"
 
@@ -13,10 +13,10 @@ for f in 01 02 03 04 05 06 07 08 09 10;
 do
     echo "Test type: $f"
     # Копируем результаты настроек классификатора
-    cp $f/*.conf $svm
+    cp $f/*.conf $run
 
     pushd .
-        cd $svm
+        cd $run
 
         for model_type in  16_tf_idf_ttk_imbalanced tf_idf_ttk_balanced 16_tf_idf_ttk_balanced_6k tf_idf_dict_ttk_balanced
         do
@@ -32,10 +32,10 @@ do
 
     # Копируем все конфигурации, которые использовались при тестировании
     confs="msg.conf"
-    cp "$svm$confs" "$out"
+    cp "$run$confs" "$out"
     confs="features.conf"
-    cp "$svm$confs" "$out"
+    cp "$run$confs" "$out"
 
     # Копируем ответ
-    mv "$svm$f.res" "$out"
+    mv "$run$f.res" "$out"
 done
