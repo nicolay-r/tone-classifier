@@ -7,6 +7,7 @@ class Table:
             WHERE NOT EXISTS(SELECT twitid FROM %s WHERE twitid=%s)"""%(
             self.table_name, twitid, text.replace('\'', '\'\''),
             self.table_name, twitid))
+        self.conn.commit()
 
     def create(self):
         cursor = self.conn.cursor()
