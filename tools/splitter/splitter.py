@@ -20,19 +20,11 @@ def show_progress(message, current, total):
     if (current == total):
         print ""
 
-def msg2words(msg, splitter_config):
-    if len(msg) < splitter_config['message_min_len']:
-        # ignore all message if it's short
-        return []
-    words = msg.split(' ')
-    if (len(words) > 0 and words[0] == 'RT'):
-        # ignore retweets
-        return []
-    # ignore users and urls
-    return [w for w in words
-        if len(w) > 0 and w[0] != '@' and not('http://' in w)]
-
 def get_message_rank(text, mystem, features, splitter_config):
+
+    if (len(text) < splitter_config['message_min_len']):
+        return 0
+
     message = Message(text=text,
             mystem=mystem,
             configpath="msg.conf",
@@ -45,9 +37,13 @@ def get_message_rank(text, mystem, features, splitter_config):
 
     mn = min(scores.values())
     mx = max(scores.values())
-    if (mn > 0 and mx > 0):
+
+    pos_threshold = splitter_config["pos_threshold"]
+    neg_threshold = splitter_config["neg_threshold"]
+
+    if (mn > pos_threshold and mx > pos_threshold):
         return 1
-    elif (mn < 0 and mx < 0):
+    elif (mn < neg_threshold and mx < neg_threshold):
         return -1
     else:
         return 0
@@ -62,7 +58,7 @@ def process_message(text):
     return text.encode('utf-8')
 
 if len(sys.argv) < 2:
-    print """Usage: ./splitter.py <raw.csv>"""
+    print """Usage: ./splitter.py <raw.csv> [--clean]"""
     exit(0)
 
 # Initialize Configuration Files
@@ -72,6 +68,7 @@ with open('conn.conf') as config:
     connection_config = json.load(config, encoding='utf8')
 raw_filename = sys.argv[1]
 
+
 # Create Connection
 connection_settings = "dbname=%s user=%s password=%s host=%s"%(
     connection_config['database'], connection_config["user"],
@@ -79,10 +76,13 @@ connection_settings = "dbname=%s user=%s password=%s host=%s"%(
 
 # Prepare Tables
 positive_table = Table(connection_settings, splitter_config['positive_table'])
-positive_table.create()
-
 negative_table = Table(connection_settings, splitter_config['negative_table'])
+
+positive_table.create()
 negative_table.create()
+if len(sys.argv) == 3 and sys.argv[2] == '--clean':
+    positive_table.clean()
+    negative_table.clean()
 
 # Filter Messages
 mystem = Mystem(entire_input=False)

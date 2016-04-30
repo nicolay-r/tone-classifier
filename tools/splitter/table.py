@@ -20,6 +20,12 @@ class Table:
     def close_connection(self):
         self.conn.close()
 
+    def clean(self):
+        cursor = self.conn.cursor()
+        cursor.execute("""DELETE FROM %s"""%(self.table_name))
+        cursor.close()
+        self.conn.commit()
+
     def __init__(self, connection_settings, table_name):
         self.conn = connect(connection_settings)
         self.table_name = table_name
