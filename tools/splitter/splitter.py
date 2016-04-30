@@ -1,10 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from sys import argv
+import sys
 from psycopg2 import connect
+from pymystem3 import Mystem
+from inspect import getsourcefile
+from os.path import abspath, dirname
 import json
 import io
+from table import Table
+
+sys.path.insert(0, dirname(abspath(getsourcefile(lambda:0))) + '/../../models/aux')
+from msg import Message
+from features import Features
 
 def show_progress(message, current, total):
     print "\rProcessing: %.2f%% [%d/%d] (%s)"%(float(current)*100/total,
@@ -24,47 +32,26 @@ def msg2words(msg, splitter_config):
     return [w for w in words
         if len(w) > 0 and w[0] != '@' and not('http://' in w)]
 
-def get_message_rank(msg, splitter_config):
-    positive_keywords = splitter_config['positive_keywords']
-    negative_keywords = splitter_config['negative_keywords']
+def get_message_rank(text, mystem, features, splitter_config):
+    message = Message(text=text,
+            mystem=mystem,
+            configpath="msg.conf",
+            task_type="none")
 
-    positive = 0
-    negative = 0
-    words = msg2words(msg, splitter_config)
+    message.process()
+    terms = message.get_terms()
 
-    for keyword in positive_keywords:
-        for word in words:
-            if (keyword in word):
-                #print keyword, ' IN ', msg
-                positive += 1
+    scores = features.create(terms, message=text)
 
-    for keyword in negative_keywords:
-        for word in words:
-            if (keyword in word):
-                #print keyword, ' IN ', msg
-                negative += 1
-
-    if (positive > 0 and negative == 0):
+    mn = min(scores.values())
+    mx = max(scores.values())
+    if (mn > 0 and mx > 0):
         return 1
-    elif (negative > 0 and positive == 0):
+    elif (mn < 0 and mx < 0):
         return -1
     else:
         return 0
 
-def create_table(conn, table_name):
-    cursor = conn.cursor()
-
-    cursor.execute("""CREATE TABLE IF NOT EXISTS %s (
-        twitid BIGINT PRIMARY KEY,
-        text VARCHAR(256) DEFAULT NULL)"""%(table_name))
-
-    cursor.close()
-    conn.commit()
-
-def add_msg(twitid, text, table, cursor):
-    cursor.execute("""INSERT INTO %s(twitid, text) SELECT \'%s\', \'%s\'
-        WHERE NOT EXISTS(SELECT twitid FROM %s WHERE twitid=%s)"""%(
-        table, twitid, text.replace('\'', '\'\''), table, twitid))
 
 def process_message(text):
     text = text.replace('\'', '\'\'')
@@ -72,32 +59,34 @@ def process_message(text):
         text = text[1:]
     if (text[len(text)-1] == '\"'):
         text = text[:len(text)-1]
-    return text
+    return text.encode('utf-8')
 
-if len(argv) < 2:
+if len(sys.argv) < 2:
     print """Usage: ./splitter.py <raw.csv>"""
     exit(0)
 
-# Initialize Configuration File
+# Initialize Configuration Files
 with open('splitter.conf') as config:
     splitter_config = json.load(config, encoding='utf8')
-connection_config = splitter_config['connection']
-raw_filename = argv[1]
+with open('conn.conf') as config:
+    connection_config = json.load(config, encoding='utf8')
+raw_filename = sys.argv[1]
 
 # Create Connection
 connection_settings = "dbname=%s user=%s password=%s host=%s"%(
     connection_config['database'], connection_config["user"],
     connection_config["password"], connection_config["host"])
-conn = connect(connection_settings)
 
 # Prepare Tables
-positive_table_name = splitter_config['positive_table']
-create_table(conn, positive_table_name)
-negative_table_name = splitter_config['negative_table']
-create_table(conn, negative_table_name)
+positive_table = Table(connection_settings, splitter_config['positive_table'])
+positive_table.create()
+
+negative_table = Table(connection_settings, splitter_config['negative_table'])
+negative_table.create()
 
 # Filter Messages
-cursor = conn.cursor()
+mystem = Mystem(entire_input=False)
+features = Features("features.conf")
 twits_processed = 0
 positive_twits = 0
 negative_twits = 0
@@ -107,24 +96,26 @@ with io.open(raw_filename, 'rt', newline='\r\n') as f:
     for line in lines:
         line_index += 1
         args = line.split(';')
+
+        # check that line contains all information
         if (len(args) == 10):
 
             twitid = args[0]
             msg = process_message(args[3])
-            rank = get_message_rank(msg, splitter_config)
+            rank = get_message_rank(msg, mystem, features, splitter_config)
 
             if (rank == 1):
-                add_msg(twitid, msg, positive_table_name, cursor)
+                positive_table.add_message(twitid, msg.decode('utf-8'))
                 positive_twits += 1
             elif (rank == -1):
-                add_msg(twitid, msg, negative_table_name, cursor)
+                negative_table.add_message(twitid, msg.decode('utf-8'))
                 negative_twits += 1
 
             twits_processed += 1
 
         show_progress("all: %d| \'+\': %d| \'-\': %d"%(twits_processed,
             positive_twits, negative_twits), line_index, len(lines))
-        conn.commit()
+        #conn.commit()
 
-cursor.close()
-conn.close()
+positive_table.close_connection()
+negative_table.close_connection()
