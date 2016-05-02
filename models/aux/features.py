@@ -4,6 +4,7 @@ import io
 import json
 from lexicon import Lexicon
 from math import exp
+import re
 
 class Features:
 
@@ -106,9 +107,13 @@ class Features:
 
             # smiles
             if Features.str2bool(self.smiles_settings['enabled']):
-                positive = Features.smiles_feature(unicode_message,
+                unicode_text = unicode(unicode_message)
+                # remove urls
+                unicode_text = re.sub(r'^https?:\/\/.*[\r\n]*', '',
+                        unicode_text, flags=re.MULTILINE)
+                positive = Features.smiles_feature(unicode_text,
                     self.smiles_settings['positive_values'])
-                negative = -Features.smiles_feature(unicode_message,
+                negative = -Features.smiles_feature(unicode_text,
                     self.smiles_settings['negative_values'])
 
                 score = 0
