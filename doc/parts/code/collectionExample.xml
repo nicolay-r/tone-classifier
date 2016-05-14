@@ -1,0 +1,38 @@
+<pma_xml_export>
+    <!--
+    - Structure schemas
+    -->
+    <pma:structure_schemas>
+        <pma:database name="RomipData" charset="utf8">
+            <pma:table name="bank_train">
+                CREATE TABLE `bank_train` (
+                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                  `twitid` bigint(32) NOT NULL DEFAULT '0',
+                  `date` varchar(128) DEFAULT NULL,
+                  `text` varchar(256) DEFAULT NULL,
+                                ...
+                  PRIMARY KEY (`id`),
+                  UNIQUE KEY `id` (`twitid`)
+                );
+            </pma:table>
+        </pma:database>
+    </pma:structure_schemas>
+    <!--
+    - Database: 'RomipData'
+    -->
+    <database name="RomipData">
+        <!--
+        - Table: bank_train
+        -->
+        <table name="bank_train">
+            <column name="id">1</column>
+            <column name="twitid">492367586156630000</column>
+            <column name="date">1406224554</column>
+            <column name="text"></column>
+                        ...
+            <column name="sberbank">NULL</column>
+            <column name="rshb">NULL</column>
+        </table>
+        ...
+    </database>
+</pma_xml_export>
