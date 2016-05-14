@@ -1,0 +1,16 @@
+<!--
+- Database: 'RomipData'
+-->
+<database name="RomipData">
+    <!--
+    - Table: bank_train
+    -->
+    <table name="bank_train">
+        <column name="id">1</column>
+        <column name="twitid">492367586156630000</column>
+        <column name="date">1406224554</column>
+        <column name="text"></column>
+                    ...
+    </table>
+    ...
+</database>
