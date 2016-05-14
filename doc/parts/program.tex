@@ -1,3 +1,7 @@
+\definecolor{gray}{rgb}{0.4,0.4,0.4}
+\definecolor{cyan}{rgb}{0.0,0.6,0.6}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+
 \lstdefinestyle{bash}
 {
     language=bash,
@@ -5,17 +9,31 @@
     keywordstyle=\bfseries,
     basicstyle=\footnotesize,
     frame=single,
-    texcl=true
+    showstringspaces=false,
+    commentstyle=\color{red},
+    identifierstyle=\color{black},
+    keywordstyle=\color{blue},
+    texcl=true,
+    morekeywords={make, git, sudo, pip, npm, ./extract.py},
 }
+
 \lstdefinestyle{xml}
 {
-    language=XML,
     extendedchars=true,
     keywordstyle=\bfseries,
     basicstyle=\footnotesize,
     frame=single,
     tabsize=2,
-    texcl=true
+    texcl=true,
+    morestring=[b]",
+    morestring=[s]{>}{<},
+    morecomment=[s]{<?}{?>},
+    showstringspaces=false,
+    stringstyle=\color{black},
+    identifierstyle=\color{darkblue},
+    keywordstyle=\color{cyan},
+    morekeywords={name},
+    commentstyle=\color{gray},
 }
 \newcommand\xml{{\it XML }}
 
@@ -107,7 +125,7 @@
     основе которых были вычислены результаты. Пример вывода результата
     качества работы классифкатора представлен в листинге \ref{lst:classifierScores}.
 
-    \lstset{style=xml}
+    \lstset{style=bash}
     \lstinputlisting[caption="Формат описания результатов классификатора.", label={lst:classifierScores}]{parts/code/classifierScores.xml}
 
     \subsection{Разработка тонального класификатора}
