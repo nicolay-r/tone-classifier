@@ -8,6 +8,6 @@ for word in words:
     elif(word == 'RT'):
         has_retweet = True
 
-for f in urls + users + hash_tags + [retweet_term]:
+for f in urls + users + hash_tags + 'RT':
     if f in words:
         words.remove(f)
