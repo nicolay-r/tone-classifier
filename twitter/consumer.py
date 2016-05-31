@@ -32,7 +32,6 @@ class StdOutListener(tweepy.StreamListener):
         # where to save
         self.filepath = filepath
 
-
 if (len(sys.argv) == 1):
     print "usage: ./getter.py <keys_file> <out_folder> <log_folder>"
     exit(0)
