@@ -31,7 +31,7 @@
 \usepackage[nooneline]{caption} \captionsetup[table]{justification=raggedleft} \captionsetup[figure]{justification=centering,labelsep=endash}
 
 \usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm,bindingoffset=0cm]{geometry} % Меняем поля страницы
-
+\usepackage{textcomp,eurosym}
 \usepackage{setspace}
 \onehalfspacing % Полуторный интервал
 
@@ -94,6 +94,18 @@
 % Заключение
 %
 \input{parts/conclusion}
+
+%
+% Приложения
+%
+\newpage
+\addcontentsline{toc}{part}{Приложение А. Извлечение сообщений из социальной сети Twitter}
+\section*{Приложение А. Извлечение сообщений из социальной сети Twitter}
+\input{parts/appendix/a}
+\newpage
+\addcontentsline{toc}{part}{Приложение Б. Наиболее эмоциональные термы корпуса коротких текстов}
+\section*{Приложение Б. Наиболее эмоциональные термы корпуса коротких текстов}
+\input{parts/appendix/b}
 
 %
 % Список литературы
