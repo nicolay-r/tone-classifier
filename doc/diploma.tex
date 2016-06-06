@@ -37,6 +37,15 @@
 
 \renewcommand{\lstlistingname}{Листинг}
 
+\usepackage{changepage}
+
+\usepackage{tikz} %для рисования графиков
+\usepackage{pgfplots}
+
+% перенос ячеек в таблице
+\newcommand{\specialcell}[2][c]{%
+\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
 %
 % Начало документа
 %
