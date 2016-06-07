@@ -18,6 +18,7 @@
 \usepackage{multirow}
 \usepackage[table,xcdraw]{xcolor}
 \usepackage{float}
+\usepackage{booktabs}
 \usepackage{cases}
 \floatname{algorithm}{Листинг}
 
@@ -50,44 +51,44 @@
 % Начало документа
 %
 \begin{document}
-\renewcommand{\figurename}{Рисунок}
-\input{parts/title.tex}
-\renewcommand{\baselinestretch}{1.5}
+%\renewcommand{\figurename}{Рисунок}
+%\input{parts/title.tex}
+%\renewcommand{\baselinestretch}{1.5}
 
 %
 % Аннотация
 %
-\renewcommand{\abstractname}{{Аннотация}}
-\input{parts/abstract}
-\clearpage
+%\renewcommand{\abstractname}{{Аннотация}}
+%\input{parts/abstract}
+%\clearpage
 
+%%
+%% Содержание
+%%
+%\renewcommand{\contentsname}{\centering Содержание}
+%\tableofcontents
 %
-% Содержание
+%%
+%% Введение
+%%
+%\input{parts/introduction}
 %
-\renewcommand{\contentsname}{\centering Содержание}
-\tableofcontents
-
+%%
+%% Обзор предметной области
+%%
+%\newcommand\twitter{{\it Twitter }}
 %
-% Введение
+%\input{parts/subject}
 %
-\input{parts/introduction}
-
+%%
+%% Построение классификатора
+%%
+%\input{parts/building}
 %
-% Обзор предметной области
-%
-\newcommand\twitter{{\it Twitter }}
-
-\input{parts/subject}
-
-%
-% Построение классификатора
-%
-\input{parts/building}
-
-%
-% Программная реализация
-%
-\input{parts/program}
+%%
+%% Программная реализация
+%%
+%\input{parts/program}
 
 %
 % Тестирование
@@ -97,7 +98,7 @@
 %
 % Технико-экономическое обоснование
 %
-\input{parts/economy}
+%\input{parts/economy}
 
 %
 % Заключение
@@ -107,24 +108,24 @@
 %
 % Приложения
 %
-\newpage
-\addcontentsline{toc}{part}{Приложение А. Извлечение сообщений из социальной сети Twitter}
-\section*{Приложение А. Извлечение сообщений из социальной сети Twitter}
-\input{parts/appendix/a}
-\newpage
-\addcontentsline{toc}{part}{Приложение Б. Наиболее эмоциональные термы корпуса коротких текстов}
-\section*{Приложение Б. Наиболее эмоциональные термы корпуса коротких текстов}
-\input{parts/appendix/b}
-
+%\newpage
+%\addcontentsline{toc}{part}{Приложение А. Извлечение сообщений из социальной сети Twitter}
+%\section*{Приложение А. Извлечение сообщений из социальной сети Twitter}
+%\input{parts/appendix/a}
+%\newpage
+%\addcontentsline{toc}{part}{Приложение Б. Наиболее эмоциональные термы корпуса коротких текстов}
+%\section*{Приложение Б. Наиболее эмоциональные термы корпуса коротких текстов}
+%\input{parts/appendix/b}
 %
-% Список литературы
-%
-\clearpage
-\newpage
-\bibliographystyle{styles/utf8gost705u}  %% стилевой файл для оформления по ГОСТу
-\addcontentsline{toc}{section}{\large Список Литратуры}
-\begin{flushleft}
-\bibliography{biblio}     %% имя библиографической базы (bib-файла)
-\end{flushleft}
+%%
+%% Список литературы
+%%
+%\clearpage
+%\newpage
+%\bibliographystyle{styles/utf8gost705u}  %% стилевой файл для оформления по ГОСТу
+%\addcontentsline{toc}{section}{\large Список Литратуры}
+%\begin{flushleft}
+%\bibliography{biblio}     %% имя библиографической базы (bib-файла)
+%\end{flushleft}
 
 \end{document}
