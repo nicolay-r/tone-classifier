@@ -1,9 +1,28 @@
 \newpage
 \section{Тестирование}
-    \subsection{Используемые настройки}
-        \subsection{Составление тестовых коллекций}
-        \subsection{Построение лексиконов}
 
-    \subsection{Предварительное тестирование}
-    \subsection{Результаты на соревнованиях SentiRuEval-2016}
-    \subsection{Улучшение результатов}
+% Шаблон таблицы для резульатов тестирования.
+%\begin{table}[]
+%\centering
+%\caption{Предварительные резульататы тестирования}
+%\label{my-label}
+%\begin{tabular}{|c|c|c|c|c|}
+%\hline
+%\multicolumn{5}{|c|}{BANK}                                                                                                \\ \hline
+%\multirow{2}{*}{№} & \multicolumn{2}{c|}{Не сбалансированная коллекция} & \multicolumn{2}{c|}{Сбалансированная коллекция} \\ \cline{2-5}
+%                   & $F_{macro}(neg, pos)$    & $F_{micro}(neg, pos)$   & $F_{macro}(neg, pos)$  & $F_{micro}(neg, pos)$  \\ \hline
+%1                  &                          &                         &                        &                        \\ \hline
+%2                  &                          &                         &                        &                        \\ \hline
+%3                  &                          &                         &                        &                        \\ \hline
+%\end{tabular}
+%\end{table}
+
+\subsection{Подготовка данных для построения классифицирующей модели}
+
+    \input{parts/test/lexicons.tex}
+
+    \input{parts/test/trainCollections.tex}
+
+    \input{parts/test/sentiRuEval2015.tex}
+
+    \input{parts/test/sentiRuEval2016.tex}
