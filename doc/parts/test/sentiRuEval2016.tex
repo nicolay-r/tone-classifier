@@ -66,3 +66,20 @@
     \end{table}
 
     \subsubsection{Вывод}
+\begin{table}[ht!]
+\begin{adjustwidth}{-1.85cm}{}
+\centering
+\caption{Рост качества при использовании признаков на основе лексиконов в зависимости от типа обучающей коллекции}
+\label{my-label}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\multicolumn{2}{|c|}{\begin{tabular}[c]{@{}c@{}}Параметры \\ обучающей коллекции\end{tabular}}                                                        & \multicolumn{2}{c|}{BANK}                                                                                            & \multicolumn{2}{c|}{TKK}                                                                                          \\ \hline
+Год                      & Тип         & $F_{macro}(neg, pos)$                                    & $F_{micro}(neg, pos)$                                     & $F_{macro}(neg, pos)$                                   & $F_{micro}(neg, pos)$                                   \\ \hline
+\multirow{2}{*}{2015} & A                                                    & +12.57\%                                                  & +9.8\%                                                     & +6.8\%                                                   & +3.9\%                                                   \\ \cline{2-6}
+                                  & B                                                       & \begin{tabular}[c]{@{}c@{}}+3.3\%\\ (+19.0\%)\end{tabular} & \begin{tabular}[c]{@{}c@{}}+4.6\%\\ (+19.8\%)\end{tabular}  & \begin{tabular}[c]{@{}c@{}}+4\%\\ (+3.4\%)\end{tabular}   & \begin{tabular}[c]{@{}c@{}}+2.7\%\\ (+1.9\%)\end{tabular} \\ \hline
+\multirow{3}{*}{2016} & A                                                    & ---                                                      & ---                                                       & +5.1\%                                                   & +4.6\%                                                   \\ \cline{2-6}
+                                  & B                                                       & +0.5\%                                                    & +0.03\%                                                    & ---                                                     & ---                                                     \\ \cline{2-6}
+                                  & \begin{tabular}[c]{@{}c@{}}C\end{tabular} & \begin{tabular}[c]{@{}c@{}}+4.6\%\\ (+21.95)\end{tabular} & \begin{tabular}[c]{@{}c@{}}+1.9\%\\ (+19.48\%)\end{tabular} & \begin{tabular}[c]{@{}c@{}}+4.1\%\\ (+9.0\%)\end{tabular} & \begin{tabular}[c]{@{}c@{}}+1.8\%\\ (+3.4\%)\end{tabular} \\ \hline
+\end{tabular}
+\end{adjustwidth}
+\end{table}
