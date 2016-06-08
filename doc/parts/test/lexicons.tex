@@ -1,10 +1,24 @@
 \subsubsection{Построение лексиконов}
 
+Лексиконы были составлены 5 на основе следующих данных (параметры представлены
+в таблице \ref{table:createdLexicons}):
+
+\begin{itemize}
+    \item Корпуса коротких текстов на русском языке\footnote{
+            \url{https://github.com/nicolay-r/tone-classifier/tree/2016_jan_contest/data/lexicons}
+    };
+    \cite{rubtsovaLexicon};
+    \item Сообщений сети Twitter за январь 2016 года (подключение к трансляции
+        сообщений на русском языке с помощью Streaming API Twitter);
+    \item Обучающая коллекция {\it SentiRuEval-2015} года \cite{dialog2015};
+    \item Тональный словарь созданный вручную экспертами \cite{expertLexicon}.
+\end{itemize}
+
 % Лексиконы
 \begin{table}[ht!]
 \centering
 \caption{Параметры созданных лексиконов}
-\label{my-label}
+\label{table:createdLexicons}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
 №                  & \multicolumn{1}{c|}{Задачи} & \multicolumn{1}{c|}{$K_{Excellent}$ термов} & \multicolumn{1}{c|}{$K_{Poor}$ термов} & \multicolumn{1}{c|}{Всего термов} \\ \hline
@@ -15,3 +29,4 @@
 4                  & Для всех                    & 2 774 (26.0\%)                               & 7 148 (67.0\%)                          & 10 668                             \\ \hline
 \end{tabular}
 \end{table}
+
