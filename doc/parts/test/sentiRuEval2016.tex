@@ -1,11 +1,16 @@
 \newpage
 \subsection{Участие в соревнованях SentiRuEval-2016}
     \subsubsection{Результаты}
+В таблице \ref{table:tkkResult2015} приведены оценки качества работы
+классификатора для тестовой коллекции {\it SentiRuEval-2016} \cite{dialog2016}
+при использовании настроек предварительного тестирования.
+Прогоны с такими настройками показали лучшие результаты среди других
+вариаций настроек предложенного подхода (см. таблицы \ref{table:bankResult2016}-\ref{table:tkkResult2016}).
 
     \begin{table}[!ht]
     \centering
     \caption{Результаты прогонов соревнования (задача BANK, {\it SentiRuEval-2016})}
-    \label{my-label}
+    \label{table:bankResult2016}
     \begin{tabular}{|c|c|c|c|c|}
     \hline
     \multirow{3}{*}{№} & \multicolumn{4}{c|}{BANK}                                                                                                                                                                                         \\ \cline{2-5}
@@ -17,12 +22,10 @@
     \end{tabular}
     \end{table}
 
-    Текст
-
     \begin{table}[!ht]
     \centering
     \caption{Результаты прогонов соревнования (задача TKK, {\it SentiRuEval-2016})}
-    \label{my-label}
+    \label{table:tkkResult2016}
     \begin{tabular}{|c|c|c|c|c|}
     \hline
     \multirow{3}{*}{№} & \multicolumn{4}{c|}{TKK}                                                                                                                                                                                          \\ \cline{2-5}
@@ -36,10 +39,24 @@
 
     \subsubsection{Улучшение результатов}
 
+После проведения соревнований, в целях повышения качества классификации,
+настройки прогонов изменялись в следующих направлениях:
+\begin{enumerate}
+    \item Настройка параметра C (Cost) штрафной функции SVM классификатора.
+        \begin{itemize}
+            \item По умолчанию C=1. Среди множества протестированных значений {
+                    1, 0.75, 0.5, 0.25}, наибольший прирост достигается при C =
+                    0.5 (см. таблицу \ref{table:cParameter}).
+        \end{itemize}
+    \item Добавление новых признаков: вычисление максимальных и минимальных
+        значений (с учетом нормализации) среди всех термов сообщения по каждому
+        из лексиконов.
+\end{enumerate}
+
     \begin{table}[ht!]
     \centering
     \caption{Влияние настройки параметра Cost (С=0.5) ({\it SentiRuEval-2016})}
-    \label{my-label}
+    \label{table:cParameter}
     \begin{tabular}{|c|c|c|c|c|}
     \hline
     \multirow{2}{*}{№} & \multicolumn{2}{c|}{\begin{tabular}[c]{@{}c@{}}BANK\\ (Расширенная сбалансированная\\ коллекция, C=0.5)\end{tabular}} & \multicolumn{2}{c|}{\begin{tabular}[c]{@{}c@{}}TTK\\ (Расширенная сбалансированная\\ коллекция, C=0.5)\end{tabular}} \\ \cline{2-5}
@@ -50,10 +67,24 @@
     \end{tabular}
     \end{table}
 
+
+    Комбинация рассмотренных выше улучшений привела к настройке {\it финальных
+прогонов} (результаты представлены в таблице \ref{table:finalResults}).
+Во всех прогонах использовались русскоязычные термы и хэштеги, применялись
+тональные префиксы, а также учитывались все признаки. Изменения в настройках
+касались только числа используемых лексиконов, а также признаков построенных
+на их основе (настройки прогонов):
+    \begin{enumerate}
+        \item Вычисление суммы, минимума, максимума на основе лексикона №1 (см. таблицу \ref{table:createdLexicons}).
+        \item Прогон №1 + признаки суммы, минимума, максимума на основе лексикона №2.
+        \item Прогон №2 + признаки суммы, минимума, максимума на основе лексикона №4.
+        \item Прогон №3 + признаки минимума и максимума на основе лексиконов №3.
+    \end{enumerate}
+
     \begin{table}[ht!]
     \centering
     \caption{Результаты финального тестирования {\it SentiRuEval-2016}}
-    \label{my-label}
+    \label{table:finalResults}
     \begin{tabular}{|c|c|c|c|c|}
     \hline
     \multirow{2}{*}{№} & \multicolumn{2}{c|}{\begin{tabular}[c]{@{}c@{}}BANK\\ (Расширенная сбалансированная\\ коллекция, C=0.5)\end{tabular}} & \multicolumn{2}{c|}{\begin{tabular}[c]{@{}c@{}}TTK\\ (Расширенная сбалансированная\\ коллекция, C=0.5)\end{tabular}} \\ \cline{2-5}
@@ -66,20 +97,59 @@
     \end{table}
 
     \subsubsection{Вывод}
+Использование метаинформации на основе лексиконов стабильно повышает качество
+классификации. Наибольший прирост качества достигается в случае, если классификатор
+был обучен на коллекции несбалансированного типа (см. таблицу \ref{table:conclusion}\footnote{
+Тип обучающей коллекции обозначается следующим образом:
+$A$ --- не сбалансированная;
+$B$ --- сбалансированная;
+$C$ --- расширенная.})\footnote{
+В таблице рассматривается прирост качества 3-его прогона по отношению к 1-ому (согласно
+таблицам \ref{table:bankResult2015}-\ref{table:tkkResult2015}, и
+\ref{table:bankResult2016}-\ref{table:tkkResult2016}).
+В скобках указывается общий прирост качества с учетом балансировки.
+}.
+
 \begin{table}[ht!]
-\begin{adjustwidth}{-1.85cm}{}
+\begin{adjustwidth}{-1.1cm}{}
 \centering
 \caption{Рост качества при использовании признаков на основе лексиконов в зависимости от типа обучающей коллекции}
-\label{my-label}
+\label{table:conclusion}
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
-\multicolumn{2}{|c|}{\begin{tabular}[c]{@{}c@{}}Параметры \\ обучающей коллекции\end{tabular}}                                                        & \multicolumn{2}{c|}{BANK}                                                                                            & \multicolumn{2}{c|}{TKK}                                                                                          \\ \hline
+\multicolumn{2}{|c|}{\begin{tabular}[c]{@{}c@{}c@{}}Параметры \\ обучающей \\ коллекции\end{tabular}}                                                        & \multicolumn{2}{c|}{BANK}                                                                                            & \multicolumn{2}{c|}{TKK}                                                                                          \\ \hline
 Год                      & Тип         & $F_{macro}(neg, pos)$                                    & $F_{micro}(neg, pos)$                                     & $F_{macro}(neg, pos)$                                   & $F_{micro}(neg, pos)$                                   \\ \hline
-\multirow{2}{*}{2015} & A                                                    & +12.57\%                                                  & +9.8\%                                                     & +6.8\%                                                   & +3.9\%                                                   \\ \cline{2-6}
-                                  & B                                                       & \begin{tabular}[c]{@{}c@{}}+3.3\%\\ (+19.0\%)\end{tabular} & \begin{tabular}[c]{@{}c@{}}+4.6\%\\ (+19.8\%)\end{tabular}  & \begin{tabular}[c]{@{}c@{}}+4\%\\ (+3.4\%)\end{tabular}   & \begin{tabular}[c]{@{}c@{}}+2.7\%\\ (+1.9\%)\end{tabular} \\ \hline
-\multirow{3}{*}{2016} & A                                                    & ---                                                      & ---                                                       & +5.1\%                                                   & +4.6\%                                                   \\ \cline{2-6}
-                                  & B                                                       & +0.5\%                                                    & +0.03\%                                                    & ---                                                     & ---                                                     \\ \cline{2-6}
-                                  & \begin{tabular}[c]{@{}c@{}}C\end{tabular} & \begin{tabular}[c]{@{}c@{}}+4.6\%\\ (+21.95)\end{tabular} & \begin{tabular}[c]{@{}c@{}}+1.9\%\\ (+19.48\%)\end{tabular} & \begin{tabular}[c]{@{}c@{}}+4.1\%\\ (+9.0\%)\end{tabular} & \begin{tabular}[c]{@{}c@{}}+1.8\%\\ (+3.4\%)\end{tabular} \\ \hline
+\multirow{2}{*}{2015} & $A$                                                    & +12.57\%                                                  & +9.8\%                                                     & +6.8\%                                                   & +3.9\%                                                   \\ \cline{2-6}
+                                  & $B$                                                       & \begin{tabular}[c]{@{}c@{}}+3.3\%\\ (+19.0\%)\end{tabular} & \begin{tabular}[c]{@{}c@{}}+4.6\%\\ (+19.8\%)\end{tabular}  & \begin{tabular}[c]{@{}c@{}}+4\%\\ (+3.4\%)\end{tabular}   & \begin{tabular}[c]{@{}c@{}}+2.7\%\\ (+1.9\%)\end{tabular} \\ \hline
+\multirow{3}{*}{2016} & $A$                                                    & ---                                                      & ---                                                       & +5.1\%                                                   & +4.6\%                                                   \\ \cline{2-6}
+                                  & $B$                                                       & +0.5\%                                                    & +0.03\%                                                    & ---                                                     & ---                                                     \\ \cline{2-6}
+& $C$ & \begin{tabular}[c]{@{}c@{}}+4.6\%\\ (+21.95)\end{tabular} & \begin{tabular}[c]{@{}c@{}}+1.9\%\\ (+19.48\%)\end{tabular} & \begin{tabular}[c]{@{}c@{}}+4.1\%\\ (+9.0\%)\end{tabular} & \begin{tabular}[c]{@{}c@{}}+1.8\%\\ (+3.4\%)\end{tabular} \\ \hline
 \end{tabular}
 \end{adjustwidth}
+\end{table}
+В таблице \ref{table:conclusion},
+значения $(+21.95)$, и $(+19.48)$ последней строки указывают на общий прирост
+качества с учетом расширенной балансировки по отношению к обычной балансировке
+(тестирование в этих случаях на несбалансированной коллекции не проводилось,
+ввиду результатов п. \ref{sec:test2015}, таблица \ref{table:bankResult2015}).
+
+Увеличение числа признаков по каждому из лексиконов позволяет повысить показания
+таблицы \ref{table:conclusion}.
+В совокупности с использованием сбалансированной обучающей коллекции и настройкой
+классификатора, в рамках этой работы были получены максимальные результаты
+(см. таблицу \ref{table:finalResults}, прогон №3).
+
+В таблице \ref{table:totalImprovement} представлен прирост качества в результате
+использования расширенной сбалансированной коллекции в сочетании с признаками
+на основе лексиконов. Наибольший прирост достигается для задачи {\it BANK}.
+
+\begin{table}[!ht]
+\centering
+\caption{Прирост качества для каждой из задач (сравнение лучшего финального результата с результатами прогона №1, {\it SentiRuEval-2016})}
+\label{table:totalImprovement}
+\begin{tabular}{|c|c|c|}
+\hline
+Прирост качества & BANK   & TKK    \\ \hline
+Общий            & +36,4\% & +12,4\% \\ \hline
+\end{tabular}
 \end{table}
