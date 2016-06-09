@@ -52,44 +52,44 @@
 % Начало документа
 %
 \begin{document}
-%\renewcommand{\figurename}{Рисунок}
-%\input{parts/title.tex}
-%\renewcommand{\baselinestretch}{1.5}
+\renewcommand{\figurename}{Рисунок}
+\input{parts/title.tex}
+\renewcommand{\baselinestretch}{1.5}
 
 %
 % Аннотация
 %
-%\renewcommand{\abstractname}{{Аннотация}}
-%\input{parts/abstract}
-%\clearpage
+\renewcommand{\abstractname}{{Аннотация}}
+\input{parts/abstract}
+\clearpage
 
-%%
-%% Содержание
-%%
+%
+% Содержание
+%
 \renewcommand{\contentsname}{\centering Содержание}
 \tableofcontents
+
 %
-%%
-%% Введение
-%%
-%\input{parts/introduction}
+% Введение
 %
-%%
-%% Обзор предметной области
-%%
-%\newcommand\twitter{{\it Twitter }}
+\input{parts/introduction}
+
 %
-%\input{parts/subject}
+% Обзор предметной области
 %
-%%
-%% Построение классификатора
-%%
-%\input{parts/building}
+\newcommand\twitter{{\it Twitter }}
+
+\input{parts/subject}
+
 %
-%%
-%% Программная реализация
-%%
-%\input{parts/program}
+% Построение классификатора
+%
+\input{parts/building}
+
+%
+% Программная реализация
+%
+\input{parts/program}
 
 %
 % Тестирование
@@ -99,7 +99,7 @@
 %
 % Технико-экономическое обоснование
 %
-%\input{parts/economy}
+\input{parts/economy}
 
 %
 % Заключение
@@ -110,22 +110,22 @@
 %
 % Приложения
 %
-%\newpage
-%\addcontentsline{toc}{part}{Приложение А. Извлечение сообщений из социальной сети Twitter}
-%\section*{Приложение А. Извлечение сообщений из социальной сети Twitter}
-%\input{parts/appendix/a}
-%\newpage
-%\addcontentsline{toc}{part}{Приложение Б. Наиболее эмоциональные термы корпуса коротких текстов}
-%\section*{Приложение Б. Наиболее эмоциональные термы корпуса коротких текстов}
-%\input{parts/appendix/b}
+\newpage
+\addcontentsline{toc}{part}{Приложение А. Извлечение сообщений из социальной сети Twitter}
+\section*{Приложение А. Извлечение сообщений из социальной сети Twitter}
+\input{parts/appendix/a}
+\newpage
+\addcontentsline{toc}{part}{Приложение Б. Наиболее эмоциональные термы корпуса коротких текстов}
+\section*{Приложение Б. Наиболее эмоциональные термы корпуса коротких текстов}
+\input{parts/appendix/b}
 \newpage
 \addcontentsline{toc}{part}{Приложение B. Список используемых тональных префиксов}
 \section*{Приложение B. Список используемых тональных префиксов}
 \input{parts/appendix/c}
+
 %
-%%
-%% Список литературы
-%%
+% Список литературы
+%
 \clearpage
 \newpage
 \bibliographystyle{styles/utf8gost705u}  %% стилевой файл для оформления по ГОСТу
