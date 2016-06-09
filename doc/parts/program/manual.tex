@@ -82,13 +82,111 @@
 
     \subsubsection{Формат описания настроек в конфигурационных файлах}
 
+    Рассмотрим формат описания настроек в конфигурационных файлах.
+    В проекте используются следующие файлы с настройками:
+
+    \begin{itemize}
+        \item {\tt msg.conf} --- описывает настройки семантической обработки текста
+            сообщений в формате {\it JSON}.
+        \item {\tt features.conf} --- предоставляет настройку списока
+            дополнительных признаков векторизации в формате {\it JSON}.
+    \end{itemize}
+
     %
     % msg.conf
     %
+    Файл с семантической обработкой теста включает в себя настройки следующих
+    параметров:
+    \begin{itemize}
+        \item Настройки используемых термов, входящие в векторизацию согласно
+            п. \ref{sec:buildingMsgProcessing}. В листинге \ref{lst:termsSettings}
+            описан формат задания настроек. Для активации/отключения термов
+            каждого из типов необходимо в качестве значений указываются {\tt True}
+            или {\tt False} соответветственно;
+
+            \begin{lstlisting}[caption="Указание используемых в векторизации термов", label={lst:termsSettings}]
+"urls_used" : "False",
+"ht_used" : "True",
+"users_used" : "False",
+"retweet_used" : "False",
+"use_stop_words" : "False",
+            \end{lstlisting}
+
+        \item Преобразование списка термов в тональные префиксы <<+>>/<<->> (см. листинг \ref{lst:prefixProcessor}).
+            Среди термов могут быть указаны униграммы либо биграммы. Полный список
+            используемых тональных префиксов (строка 2) приведен в {\it <<Приложении B>>}.
+            \begin{lstlisting}[caption="Настройка преобразования термов в тональные префиксы", label={lst:prefixProcessor}]
+"use_prefix_processor" : "False",
+"tone_prefix" : {...}
+            \end{lstlisting}
+        \item Списки термов, которые удаляются из векторизации (стоп слова)
+            представлены в листинге \ref{lst:featuresSettings} для каждой задачи в отдельности.
+            Значением этих списков являются строки, перечисленные через зяпятую.
+
+            \begin{lstlisting}[caption="Настройка используемых списков стоп слов", label={lst:featuresSettings}]
+"bank_stop_words" : [ ... ],
+"ttk_stop_words" : [ ... ]
+            \end{lstlisting}
+    \end{itemize}
 
     %
     % features.conf
     %
+    Настройки дополнительных признаков указываются в конфигурационном файле
+    следующим образом:
+    \begin{itemize}
+        \item Настройка используемых лексиконов рассматривается в листинге \ref{lst:lexiconSettings}.
+            Значением параметра <<{\tt lexicons}>> является список используемых
+            лексиконов. Каждый лексикон включает в себя следующие настройки:
+            \begin{itemize}
+                \item {\tt table} --- имя таблицы, в которой описан лексикон;
+                \item {\tt name} --- терм, который будет использоваться при добавлении в словарь с термами;
+                \item {\tt enabled} ---  указывает на использование признака;
+                    на основе этого лексикона в векторизации.
+            \end{itemize}
+        \begin{lstlisting}[caption="Настройка используемых лексиконов", label={lst:lexiconSettings}]
+"lexicons" : [ {
+        "lexicon_configpath" : "lexicon.conf",
+        "table" : "rubtsova_lexicon",
+        "name" : "$rubtsova_lexicon",
+        "enabled" : "True"
+    }, ... ]
+        \end{lstlisting}
+
+        \item Параметры настройки признака на основе лексиконов приведены в листинге \ref{lst:smilesSettings}.
+            Из параметров, отличных от настройки лексикона следует отметить:
+            \begin{itemize}
+                \item {\tt positive\_values} --- список эмотиконов с положительной тональностью;
+                \item {\tt negative\_values} --- список эмотиконов с негативной тональностью.
+            \end{itemize}
+        \begin{lstlisting}[caption="Настройка признака на основе эмотиконов", label={lst:smilesSettings}]
+"smiles" : {
+    "enabled"  : "False",
+    "name" : "$smiles",
+    "positive_values" : [ ... ],
+    "negative_values" : [ ... ]
+}
+        \end{lstlisting}
+        \item Настройка признака на основе знаков пунктуации представлена в
+            листинге \ref{lst:signsSettings}.
+        \begin{lstlisting}[caption="Настройка признаков на основе знаков пунктуации", label={lst:signsSettings}]
+"signs" : {
+    "enabled" : "False",
+    "name" : "$signs",
+    "chars" : ["?", "!", "..."]
+},
+        \end{lstlisting}
+
+        \item Настройка признака подсчета числа слов в верхнем регистре описана в
+            листинге \ref{lst:uppercaseSettings}.
+        \begin{lstlisting}[caption="Настройка признака подсчета числа слов в верхнем регистре", label={lst:uppercaseSettings}]
+"uppercase_words" : {
+    "enabled" : "False",
+    "name" : "$uppercase_words"
+}
+        \end{lstlisting}
+
+    \end{itemize}
 
 
 %        \subsubsection{Создание лексиконов на основе сообщений сети
