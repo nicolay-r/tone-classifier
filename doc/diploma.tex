@@ -9,6 +9,12 @@
 \usepackage{subfigure}
 \usepackage{color}
 \usepackage{listings}
+% подсчет числа изображений, таблиц, ссылок
+\usepackage[figure, table]{totalcount}
+\usepackage{totcount}
+\newtotcounter{citnum} %From the package documentation
+\def\oldbibitem{} \let\oldbibitem=\bibitem
+\def\bibitem{\stepcounter{citnum}\oldbibitem}
 
 \usepackage{algorithm}
 \usepackage{algpseudocode}
@@ -43,6 +49,8 @@
 \usepackage{tikz} %для рисования графиков
 \usepackage{pgfplots}
 \usepackage[hidelinks]{hyperref}
+
+\usepackage{lastpage}
 
 % перенос ячеек в таблице
 \newcommand{\specialcell}[2][c]{%
