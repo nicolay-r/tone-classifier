@@ -4,6 +4,7 @@ import io
 import json
 from lexicon import Lexicon
 from math import exp
+import re
 
 class Features:
 
@@ -15,7 +16,7 @@ class Features:
             return s
 
     @staticmethod
-    def normalize_tone_sum(tone, k):
+    def normalize_tone(tone, k):
         if (tone >= 0):
             return 1.0 - exp(-abs(tone/k))
         else:
@@ -23,13 +24,30 @@ class Features:
 
     @staticmethod
     def lexicon_feature(lex, terms, lexicon_settings):
-        mode = lexicon_settings['terms_used']
-        if (mode == 'all'):
-            value = sum([lex.get_tone(term) for term in terms])
-        elif (mode == 'hashtags_only'):
-            value = sum([lex.get_tone(term) for term in terms if len(term) > 0
-                and term[0] == '#'])
-        return lex.get_name(), Features.normalize_tone_sum(value, 10)
+        terms_used = lexicon_settings['terms_used']
+
+        tones = []
+        if (terms_used == 'all'):
+            tones = [lex.get_tone(term) for term in terms]
+        elif (terms_used == 'hashtags_only'):
+            tones = [lex.get_tone(term) for term in terms if len(term) > 0
+                and term[0] == '#']
+
+        if (len(tones) == 0):
+            tones.append(0)
+
+        if ('function' in lexicon_settings):
+            func = lexicon_settings['function']
+        else:
+            func = 'sum'
+        if (func == 'sum'):
+            value = sum(tones)
+        elif (func == 'max'):
+            value = max(tones)
+        elif (func == 'min'):
+            value = min(tones)
+
+        return lex.get_name(), Features.normalize_tone(value, 10)
 
     @staticmethod
     def pm_prefix_sum(terms):
@@ -56,15 +74,11 @@ class Features:
     @staticmethod
     def signs_feature(unicode_message, chars):
         total = 0
-        max_sequence = 0
-        for char in unicode_message:
-            if char in chars:
-                total += 1
-            else:
-                max_sequence = max(max_sequence, total)
-                total = 0
 
-        return max_sequence
+        for char in chars:
+            total += unicode_message.count(char)
+
+        return total
 
     @staticmethod
     def uppercase_words(unicode_message):
@@ -93,9 +107,13 @@ class Features:
 
             # smiles
             if Features.str2bool(self.smiles_settings['enabled']):
-                positive = Features.smiles_feature(unicode_message,
+                unicode_text = unicode(unicode_message)
+                # remove urls
+                unicode_text = re.sub(r'^https?:\/\/.*[\r\n]*', '',
+                        unicode_text, flags=re.MULTILINE)
+                positive = Features.smiles_feature(unicode_text,
                     self.smiles_settings['positive_values'])
-                negative = -Features.smiles_feature(unicode_message,
+                negative = -Features.smiles_feature(unicode_text,
                     self.smiles_settings['negative_values'])
 
                 score = 0
@@ -137,12 +155,13 @@ class Features:
                         'lexicon' : Lexicon(
                             lexicon_settings['lexicon_configpath'],
                             lexicon_settings['table'], lexicon_settings['name'],
+                            lexicon_settings['multiplier'],
                             lexicon_settings['term_column_name'],
                             lexicon_settings['value_column_name']),
                         'settings' : lexicon_settings
                     }
                 );
-                print "use lexicon: ", lexicon_settings['name']
+                #print "use lexicon: ", lexicon_settings['name']
 
         self.pm_prefix_sum_settings = settings['pm_prefix_sum']
         self.pm_prefix_used = Features.str2bool(

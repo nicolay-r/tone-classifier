@@ -103,7 +103,7 @@ def save(connection, out_table, r):
         if (len(pair[0]) < max_term_length):
             cursor.execute("""INSERT INTO {table} ({term}, {value})
                 VALUES (\'{t}\', {v})""".format(term="term", value='tone',
-                table=out_table, t=pair[0].encode('utf-8'), v=pair[1]));
+                table=out_table, t=pair[0].encode('utf-8').replace("'", "''"), v=pair[1]));
 
         connection.commit()
 
@@ -125,7 +125,7 @@ settings = """dbname=%s user=%s password=%s host=%s"""%(
 connection = connect(settings)
 cursor = connection.cursor()
 
-mystem = Mystem(entire_input=False)
+mystem = Mystem()
 
 tv1, dv1 = build_vocabularies(mystem, cursor, original_table, msg_config_path)
 tv2, dv2 = build_vocabularies(mystem, cursor, opposite_table, msg_config_path)

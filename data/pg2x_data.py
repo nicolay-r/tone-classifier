@@ -25,8 +25,8 @@ def data2xml(root_node, data_cursor, table_name):
             text = str(row[i])
             if row[i] is None:
                 text = 'NULL'
-            if (row_cols[i] != 'text'):
-                ET.SubElement(table_node, "column", name=row_cols[i]).text = text
+            #if (row_cols[i] != 'text'):
+            ET.SubElement(table_node, "column", name=row_cols[i]).text = text.decode('utf-8')
         # go to next line
         row = data_cursor.fetchone()
 
@@ -38,7 +38,7 @@ def export_and_save(table, out_filename):
     tree = ET.ElementTree(root_node)
     # save
     with open(out_filename, "w") as out:
-        out.write(to_pretty(tree))
+        out.write(to_pretty(tree).encode('utf-8'))
 
 argc = len(sys.argv)
 if (argc == 1):
