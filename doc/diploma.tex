@@ -1,0 +1,152 @@
+\documentclass[a4paper,14pt]{extarticle}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage[english,russian]{babel} %используем русский и английский языки с переносами
+\usepackage{amssymb,amsfonts,amsmath,mathtext,cite,enumerate,float} %подключаем нужные пакеты расширений
+
+\usepackage[pdftex]{graphicx, color}
+\usepackage{subfigure}
+\usepackage{color}
+\usepackage{listings}
+% подсчет числа изображений, таблиц, ссылок
+\usepackage[figure, table]{totalcount}
+\usepackage{totcount}
+\newtotcounter{citnum} %From the package documentation
+\def\oldbibitem{} \let\oldbibitem=\bibitem
+\def\bibitem{\stepcounter{citnum}\oldbibitem}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\usepackage{pdflscape}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{cases}
+\floatname{algorithm}{Листинг}
+
+\setlength{\parindent}{1.25cm}      % Абзацный отступ: 1.25 cm
+\usepackage{indentfirst}            % 1-й абзац имеет отступ
+
+\DeclareGraphicsExtensions{.png,.pdf,.jpg,.mps,.bmp}
+\graphicspath{{pictures/chapter1/}, {pictures/chapter2/}, {pictures/chapter3/}, {pictures/chapter4/}}
+\usepackage{bmpsize}
+\usepackage[section]{placeins}
+\usepackage[nooneline]{caption} \captionsetup[table]{justification=raggedleft} \captionsetup[figure]{justification=centering,labelsep=endash}
+
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm,bindingoffset=0cm]{geometry} % Меняем поля страницы
+\usepackage{textcomp,eurosym}
+\usepackage{setspace}
+\onehalfspacing % Полуторный интервал
+
+\renewcommand{\lstlistingname}{Листинг}
+
+\usepackage{changepage}
+
+\usepackage{tikz} %для рисования графиков
+\usepackage{pgfplots}
+\usepackage[hidelinks]{hyperref}
+
+\usepackage{lastpage}
+
+% перенос ячеек в таблице
+\newcommand{\specialcell}[2][c]{%
+\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+%
+% Начало документа
+%
+\begin{document}
+\renewcommand{\figurename}{Рисунок}
+\input{parts/title.tex}
+\renewcommand{\baselinestretch}{1.5}
+
+%
+% Объявление команд
+%
+\newcommand\twitter{{\it Twitter }}
+
+%
+% Аннотация
+%
+\renewcommand{\abstractname}{{Аннотация}}
+\input{parts/abstract}
+\clearpage
+
+%
+% Содержание
+%
+\renewcommand{\contentsname}{\centering Содержание}
+\tableofcontents
+
+%
+% Введение
+%
+\input{parts/introduction}
+
+%
+% Обзор предметной области
+%
+
+\input{parts/subject}
+
+%
+% Постановка задачи
+%
+\input{parts/task}
+
+%
+% Построение классификатора
+%
+\input{parts/building}
+
+%
+% Программная реализация
+%
+\input{parts/program}
+
+%
+% Тестирование
+%
+\input{parts/test}
+
+%
+% Технико-экономическое обоснование
+%
+\input{parts/economy}
+
+%
+% Заключение
+%
+\newpage
+\input{parts/conclusion}
+
+%
+% Приложения
+%
+\newpage
+\addcontentsline{toc}{part}{Приложение А. Извлечение сообщений из социальной сети Twitter}
+\section*{Приложение А. Извлечение сообщений из социальной сети Twitter}
+\input{parts/appendix/a}
+\newpage
+\addcontentsline{toc}{part}{Приложение Б. Наиболее эмоциональные термы корпуса коротких текстов}
+\section*{Приложение Б. Наиболее эмоциональные термы корпуса коротких текстов}
+\input{parts/appendix/b}
+\newpage
+\addcontentsline{toc}{part}{Приложение B. Список используемых тональных префиксов}
+\section*{Приложение B. Список используемых тональных префиксов}
+\input{parts/appendix/c}
+
+%
+% Список литературы
+%
+\clearpage
+\newpage
+\bibliographystyle{styles/utf8gost705u}  %% стилевой файл для оформления по ГОСТу
+\addcontentsline{toc}{section}{\large Список Литературы}
+\bibliography{biblio}     %% имя библиографической базы (bib-файла)
+
+\end{document}
