@@ -85,7 +85,7 @@ class Message:
             elif (word[0] == '#'):
                 # hash tags
                 hash_tags.append(word)
-            elif (word.find('http:') == 0 or word.find('https:') == 0):
+            elif (word.find('http:') == 0):
                 # url
                 urls.append(word)
             elif(word == retweet_term):
