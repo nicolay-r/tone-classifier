@@ -4,7 +4,7 @@ import sys
 from inspect import getsourcefile
 from os.path import abspath, dirname
 curr_dir = dirname(abspath(getsourcefile(lambda:0)))
-sys.path.insert(0, curr_dir + '/../aux')
+sys.path.insert(0, curr_dir + '/../_aux')
 
 from math import log
 

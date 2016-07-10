@@ -6,7 +6,7 @@ import sys
 from inspect import getsourcefile
 from os.path import abspath, dirname
 sys.path.insert(0, dirname(abspath(getsourcefile(lambda:0))) +
-    '/../../models/aux')
+    '/../../models/_aux')
 
 from pymystem3 import Mystem
 from psycopg2 import connect

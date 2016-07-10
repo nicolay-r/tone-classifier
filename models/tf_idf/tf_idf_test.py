@@ -7,7 +7,7 @@ from inspect import getsourcefile
 from os.path import abspath, dirname
 import vec
 
-sys.path.insert(0, dirname(abspath(getsourcefile(lambda:0))) + '/../aux')
+sys.path.insert(0, dirname(abspath(getsourcefile(lambda:0))) + '/../_aux')
 from vocs import TermVocabulary, DocVocabulary
 from msg import Message
 from features import Features

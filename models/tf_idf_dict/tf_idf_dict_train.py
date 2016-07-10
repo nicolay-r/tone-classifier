@@ -9,7 +9,7 @@ from etvoc import ExtendedTermVocabulary
 import vec
 
 curr_dir = dirname(abspath(getsourcefile(lambda:0)))
-sys.path.insert(0, curr_dir + '/../aux')
+sys.path.insert(0, curr_dir + '/../_aux')
 from vocs import TermVocabulary, DocVocabulary
 from msg import Message
 from features import Features

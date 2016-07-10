@@ -10,7 +10,7 @@ import json
 import io
 from table import Table
 
-sys.path.insert(0, dirname(abspath(getsourcefile(lambda:0))) + '/../../models/aux')
+sys.path.insert(0, dirname(abspath(getsourcefile(lambda:0))) + '/../../models/_aux')
 from msg import Message
 from features import Features
 

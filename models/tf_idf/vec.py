@@ -3,7 +3,7 @@ from math import log
 import sys
 from inspect import getsourcefile
 from os.path import abspath, dirname
-sys.path.insert(0, dirname(abspath(getsourcefile(lambda:0))) + '/../aux')
+sys.path.insert(0, dirname(abspath(getsourcefile(lambda:0))) + '/../_aux')
 from msg import Message
 from vocs import TermVocabulary
 
