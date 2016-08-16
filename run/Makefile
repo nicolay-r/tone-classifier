@@ -3,7 +3,7 @@ SVM_ROOT=../libsvm/
 # Root of the problem and training data
 DATA_ROOT=../models/
 # SVM prediction script
-SVM_PREDICT=../models/aux/
+SVM_PREDICT=../models/_aux/
 
 #remove TASK_TYPE
 
@@ -27,7 +27,7 @@ USERCOLLECTION = ../data/collections/user/
 # Test
 #
 user_tf_idf_bank_balanced_2016: TASK_TYPE = bank
-user_tf_idf_bank_balanced_2016: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+user_tf_idf_bank_balanced_2016: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
 user_tf_idf_bank_balanced_2016: TEST_TABLE = bank_test_user
 user_tf_idf_bank_balanced_2016: TRAIN_TABLE = bank_train_balanced_2016
 user_tf_idf_bank_balanced_2016: MODEL_OPTIONS= -t 0 -c 0.5
@@ -40,7 +40,7 @@ user_tf_idf_bank_balanced_2016: core
 # BANK task 2015
 #
 tf_idf_bank_imbalanced: TASK_TYPE = bank
-tf_idf_bank_imbalanced: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+tf_idf_bank_imbalanced: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
 tf_idf_bank_imbalanced: TEST_TABLE = bank_test_noname
 tf_idf_bank_imbalanced: TRAIN_TABLE = bank_train_noname
 tf_idf_bank_imbalanced: MODEL_NAME = tf_idf
@@ -48,7 +48,7 @@ tf_idf_bank_imbalanced: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.xm
 tf_idf_bank_imbalanced: core
 
 tf_idf_dict_bank_imbalanced: TASK_TYPE = bank
-tf_idf_dict_bank_imbalanced: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+tf_idf_dict_bank_imbalanced: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
 tf_idf_dict_bank_imbalanced: TEST_TABLE = bank_test_noname
 tf_idf_dict_bank_imbalanced: TRAIN_TABLE = bank_train_noname
 tf_idf_dict_bank_imbalanced: MODEL_NAME = tf_idf_dict
@@ -56,7 +56,7 @@ tf_idf_dict_bank_imbalanced: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_eta
 tf_idf_dict_bank_imbalanced: core
 
 tf_idf_bank_balanced: TASK_TYPE = bank
-tf_idf_bank_balanced: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+tf_idf_bank_balanced: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
 tf_idf_bank_balanced: TEST_TABLE = bank_test_noname
 tf_idf_bank_balanced: TRAIN_TABLE = bank_train_balanced
 tf_idf_bank_balanced: MODEL_NAME = tf_idf
@@ -64,7 +64,7 @@ tf_idf_bank_balanced: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.xml
 tf_idf_bank_balanced: core
 
 tf_idf_bank_balanced_cost0.5: TASK_TYPE = bank
-tf_idf_bank_balanced_cost0.5: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+tf_idf_bank_balanced_cost0.5: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
 tf_idf_bank_balanced_cost0.5: TEST_TABLE = bank_test_noname
 tf_idf_bank_balanced_cost0.5: TRAIN_TABLE = bank_train_balanced
 tf_idf_bank_balanced_cost0.5: MODEL_NAME = tf_idf
@@ -73,7 +73,7 @@ tf_idf_bank_balanced_cost0.5: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_et
 tf_idf_bank_balanced_cost0.5: core
 
 tf_idf_dict_bank_balanced: TASK_TYPE = bank
-tf_idf_dict_bank_balanced: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+tf_idf_dict_bank_balanced: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
 tf_idf_dict_bank_balanced: TEST_TABLE = bank_test_noname
 tf_idf_dict_bank_balanced: TRAIN_TABLE = bank_train_balanced
 tf_idf_dict_bank_balanced: MODEL_NAME = tf_idf_dict
@@ -84,7 +84,7 @@ tf_idf_dict_bank_balanced: core
 # Bank task 2016
 #
 16_tf_idf_bank_half_balanced: TASK_TYPE = bank
-16_tf_idf_bank_half_balanced: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+16_tf_idf_bank_half_balanced: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
 16_tf_idf_bank_half_balanced: TEST_TABLE = bank_test_2016
 16_tf_idf_bank_half_balanced: TRAIN_TABLE = bank_train_balanced
 16_tf_idf_bank_half_balanced: MODEL_NAME = tf_idf
@@ -92,7 +92,7 @@ tf_idf_dict_bank_balanced: core
 16_tf_idf_bank_half_balanced: core
 
 16_tf_idf_bank_balanced: TASK_TYPE = bank
-16_tf_idf_bank_balanced: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+16_tf_idf_bank_balanced: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
 16_tf_idf_bank_balanced: TEST_TABLE = bank_test_2016
 16_tf_idf_bank_balanced: TRAIN_TABLE = bank_train_balanced_2016
 16_tf_idf_bank_balanced: MODEL_NAME = tf_idf
@@ -100,7 +100,7 @@ tf_idf_dict_bank_balanced: core
 16_tf_idf_bank_balanced: core
 
 16_tf_idf_bank_balanced_cost0.75: TASK_TYPE = bank
-16_tf_idf_bank_balanced_cost0.75: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+16_tf_idf_bank_balanced_cost0.75: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
 16_tf_idf_bank_balanced_cost0.75: TEST_TABLE = bank_test_2016
 16_tf_idf_bank_balanced_cost0.75: TRAIN_TABLE = bank_train_balanced_2016
 16_tf_idf_bank_balanced_cost0.75: MODEL_NAME = tf_idf
@@ -109,7 +109,7 @@ tf_idf_dict_bank_balanced: core
 16_tf_idf_bank_balanced_cost0.75: core
 
 16_tf_idf_bank_balanced_cost0.5: TASK_TYPE = bank
-16_tf_idf_bank_balanced_cost0.5: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+16_tf_idf_bank_balanced_cost0.5: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
 16_tf_idf_bank_balanced_cost0.5: TEST_TABLE = bank_test_2016
 16_tf_idf_bank_balanced_cost0.5: TRAIN_TABLE = bank_train_balanced_2016
 16_tf_idf_bank_balanced_cost0.5: MODEL_NAME = tf_idf
@@ -118,7 +118,7 @@ tf_idf_dict_bank_balanced: core
 16_tf_idf_bank_balanced_cost0.5: core
 
 16_tf_idf_bank_balanced_8k: TASK_TYPE = bank
-16_tf_idf_bank_balanced_8k: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+16_tf_idf_bank_balanced_8k: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
 16_tf_idf_bank_balanced_8k: TEST_TABLE = bank_test_2016
 16_tf_idf_bank_balanced_8k: TRAIN_TABLE = bank_train_balanced_2016_max
 16_tf_idf_bank_balanced_8k: MODEL_NAME = tf_idf
@@ -126,7 +126,7 @@ tf_idf_dict_bank_balanced: core
 16_tf_idf_bank_balanced_8k: core
 
 16_tf_idf_bank_balanced_8k_cost0.5: TASK_TYPE = bank
-16_tf_idf_bank_balanced_8k_cost0.5: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+16_tf_idf_bank_balanced_8k_cost0.5: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
 16_tf_idf_bank_balanced_8k_cost0.5: TEST_TABLE = bank_test_2016
 16_tf_idf_bank_balanced_8k_cost0.5: TRAIN_TABLE = bank_train_balanced_2016_max
 16_tf_idf_bank_balanced_8k_cost0.5: MODEL_NAME = tf_idf
@@ -137,7 +137,7 @@ tf_idf_dict_bank_balanced: core
 # TTK task 2015
 #
 tf_idf_ttk_imbalanced: TASK_TYPE = ttk
-tf_idf_ttk_imbalanced: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+tf_idf_ttk_imbalanced: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
 tf_idf_ttk_imbalanced: TEST_TABLE = ttk_test_noname
 tf_idf_ttk_imbalanced: TRAIN_TABLE = ttk_train_noname
 tf_idf_ttk_imbalanced: MODEL_NAME = tf_idf
@@ -145,7 +145,7 @@ tf_idf_ttk_imbalanced: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.xm
 tf_idf_ttk_imbalanced: core
 
 tf_idf_dict_ttk_imbalanced: TASK_TYPE = ttk
-tf_idf_dict_ttk_imbalanced: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+tf_idf_dict_ttk_imbalanced: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
 tf_idf_dict_ttk_imbalanced: TEST_TABLE = ttk_test_noname
 tf_idf_dict_ttk_imbalanced: TRAIN_TABLE = ttk_train_noname
 tf_idf_dict_ttk_imbalanced: MODEL_NAME = tf_idf_dict
@@ -153,7 +153,7 @@ tf_idf_dict_ttk_imbalanced: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etal
 tf_idf_dict_ttk_imbalanced: core
 
 tf_idf_ttk_balanced: TASK_TYPE = ttk
-tf_idf_ttk_balanced: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+tf_idf_ttk_balanced: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
 tf_idf_ttk_balanced: TEST_TABLE = ttk_test_noname
 tf_idf_ttk_balanced: TRAIN_TABLE = ttk_train_balanced
 tf_idf_ttk_balanced: MODEL_NAME = tf_idf
@@ -161,7 +161,7 @@ tf_idf_ttk_balanced: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.xml
 tf_idf_ttk_balanced: core
 
 tf_idf_ttk_balanced_cost0.5: TASK_TYPE = ttk
-tf_idf_ttk_balanced_cost0.5: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+tf_idf_ttk_balanced_cost0.5: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
 tf_idf_ttk_balanced_cost0.5: TEST_TABLE = ttk_test_noname
 tf_idf_ttk_balanced_cost0.5: TRAIN_TABLE = ttk_train_balanced
 tf_idf_ttk_balanced_cost0.5: MODEL_NAME = tf_idf
@@ -170,7 +170,7 @@ tf_idf_ttk_balanced_cost0.5: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_eta
 tf_idf_ttk_balanced_cost0.5: core
 
 tf_idf_dict_ttk_balanced: TASK_TYPE = ttk
-tf_idf_dict_ttk_balanced: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+tf_idf_dict_ttk_balanced: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
 tf_idf_dict_ttk_balanced: TEST_TABLE = ttk_test_noname
 tf_idf_dict_ttk_balanced: TRAIN_TABLE = ttk_train_balanced
 tf_idf_dict_ttk_balanced: MODEL_NAME = tf_idf_dict
@@ -180,7 +180,7 @@ tf_idf_dict_ttk_balanced: core
 # TTK task 2016
 #
 16_tf_idf_ttk_imbalanced: TASK_TYPE = ttk
-16_tf_idf_ttk_imbalanced: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+16_tf_idf_ttk_imbalanced: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
 16_tf_idf_ttk_imbalanced: TEST_TABLE = ttk_test_2016
 16_tf_idf_ttk_imbalanced: TRAIN_TABLE = ttk_train_2016
 16_tf_idf_ttk_imbalanced: MODEL_NAME = tf_idf
@@ -188,7 +188,7 @@ tf_idf_dict_ttk_balanced: core
 16_tf_idf_ttk_imbalanced: core
 
 16_tf_idf_ttk_balanced: TASK_TYPE = ttk
-16_tf_idf_ttk_balanced: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+16_tf_idf_ttk_balanced: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
 16_tf_idf_ttk_balanced: TEST_TABLE = ttk_test_2016
 16_tf_idf_ttk_balanced: TRAIN_TABLE = ttk_train_balanced_2016
 16_tf_idf_ttk_balanced: MODEL_NAME = tf_idf
@@ -196,7 +196,7 @@ tf_idf_dict_ttk_balanced: core
 16_tf_idf_ttk_balanced: core
 
 16_tf_idf_ttk_balanced_cost0.75: TASK_TYPE = ttk
-16_tf_idf_ttk_balanced_cost0.75: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+16_tf_idf_ttk_balanced_cost0.75: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
 16_tf_idf_ttk_balanced_cost0.75: TEST_TABLE = ttk_test_2016
 16_tf_idf_ttk_balanced_cost0.75: TRAIN_TABLE = ttk_train_balanced_2016
 16_tf_idf_ttk_balanced_cost0.75: MODEL_NAME = tf_idf
@@ -205,7 +205,7 @@ tf_idf_dict_ttk_balanced: core
 16_tf_idf_ttk_balanced_cost0.75: core
 
 16_tf_idf_ttk_balanced_cost0.5: TASK_TYPE = ttk
-16_tf_idf_ttk_balanced_cost0.5: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+16_tf_idf_ttk_balanced_cost0.5: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
 16_tf_idf_ttk_balanced_cost0.5: TEST_TABLE = ttk_test_2016
 16_tf_idf_ttk_balanced_cost0.5: TRAIN_TABLE = ttk_train_balanced_2016
 16_tf_idf_ttk_balanced_cost0.5: MODEL_NAME = tf_idf
@@ -214,7 +214,7 @@ tf_idf_dict_ttk_balanced: core
 16_tf_idf_ttk_balanced_cost0.5: core
 
 16_tf_idf_ttk_balanced_cost0.25: TASK_TYPE = ttk
-16_tf_idf_ttk_balanced_cost0.25: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+16_tf_idf_ttk_balanced_cost0.25: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
 16_tf_idf_ttk_balanced_cost0.25: TEST_TABLE = ttk_test_2016
 16_tf_idf_ttk_balanced_cost0.25: TRAIN_TABLE = ttk_train_balanced_2016
 16_tf_idf_ttk_balanced_cost0.25: MODEL_NAME = tf_idf
@@ -223,7 +223,7 @@ tf_idf_dict_ttk_balanced: core
 16_tf_idf_ttk_balanced_cost0.25: core
 
 16_tf_idf_ttk_balanced_cost0.05: TASK_TYPE = ttk
-16_tf_idf_ttk_balanced_cost0.05: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+16_tf_idf_ttk_balanced_cost0.05: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
 16_tf_idf_ttk_balanced_cost0.05: TEST_TABLE = ttk_test_2016
 16_tf_idf_ttk_balanced_cost0.05: TRAIN_TABLE = ttk_train_balanced_2016
 16_tf_idf_ttk_balanced_cost0.05: MODEL_NAME = tf_idf
@@ -232,7 +232,7 @@ tf_idf_dict_ttk_balanced: core
 16_tf_idf_ttk_balanced_cost0.05: core
 
 16_tf_idf_ttk_balanced_6k: TASK_TYPE = ttk
-16_tf_idf_ttk_balanced_6k: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+16_tf_idf_ttk_balanced_6k: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
 16_tf_idf_ttk_balanced_6k: TEST_TABLE = ttk_test_2016
 16_tf_idf_ttk_balanced_6k: TRAIN_TABLE = ttk_train_balanced_2016_max
 16_tf_idf_ttk_balanced_6k: MODEL_NAME = tf_idf
@@ -240,7 +240,7 @@ tf_idf_dict_ttk_balanced: core
 16_tf_idf_ttk_balanced_6k: core
 
 16_tf_idf_ttk_balanced_6k_cost0.5: TASK_TYPE = ttk
-16_tf_idf_ttk_balanced_6k_cost0.5: VOCABULARY_PATH = $(DATA_ROOT)/aux/$(TASK_TYPE).voc
+16_tf_idf_ttk_balanced_6k_cost0.5: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
 16_tf_idf_ttk_balanced_6k_cost0.5: TEST_TABLE = ttk_test_2016
 16_tf_idf_ttk_balanced_6k_cost0.5: TRAIN_TABLE = ttk_train_balanced_2016_max
 16_tf_idf_ttk_balanced_6k_cost0.5: MODEL_NAME = tf_idf
@@ -252,7 +252,7 @@ core:
 	echo $(MODEL_OPTIONS)
 	mkdir -p $(MODEL_OUTDIR)
 	# Build Vocabulary
-	$(DATA_ROOT)/aux/indexer.py romipdata $(VOCABULARY_PATH) $(TRAIN_TABLE) $(TEST_TABLE)
+	$(DATA_ROOT)/_aux/indexer.py romipdata $(VOCABULARY_PATH) $(TRAIN_TABLE) $(TEST_TABLE)
 	# Extracting a problem for SVM
 	$(MODEL_ROOT)/$(MODEL_NAME)_train.py $(TASK_TYPE) romipdata $(TRAIN_TABLE) $(VOCABULARY_PATH) $(MODEL_PROB)
 	# Extracting testing data
