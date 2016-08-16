@@ -20,3 +20,16 @@ balanced_sentiRuEval_2016_6k:
 balanced_sentiRuEval_2016_8k:
 	cd ${BALANCER_SCRIPTS}/2016/volume/8k && psql -U $(DATABASE_USER) -h localhost -W -d $(DATABASE) -f produce_bank_2016.sql
 	cd ${BALANCER_SCRIPTS}/2016/volume/8k && psql -U $(DATABASE_USER) -h localhost -W -d $(DATABASE) -f produce_ttk_2016.sql
+
+init:
+	# Install all dependecies.
+	sudo apt-get install python-libxml2 python-psycopg2 python-pip postgresql-9.3 g++ nodejs npm nodejs-legacy unzip
+	sudo pip install pymystem3
+
+	# Downloading and compile SVM library.
+	git clone https://github.com/cjlin1/libsvm
+	make -C libsvm
+	make -C libsvm/python
+
+	# Install eval package -- script which estimates a model result quality.
+	sudo cd eval && npm install
