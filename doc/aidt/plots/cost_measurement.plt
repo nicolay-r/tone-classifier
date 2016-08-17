@@ -1,21 +1,24 @@
-reset
+set term png
 set key outside
 set key right top
 set grid
 set xrange [0.1:1]
 set xtics 0.1,0.1,1
-set yrange [0.34:0.48]
-set ytics 0.34,0.01,0.48
+set yrange [0.36:0.52]
+set ytics 0.36,0.01,0.52
 set xlabel "SVM 'Cost' Parameter Value"
-set ylabel "Fmacro(neg, pos)"
+set ylabel "F-macro(neg, pos)"
 
-plot "sentirueval_2015_balanced.dat" using 1:2 with linespoints title "BANK_01", \
-    "sentirueval_2015_balanced.dat" using 1:3 with linespoints title "BANK_02", \
-    "sentirueval_2015_balanced.dat" using 1:4 with linespoints title "BANK_03", \
-    "sentirueval_2015_balanced.dat" using 1:5 with linespoints title "BANK_04", \
-    "sentirueval_2015_balanced.dat" using 1:6 with linespoints title "BANK_05"
-pause -1
+set output "2015_bank_balanced.png"
+plot "2015_bank_balanced.dat" using 1:2 with linespoints title "BANK_01", \
+    "2015_bank_balanced.dat" using 1:3 with linespoints title "BANK_02", \
+    "2015_bank_balanced.dat" using 1:4 with linespoints title "BANK_03", \
+    "2015_bank_balanced.dat" using 1:5 with linespoints title "BANK_04", \
+    "2015_bank_balanced.dat" using 1:6 with linespoints title "BANK_05"
 
-set term png
-set output "sentirueval_2015_bank_balanced.png"
-replot
+set output "2015_ttk_balanced.png"
+plot "2015_ttk_balanced.dat" using 1:2 with linespoints title "TCC_01", \
+    "2015_ttk_balanced.dat" using 1:3 with linespoints title "TCC_02", \
+    "2015_ttk_balanced.dat" using 1:4 with linespoints title "TCC_03", \
+    "2015_ttk_balanced.dat" using 1:5 with linespoints title "TCC_04", \
+    "2015_ttk_balanced.dat" using 1:6 with linespoints title "TCC_05"

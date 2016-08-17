@@ -7,7 +7,7 @@ res="penalty_result"
 # Создаем каталог с результатом работы
 mkdir -p $res
 
-for f in 01 02 03 04 05;
+for f in 10;
 do
     echo "Test type: $f"
     # Копируем результаты настроек классификатора
