@@ -1,0 +1,63 @@
+\documentclass[a4paper,14pt]{extarticle}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage[english,russian]{babel} %используем русский и английский языки с переносами
+\usepackage{amssymb,amsfonts,amsmath,mathtext,cite,enumerate,float} %подключаем нужные пакеты расширений
+
+\usepackage[pdftex]{graphicx, color}
+\usepackage{color}
+\usepackage{listings}
+% подсчет числа изображений, таблиц, ссылок
+\usepackage[figure, table]{totalcount}
+\usepackage{totcount}
+\newtotcounter{citnum} %From the package documentation
+\def\oldbibitem{} \let\oldbibitem=\bibitem
+\def\bibitem{\stepcounter{citnum}\oldbibitem}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\usepackage{pdflscape}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{cases}
+\floatname{algorithm}{Листинг}
+
+\setlength{\parindent}{1.25cm}      % Абзацный отступ: 1.25 cm
+\usepackage{indentfirst}            % 1-й абзац имеет отступ
+
+\DeclareGraphicsExtensions{.png,.pdf,.jpg,.mps,.bmp}
+\graphicspath{{pictures/chapter1/}, {pictures/chapter2/}, {pictures/chapter3/}, {pictures/chapter4/}}
+\usepackage{bmpsize}
+\usepackage[section]{placeins}
+\usepackage[nooneline]{caption} \captionsetup[table]{justification=raggedleft} \captionsetup[figure]{justification=justified,labelsep=endash}
+
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm,bindingoffset=0cm]{geometry} % Меняем поля страницы
+\usepackage{textcomp,eurosym}
+\usepackage{setspace}
+\onehalfspacing % Полуторный интервал
+
+\renewcommand{\lstlistingname}{Листинг}
+
+\usepackage{changepage}
+
+\usepackage{tikz} %для рисования графиков
+\usepackage{pgfplots}
+\usepackage[hidelinks]{hyperref}
+\usepackage{graphicx}
+\usepackage{subcaption}
+
+\usepackage{lastpage}
+
+% Перенос ячеек в таблице
+\newcommand{\specialcell}[2][c]{%
+\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\begin{document}
+    % Улучшения
+    \input{parts/improvements}
+\end{document}
