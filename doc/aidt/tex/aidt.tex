@@ -58,6 +58,19 @@
 \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
 
 \begin{document}
+    % Объявление команд
+    \newcommand\twitter{{\it Twitter }}
+
+    % Рассматриваемые подходы
+    \input{parts/reviewed}
+
     % Улучшения
     \input{parts/improvements}
+
+    % Список литературы
+    \clearpage
+    \newpage
+    \bibliographystyle{styles/utf8gost705u}  %% стилевой файл для оформления по ГОСТу
+    \addcontentsline{toc}{section}{\large Список Литературы}
+    \bibliography{biblio}     %% имя библиографической базы (bib-файла)
 \end{document}
