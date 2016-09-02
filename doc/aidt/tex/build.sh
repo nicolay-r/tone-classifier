@@ -1,4 +1,4 @@
 latexmk -pdf aidt.tex
 latexmk -c
-rm aidt.bbl
-evince aidt.pdf
+rm -rf aidt.bbl
+xreader aidt.pdf
