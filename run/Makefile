@@ -39,6 +39,14 @@ user_tf_idf_bank_balanced_2016: core
 #
 # BANK task 2015
 #
+bag_of_words_bank_imbalanced: TASK_TYPE = bank
+bag_of_words_bank_imbalanced: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
+bag_of_words_bank_imbalanced: TEST_TABLE = bank_test_noname
+bag_of_words_bank_imbalanced: TRAIN_TABLE = bank_train_noname
+bag_of_words_bank_imbalanced: MODEL_NAME = bag_of_words
+bag_of_words_bank_imbalanced: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.xml
+bag_of_words_bank_imbalanced: core
+
 tf_idf_bank_imbalanced: TASK_TYPE = bank
 tf_idf_bank_imbalanced: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
 tf_idf_bank_imbalanced: TEST_TABLE = bank_test_noname
