@@ -1,41 +1,16 @@
 \section{Участие в соревнованях SentiRuEval-2016}
+
 В таблице \ref{table:tkkResult2015} приведены оценки качества работы
 классификатора для тестовой коллекции {\it SentiRuEval-2016} \cite{dialog2016}
 при использовании настроек предварительного тестирования.
 Прогоны с такими настройками показали лучшие результаты среди других
 вариаций настроек предложенного подхода (см. таблицы \ref{table:bankResult2016}-\ref{table:tkkResult2016}).
 
-    \begin{table}[!ht]
-    \centering
-    \caption{Результаты прогонов соревнования (задача BANK, {\it SentiRuEval-2016})}
-    \label{table:bankResult2016}
-    \begin{tabular}{|c|c|c|c|c|}
-    \hline
-    \multirow{3}{*}{№} & \multicolumn{4}{c|}{BANK --- сообщения о банковских компаниях}                                                                                                                                                                                         \\ \cline{2-5}
-                       & \multicolumn{2}{c|}{\begin{tabular}[c]{@{}c@{}}Не сбалансированная \\ коллекция (2015 год)\end{tabular}} & \multicolumn{2}{c|}{\begin{tabular}[c]{@{}c@{}}Расширенная сбалансированная \\ коллекция\end{tabular}} \\ \cline{2-5}
-                       & $F_{macro}(neg, pos)$                               & $F_{micro}(neg, pos)$                              & $F_{macro}(neg, pos)$                              & $F_{micro}(neg, pos)$                             \\ \hline
-    1                  & 0.384                                               & 0.4203                                             & {\bf 0.4536 (+18.1\%)}                                   & {\bf 0.4982 (+18,53\%)}                                 \\ \hline
-    2                  & 0.3849                                              & 0.415                                              & {\bf 0.4672 (+20.9\%)}                                   & {\bf 0.5029 (+21,1\%)}                                 \\ \hline
-    3                  & 0.3862                                              & 0.4218                                             & {\bf 0.4683 (+21.25\%)}                                  & {\bf 0.5022(+19.06\%)}                                  \\ \hline
-    \end{tabular}
-    \end{table}
+\input{parts/2016/tables/result_bank.tex}
 
-    \begin{table}[!ht]
-    \centering
-    \caption{Результаты прогонов соревнования (задача TKK, {\it SentiRuEval-2016})}
-    \label{table:tkkResult2016}
-    \begin{tabular}{|c|c|c|c|c|}
-    \hline
-    \multirow{3}{*}{№} & \multicolumn{4}{c|}{TKK --- сообщения о телекоммуникационных компаниях}                                                                                                                                                                                          \\ \cline{2-5}
-                       & \multicolumn{2}{c|}{\begin{tabular}[c]{@{}c@{}}Не сбалансированная \\ коллекция (2015 год)\end{tabular}} & \multicolumn{2}{c|}{\begin{tabular}[c]{@{}c@{}}Расширенная сбалансированная \\ коллекция\end{tabular}} \\ \cline{2-5}
-                       & $F_{macro}(neg, pos)$                               & $F_{micro}(neg, pos)$                              & $F_{macro}(neg, pos)$                              & $F_{micro}(neg, pos)$                             \\ \hline
-    1                  & 0.4849                                              & 0.641                                              & {\bf 0.5103 (+5.2\%)}                                   & {\bf 0.6509 (+1.5\%) }                                  \\ \hline
-    2                  & 0.4832                                              & 0.6473                                             & {\bf 0.5231 (+8.2\%)}                                    & {\bf 0.6508 (+0.5\%)}                                   \\ \hline
-    3                  & 0.5099                                              & {\bf 0.677 (+2.0\%)}                                    & {\bf 0.5286 (+3.6\%)}                                    & 0.6632                                            \\ \hline
-    \end{tabular}
-    \end{table}
+\input{parts/2016/tables/result_tcc.tex}
 
-    \subsection{Улучшение результатов}
+\subsection{Улучшение результатов}
 
 После проведения соревнований, в целях повышения качества классификации,
 настройки прогонов изменялись в следующих направлениях:
@@ -60,46 +35,19 @@
         \end{equation}
 \end{enumerate}
 
-    \begin{table}[ht!]
-    \centering
-    \caption{Влияние настройки параметра Cost (С=0.5) ({\it SentiRuEval-2016})}
-    \label{table:cParameter}
-    \begin{tabular}{|c|c|c|c|c|}
-    \hline
-    \multirow{2}{*}{№} & \multicolumn{2}{c|}{\begin{tabular}[c]{@{}c@{}}BANK\\ (Расширенная сбалансированная\\ коллекция, C=0.5)\end{tabular}} & \multicolumn{2}{c|}{\begin{tabular}[c]{@{}c@{}}TKK\\ (Расширенная сбалансированная\\ коллекция, C=0.5)\end{tabular}} \\ \cline{2-5}
-                       & $F_{macro}(neg, pos)$                                     & $F_{micro}(neg, pos)$                                     & $F_{macro}(neg, pos)$                                     & $F_{micro}(neg, pos)$                                    \\ \hline
-    1                  & 0.4558 (+0.4\%)                                            & 0.5037 (+1.1\%)                                            & 0.5235 (+2.5\%)                                            & 0.6612 (+1.5\%)                                           \\ \hline
-    2                  & {\bf 0.4795 (+2.6\%)}                                            & {\bf 0.5167 (+2.7\%)}                               & 0.5338 (+2.0\%)                                            & 0.6610 (+1.5\%)                                          \\ \hline
-    3                  & 0.4768 (+1.8\%)                                            & 0.5135(+2.2\%)                                             & {\bf 0.5452 (+3.1\%) }                                           & {\bf 0.6733 (+1.5\%) }                                          \\ \hline
-    \end{tabular}
-    \end{table}
+\input{parts/2016/tables/changing_cost.tex}
 
-
-    Комбинация рассмотренных выше улучшений привела к настройке {\it финальных
+Комбинация рассмотренных выше улучшений привела к настройке {\it финальных
 прогонов} (результаты представлены в таблице \ref{table:finalResults}).
 Во всех прогонах использовались русскоязычные термы и хэштеги, применялись
 тональные префиксы, а также учитывались все признаки. Изменения в настройках
 касались только числа используемых лексиконов, а также признаков построенных
 на их основе (настройки прогонов):
-    \begin{enumerate}
-        \item Вычисление суммы, минимума, максимума на основе лексикона №1 (см. таблицу \ref{table:createdLexicons}).
-        \item Прогон №1 + признаки суммы, минимума, максимума на основе лексикона №2.
-        \item Прогон №2 + признаки суммы, минимума, максимума на основе лексикона №4.
-        \item Прогон №3 + признаки минимума и максимума на основе лексиконов №3.
-    \end{enumerate}
+\begin{enumerate}
+    \item Вычисление суммы, минимума, максимума на основе лексикона №1 (см. таблицу \ref{table:createdLexicons}).
+    \item Прогон №1 + признаки суммы, минимума, максимума на основе лексикона №2.
+    \item Прогон №2 + признаки суммы, минимума, максимума на основе лексикона №4.
+    \item Прогон №3 + признаки минимума и максимума на основе лексиконов №3.
+\end{enumerate}
 
-    \begin{table}[ht!]
-    \centering
-    \caption{Результаты финального тестирования {\it SentiRuEval-2016}}
-    \label{table:finalResults}
-    \begin{tabular}{|c|c|c|c|c|}
-    \hline
-    \multirow{2}{*}{№} & \multicolumn{2}{c|}{\begin{tabular}[c]{@{}c@{}}BANK\\ (Расширенная сбалансированная\\ коллекция, C=0.5)\end{tabular}} & \multicolumn{2}{c|}{\begin{tabular}[c]{@{}c@{}}TKK\\ (Расширенная сбалансированная\\ коллекция, C=0.5)\end{tabular}} \\ \cline{2-5}
-                       & $F_{macro}(neg, pos)$                                     & $F_{micro}(neg, pos)$                                     & $F_{macro}(neg, pos)$                                     & $F_{micro}(neg, pos)$                                    \\ \hline
-    1                  & 0.4955                                                    & 0.5388                                                    & 0.5259                                                    & 0.6662                                                   \\ \hline
-    2                  & 0.5012                                                    & 0.5379                                                    & 0.5283                                                    & 0.6720                                                   \\ \hline
-    3                  & \textbf{0.5239}                                           & \textbf{0.5514}                                           & \textbf{0.5453}                                           & \textbf{0.6970}                                          \\ \hline
-    4                  & 0.4818                                                    & 0.5238                                                    & 0.5356                                                    & 0.6659                                                   \\ \hline
-    \end{tabular}
-    \end{table}
-
+\input{parts/2016/tables/result_final.tex}
