@@ -71,6 +71,14 @@ tf_idf_bank_balanced: MODEL_NAME = tf_idf
 tf_idf_bank_balanced: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.xml
 tf_idf_bank_balanced: core
 
+bag_of_words_bank_balanced: TASK_TYPE = bank
+bag_of_words_bank_balanced: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
+bag_of_words_bank_balanced: TEST_TABLE = bank_test_noname
+bag_of_words_bank_balanced: TRAIN_TABLE = bank_train_balanced
+bag_of_words_bank_balanced: MODEL_NAME = bag_of_words
+bag_of_words_bank_balanced: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.xml
+bag_of_words_bank_balanced: core
+
 tf_idf_bank_balanced_cost0.1: TASK_TYPE = bank
 tf_idf_bank_balanced_cost0.1: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
 tf_idf_bank_balanced_cost0.1: TEST_TABLE = bank_test_noname
