@@ -81,7 +81,6 @@ with io.open(config["filepath"], 'rt', newline='\r\n') as f:
             print str(e)
             ignored += 1
         conn.commit()
+        print "\r added:%d, ignored:%d"%(added, ignored),
 
-print "rows ignored: ", ignored
-print "rows added: ", added
 conn.close()
