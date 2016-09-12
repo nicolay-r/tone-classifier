@@ -3,11 +3,10 @@
     Для обучения классификатора предполагается использовать соответствующие
     коллекции данных соревнований {\it SentiRuEval} (см. таблицу
     \ref{table:trainCollections}).
+    Коллекции $Imb_{bank}^{15}, Imb_{tcc}^{15}$ представляют собой объединение
+    размеченных экспертами данных за 2015 и 2016 года.
 
-    \begin{table}[htp!]
-    \caption{Обучающие коллеции предоставленные организаторами}
-    \label{table:trainCollections}
-    \end{table}
+    \input{parts/description/tables/trainImbalanced}
 
     Поскольку в предоставляемых
     данных число тональных сообщений существенно уступает объему класса
@@ -42,14 +41,8 @@
             $N$ -- общее количество термов в сообщении $m$;
     \end{enumerate}
 
+    Таким образом были сбалансированы коллеции таблицы \ref{table:trainImbalanced}.
     Параметры дополнительно составленных коллекций представлены
     в таблице \ref{table:balancedTrainCollections}.
 
-    \begin{table}[htp!]
-    \caption{Сбалансированные обучающие коллекции}
-    \label{table:balancedTrainCollections}
-    %
-    % по горизонтали -- задача, а по вертикали наименования коллекций.
-    % в ячейках указывается размер класса.
-    %
-    \end{table}
+    \input{parts/description/tables/trainBalanced}
