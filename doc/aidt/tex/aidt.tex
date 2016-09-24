@@ -35,7 +35,9 @@
 \graphicspath{{pictures/chapter1/}, {pictures/chapter2/}, {pictures/chapter3/}, {pictures/chapter4/}}
 \usepackage{bmpsize}
 \usepackage[section]{placeins}
-\usepackage[nooneline]{caption} \captionsetup[table]{justification=raggedleft} \captionsetup[figure]{justification=justified,labelsep=endash}
+\usepackage[nooneline]{caption}
+\captionsetup[table]{justification=justified, position=bottom}
+\captionsetup[figure]{justification=justified, labelsep=endash}
 
 \usepackage[left=2.5cm,right=2.5cm,top=3.6cm,bottom=3.6cm,bindingoffset=0cm]{geometry} % Меняем поля страницы
 \usepackage{textcomp,eurosym}
@@ -61,7 +63,6 @@
 \begin{document}
     % Объявление команд
     \newcommand\twitter{{\it Twitter }}
-    \captionsetup{}
     \begin{center}
         \bf
         МЕТОДЫ ИНТЕГРАЦИИ ЛЕКСИКОНОВ В МАШИННОЕ ОБУЧЕНИЕ ДЛЯ СИСТЕМ АНАЛИЗА
