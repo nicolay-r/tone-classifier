@@ -1,7 +1,7 @@
 \subsection{Построение лексиконов}
 
 Построение лексикона производится на основе {\it меры взаимной информации}
-(англ. Pointwise Mutual Information) \cite{lexiconSO}.
+\cite{lexiconSO}:
 \begin{gather}
     PMI(t_1, t_2) = log_2 \dfrac{P(t_1\cap t_2)}{P(t_1)\cdot P(t_2)}
     \label{eq:pmi}
@@ -39,13 +39,15 @@
 Лексиконы были составлены на основе следующих данных (параметры представлены
 в таблице \ref{table:createdLexicons}):
 
-\begin{enumerate}
-    \item Корпуса коротких текстов на русском языке\footnote{
+\begin{itemize}
+    \item $l_1$ -- корпус коротких текстов на русском языке Ю.~Рубцовой\footnote{
         \url{https://github.com/nicolay-r/tone-classifier/tree/2016_jan_contest/data/lexicons}
-    } \cite{rubtsovaCollection};
-    \item Сообщений сети {\it Twitter } за январь 2016 года (проставление тональных
-        меток на основе списка позитивных и негативных эмотиконов);
-    \item Тональный словарь созданный вручную экспертами \cite{expertLexicon}.
-\end{enumerate}
+    };
+    \item $l_2$ -- сообщений сети {\it Twitter} за январь 2016 года
+        (проставление тональных меток на основе списка позитивных и негативных
+        эмотиконов);
+    \item $l_3$ -- лексикон $SentiRuLex$ созданный вручную экспертами
+        \cite{expertLexicon}.
+\end{itemize}
 
 \input{parts/description/tables/lexicons}

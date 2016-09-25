@@ -4,7 +4,7 @@
 Этот параметр определяет величину отступа для разделения классов при построении
 модели, и обозначается $Cost$.
 
-Оценки, полученные в п. \ref{sec:sentirueval2015} и \ref{sec:sentirueval2016},
+Оценки в п. \ref{sec:sentirueval2015} и \ref{sec:sentirueval2016},
 были получены при значении такого параметра по-умолчанию, т.е. $Cost=1$.
 Посмотрим, как будет изменяться результат, если уменьшить величину отступа для
 разделения классов.
@@ -14,26 +14,25 @@
 зависимости от изменения параметра $Cost$.
 
 \begin{figure}[!htp] \centering
-    \captionsetup[subfigure]{justification=centering}
-    \begin{subfigure}[b]{0.45\textwidth}
+    \begin{subfigure}[b]{0.48\textwidth}
         \includegraphics[width=\textwidth]{pics/2015_bank_balanced.png}
         \caption{$B_{bank}^{15}$, BANK'15}
         \label{fig:bank_cost_changes_2015}
     \end{subfigure}
     ~
-    \begin{subfigure}[b]{0.45\textwidth}
+    \begin{subfigure}[b]{0.48\textwidth}
         \includegraphics[width=\textwidth]{pics/2015_ttk_balanced.png}
         \caption{$I_{tcc}^{15}$, TCC'15}
         \label{fig:tcc_cost_changes_2015}
     \end{subfigure}
 
-    \begin{subfigure}[b]{0.45\textwidth}
+    \begin{subfigure}[b]{0.48\textwidth}
         \includegraphics[width=\textwidth]{pics/2016_bank_imbalanced.png}
         \caption{$I_{bank}^{16}$, BANK'16}
         \label{fig:bank_cost_changes_2016}
     \end{subfigure}
     ~
-    \begin{subfigure}[b]{0.45\textwidth}
+    \begin{subfigure}[b]{0.48\textwidth}
         \includegraphics[width=\textwidth]{pics/2016_ttk_balanced.png}
         \caption{$B_{tcc}^{16}$, TCC'16}
         \label{fig:tcc_cost_changes_2016}
@@ -48,12 +47,12 @@
     \label{fig:cost}
 \end{figure}
 
-Сравнивая резулататы для данных '15 и '16 года по каждой из задачи, можно
+Сравнивая резулататы для данных {\it 2015} и {\it 2016} года по каждой из задачи, можно
 наблюдать примерно схожую картину поведения моделей. Например, для задачи
 BANK (рис. \ref{fig:bank_cost_changes_2015}, \ref{fig:bank_cost_changes_2016})
 засчет большего объема обучающих данных в $I_{bank}^{16}$ при тестировании на
-$SentiRuEval-2016$ заметен прирост существенный прирост качества работы модели,
-при $Cost \in \left[0.5, 1\right]$.
+{ \it SentiRuEval-2016} заметен прирост существенный прирост качества работы
+модели, при $Cost \in \left[0.5, 1\right]$.
 Дальнейшее уменьшение этого параметра существенно снижает качество
 оценки, что говорит о расхождении данных обучающей и тестовых коллекций.
 
@@ -65,8 +64,9 @@ $SentiRuEval-2016$ заметен прирост существенный при
 
 Если сравнивать результаты обучения на сбалансированных (рис.
 \ref{fig:bank_cost_changes_2015}, \ref{fig:tcc_cost_changes_2016}) и не
-сбалансированных (\ref{fig:tcc_cost_changes_2015}, \ref{fig:bank_cost_changes_2016})
-коллекциях, то во втором случае, при изменении Cost параметра, колебания
-результата выражены сильнее. Правильно подобранные сообщения для балансировки
+сбалансированных (рис. \ref{fig:tcc_cost_changes_2015},
+\ref{fig:bank_cost_changes_2016}) коллекциях, то во втором случае, при
+уменьшении значения параметра, колебания результата выражены сильнее.
+Правильно подобранные сообщения для балансировки
 может позволить добиться лучшего результата при уменьшении параметра $Cost$.
 
