@@ -1,0 +1,24 @@
+\section{Тюнинг SVM классификатора}
+
+\begin{figure}[!htp] \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{pics/2016_bank_imbalanced.png}
+        \caption{$I_{bank}^{16}$, BANK'16}
+        \label{fig:bank_cost_changes_2016}
+    \end{subfigure}
+    ~
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{pics/2016_ttk_balanced.png}
+        \caption{$B_{tcc}^{16}$, TCC'16}
+        \label{fig:tcc_cost_changes_2016}
+    \end{subfigure}
+
+    \caption{
+        Влияние {\it параметра штрафной функции SVM классификатора}
+        на результаты прогонов;
+        кривыми на графиках обозначается прогоны с номерами, соответствующие
+        настройкам таблицы \ref{table:settings};
+        значение параметра измерялось в пределе $[0.1, 1]$ с шагом $0.1$.
+    }
+    \label{fig:cost}
+\end{figure}
