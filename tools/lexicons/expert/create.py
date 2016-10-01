@@ -36,6 +36,7 @@ settings = """dbname=%s user=%s password=%s host=%s"""%(
 connection = connect(settings)
 cursor = connection.cursor()
 
+print settings
 # Create result table
 print 'Create result table'
 max_term_length = 50
@@ -47,11 +48,24 @@ cursor.execute("DELETE FROM {table}".format(table = out_table));
 
 # Save results
 print 'Save results'
+all_terms = {}
 for pair in lemmas:
     p = (pair, lemmas[pair])
     if (len(p[0]) < max_term_length):
-        cursor.execute("""INSERT INTO {table} ({term}, {value})
-            VALUES (\'{t}\', {v})""".format(term="term", value='tone',
-            table=out_table, t=p[0].encode('utf-8'), v=p[1]));
+        term_tone = p[1]
+        utf_term = p[0].encode('utf-8')
+
+        if not (utf_term in all_terms):
+            cursor.execute("""INSERT INTO {table} ({term}, {value})
+                VALUES (\'{t}\', {v})""".format(term="term", value='tone',
+                table=out_table, t=utf_term, v=term_tone));
+            all_terms[utf_term] = term_tone
+        elif (term_tone != all_terms[utf_term]):
+            cursor.execute("""DELETE FROM {table} WHERE term = '{t}'""".format(
+               table=out_table, t=utf_term))
+            # set another impossible tone value to prevent an attemt of adding
+            # this utf_term in a future
+            all_terms[utf_term] = 2;
 
     connection.commit()
+connection.close()
