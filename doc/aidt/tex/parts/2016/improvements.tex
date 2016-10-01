@@ -1,24 +1,61 @@
-\section{Тюнинг SVM классификатора}
+\subsection{Настройка SVM классификатора}
+Рассмотрим динамику изменения результатов, в зависимости от величины
+отступа для разделения классов SVM классификатором.
+% Описать, чего мы хотим добиться
+Так, на основе резульататов таблиц \ref{table:results2015} и \ref{table:results2016}
+наблюдается стабильный рост качества при добавлении новых лексиконов и признаков
+на их основе, то интересно проверить, насколько будут меняться результаты и
+будут ли улучшения при меньших значениях отступа.
 
-\begin{figure}[!htp] \centering
-    \begin{subfigure}[b]{0.48\textwidth}
-        \includegraphics[width=\textwidth]{pics/2016_bank_imbalanced.png}
-        \caption{$I_{bank}^{16}$, BANK'16}
-        \label{fig:bank_cost_changes_2016}
+По умолчанию, значения параметра для определение величины отступа равно 1.
+На рис. \ref{fig:cost} рассмотрены результаты прогонов с меньшим значения
+соответсвущего параметра.
+\begin{figure}[!htop] \centering
+    \begin{subfigure}[b]{0.34\textwidth}
+        % пересчитать
+        \includegraphics[width=\textwidth]{pics/2016_ttk_balanced.png}
+        \caption{$I_{tcc}^{16}$}
+        \label{fig:tcc_cost_changes_2015}
     \end{subfigure}
     ~
-    \begin{subfigure}[b]{0.48\textwidth}
+    \begin{subfigure}[b]{0.34\textwidth}
         \includegraphics[width=\textwidth]{pics/2016_ttk_balanced.png}
-        \caption{$B_{tcc}^{16}$, TCC'16}
+        \caption{$B_{tcc}^{16}$}
         \label{fig:tcc_cost_changes_2016}
     \end{subfigure}
 
+    \begin{subfigure}[b]{0.34\textwidth}
+        \includegraphics[width=\textwidth]{pics/2016_bank_imbalanced.png}
+        \caption{$I_{bank}^{16}$}
+        \label{fig:bank_cost_changes_2016}
+    \end{subfigure}
+    ~
+    \begin{subfigure}[b]{0.34\textwidth}
+        % пересчитать
+        \includegraphics[width=\textwidth]{pics/2016_ttk_balanced.png}
+        \caption{$B_{bank}^{16}$}
+        \label{fig:bank_cost_changes_2015}
+    \end{subfigure}
+
     \caption{
-        Влияние {\it параметра штрафной функции SVM классификатора}
-        на результаты прогонов;
-        кривыми на графиках обозначается прогоны с номерами, соответствующие
+        Влияние {\it параметра штрафной функции SVM классификатора (Cost)}
+        на результаты прогонов для задачи TCC и BANK на разных обучающих
+        коллекциях;
+        кривыми на графиках обозначены прогоны, номера которых соответствуют
         настройкам таблицы \ref{table:settings};
         значение параметра измерялось в пределе $[0.1, 1]$ с шагом $0.1$.
     }
     \label{fig:cost}
 \end{figure}
+
+Анализируя полученную картину можно сказать, что положительный эффект от
+использования лексиконов для составления признаков наблюдается и при
+изменении настроек классификатора.
+Добавление новых признаков в большинстве случаев положительно сказывается на
+результате.
+
+Помимо этого можно наблюдать диапазон значений, при которых все модели
+показывают результаты лучше, чем при параметре по-умолчанию.
+Лучшие результаты по каждому отмечены в таблице \ref{table:cost}.
+
+\input{parts/2016/tables/cost}
