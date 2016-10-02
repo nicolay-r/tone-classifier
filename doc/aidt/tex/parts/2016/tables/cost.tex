@@ -1,17 +1,21 @@
 \begin{table}[htp!]
 \centering
-\caption{Результаты $F_{1-macro}^{PN}$ после изменения настроек классификатора}
+\caption{Наилучшие результаты $F_{1-macro}^{PN}$ рис. \ref{fig:cost}
+    для каждой задачи по каждому из прогонов.
+    Помимо результата фиксируется значение параметра $Cost$, при котором
+    достигается такой резульат.
+}
 \label{table:cost}
 \begin{tabular}{ccccc}
 \hline
 \multicolumn{1}{c|}{\multirow{2}{*}{№}} & \multicolumn{2}{c|}{BANK}                                                   & \multicolumn{2}{c}{TCC}                                           \\ \cline{2-5}
-\multicolumn{1}{c|}{}                   & \multicolumn{1}{c|}{$I_{bank}^{16}$} & \multicolumn{1}{c|}{$B_{bank}^{16}$} & \multicolumn{1}{c|}{$I_{tcc}^{16}$}  & $B_{tcc}^{16}$             \\ \hline
-1                                       & --                                   &                                      &                                      & --                         \\
-2                                       & --                                   &                                      &                                      & --                         \\
-3                                       & --                                   &                                      &                                      & --                         \\
-4                                       & --                                   &                                      &                                      & --                         \\
-5                                       & --                                   &                                      &                                      & --                         \\
-6                                       & --                                   &                                      &                                      & --                         \\ \hline
+\multicolumn{1}{c|}{}                   & \multicolumn{1}{c|}{$I_{bank_{/cost}}^{16}$} & \multicolumn{1}{c|}{$B_{bank_{/cost}}^{16}$} & \multicolumn{1}{c|}{$I_{tcc_{/cost}}^{16}$}  & $B_{tcc_{/cost}}^{16}$             \\ \hline
+1                                       & --                                           &  $0.4893_{0.6}$                              & $53.50_{0.2}$                                & --                         \\
+2                                       & --                                           &  $0.5069_{0.6}$                              & $53.31_{0.3}$                                & --                         \\
+3                                       & --                                           &  $0.5125_{0.8}$                              & $53.46_{0.4}$                                & --                         \\
+4                                       & --                                           &  $0.5152_{0.8}$                              & $54.25_{0.4}$                                & --                         \\
+5                                       & --                                           &  $0.5133_{0.7}$                              & $54.26_{0.5}$                                & --                         \\
+6                                       & --                                           &  $\textbf{0.5282}_{0.7}$                     & $\textbf{55.46}_{0.3}$                       & --                         \\ \hline
 \end{tabular}
 \end{table}
 
