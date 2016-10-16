@@ -1,6 +1,6 @@
 #!/bin/bash
 
-run="../../../run/"
+run="../../run/"
 log="log.txt"
 res="result_penalty_bank_2016"
 
