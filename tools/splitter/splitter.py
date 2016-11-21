@@ -14,48 +14,12 @@ sys.path.insert(0, dirname(abspath(getsourcefile(lambda:0))) + '/../../models/_a
 from msg import Message
 from features import Features
 
+
 def show_progress(message, current, total):
     print "\rProcessing: %.2f%% [%d/%d] (%s)"%(float(current)*100/total,
         current, total, message),
     if (current == total):
         print ""
-
-def get_message_rank(text, mystem, features, splitter_config):
-
-    if (len(text) < splitter_config['message_min_len']):
-        return 0
-
-    message = Message(text=text,
-            mystem=mystem,
-            configpath="msg.conf",
-            task_type="none")
-
-    message.process()
-    terms = message.get_terms()
-
-    scores = features.create(terms, message=text)
-
-    mn = min(scores.values())
-    mx = max(scores.values())
-
-    pos_threshold = splitter_config["pos_threshold"]
-    neg_threshold = splitter_config["neg_threshold"]
-
-    if (mn > pos_threshold and mx > pos_threshold):
-        return 1
-    elif (mn < neg_threshold and mx < neg_threshold):
-        return -1
-    else:
-        return 0
-
-
-def process_message(text):
-    text = text.replace('\'', '\'\'')
-    if (text[0] == '\"'):
-        text = text[1:]
-    if (text[len(text)-1] == '\"'):
-        text = text[:len(text)-1]
-    return text.encode('utf-8')
 
 if len(sys.argv) < 2:
     print """Usage: ./splitter.py <raw.csv> [--clean]"""
@@ -67,7 +31,6 @@ with open('splitter.conf') as config:
 with open('conn.conf') as config:
     connection_config = json.load(config, encoding='utf8')
 raw_filename = sys.argv[1]
-
 
 # Create Connection
 connection_settings = "dbname=%s user=%s password=%s host=%s"%(
@@ -90,32 +53,32 @@ features = Features("features.conf")
 twits_processed = 0
 positive_twits = 0
 negative_twits = 0
-line_index = 0
-with io.open(raw_filename, 'rt', newline='\r\n') as f:
+with io.open(raw_filename, 'rt', newline='\r\n', encoding='utf-8') as f:
     lines = f.readlines()
-    for line in lines:
-        line_index += 1
+    for line_index, line in enumerate(lines):
         args = line.split(';')
+        twitid = args[0]
+        # merge parts of message
+        msg = ";".join(args[3:len(args)-8]).replace('\'', '\'\'')
+        # remove quotes
+        if (len(msg) > 0 and msg[0] == '"' and msg[-1] == '"'):
+            msg = msg[1:-1]
+        rank = int(args[-2])
 
-        # check that line contains all information
-        if (len(args) == 10):
+        if (rank > 0):
+            positive_table.add_message(twitid, msg)
+            positive_twits += 1
+        elif (rank < 0):
+            negative_table.add_message(twitid, msg)
+            negative_twits += 1
 
-            twitid = args[0]
-            msg = process_message(args[3])
-            rank = get_message_rank(msg, mystem, features, splitter_config)
+        twits_processed += 1
 
-            if (rank == 1):
-                positive_table.add_message(twitid, msg.decode('utf-8'))
-                positive_twits += 1
-            elif (rank == -1):
-                negative_table.add_message(twitid, msg.decode('utf-8'))
-                negative_twits += 1
+        show_progress("all: %d| \'+\': %d| \'-\': %d" % (
+                       twits_processed, positive_twits, negative_twits),
+                       line_index, len(lines))
 
-            twits_processed += 1
-
-        show_progress("all: %d| \'+\': %d| \'-\': %d"%(twits_processed,
-            positive_twits, negative_twits), line_index, len(lines))
-        #conn.commit()
+        line_index += 1
 
 positive_table.close_connection()
 negative_table.close_connection()
