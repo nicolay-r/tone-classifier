@@ -1524,7 +1524,7 @@
 вражий, Adj, вражий, negative, opinion
 вразумительность, Noun, вразумительность, positive, opinion
 вразумительный, Adj, вразумительный, positive, opinion
-враль, Noun, враль, negative opinion
+враль, Noun, враль, negative, opinion
 вранье, Noun, вранье, negative, opinion
 врать, Verb, врать, negative, opinion
 вредительница, Noun, вредительница, negative, fact
@@ -4056,7 +4056,7 @@
 имперский, Adj, имперский, negative, opinion
 импозантность, Noun, импозантность, positive, opinion
 импозантный, Adj, импозантный, positive, opinion
-импонировать, Verb, импонировать,positive , opinion
+импонировать, Verb, импонировать,positive, opinion
 имя гремит, VG, имя греметь, positive, opinion
 инакомыслие, Noun, инакомыслие, negative, fact
 инвазионный, Adj, инвазионный, negative, fact
@@ -12395,7 +12395,7 @@
 стопориться, Verb, стопориться, negative, opinion, "ТОРМОЗИТЬ (МЕШАТЬ)"
 стопорить, Verb, стопорить, negative, opinion, "ТОРМОЗИТЬ (МЕШАТЬ)"
 стопорить, Verb, стопорить, neutral, fact, "СТОПОРИТЬ (ОСТАНОВИТЬ ДВИЖЕНИЕ)"
-стопудово, Advб стопудово, positive, opinion
+стопудово, Adv, стопудово, positive, opinion
 стопудов, Adv, стопудов, positive, opinion
 сторонник, Noun, сторонник, neutral, operator
 стосковаться, Verb, стосковаться, negative, feeling
@@ -13221,7 +13221,7 @@
 удовлетворение, Noun, удовлетворение, positive, feeling, "ЧУВСТВО УДОВЛЕТВОРЕНИЯ"
 удовлетворение, Noun, удовлетворение, positive, opinion, "УДОВЛЕТВОРИТЬ ТРЕБОВАНИЯ, ЖЕЛАНИЯ"
 удовлетворение, Noun, удовлетворение, positive, opinion, "УДОВЛЕТВОРИТЬ, ОТВЕЧАТЬ ТРЕБОВАНИЯМ"
-удовлетворенность, Noun, удовлетворенность, positive feeling
+удовлетворенность, Noun, удовлетворенность, positive, feeling
 удовлетворительность, Noun, удовлетворительность, positive, opinion
 удовлетворительный, Adj, удовлетворительный, positive, opinion
 удовлетворяемость, Noun, удовлетворяемость, positive, feeling
@@ -13363,7 +13363,7 @@
 умница, Noun, умница, positive, opinion
 умничанье, Noun, умничанье, negative, opinion
 умничать, Verb, умничать, negative, opinion
-умничка Noun, умничка, positive, opinion
+умничка, Noun, умничка, positive, opinion
 умный, Adj, умный, positive, opinion
 умопомрачительность, Noun, умопомрачительность, neutral, operator
 умопомрачительный, Adj, умопомрачительный, neutral, operator
