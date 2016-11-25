@@ -36,6 +36,7 @@ class Features:
         if (len(tones) == 0):
             tones.append(0)
 
+        tones.sort()
         if ('function' in lexicon_settings):
             func = lexicon_settings['function']
         else:
@@ -43,9 +44,15 @@ class Features:
         if (func == 'sum'):
             value = sum(tones)
         elif (func == 'max'):
-            value = max(tones)
+            value = tones[-1]
         elif (func == 'min'):
-            value = min(tones)
+            value = tones[0]
+        else:
+            for k in range(2, 10):
+                if func == ('min_' + str(k)):
+                    value = tones[min(k, len(tones) - 1)]
+                elif func == ('max_'  + str(k)):
+                    value = tones[max(0, len(tones) - k)]
 
         return lex.get_name(), Features.normalize_tone(value, 10)
 

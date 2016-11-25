@@ -12,6 +12,7 @@ if (len(args) == 1):
 filepath = sys.argv[1]
 
 table = (filepath.split('.'))[0]
+print "table name: {}".format(table)
 
 # Connect to a database
 settings = "dbname=romipdata user=postgres password=postgres host=localhost"
@@ -30,8 +31,8 @@ ignored = 0
 term  = ""
 with open(filepath, "r") as f:
     for line in f.readlines():
-        words = line.split(' ')
-        if (len(words) >= 2):
+        words = line.split(',')
+        if (len(words) == 2):
             term += words[0]
             rank = words[1]
             cursor.execute("INSERT INTO %s(term, tone) VALUES('%s', '%s')"%(table,
