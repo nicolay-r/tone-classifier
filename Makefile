@@ -23,7 +23,7 @@ balanced_sentiRuEval_2016_8k:
 
 balanced_sentiRuEval_2016_30k:
 	cd ${BALANCER_SCRIPTS}/2016/volume/30k && psql -U $(DATABASE_USER) -h localhost -W -d $(DATABASE) -f produce_bank_2016.sql
-	#cd ${BALANCER_SCRIPTS}/2016/volume/30k && psql -U $(DATABASE_USER) -h localhost -W -d $(DATABASE) -f produce_ttk_2016.sql
+	cd ${BALANCER_SCRIPTS}/2016/volume/30k && psql -U $(DATABASE_USER) -h localhost -W -d $(DATABASE) -f produce_ttk_2016.sql
 
 install:
 	# Install all dependecies.
