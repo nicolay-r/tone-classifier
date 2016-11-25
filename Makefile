@@ -21,6 +21,10 @@ balanced_sentiRuEval_2016_8k:
 	cd ${BALANCER_SCRIPTS}/2016/volume/8k && psql -U $(DATABASE_USER) -h localhost -W -d $(DATABASE) -f produce_bank_2016.sql
 	cd ${BALANCER_SCRIPTS}/2016/volume/8k && psql -U $(DATABASE_USER) -h localhost -W -d $(DATABASE) -f produce_ttk_2016.sql
 
+balanced_sentiRuEval_2016_30k:
+	cd ${BALANCER_SCRIPTS}/2016/volume/30k && psql -U $(DATABASE_USER) -h localhost -W -d $(DATABASE) -f produce_bank_2016.sql
+	#cd ${BALANCER_SCRIPTS}/2016/volume/30k && psql -U $(DATABASE_USER) -h localhost -W -d $(DATABASE) -f produce_ttk_2016.sql
+
 install:
 	# Install all dependecies.
 	sudo apt-get install python-libxml2 python-psycopg2 python-pip postgresql g++ nodejs npm nodejs-legacy unzip
