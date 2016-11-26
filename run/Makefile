@@ -409,6 +409,85 @@ tf_idf_dict_bank_balanced: core
 16_tf_idf_bank_balanced_8k_cost0.5: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.xml
 16_tf_idf_bank_balanced_8k_cost0.5: core
 
+16_tf_idf_bank_balanced_15k: TASK_TYPE = bank
+16_tf_idf_bank_balanced_15k: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
+16_tf_idf_bank_balanced_15k: TEST_TABLE = bank_test_2016
+16_tf_idf_bank_balanced_15k: TRAIN_TABLE = bank_train_balanced_2016_15k
+16_tf_idf_bank_balanced_15k: MODEL_NAME = tf_idf
+16_tf_idf_bank_balanced_15k: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.xml
+16_tf_idf_bank_balanced_15k: core
+
+16_tf_idf_bank_balanced_15k_cost0.1: TASK_TYPE = bank
+16_tf_idf_bank_balanced_15k_cost0.1: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
+16_tf_idf_bank_balanced_15k_cost0.1: TEST_TABLE = bank_test_2016
+16_tf_idf_bank_balanced_15k_cost0.1: TRAIN_TABLE = bank_train_balanced_2016_15k
+16_tf_idf_bank_balanced_15k_cost0.1: MODEL_NAME = tf_idf
+16_tf_idf_bank_balanced_15k_cost0.1: MODEL_OPTIONS=	-t 0 -c 0.1
+16_tf_idf_bank_balanced_15k_cost0.1: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.xml
+16_tf_idf_bank_balanced_15k_cost0.1: core
+
+16_tf_idf_bank_balanced_15k_cost0.2: TASK_TYPE = bank
+16_tf_idf_bank_balanced_15k_cost0.2: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
+16_tf_idf_bank_balanced_15k_cost0.2: TEST_TABLE = bank_test_2016
+16_tf_idf_bank_balanced_15k_cost0.2: TRAIN_TABLE = bank_train_balanced_2016_15k
+16_tf_idf_bank_balanced_15k_cost0.2: MODEL_NAME = tf_idf
+16_tf_idf_bank_balanced_15k_cost0.2: MODEL_OPTIONS=	-t 0 -c 0.2
+16_tf_idf_bank_balanced_15k_cost0.2: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.xml
+16_tf_idf_bank_balanced_15k_cost0.2: core
+
+16_tf_idf_bank_balanced_15k_cost0.3: TASK_TYPE = bank
+16_tf_idf_bank_balanced_15k_cost0.3: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
+16_tf_idf_bank_balanced_15k_cost0.3: TEST_TABLE = bank_test_2016
+16_tf_idf_bank_balanced_15k_cost0.3: TRAIN_TABLE = bank_train_balanced_2016_15k
+16_tf_idf_bank_balanced_15k_cost0.3: MODEL_NAME = tf_idf
+16_tf_idf_bank_balanced_15k_cost0.3: MODEL_OPTIONS=	-t 0 -c 0.3
+16_tf_idf_bank_balanced_15k_cost0.3: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.xml
+16_tf_idf_bank_balanced_15k_cost0.3: core
+
+16_tf_idf_bank_balanced_15k_cost0.4: TASK_TYPE = bank
+16_tf_idf_bank_balanced_15k_cost0.4: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
+16_tf_idf_bank_balanced_15k_cost0.4: TEST_TABLE = bank_test_2016
+16_tf_idf_bank_balanced_15k_cost0.4: TRAIN_TABLE = bank_train_balanced_2016_15k
+16_tf_idf_bank_balanced_15k_cost0.4: MODEL_NAME = tf_idf
+16_tf_idf_bank_balanced_15k_cost0.4: MODEL_OPTIONS=	-t 0 -c 0.4
+16_tf_idf_bank_balanced_15k_cost0.4: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.xml
+16_tf_idf_bank_balanced_15k_cost0.4: core
+
+16_tf_idf_bank_balanced_15k_cost0.5: TASK_TYPE = bank
+16_tf_idf_bank_balanced_15k_cost0.5: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
+16_tf_idf_bank_balanced_15k_cost0.5: TEST_TABLE = bank_test_2016
+16_tf_idf_bank_balanced_15k_cost0.5: TRAIN_TABLE = bank_train_balanced_2016_15k
+16_tf_idf_bank_balanced_15k_cost0.5: MODEL_NAME = tf_idf
+16_tf_idf_bank_balanced_15k_cost0.5: MODEL_OPTIONS=	-t 0 -c 0.5
+16_tf_idf_bank_balanced_15k_cost0.5: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.xml
+16_tf_idf_bank_balanced_15k_cost0.5: core
+
+16_tf_idf_bank_balanced_15k_cost0.6: TASK_TYPE = bank
+16_tf_idf_bank_balanced_15k_cost0.6: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
+16_tf_idf_bank_balanced_15k_cost0.6: TEST_TABLE = bank_test_2016
+16_tf_idf_bank_balanced_15k_cost0.6: TRAIN_TABLE = bank_train_balanced_2016_15k
+16_tf_idf_bank_balanced_15k_cost0.6: MODEL_NAME = tf_idf
+16_tf_idf_bank_balanced_15k_cost0.6: MODEL_OPTIONS=	-t 0 -c 0.6
+16_tf_idf_bank_balanced_15k_cost0.6: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.xml
+16_tf_idf_bank_balanced_15k_cost0.6: core
+
+16_tf_idf_bank_balanced_15k_cost0.7: TASK_TYPE = bank
+16_tf_idf_bank_balanced_15k_cost0.7: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
+16_tf_idf_bank_balanced_15k_cost0.7: TEST_TABLE = bank_test_2016
+16_tf_idf_bank_balanced_15k_cost0.7: TRAIN_TABLE = bank_train_balanced_2016_15k
+16_tf_idf_bank_balanced_15k_cost0.7: MODEL_NAME = tf_idf
+16_tf_idf_bank_balanced_15k_cost0.7: MODEL_OPTIONS=	-t 0 -c 0.7
+16_tf_idf_bank_balanced_15k_cost0.7: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.xml
+16_tf_idf_bank_balanced_15k_cost0.7: core
+
+16_tf_idf_bank_balanced_30k: TASK_TYPE = bank
+16_tf_idf_bank_balanced_30k: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
+16_tf_idf_bank_balanced_30k: TEST_TABLE = bank_test_2016
+16_tf_idf_bank_balanced_30k: TRAIN_TABLE = bank_train_balanced_2016_30k
+16_tf_idf_bank_balanced_30k: MODEL_NAME = tf_idf
+16_tf_idf_bank_balanced_30k: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.xml
+16_tf_idf_bank_balanced_30k: core
+
 # TTK task 2015
 #
 tf_idf_ttk_imbalanced: TASK_TYPE = ttk
@@ -673,6 +752,22 @@ tf_idf_dict_ttk_balanced: core
 16_tf_idf_ttk_balanced_6k_cost0.5: MODEL_OPTIONS= -t 0 -c 0.5
 16_tf_idf_ttk_balanced_6k_cost0.5: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.xml
 16_tf_idf_ttk_balanced_6k_cost0.5: core
+
+16_tf_idf_ttk_balanced_15k: TASK_TYPE = ttk
+16_tf_idf_ttk_balanced_15k: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
+16_tf_idf_ttk_balanced_15k: TEST_TABLE = ttk_test_2016
+16_tf_idf_ttk_balanced_15k: TRAIN_TABLE = ttk_train_balanced_2016_15k
+16_tf_idf_ttk_balanced_15k: MODEL_NAME = tf_idf
+16_tf_idf_ttk_balanced_15k: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.xml
+16_tf_idf_ttk_balanced_15k: core
+
+16_tf_idf_ttk_balanced_30k: TASK_TYPE = ttk
+16_tf_idf_ttk_balanced_30k: VOCABULARY_PATH = $(DATA_ROOT)/_aux/$(TASK_TYPE).voc
+16_tf_idf_ttk_balanced_30k: TEST_TABLE = ttk_test_2016
+16_tf_idf_ttk_balanced_30k: TRAIN_TABLE = ttk_train_balanced_2016_30k
+16_tf_idf_ttk_balanced_30k: MODEL_NAME = tf_idf
+16_tf_idf_ttk_balanced_30k: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.xml
+16_tf_idf_ttk_balanced_30k: core
 
 core:
 	echo $(MODEL_OPTIONS)
