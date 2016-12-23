@@ -1,12 +1,25 @@
-#/usr/bin/python
 # -*- coding: utf-8 -*-
 
 import operator
 import json
 import io
 
-# create WholeVocabulary
+
 class TermVocabulary:
+
+    def __init__(self, filepath=""):
+        if (filepath == ""):
+            self.term_index = {}
+            self.term_in_voc_count = {}
+            self.current_index = 0
+        else:
+            with io.open(filepath, 'r', encoding='utf-8') as f:
+                voc = json.load(f, encoding='utf8')
+            self.term_index = voc['term_index']
+            self.current_index = voc['current_index']
+            self.term_in_voc_count = voc['term_in_voc_count']
+            print 'vocabulary loaded'
+            print 'terms: %d' % (len(self.term_index))
 
     @staticmethod
     def to_unicode(s):
@@ -28,8 +41,8 @@ class TermVocabulary:
 
     def top(self, n):
         r = sorted(self.term_in_voc_count.items(),
-            key=operator.itemgetter(1))[::-1]
-        print "top %d:"%(n)
+                   key=operator.itemgetter(1))[::-1]
+        print "top %d:" % (n)
         for i in range(min(len(self.term_in_voc_count), n)):
             for w, index in self.term_index.iteritems():
                 if (index == r[i][0]):
@@ -50,31 +63,21 @@ class TermVocabulary:
         else:
             self.term_in_voc_count[self.get_term_index(unicode_term)] += 1
 
-    def __init__(self, filepath = ""):
-        if (filepath == ""):
-            self.term_index = {}
-            self.term_in_voc_count = {}
-            self.current_index = 0
-        else:
-            with io.open(filepath, 'r', encoding='utf-8') as f:
-                voc = json.load(f, encoding='utf8')
-            self.term_index = voc['term_index']
-            self.current_index = voc['current_index']
-            self.term_in_voc_count = voc['term_in_voc_count']
-            print 'vocabulary loaded'
-            print 'terms: %d'%(len(self.term_index))
-
-
     def save(self, filepath):
         with io.open(filepath, 'w', encoding='utf-8') as out:
-            data = json.dumps( {
-                'term_index': self.term_index,
-                'current_index' : self.current_index,
-                'term_in_voc_count' : self.term_in_voc_count
-            }, ensure_ascii=False, encoding='utf8')
+            data = json.dumps({
+                              'term_index': self.term_index,
+                              'current_index': self.current_index,
+                              'term_in_voc_count': self.term_in_voc_count
+                              }, ensure_ascii=False, encoding='utf8')
             out.write(unicode(data))
 
+
 class DocVocabulary:
+
+    def __init__(self):
+        self.term_in_docs_count = {}
+        self.docs_count = 0
 
     @staticmethod
     def to_unicode(s):
@@ -112,7 +115,3 @@ class DocVocabulary:
             return self.get_term_in_docs_count(unicode_term)
         else:
             return 0
-
-    def __init__(self):
-        self.term_in_docs_count = {}
-        self.docs_count = 0
