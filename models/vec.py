@@ -1,11 +1,6 @@
+# math
 from math import log
 
-import sys
-from inspect import getsourcefile
-from os.path import abspath, dirname
-sys.path.insert(0, dirname(abspath(getsourcefile(lambda:0))) + '/../_aux')
-from msg import Message
-from vocs import TermVocabulary
 
 def to_unicode(terms):
     unicode_terms = []
@@ -16,6 +11,7 @@ def to_unicode(terms):
             unicode_terms.append(term)
 
     return unicode_terms
+
 
 def train_vector(tone, term_voc, doc_voc, terms, features):
     "build vector"
@@ -30,11 +26,17 @@ def train_vector(tone, term_voc, doc_voc, terms, features):
         vector[1][index] = tf(term, unicode_terms)*idf(term, term_voc, doc_voc)
     return vector
 
+
 def tf(term, doc_terms):
-    "calculate tf measure for a doc"
+    """
+    Calculate tf measure for a document
+    """
     return doc_terms.count(term)*1.0/len(doc_terms)
 
+
 def idf(term, term_voc, doc_voc):
-    'calculate idf measure for voc'
-    return log(doc_voc.get_docs_count()*1.0/
-        doc_voc.get_term_in_docs_count(term))
+    """
+    Calculate idf measure for vocabulary
+    """
+    return log(doc_voc.get_docs_count()*1.0 /
+               doc_voc.get_term_in_docs_count(term))

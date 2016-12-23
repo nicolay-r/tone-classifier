@@ -21,6 +21,10 @@ def show_progress(message, current, total):
         print ""
 
 
+#
+#   pgsql functions
+#
+
 def table_iterate(connection, sql_request):
     """
     Returns
@@ -36,6 +40,29 @@ def table_iterate(connection, sql_request):
         yield row
         row = cursor.fetchone()
         current_row += 1
-        show_progress("Request: '{}', Progress:".format(sql_request),
-                      current_row,
-                      rowcount)
+        show_progress("Progress:", current_row, rowcount)
+
+
+def create_table_as(connection, table, template):
+    """
+    Initialize new table in storage wheter it's existed or not
+    """
+    # Drop if existed
+    cursor = connection.cursor()
+    cursor.execute('DROP TABLE IF EXISTS %s' % (table))
+    connection.commit()
+    # Create new table
+    cursor.execute('CREATE TABLE %s AS TABLE %s' % (table, template))
+    connection.commit()
+
+
+def add_row(connection, table, columns, row):
+    """
+    Add row into table with by defined columns
+    """
+    cursor = connection.cursor()
+    cursor.execute("INSERT INTO %s(%s) VALUES (%s)" % (
+        table, ','.join(columns), ",".join(
+            [str(v).replace('\'', '\'\'') if not (v is None) else 'Null'
+             for v in row])))
+    connection.commit()

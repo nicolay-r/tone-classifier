@@ -9,7 +9,7 @@ SVM_PREDICT=../models/core/
 
 # Defining a default model
 MODEL_OPTIONS=	-t 0
-MODEL_ROOT	=	$(DATA_ROOT)$(MODEL_NAME)
+MODEL_ROOT	=	$(DATA_ROOT)
 MODEL_OUTDIR= 	$(MODEL_ROOT)/out/
 MODEL_PROB	=	$(MODEL_OUTDIR)$(MODEL_NAME).prob
 MODEL_TRAIN	=	$(MODEL_OUTDIR)$(MODEL_NAME).train
@@ -680,7 +680,7 @@ core:
 	# Build Vocabulary
 	$(DATA_ROOT)/core/indexer.py romipdata $(VOCABULARY_PATH) $(TRAIN_TABLE) $(TEST_TABLE)
 	# Extracting a problem for SVM
-	$(MODEL_ROOT)/$(MODEL_NAME)_train.py $(TASK_TYPE) romipdata $(TRAIN_TABLE) $(VOCABULARY_PATH) $(MODEL_PROB)
+	#$(MODEL_ROOT)/$(MODEL_NAME)_train.py $(TASK_TYPE) romipdata $(TRAIN_TABLE) $(VOCABULARY_PATH) $(MODEL_PROB)
 	# Extracting testing data
 	$(MODEL_ROOT)/$(MODEL_NAME)_test.py $(TASK_TYPE) romipdata $(TEST_TABLE) $(VOCABULARY_PATH) $(MODEL_TEST) $(MODEL_PCONF)
 	# Training on data
