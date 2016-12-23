@@ -4,6 +4,14 @@ import sys
 import libxml2
 from psycopg2 import connect
 
+# -----------------------------------------------------------------------------
+# PostgreSQL connection settings
+# -----------------------------------------------------------------------------
+PGSQL_USER = "postgres"
+PGSQL_PWD = "postgres"
+PGSQL_HOST = "localhost"
+# -----------------------------------------------------------------------------
+
 # Getting Row of a table from xmlFile
 def getRow(tableNode):
     row = {}
@@ -15,9 +23,10 @@ def getRow(tableNode):
             # Check that text is not "NULL"
             if (colValue != "NULL"):
                 # String data type
-                row[colName] = "\'%s\'"%(colValue.replace('\'', '\'\''))
+                row[colName] = "\'%s\'" % (colValue.replace('\'', '\'\''))
         columnNode = columnNode.next
     return row
+
 
 # Insert Row into table
 def insertRow(cursor, tableName, row):
@@ -30,25 +39,24 @@ def insertRow(cursor, tableName, row):
         args += str(colName)
         argv += str(row[colName])
 
-    cursor.execute( "INSERT INTO %s(%s) VALUES(%s);"%(tableName, args, argv))
+    cursor.execute("INSERT INTO %s(%s) VALUES(%s);" % (tableName, args, argv))
 
 if (len(sys.argv) == 1):
-    print "usage: export_data <xmlFile>"
+    print "usage: {} <xmlFile>".format(sys.argv[0])
     exit(0)
+
 # Parsing Xml File
 xmlFile = sys.argv[1]
-
 doc = libxml2.parseFile(xmlFile)
 ctx = doc.xpathNewContext()
-
 databaseNode = ctx.xpathEval("/pma_xml_export/database")[0]
 
 # Setting up Connection
 dbName = databaseNode.prop("name").lower()
-
-connSettings = """dbname=%s user=%s password=%s host=%s"""%(
-    dbName, "postgres", "postgres", "localhost")
-
+connSettings = """dbname=%s user=%s password=%s host=%s""" % (dbName,
+                                                              PGSQL_USER,
+                                                              PGSQL_PWD,
+                                                              PGSQL_HOST)
 conn = connect(connSettings)
 cursor = conn.cursor()
 
