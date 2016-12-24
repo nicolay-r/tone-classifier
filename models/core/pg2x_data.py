@@ -53,24 +53,23 @@ def export_and_save(connection, table, out_filename):
 
 
 if len(sys.argv) == 1:
-    print "usage: {} <database> <prediction_table> <etalon_table>".format(
+    print "usage: {} <pconf> <out>".format(
             sys.argv[0])
     exit(0)
 
 arguments = {'pconf': sys.argv[1],
-             'database': sys.argv[2],
-             'prediction_table': sys.argv[3],
-             'etalon_table': sys.argv[4]}
+             'out_filepath': sys.argv[2]}
 
 with open(arguments['pconf']) as f:
     config = json.load(f)
 
 connectionSettings = "dbname=%s user=%s "\
-                     "password=%s host=%s" % (arguments['database'],
+                     "password=%s host=%s" % (config['database'],
                                               utils.PGSQL_USER,
                                               utils.PGSQL_PWD,
                                               utils.PGSQL_HOST)
 connection = psycopg2.connect(connectionSettings)
 
-export_and_save(config["prediction_table"], arguments["prediction_table"])
-export_and_save(config["etalon_table"], arguments["etalon_table"])
+export_and_save(connection,
+                config["prediction_table"],
+                arguments["out_filepath"])

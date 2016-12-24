@@ -4,6 +4,7 @@ SVM_ROOT=../libsvm/
 DATA_ROOT=../models/
 # SVM prediction script
 SVM_PREDICT=../models/core/
+MODEL_CORE=../models/core/
 
 #remove TASK_TYPE
 
@@ -15,7 +16,6 @@ MODEL_PROB	=	$(MODEL_OUTDIR)$(MODEL_NAME).prob
 MODEL_TEST	=	$(MODEL_OUTDIR)$(MODEL_NAME).test
 MODEL_PCONF	=	$(MODEL_OUTDIR)$(MODEL_NAME).pconf
 MODEL_OUT	=	$(MODEL_OUTDIR)$(MODEL_NAME).out
-MODEL_RESULT_OUT = $(MODEL_OUTDIR)$(MODEL_NAME).answer.out
 MODEL_TRAIN	=	$(MODEL_OUTDIR)$(MODEL_NAME).train
 MODEL_MODEL	=	$(MODEL_TRAIN).model
 
@@ -684,13 +684,13 @@ core:
 	# Predicting
 	$(SVM_PREDICT)predict.py $(MODEL_TEST) $(MODEL_MODEL) $(MODEL_PCONF)
 	# Exporting Result into XML
-	# ../data/pg2x_data.py $(MODEL_PCONF) $(MODEL_OUT) $(MODEL_RESULT_OUT)
+	$(MODEL_CORE)pg2x_data.py $(MODEL_PCONF) $(MODEL_OUT)
 	# Creating result folder
-	# mkdir -p result
+	mkdir -p result
 	# Copy result into result directory
-	# cp $(MODEL_OUT) ./result
+	cp $(MODEL_OUT) ./result
 	# Estimating model
-	# cd ../eval/ && nodejs calc.js $(TASK_TYPE) ../run/$(MODEL_OUT) ../run/$(ETALON_RESULT)
+	cd ../eval/ && nodejs calc.js $(TASK_TYPE) ../run/$(MODEL_OUT) ../run/$(ETALON_RESULT)
 
 
 refresh_user_collection:
