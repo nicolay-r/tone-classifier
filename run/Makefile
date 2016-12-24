@@ -679,10 +679,8 @@ core:
 	mkdir -p $(MODEL_OUTDIR)
 	# Build Vocabulary
 	$(DATA_ROOT)/core/indexer.py romipdata $(VOCABULARY_PATH) $(TRAIN_TABLE) $(TEST_TABLE)
-	# Extracting a problem for SVM
-	#$(MODEL_ROOT)/$(MODEL_NAME)_train.py $(TASK_TYPE) romipdata $(TRAIN_TABLE) $(VOCABULARY_PATH) $(MODEL_PROB)
-	# Extracting testing data
-	$(MODEL_ROOT)/$(MODEL_NAME)_test.py $(TASK_TYPE) romipdata $(TEST_TABLE) $(VOCABULARY_PATH) $(MODEL_TEST) $(MODEL_PCONF)
+	# Extracting data
+	$(MODEL_ROOT)/$(MODEL_NAME)_model.py $(TASK_TYPE) romipdata $(TRAIN_TABLE) $(TEST_TABLE) $(VOCABULARY_PATH) $(MODEL_TRAIN) $(MODEL_TEST)
 	# Training on data
 	$(SVM_ROOT)svm-train $(MODEL_OPTIONS) $(MODEL_PROB) $(MODEL_MODEL)
 	# Predicting

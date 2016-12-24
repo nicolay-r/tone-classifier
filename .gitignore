@@ -20,3 +20,5 @@
 /models/_aux/*.voc
 /models/bag_of_words/out
 /models/tf_idf/out
+
+/twitter/out
