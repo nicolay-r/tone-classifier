@@ -12,11 +12,11 @@ MODEL_OPTIONS=	-t 0
 MODEL_ROOT	=	$(DATA_ROOT)
 MODEL_OUTDIR= 	$(MODEL_ROOT)/out/
 MODEL_PROB	=	$(MODEL_OUTDIR)$(MODEL_NAME).prob
-MODEL_TRAIN	=	$(MODEL_OUTDIR)$(MODEL_NAME).train
 MODEL_TEST	=	$(MODEL_OUTDIR)$(MODEL_NAME).test
 MODEL_PCONF	=	$(MODEL_OUTDIR)$(MODEL_NAME).pconf
 MODEL_OUT	=	$(MODEL_OUTDIR)$(MODEL_NAME).out
 MODEL_RESULT_OUT = $(MODEL_OUTDIR)$(MODEL_NAME).answer.out
+MODEL_TRAIN	=	$(MODEL_OUTDIR)$(MODEL_NAME).train
 MODEL_MODEL	=	$(MODEL_TRAIN).model
 
 SENTIRUEVAL2015 = ../data/collections/SentiRuEval-2015/
@@ -678,19 +678,19 @@ core:
 	echo $(MODEL_OPTIONS)
 	mkdir -p $(MODEL_OUTDIR)
 	# Extracting data
-	$(MODEL_ROOT)/$(MODEL_NAME)_model.py $(TASK_TYPE) romipdata $(TRAIN_TABLE) $(TEST_TABLE) $(VOCABULARY_PATH) $(MODEL_TRAIN) $(MODEL_TEST)
+	$(MODEL_ROOT)/$(MODEL_NAME)_model.py $(TASK_TYPE) romipdata $(TRAIN_TABLE) $(TEST_TABLE) $(MODEL_PROB) $(MODEL_TEST) $(MODEL_PCONF)
 	# Training on data
 	$(SVM_ROOT)svm-train $(MODEL_OPTIONS) $(MODEL_PROB) $(MODEL_MODEL)
 	# Predicting
-	$(SVM_PREDICT)predict.py $(MODEL_TEST) $(MODEL_MODEL) $(MODEL_PCONF)
+	# $(SVM_PREDICT)predict.py $(MODEL_TEST) $(MODEL_MODEL) $(MODEL_PCONF)
 	# Exporting Result into XML
-	../data/pg2x_data.py $(MODEL_PCONF) $(MODEL_OUT) $(MODEL_RESULT_OUT)
+	# ../data/pg2x_data.py $(MODEL_PCONF) $(MODEL_OUT) $(MODEL_RESULT_OUT)
 	# Creating result folder
-	mkdir -p result
+	# mkdir -p result
 	# Copy result into result directory
-	cp $(MODEL_OUT) ./result
+	# cp $(MODEL_OUT) ./result
 	# Estimating model
-	cd ../eval/ && nodejs calc.js $(TASK_TYPE) ../run/$(MODEL_OUT) ../run/$(ETALON_RESULT)
+	# cd ../eval/ && nodejs calc.js $(TASK_TYPE) ../run/$(MODEL_OUT) ../run/$(ETALON_RESULT)
 
 
 refresh_user_collection:

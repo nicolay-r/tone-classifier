@@ -66,3 +66,14 @@ def add_row(connection, table, columns, row):
             [str(v).replace('\'', '\'\'') if not (v is None) else 'Null'
              for v in row])))
     connection.commit()
+
+def drop_table(connection, table_name):
+    cursor = connection.cursor()
+    cursor.execute('DROP TABLE IF EXISTS %s' % (table_name))
+    connection.commit()
+
+def create_table_as(connection, original_table_name, out_table_name):
+    cursor = connection.cursor()
+    cursor.execute('CREATE TABLE %s AS TABLE %s' % (out_table_name,
+                                                    original_table_name))
+    connection.commit()

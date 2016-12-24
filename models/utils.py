@@ -15,6 +15,7 @@ from core.msg import Message
 
 import tweets
 import prob
+import pconf
 
 
 def vectorization_core(vectorizer):
@@ -29,26 +30,16 @@ def vectorization_core(vectorizer):
     -------
         None
     """
-    argc = len(sys.argv)
-    if (argc == 1):
-        print "%s\n%s\n%s\n%s\n%s\n%s" % (
-            "Usage: baseline_bank <database> <train_table> <output>",
-            "<task> -- task type",
-            "<database> -- database to connect for training data",
-            "<train_table> -- table with training data",
-            "<test_table> -- table with training data",
-            "<vocabulary> -- vocabulary",
-            "<train_output> -- file to save tonality vectors",
-            "<test_output> -- file to save tonality vectors")
+    if (sys.argv < 8):
         exit(0)
 
     config = {'task_type': sys.argv[1],
               'database': sys.argv[2],
               'train_table': sys.argv[3],
               'test_table': sys.argv[4],
-              'vocabulary_configpath': sys.argv[5],
-              'train_output': sys.argv[6],
-              'test_output': sys.argv[7]}
+              'train_output': sys.argv[5],
+              'test_output': sys.argv[6],
+              'pconf_output': sys.argv[7]}
     message_configpath = "msg.conf"
     features_configpath = "features.conf"
 
@@ -69,29 +60,37 @@ def vectorization_core(vectorizer):
     # Train problem
     train_problem = create_problem(connection,
                                    config['task_type'],
+                                   'train',
                                    config['train_table'],
                                    vectorizer,
                                    term_vocabulary,
                                    features_configpath,
                                    message_configpath)
 
-    prob.save(train_problem, config['train_output'])
-
     # Test problem
     test_problem = create_problem(connection,
                                   config['task_type'],
+                                  'test',
                                   config['test_table'],
                                   vectorizer,
                                   term_vocabulary,
                                   features_configpath,
                                   message_configpath)
 
+    result_table = config['test_table'] + '_problem'
+    core.utils.create_table_as(connection, config['test_table'], result_table)
+
+    # Save
+    prob.save(train_problem, config['train_output'])
     prob.save(test_problem, config['test_output'])
+    pconf.save(config['database'],
+               tweets.get_score_columns(config['task_type']),
+               result_table,
+               config['pconf_output'])
 
 
-def create_problem(connection, task_type, table, vectorizer, term_vocabulary,
-                   features_configpath,
-                   message_configpath):
+def create_problem(connection, task_type, collection_type, table, vectorizer,
+                   term_vocabulary, features_configpath, message_configpath):
     """
     Creates problem (vectors from messages with additional features)
 
@@ -99,6 +98,9 @@ def create_problem(connection, task_type, table, vectorizer, term_vocabulary,
     ---------
         connection -- pgsql connection
         task_type
+        collection_type -- could be 'train' or 'test', it affects on the
+                           generated vector prefixes (tone score for 'train'
+                           task, and 'id' for 'test' task respectively)
         table -- table name
         vectorizer -- function for producing vector from terms
         term_vocabulary -- vocabulary of terms
@@ -113,7 +115,7 @@ def create_problem(connection, task_type, table, vectorizer, term_vocabulary,
     features = Features(features_configpath)
     doc_vocabulary = DocVocabulary()
     limit = sys.maxint
-    vectors = []
+    labeled_messages = []
 
     for score in [-1, 0, 1]:
         print "Class:\t%s" % (score)
@@ -133,21 +135,26 @@ def create_problem(connection, task_type, table, vectorizer, term_vocabulary,
             # feature: name: value
             doc_vocabulary.add_doc(terms)
             unicode_terms = to_unicode(terms)
-            vectors.append({'id': index,
-                            'terms': unicode_terms,
-                            'features': features.create(unicode_terms,
-                                                        message=text)})
+            labeled_messages.append(
+                {'score': score,
+                 'id': index,
+                 'terms': unicode_terms,
+                 'features': features.create(unicode_terms, message=text)})
             # next row
             # row = tweets.next_row(cursor, score, 'test')
 
-    # Create problem
+    # Create vectors
     problem = []
-    for vector in vectors:
-        problem.append(vectorizer(vector['id'],
-                                  term_vocabulary,
-                                  doc_vocabulary,
-                                  vector['terms'],
-                                  vector['features']))
+    for labeled_message in labeled_messages:
+        vector = vectorizer(labeled_message, term_vocabulary, doc_vocabulary)
+        if (collection_type == 'train'):
+            problem.append([labeled_message['score'], vector])
+        elif (collection_type == 'test'):
+            problem.append([labeled_message['id'], vector])
+        else:
+            raise ValueError(
+                    'Unexpected collection_type={}'.format(collection_type))
+
     return problem
 
 

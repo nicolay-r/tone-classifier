@@ -8,28 +8,32 @@ import math
 import utils
 
 
-def vectorizer(tone, term_voc, doc_voc, terms, features):
+def vectorizer(labeled_message, term_voc, doc_voc):
     """
     Vector builder
 
     Arguments:
     ---------
-        tone -- sentiment score of terms list
+        labeled_message -- dictionary with the following fields:
+                           {score, id, terms, features}
         term_voc -- vocabulary of terms
         doc_voc -- vocabulary of documents
 
     Returns
     ------
-        vector -- [tone, {index: value, ... }]
+        vector -- {index1: value1, ... , indexN: valueN}
     """
-    vector = [tone, {}]
+    vector = {}
+
+    features = labeled_message['features']
     for feature_name in features.keys():
         index = term_voc.get_term_index(feature_name)
-        vector[1][index] = features[feature_name]
+        vector[index] = features[feature_name]
 
+    terms = labeled_message['terms']
     for term in terms:
         index = term_voc.get_term_index(term)
-        vector[1][index] = tf(term, terms) * idf(term, term_voc, doc_voc)
+        vector[index] = tf(term, terms) * idf(term, term_voc, doc_voc)
 
     return vector
 
