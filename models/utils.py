@@ -78,6 +78,7 @@ def vectorization_core(vectorizer):
                                   message_configpath)
 
     result_table = config['test_table'] + '_problem'
+    core.utils.drop_table(connection, result_table)
     core.utils.create_table_as(connection, config['test_table'], result_table)
 
     # Save

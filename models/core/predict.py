@@ -10,6 +10,10 @@ import psycopg2
 from inspect import getsourcefile
 from os.path import abspath, dirname
 LIBSVM_PATH = '/../../libsvm/python'
+sys.path.insert(0, dirname(abspath(getsourcefile(lambda: 0)))+LIBSVM_PATH)
+
+from svm import *
+from svmutil import *
 
 
 def predict(problem_filepath, model_filepath):
@@ -20,7 +24,6 @@ def predict(problem_filepath, model_filepath):
     -------
         (ids, labels)
     """
-    sys.path.insert(0, dirname(abspath(getsourcefile(lambda: 0)))+LIBSVM_PATH)
 
     # Reading a problem
     ids, x = svm_read_problem(problem_filepath)
@@ -67,11 +70,12 @@ with open(arguments['config_file']) as f:
     config = json.load(f)
 
 # Database
-connection = psycopg2.connect(config['conn_settings'])
-utils.drop_table(connection, config['out_table'])
-utils.create_table_as(connection,
-                      config['original_table'],
-                      config['out_table'])
+connectionSettings = "dbname=%s user=%s "\
+                     "password=%s host=%s" % (config['database'],
+                                              utils.PGSQL_USER,
+                                              utils.PGSQL_PWD,
+                                              utils.PGSQL_HOST)
+connection = psycopg2.connect(connectionSettings)
 
 # Predict
 ids, p_label = predict(arguments['problem_file'],
@@ -82,11 +86,12 @@ cursor = connection.cursor()
 for message_index in range(0, len(ids)):
     row_id = ids[message_index]
     label = p_label[message_index]
+    table = config['prediction_table']
 
-    set_result(cursor, config['out_table'], config['columns'], row_id, label)
+    set_result(cursor, table, config['columns'], row_id, label)
 
     utils.show_progress(
-        "Filling answers in \'%s\' table" % (config['out_table']),
+        "Filling answers in \'%s\' table" % (table),
         message_index + 1,
         len(ids))
 
