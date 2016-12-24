@@ -677,8 +677,6 @@ tf_idf_dict_ttk_balanced: core
 core:
 	echo $(MODEL_OPTIONS)
 	mkdir -p $(MODEL_OUTDIR)
-	# Build Vocabulary
-	$(DATA_ROOT)/core/indexer.py romipdata $(VOCABULARY_PATH) $(TRAIN_TABLE) $(TEST_TABLE)
 	# Extracting data
 	$(MODEL_ROOT)/$(MODEL_NAME)_model.py $(TASK_TYPE) romipdata $(TRAIN_TABLE) $(TEST_TABLE) $(VOCABULARY_PATH) $(MODEL_TRAIN) $(MODEL_TEST)
 	# Training on data

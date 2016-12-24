@@ -8,6 +8,7 @@ import psycopg2
 
 # core
 import core.utils
+import core.indexer
 
 # this
 import utils
@@ -24,6 +25,9 @@ def vectorizer(tone, term_voc, doc_voc, terms, features):
         term_voc -- vocabulary of terms
         doc_voc -- vocabulary of documents
 
+    Returns
+    ------
+        vector -- [tone, {index: value, ... }]
     """
     vector = [tone, {}]
     for feature_name in features.keys():
@@ -32,7 +36,7 @@ def vectorizer(tone, term_voc, doc_voc, terms, features):
 
     for term in terms:
         index = term_voc.get_term_index(term)
-        vector[1][index] = tf(term, terms)*idf(term, term_voc, doc_voc)
+        vector[1][index] = tf(term, terms) * idf(term, term_voc, doc_voc)
 
     return vector
 
@@ -84,13 +88,19 @@ connectionSettings = """dbname=%s user=%s
                                                   core.utils.PGSQL_HOST)
 connection = psycopg2.connect(connectionSettings)
 
+# Create vocabulary of terms
+term_vocabulary = core.indexer.create_term_vocabulary(
+                                connection,
+                                [config['train_table'], config['test_table']],
+                                message_configpath)
+
 # Train problem
 train_problem = utils.create_problem(connection,
                                      config['task_type'],
                                      config['train_table'],
                                      vectorizer,
+                                     term_vocabulary,
                                      features_configpath,
-                                     config['vocabulary_configpath'],
                                      message_configpath)
 
 prob.save(train_problem, config['train_output'])
@@ -100,8 +110,8 @@ test_problem = utils.create_problem(connection,
                                     config['task_type'],
                                     config['test_table'],
                                     vectorizer,
+                                    term_vocabulary,
                                     features_configpath,
-                                    config['vocabulary_configpath'],
                                     message_configpath)
 
 prob.save(test_problem, config['test_output'])

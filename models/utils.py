@@ -5,16 +5,15 @@ from pymystem3 import Mystem
 
 # core
 import core
-from core.vocs import TermVocabulary, DocVocabulary
+from core.vocs import DocVocabulary
 from core.features import Features
 from core.msg import Message
 
 import tweets
 
 
-def create_problem(connection, task_type, table, vectorizer,
+def create_problem(connection, task_type, table, vectorizer, term_vocabulary,
                    features_configpath,
-                   vocabulary_filepath,
                    message_configpath):
     """
     Creates problem (vectors from messages with additional features)
@@ -23,10 +22,10 @@ def create_problem(connection, task_type, table, vectorizer,
     ---------
         connection
         task_type
-        table
+        table -- table name
         vectorizer -- function for producing vector from terms
+        term_vocabulary -- vocabulary of terms
         features_configpath
-        vocabulary_path
         messsage_configpath
 
     Returns:
@@ -34,7 +33,6 @@ def create_problem(connection, task_type, table, vectorizer,
         prob
     """
     mystem = Mystem(entire_input=False)
-    term_vocabulary = TermVocabulary(vocabulary_filepath)
     features = Features(features_configpath)
     doc_vocabulary = DocVocabulary()
     limit = sys.maxint
