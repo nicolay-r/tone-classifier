@@ -11,7 +11,7 @@ import core.utils
 import core.indexer
 from core.vocs import DocVocabulary
 from core.features import Features
-from core.msg import Message
+from core.msg import TwitterMessage
 
 import tweets
 import prob
@@ -129,8 +129,10 @@ def create_problem(connection, task_type, collection_type, table, vectorizer,
             text = row[0]
             index = row[1]
 
-            message = Message(text, mystem, message_configpath, task_type)
-            message.process()
+            message = TwitterMessage(text,
+                                     mystem,
+                                     message_configpath,
+                                     task_type)
             terms = message.get_terms()
             # test.add_row(connection, new_etalon_table, columns, row[2:])
             # feature: name: value

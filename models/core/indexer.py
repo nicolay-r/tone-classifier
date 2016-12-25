@@ -11,7 +11,7 @@ from pymystem3 import Mystem
 # core
 import utils
 import vocs
-from msg import Message
+from msg import TwitterMessage
 
 
 def create_term_vocabulary(connection, tables, message_configpath):
@@ -41,8 +41,7 @@ def create_term_vocabulary(connection, tables, message_configpath):
         print "Extracting terms from messages of '%s' table ..." % (table)
         sql_request = "SELECT text FROM %s;" % (table)
         for row in utils.table_iterate(connection, sql_request):
-            message = Message(row[0], mystem, message_configpath)
-            message.process()
+            message = TwitterMessage(row[0], mystem, message_configpath)
             terms = message.get_terms()
             for t in terms:
                 term_vocabulary.insert_term(t)

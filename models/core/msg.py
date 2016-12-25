@@ -1,75 +1,95 @@
-#/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from pymystem3 import Mystem
-import json
 import io
+import json
+from nltk.tokenize import TweetTokenizer
 
-class Message:
 
-    @staticmethod
-    def show_terms(terms):
-        for t in terms:
-            print "<%s>"%(t),
-        print
+class TwitterMessage:
+    INCLUDE_URLS = 'urls_used'
+    INCLUDE_HASHTAGS = 'ht_used'
+    INCLUDE_USERS = 'users_used'
+    INCLUDE_RETWEET_SYMBOL = 'retweet_used'
+    REMOVE_STOP_WORDS = 'use_stop_words'
+    APPLY_BIGRAM_PROCESSOR = 'use_bigram_processor'
+    TONE_PREFIXES = 'tone_prefix'
+    ABSOLUTE_STOP_WORDS = 'abs_stop_words'
+    GARBAGE_CHARS = 'garbage_chars'
 
-    def transform(self, unicode_terms):
+    def __init__(self, text, mystem, configpath, task_type='none'):
+        """
+        Arguments
+        ---------
+            text
+            mystem
+            configpath
+            task_type
+        """
+        self.mystem = mystem
 
-        # remove prefix symbols
-        for i in range(len(unicode_terms)):
-            unicode_term = unicode_terms[i]
-            while (len(unicode_term) > 0 and (unicode_term[0] in
-                self.garbage_chars)):
-                unicode_term = unicode_term[1:]
-            unicode_terms[i] = unicode_term
+        # Read config file
+        with io.open(configpath, "r") as f:
+            self.settings = json.load(f, encoding='utf-8')
 
-        # process as bigrams
-        if (self.use_bigram_processor):
-            to_remove = []
-            i = 0
-            while i < len(unicode_terms)-1:
-                bigram = unicode_terms[i] + ' ' + unicode_terms[i+1]
-                if (bigram in self.tone_prefix) and (i < len(unicode_terms)-2):
-                    unicode_terms[i+2] = self.tone_prefix[bigram] + unicode_terms[i+2]
-                    to_remove.append(i)
-                    to_remove.append(i+1)
-                    i += 3
-                else:
-                    unigram = unicode_terms[i]
-                    if (unigram in self.tone_prefix):
-                        unicode_terms[i+1] = self.tone_prefix[unigram] + unicode_terms[i+1]
-                        to_remove.append(i)
-                        i += 2
-                    else:
-                        i += 1
+        if (task_type != 'none'):
+            key = task_type + '_stop_words'
+            self.task_specific_stop_words = self.settings[key]
+        else:
+            self.task_specific_stop_words = []
 
-            unicode_terms = [unicode_terms[i]
-                for i in range(len(unicode_terms)) if not(i in to_remove)]
+        # Tokenize message
+        tokenizer = TweetTokenizer()
+        self.words = tokenizer.tokenize(text)
 
-        # filter stop words
-        if (self.use_stop_words):
-            unicode_terms = [t for t in unicode_terms if
-                not(t in self.abs_stop_words) and not(t in self.stop_words)]
+        # Process
+        self.__process()
 
-        return unicode_terms
+    def get_terms(self, lemmatize=True):
+        """
+        Get terms of twitter message
 
-    def get_terms(self):
-        unicode_terms = [unicode(w.strip(), 'utf-8') for w in
-            self.mystem.lemmatize(' '.join(self.words)) if
-            not(w in ['\n', ' ', '\t', '\r'])]
+        Returns
+        -------
+            terms -- list of twitter words of natural language (with or
+                     without applying lemmatizer) and other metainformation
+                     (such as URL, hashtags, etc.)
+        """
+        terms = [w.strip() for w in
+                 self.mystem.lemmatize(' '.join(self.words)) if
+                 not(w in ['\n', ' ', '\t', '\r'])]
 
-        unicode_terms = self.transform(unicode_terms)
+        terms = self.__transform(terms)
 
-        if (self.urls_used):
-            unicode_terms += self.urls
-        if (self.ht_used):
-            unicode_terms += self.hash_tags
-        if (self.users_used):
-            unicode_terms += self.users
+        if (self.settings[TwitterMessage.INCLUDE_URLS]):
+            terms += self.urls
+        if (self.settings[TwitterMessage.INCLUDE_HASHTAGS]):
+            terms += self.hash_tags
+        if (self.settings[TwitterMessage.INCLUDE_USERS]):
+            terms += self.users
 
-        return unicode_terms
+        return terms
 
-    def process(self):
+    def __transform(self, terms):
+        self.__remove_prefix_symbols(terms, self.settings[self.GARBAGE_CHARS])
+
+        if self.settings[self.APPLY_BIGRAM_PROCESSOR]:
+            terms = self.__sentiment_bigram_filter(
+                    terms, self.settings[self.TONE_PREFIXES])
+
+        if (self.settings[self.REMOVE_STOP_WORDS]):
+            terms = [term for term in terms if
+                     not(term in self.settings[self.ABSOLUTE_STOP_WORDS]) and
+                     not(term in self.task_specific_stop_words)]
+
+        return terms
+
+    # @staticmethod
+    # def show_terms(terms):
+    #     for t in terms:
+    #         print "<%s>" % (t),
+    #     print
+
+    def __process(self):
         words = self.words
 
         retweet_term = 'RT'
@@ -102,40 +122,54 @@ class Message:
         self.hash_tags = hash_tags
         self.has_retweet = has_retweet
 
-    def show(self):
-        print "use urls:\t", self.urls_used
-        print "use hashtags:\t", self.ht_used
-        print "use @users:\t", self.users_used
-        print "use 'rt':\t", self.retweet_used
-        print "use absolute stop words:\t", self.use_stop_words
-        print "use bigram tone processor: \t", self.use_bigram_processor
+    @staticmethod
+    def __remove_prefix_symbols(terms, chars_to_remove):
+        """
+        Remove terms prefixes (such as commas, dashes, etc) which is presented
+        in chars_to_remove
+        """
+        for i in range(len(terms)):
+            term = terms[i]
+            while (len(term) > 0 and (term[0] in chars_to_remove)):
+                term = term[1:]
+            terms[i] = term
+
+        return terms
+
+    def __sentiment_bigram_filter(self, terms, tone_prefixes):
+        """
+        Transforms bigrams 'term1 term2' into '+term2' or '-term2' according
+        to the 'tone_prefixes' argument.
+
+        Returns
+        -------
+            unicode_terms -- filtered list in which some of terms has been
+                             replaced by '+'/'-' char, which becomes a prefix
+                             of the following term.
+        """
+        to_remove = []
+        i = 0
+        while i < len(terms) - 1:
+            bigram = terms[i] + ' ' + terms[i + 1]
+            if (bigram in tone_prefixes) and (i < len(terms)-2):
+                terms[i + 2] = tone_prefixes[bigram] + terms[i + 2]
+                to_remove.append(i)
+                to_remove.append(i + 1)
+                i += 3
+            else:
+                unigram = terms[i]
+                if (unigram in tone_prefixes):
+                    terms[i + 1] = tone_prefixes[unigram] + terms[i + 1]
+                    to_remove.append(i)
+                    i += 2
+                else:
+                    i += 1
+        # Filter
+        terms = [terms[term_index]
+                 for term_index in range(len(terms))
+                 if not(term_index in to_remove)]
+        return terms
 
     @staticmethod
-    def str2bool(value):
+    def __str2bool(value):
         return value.lower() in ('true')
-
-    def __init__(self, text, mystem, configpath, task_type = "none"):
-        self.mystem = mystem
-        self.words = [w.strip() for w in filter(None, text.split(' ')) if
-            len(w.strip()) > 0]
-
-        # read config file
-        with io.open(configpath, "r") as f:
-            settings = json.load(f, encoding='utf8')
-
-        # init settings variables
-        self.urls_used = Message.str2bool(settings['urls_used'])
-        self.ht_used = Message.str2bool(settings['ht_used'])
-        self.users_used = Message.str2bool(settings['users_used'])
-        self.retweet_used = Message.str2bool(settings['retweet_used'])
-        self.use_stop_words = Message.str2bool(settings['use_stop_words'])
-        self.use_bigram_processor = Message.str2bool(
-            settings['use_bigram_processor'])
-        self.tone_prefix = settings['tone_prefix']
-        self.abs_stop_words = settings['abs_stop_words']
-        self.garbage_chars = settings['garbage_chars']
-
-        if (task_type != 'none'):
-            self.stop_words = settings[task_type + '_stop_words']
-        else:
-            self.stop_words = []
