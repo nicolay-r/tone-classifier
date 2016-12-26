@@ -56,12 +56,20 @@ class TermVocabulary:
         return self.current_index
 
     def insert_term(self, term):
+        """
+        Returns
+        -------
+            index of inserted or existed term
+        """
         unicode_term = TermVocabulary.to_unicode(term)
+
         if not(unicode_term in self.term_index):
             self.term_index[unicode_term] = self.get_new_index()
             self.term_in_voc_count[self.get_term_index(unicode_term)] = 1
         else:
             self.term_in_voc_count[self.get_term_index(unicode_term)] += 1
+
+        return self.get_term_index(unicode_term)
 
     def insert_terms(self, terms):
         for term in terms:
