@@ -56,7 +56,7 @@ def table_iterate(connection, sql_request):
         yield row
         row = cursor.fetchone()
         current_row += 1
-        show_progress("Progress:", current_row, rowcount)
+        show_progress("Progress", current_row, rowcount)
 
 
 def create_table_as(connection, table, template):
