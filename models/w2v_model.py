@@ -42,7 +42,7 @@ def vectorizer(labeled_message, term_voc, doc_voc):
                            for index in range(0, w2v_vector.size)])
 
     for w2v_index, w2v_value in enumerate(w2v_vector):
-        term = index2term(index)
+        term = index2term(w2v_index)
         term_voc.insert_term(term)
         index = term_voc.get_term_index(term)
         vector[index] = w2v_value
@@ -58,4 +58,4 @@ def vectorizer(labeled_message, term_voc, doc_voc):
 def index2term(index):
     return '$W2V_ITEM_' + str(index)
 
-utils.vectorization_core(vectorizer)
+utils.vectorization_core(vectorizer, init_term_vocabulary=False)

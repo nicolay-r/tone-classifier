@@ -9,7 +9,7 @@ from pymystem3 import Mystem
 import core
 import core.utils
 import core.indexer
-from core.vocs import DocVocabulary
+from core.vocs import TermVocabulary, DocVocabulary
 from core.features import Features
 from core.msg import TwitterMessage
 
@@ -18,13 +18,14 @@ import prob
 import pconf
 
 
-def vectorization_core(vectorizer):
+def vectorization_core(vectorizer, init_term_vocabulary=True):
     """
     Main function of collection vectorization
 
     Argument
     --------
         vectorizer -- message vectorization function
+        init_term_vocabulary --
 
     Returns
     -------
@@ -52,10 +53,13 @@ def vectorization_core(vectorizer):
     connection = psycopg2.connect(connectionSettings)
 
     # Create vocabulary of terms
-    term_vocabulary = core.indexer.create_term_vocabulary(
+    if init_term_vocabulary is True:
+        term_vocabulary = core.indexer.create_term_vocabulary(
                                 connection,
                                 [config['train_table'], config['test_table']],
                                 message_configpath)
+    else:
+        term_vocabulary = TermVocabulary()
 
     # Train problem
     train_problem = create_problem(connection,
