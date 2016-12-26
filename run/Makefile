@@ -39,6 +39,14 @@ user_tf_idf_bank_balanced_2016: core
 #
 # BANK task 2015
 #
+w2v_bank_imbalanced: TASK_TYPE = bank
+w2v_bank_imbalanced: VOCABULARY_PATH = $(DATA_ROOT)/core/$(TASK_TYPE).voc
+w2v_bank_imbalanced: TEST_TABLE = bank_test_noname
+w2v_bank_imbalanced: TRAIN_TABLE = bank_train_noname
+w2v_bank_imbalanced: MODEL_NAME = w2v
+w2v_bank_imbalanced: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.xml
+w2v_bank_imbalanced: core
+
 bow_bank_imbalanced: TASK_TYPE = bank
 bow_bank_imbalanced: VOCABULARY_PATH = $(DATA_ROOT)/core/$(TASK_TYPE).voc
 bow_bank_imbalanced: TEST_TABLE = bank_test_noname
