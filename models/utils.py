@@ -113,7 +113,7 @@ def create_problem(connection, task_type, collection_type, table, vectorizer,
         problem -- list of vectorized messages
     """
     mystem = Mystem(entire_input=False)
-    features = Features(features_configpath)
+    features = Features(connection, features_configpath)
     doc_vocabulary = DocVocabulary()
     limit = sys.maxint
     labeled_messages = []
@@ -138,11 +138,15 @@ def create_problem(connection, task_type, collection_type, table, vectorizer,
             # feature: name: value
             doc_vocabulary.add_doc(terms)
             unicode_terms = to_unicode(terms)
-            labeled_messages.append(
-                {'score': score,
-                 'id': index,
-                 'terms': unicode_terms,
-                 'features': features.create(unicode_terms, message=text)})
+            labeled_message = {'score': score,
+                               'id': index,
+                               'terms': unicode_terms,
+                               'features': features.vectorize(unicode_terms,
+                                                              text)}
+            labeled_messages.append(labeled_message)
+
+            term_vocabulary.insert_terms(
+                    labeled_message['features'].iterkeys())
             # next row
             # row = tweets.next_row(cursor, score, 'test')
 

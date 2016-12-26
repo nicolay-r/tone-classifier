@@ -63,6 +63,10 @@ class TermVocabulary:
         else:
             self.term_in_voc_count[self.get_term_index(unicode_term)] += 1
 
+    def insert_terms(self, terms):
+        for term in terms:
+            self.insert_term(term)
+
     def save(self, filepath):
         with io.open(filepath, 'w', encoding='utf-8') as out:
             data = json.dumps({

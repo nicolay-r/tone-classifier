@@ -1,79 +1,113 @@
 #!/usr/bin/python
 
-import psycopg2
-import json
+import utils
 
-class Lexicon:
 
-    @staticmethod
-    def to_unicode(s):
-        if isinstance(s, str):
-            return unicode(s, 'utf-8')
-        elif isinstance(s, unicode):
-            return s
+class LexiconFeature:
+    PARAM_TABLE_NAME = 'table'
+    PARAM_TERM_COLUMN_NAME = 'term_column_name'
+    PARAM_VAL_COLUMN_NAME = 'value_column_name'
+    PARAM_MULTIPLIER = 'multiplier'
+    PARAM_APPLY_FOR_TERMS = 'terms_used'
+    PARAM_FUNCTIONS = 'functions'
+
+    def __init__(self, connection, unique_name, parameters):
+        """
+        Arguments
+        ---------
+            connection -- PostgreSLQ connection for database which contains
+                          lexicon table
+            keyword_name -- unique lexicon name
+            parameters -- lexicon parameters, presented by dictionary
+        """
+
+        self.cache = {}
+
+        self.connection = connection
+        self.unique_name = unique_name
+        self.table = parameters[LexiconFeature.PARAM_TABLE_NAME]
+        self.term_column_name = parameters[
+                LexiconFeature.PARAM_TERM_COLUMN_NAME]
+        self.value_column_name = parameters[
+                LexiconFeature.PARAM_VAL_COLUMN_NAME]
+        self.multiplier = parameters[LexiconFeature.PARAM_MULTIPLIER]
+        self.terms_used = parameters[LexiconFeature.PARAM_APPLY_FOR_TERMS]
+        self.functions = parameters[LexiconFeature.PARAM_FUNCTIONS]
+
+        self.get_all_tones_from_table()
+
+    def vectorize(self, terms):
+        """
+        Produce features vector, based on lexicon functions for 'terms'
+
+        Returns
+        -------
+            features -- {feature: value, ...}
+        """
+        features = {}
+
+        tones = []
+        if (self.terms_used == 'all'):
+            tones = [self.get_tone(term) for term in terms]
+        elif (self.used_terms == 'hashtags_only'):
+            tones = [self.get_tone(term) for term in terms
+                     if len(term) > 0 and term[0] == '#']
+
+        if (len(tones) == 0):
+            tones.append(0)
+
+        for function_name in self.functions:
+            if (function_name == 'sum'):
+                value = (sum(tones))
+            elif (function_name == 'max'):
+                value = max(tones)
+            elif (function_name == 'min'):
+                value = min(tones)
+            else:
+                raise ValueError(
+                        "unexpected function: '{}'".format(function_name))
+
+            feature_name = "{}_{}".format(self.get_name(), function_name)
+            features[feature_name] = utils.normalize(value)
+
+        return features
 
     def get_name(self):
-        return self.name
+        return self.unique_name
 
     def get_all_tones_from_table(self):
-        print "Caching [%s]..."%(self.name)
-        cursor = self.connection.cursor()
-        cursor.execute("""SELECT {name}, {value} FROM {table}""".format(
-            name = self.term_column_name, value = self.value_column_name,
-            table = self.table))
+        print "Caching [%s]..." % (self.unique_name)
 
-        value = cursor.fetchone()
-        while value is not None:
-            self.cache[value[0].decode('utf-8')] = float(value[1])
-            value = cursor.fetchone()
+        sql_request = "SELECT {name}, {value} FROM {table}".format(
+                       name=self.term_column_name,
+                       value=self.value_column_name,
+                       table=self.table)
+
+        for row in utils.table_iterate(self.connection, sql_request):
+            name = row[0]
+            value = row[1]
+            self.cache[utils.to_unicode(name.decode('utf-8'))] = float(value)
 
     def get_tone(self, term):
-        unicode_term = Lexicon.to_unicode(term)
         tone = 0
 
         invert_tone = False
         positive_tone = False
-        if (unicode_term[0] == '-'):
-            unicode_term = unicode_term[1:]
+
+        if (term[0] == '-'):
+            term = term[1:]
             invert_tone = True
-        elif (unicode_term[0] == '+'):
-            unicode_term = unicode_term[1:]
+        elif (term[0] == '+'):
+            term = term[1:]
             positive_tone = True
 
-        if (self.cached == False):
-            self.get_all_tones_from_table()
-            self.cached = True
+        if (term in self.cache):
+            tone = self.cache[term]
 
-        if (unicode_term in self.cache):
-            tone = self.cache[unicode_term]
-
-        # invert term tonality in case of negative mark '-' and '+'
+        # Invert term tonality in case of negative mark '-' and '+'
         if (invert_tone):
-            tone *= -self.prefix_multiplier
+            tone *= -self.multiplier
         if (positive_tone):
-            tone *= self.prefix_multiplier
+            tone *= self.multiplier
 
         return tone
-
-    def __init__(self, configpath, table, name, prefix_multiplier,
-        term_column_name, value_column_name):
-
-        self.cached = False
-        self.cache = {}
-
-        # init config file
-        with open(configpath, "r") as f:
-            settings = json.load(f, encoding='utf-8')
-
-        # init connection settings
-        connection_settings = "dbname=%s user=%s password=%s host=%s"%(
-            settings['database'], settings["user"], settings["password"],
-            settings["host"])
-        self.connection = psycopg2.connect(connection_settings)
-
-        # init lexicon parameters
-        self.name = name
-        self.table = table
-        self.term_column_name = term_column_name
-        self.value_column_name = value_column_name
-        self.prefix_multiplier = prefix_multiplier
