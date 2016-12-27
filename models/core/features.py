@@ -3,7 +3,9 @@
 import io
 import json
 import utils
+import os.path
 from lexicon import LexiconFeature
+from clustered_words import BagOfClustersFeature
 
 
 class Features:
@@ -11,6 +13,9 @@ class Features:
     FEATURE_SIGNS = '$signs'
     FEATURE_PREFIX_SUM = '$prefix_sum'
     FEATURE_UPPERCASE_WORDS = '$uppercase_words'
+
+    SETTINGS_LEXICONS = 'lexicons'
+    SETTINGS_CLUSTERED_WORDS = 'clustered_words'
 
     def __init__(self, connection, configpath):
         """
@@ -25,12 +30,20 @@ class Features:
             self.settings = json.load(f, encoding='utf-8')
 
         self.lexicons = []
-        lexicons = self.settings['lexicons']
+        lexicons = self.settings[Features.SETTINGS_LEXICONS]
         for lexicon_name in lexicons.iterkeys():
             self.lexicons.append(
                 LexiconFeature(connection,
                                lexicon_name,
                                lexicons[lexicon_name]))
+
+        self.cluster_groups = []
+        cluster_groups = self.settings[Features.SETTINGS_CLUSTERED_WORDS]
+        for cluster_group_name in cluster_groups.iterkeys():
+            self.cluster_groups.append(
+                BagOfClustersFeature(cluster_group_name,
+                                     os.path.dirname(configpath),
+                                     cluster_groups[cluster_group_name]))
 
     def vectorize(self, terms, text=None):
         """
@@ -44,6 +57,9 @@ class Features:
 
         for lexicon in self.lexicons:
             features.update(lexicon.vectorize(terms))
+
+        for cluster_group in self.cluster_groups:
+            features.update(cluster_group.vectorize(terms))
 
         if self.FEATURE_PREFIX_SUM in self.settings:
             features[self.FEATURE_PREFIX_SUM] = Features.__prefix_sum(terms)
