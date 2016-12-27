@@ -11,13 +11,13 @@ import numpy as np
 import utils
 
 CONFIG_NAME = "model.conf"
-CONFIG_WORD2VEC_BINARIES = "w2v_binaries"
+CONFIG_WORD2VEC_MODELS = "w2v_models"
 
 with io.open(CONFIG_NAME, 'r') as f:
     config = json.load(f, encoding='utf-8')
 
 w2v_models = []
-for model_name in config[CONFIG_WORD2VEC_BINARIES]:
+for model_name in config[CONFIG_WORD2VEC_MODELS]:
     w2v_models.append(Word2Vec.load(model_name))
 
 
@@ -40,21 +40,46 @@ def vectorizer(labeled_message, term_voc, doc_voc):
 
     terms = labeled_message['terms']
     for model_index, w2v_model in enumerate(w2v_models):
-
-        w2v_vector = sum_w2v_vectors_for_all_terms(w2v_model, terms)
-
-        term_voc.insert_terms([index2term(model_index, item_index)
-                               for item_index in range(0, w2v_vector.size)])
-
-        for w2v_index, w2v_value in enumerate(w2v_vector):
-            term = index2term(model_index, w2v_index)
-            index = term_voc.insert_term(term)
-            vector[index] = w2v_value
+        w2v_vector = w2v_vectorizer(terms, term_voc, w2v_model, model_index)
+        vector.update(w2v_vector)
 
     features = labeled_message['features']
     for feature_name in features.keys():
         index = term_voc.get_term_index(feature_name)
         vector[index] = features[feature_name]
+
+    return vector
+
+
+def w2v_vectorizer(terms, term_voc, w2v_model, model_index):
+    """
+    Produces the vector of terms, which is based on vectors from word2vec
+    model.
+
+    Arguments
+    ---------
+        terms -- list of terms
+        term_voc -- vocabulary of terms
+        w2v_model -- Word2Vec model, which is used to extract vectors for each
+        term
+        model_index -- used to generate unique term name and save it in
+        vocabulary of terms
+
+    Returns
+    ------
+        vector -- {index1: value1, ..., indexN: valueN}
+    """
+    vector = {}
+
+    w2v_vector = sum_w2v_vectors_for_all_terms(w2v_model, terms)
+
+    term_voc.insert_terms([index2term(model_index, item_index)
+                           for item_index in range(0, w2v_vector.size)])
+
+    for w2v_index, w2v_value in enumerate(w2v_vector):
+        term = index2term(model_index, w2v_index)
+        index = term_voc.insert_term(term)
+        vector[index] = w2v_value
 
     return vector
 
