@@ -3,7 +3,6 @@
 # global
 import sys
 import psycopg2
-from pymystem3 import Mystem
 
 # core
 import core
@@ -11,7 +10,7 @@ import core.utils
 import core.indexer
 from core.vocs import TermVocabulary, DocVocabulary
 from core.features import Features
-from core.msg import TwitterMessage
+from core.msg import TwitterMessageParser
 
 import tweets
 import prob
@@ -116,8 +115,8 @@ def create_problem(connection, task_type, collection_type, table, vectorizer,
     --------
         problem -- list of vectorized messages
     """
-    mystem = Mystem(entire_input=False)
     features = Features(connection, features_configpath)
+    message_parser = TwitterMessageParser(message_configpath, task_type)
     doc_vocabulary = DocVocabulary()
     limit = sys.maxint
     labeled_messages = []
@@ -133,11 +132,8 @@ def create_problem(connection, task_type, collection_type, table, vectorizer,
             text = row[0]
             index = row[1]
 
-            message = TwitterMessage(text,
-                                     mystem,
-                                     message_configpath,
-                                     task_type)
-            terms = message.get_terms()
+            message_parser.parse(text)
+            terms = message_parser.get_terms()
             # test.add_row(connection, new_etalon_table, columns, row[2:])
             # feature: name: value
             doc_vocabulary.add_doc(terms)

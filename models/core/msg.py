@@ -2,30 +2,29 @@
 
 import io
 import json
+import pymystem3
 from nltk.tokenize import TweetTokenizer
 
 
-class TwitterMessage:
+class TwitterMessageParser:
     INCLUDE_URLS = 'urls_used'
     INCLUDE_HASHTAGS = 'ht_used'
     INCLUDE_USERS = 'users_used'
-    INCLUDE_RETWEET_SYMBOL = 'retweet_used'
     REMOVE_STOP_WORDS = 'use_stop_words'
     APPLY_BIGRAM_PROCESSOR = 'use_bigram_processor'
     TONE_PREFIXES = 'tone_prefix'
     ABSOLUTE_STOP_WORDS = 'abs_stop_words'
     GARBAGE_CHARS = 'garbage_chars'
 
-    def __init__(self, text, mystem, configpath, task_type='none'):
+    def __init__(self, configpath, task_type='none'):
         """
         Arguments
         ---------
-            text
             mystem
             configpath
             task_type
         """
-        self.mystem = mystem
+        self.mystem = pymystem3.Mystem(entire_input=False)
 
         # Read config file
         with io.open(configpath, "r") as f:
@@ -37,12 +36,36 @@ class TwitterMessage:
         else:
             self.task_specific_stop_words = []
 
+    def parse(self, text):
+
         # Tokenize message
         tokenizer = TweetTokenizer()
-        self.words = tokenizer.tokenize(text)
+        words = tokenizer.tokenize(text)
 
-        # Process
-        self.__process()
+        retweet_term = 'RT'
+
+        urls = []
+        users = []
+        hash_tags = []
+        for word in words:
+            if (word[0] == '@'):
+                # user in Twitter
+                users.append(word)
+            elif (word[0] == '#'):
+                # hash tags
+                hash_tags.append(word)
+            elif (word.find('http:') == 0 or word.find('https:') == 0):
+                # url
+                urls.append(word)
+
+        for f in urls + users + hash_tags + [retweet_term]:
+            if f in words:
+                words.remove(f)
+
+        self.words = words
+        self.urls = urls
+        self.users = users
+        self.hash_tags = hash_tags
 
     def get_terms(self, lemmatize=True):
         """
@@ -60,11 +83,11 @@ class TwitterMessage:
 
         terms = self.__transform(terms)
 
-        if (self.settings[TwitterMessage.INCLUDE_URLS]):
+        if (self.settings[TwitterMessageParser.INCLUDE_URLS]):
             terms += self.urls
-        if (self.settings[TwitterMessage.INCLUDE_HASHTAGS]):
+        if (self.settings[TwitterMessageParser.INCLUDE_HASHTAGS]):
             terms += self.hash_tags
-        if (self.settings[TwitterMessage.INCLUDE_USERS]):
+        if (self.settings[TwitterMessageParser.INCLUDE_USERS]):
             terms += self.users
 
         return terms
@@ -88,39 +111,6 @@ class TwitterMessage:
     #     for t in terms:
     #         print "<%s>" % (t),
     #     print
-
-    def __process(self):
-        words = self.words
-
-        retweet_term = 'RT'
-
-        urls = []
-        users = []
-        hash_tags = []
-        has_retweet = False
-        for word in words:
-            if (word[0] == '@'):
-                # user in Twitter
-                users.append(word)
-            elif (word[0] == '#'):
-                # hash tags
-                hash_tags.append(word)
-            elif (word.find('http:') == 0 or word.find('https:') == 0):
-                # url
-                urls.append(word)
-            elif(word == retweet_term):
-                # retweet
-                has_retweet = True
-
-        for f in urls + users + hash_tags + [retweet_term]:
-            if f in words:
-                words.remove(f)
-
-        self.words = words
-        self.urls = urls
-        self.users = users
-        self.hash_tags = hash_tags
-        self.has_retweet = has_retweet
 
     @staticmethod
     def __remove_prefix_symbols(terms, chars_to_remove):
