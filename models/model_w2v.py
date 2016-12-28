@@ -81,14 +81,20 @@ def w2v_vectorizer(terms, term_voc, w2v_model, model_index):
     return vector
 
 
-def sum_w2v_vectors_for_all_terms(w2v_model, terms):
+def sum_w2v_vectors_for_all_terms(w2v_model, terms, calculate_middle=False):
     """
     Sum all vectors from Word2Vec model for all terms presented in model
     """
     w2v_vector = np.array([0] * w2v_model.vector_size, dtype=np.float32)
+    used_terms_count = 0
     for term in terms:
         if term in w2v_model:
+            used_terms_count += 1
             w2v_vector = w2v_vector + w2v_model[term]
+
+    if calculate_middle is True:
+        if used_terms_count > 0:
+            w2v_vector = w2v_vector / used_terms_count
 
     return w2v_vector
 
