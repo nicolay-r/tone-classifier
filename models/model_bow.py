@@ -3,6 +3,7 @@
 
 # this
 import utils
+import model_features_only
 
 
 def vectorizer(labeled_message, term_voc, doc_voc):
@@ -20,17 +21,14 @@ def vectorizer(labeled_message, term_voc, doc_voc):
     ------
         vector -- {index1: value1, ... , indexN: valueN}
     """
-    vector = {}
-
     features = labeled_message['features']
-    for feature_name in features.keys():
-        index = term_voc.get_term_index(feature_name)
-        vector[index] = features[feature_name]
+    vector = model_features_only.feature_vectorizer(features, term_voc)
 
     terms = labeled_message['terms']
     for term in terms:
         index = term_voc.get_term_index(term)
         vector[index] = bag_of_words(term, terms)
+
     return vector
 
 
