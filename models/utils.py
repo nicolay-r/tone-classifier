@@ -60,12 +60,15 @@ def vectorization_core(vectorizer, init_term_vocabulary=True):
     else:
         term_vocabulary = TermVocabulary()
 
+    features = Features(connection, features_configpath)
+
     # Train problem
     train_problem = create_problem(connection,
                                    config['task_type'],
                                    'train',
                                    config['train_table'],
                                    vectorizer,
+                                   features,
                                    term_vocabulary,
                                    features_configpath,
                                    message_configpath)
@@ -76,6 +79,7 @@ def vectorization_core(vectorizer, init_term_vocabulary=True):
                                   'test',
                                   config['test_table'],
                                   vectorizer,
+                                  features,
                                   term_vocabulary,
                                   features_configpath,
                                   message_configpath)
@@ -94,7 +98,8 @@ def vectorization_core(vectorizer, init_term_vocabulary=True):
 
 
 def create_problem(connection, task_type, collection_type, table, vectorizer,
-                   term_vocabulary, features_configpath, message_configpath):
+                   features, term_vocabulary, features_configpath,
+                   message_configpath):
     """
     Creates problem (vectors from messages with additional features)
 
@@ -115,7 +120,6 @@ def create_problem(connection, task_type, collection_type, table, vectorizer,
     --------
         problem -- list of vectorized messages
     """
-    features = Features(connection, features_configpath)
     message_parser = TwitterMessageParser(message_configpath, task_type)
     doc_vocabulary = DocVocabulary()
     limit = sys.maxint
@@ -163,6 +167,23 @@ def create_problem(connection, task_type, collection_type, table, vectorizer,
                     'Unexpected collection_type={}'.format(collection_type))
 
     return problem
+
+
+def feature_vectorizer(features, term_voc):
+    """
+    Produces vector of features
+
+    Returns
+    ------
+        vector -- {index1: value1, ..., indexN: valueN}
+    """
+    vector = {}
+
+    for feature_name in features.keys():
+        index = term_voc.get_term_index(feature_name)
+        vector[index] = features[feature_name]
+
+    return vector
 
 
 def to_unicode(terms):

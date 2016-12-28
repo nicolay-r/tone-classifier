@@ -9,7 +9,6 @@ import numpy as np
 
 # this
 import utils
-import model_features_only
 
 
 CONFIG_NAME = "model.conf"
@@ -39,7 +38,7 @@ def vectorizer(labeled_message, term_voc, doc_voc):
         vector -- {index1: value1, ... , indexN: valueN}
     """
     features = labeled_message['features']
-    vector = model_features_only.feature_vectorizer(features, term_voc)
+    vector = utils.feature_vectorizer(features, term_voc)
 
     terms = labeled_message['terms']
     for model_index, w2v_model in enumerate(w2v_models):
