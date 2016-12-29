@@ -24,8 +24,6 @@ def create_term_vocabulary(connection, tables, message_configpath):
         term_vocabulary -- vocabulary of all terms, presented in 'tables'
     """
 
-    message_configpath = "msg.conf"
-
     # Init configuration files
     # with open("indexer.conf", "r") as f:
     #    indexer_config = json.load(f, encoding='utf-8')

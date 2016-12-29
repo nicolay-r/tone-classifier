@@ -12,6 +12,9 @@ from core.vocs import TermVocabulary, DocVocabulary
 from core.features import Features
 from core.msg import TwitterMessageParser
 
+# configs
+import configs
+
 import tweets
 import prob
 import pconf
@@ -40,8 +43,8 @@ def vectorization_core(vectorizer, init_term_vocabulary=True):
               'train_output': sys.argv[5],
               'test_output': sys.argv[6],
               'pconf_output': sys.argv[7]}
-    message_configpath = "msg.conf"
-    features_configpath = "features.conf"
+    message_configpath = configs.TWITTER_MESSAGE_PARSER_CONFIG
+    features_configpath = configs.FEATURES_CONFIG
 
     # Connect to a database
     connectionSettings = """dbname=%s user=%s

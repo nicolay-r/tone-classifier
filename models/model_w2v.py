@@ -4,22 +4,27 @@
 # global
 import io
 import json
+import os.path
 from gensim.models.word2vec import Word2Vec
 import numpy as np
 
 # this
 import utils
 
+# configs
+import configs
 
-CONFIG_NAME = "model.conf"
+
 CONFIG_WORD2VEC_MODELS = "w2v_models"
 
-with io.open(CONFIG_NAME, 'r') as f:
+with io.open(configs.MODEL_CONFIG, 'r') as f:
     config = json.load(f, encoding='utf-8')
 
 w2v_models = []
 for model_name in config[CONFIG_WORD2VEC_MODELS]:
-    w2v_models.append(Word2Vec.load(model_name))
+    model_path = os.path.join(os.path.dirname(configs.MODEL_CONFIG),
+                              model_name)
+    w2v_models.append(Word2Vec.load(model_path))
 
 
 def vectorizer(labeled_message, term_voc, doc_voc):
