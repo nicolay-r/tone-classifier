@@ -13,6 +13,13 @@ from gensim.models.word2vec import Word2Vec
 import logging
 import sys
 
+
+def to_unicode(s):
+    if isinstance(s, str):
+        return unicode(s, 'utf-8')
+    elif isinstance(s, unicode):
+        return s
+
 program = path.basename(sys.argv[0])
 logger = logging.getLogger(program)
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s')
@@ -35,7 +42,7 @@ clusters_count = w2v_model.syn0.shape[0] / arguments['cluster_volume']
 logger.info("Clusters count: {}".format(clusters_count))
 kmeans_clustering = KMeans(n_clusters=clusters_count)
 
-word_vectors = w2v_model.syn0
+word_vectors = w2v_model.syn0[:1000]
 
 time_start = time.time()
 idx = kmeans_clustering.fit_predict(word_vectors)
@@ -44,10 +51,14 @@ elapsed = time_end - time_start
 logger.info("Time taken for K Means clustering: {} seconds.".format(elapsed))
 
 with io.open(arguments['output_filepath'], 'w', encoding='utf-8') as out:
-    data = json.dumps(dict(zip(w2v_model.index2word, [str(id) for id in idx])),
-                      ensure_ascii=False,
-                      encoding='utf-8',
-                      indent=4)
+
+    # index2words returns a list words, and each word could be presented
+    # as 'str' or 'unicode' string type. This leads to map all the list data
+    # into list of 'unicode' strings by means of to_unicode function to avoid
+    # json serialization problems.
+    words = map(lambda w: to_unicode(w), w2v_model.index2word)
+    result = dict(zip(words, [str(i) for i in idx]))
+    data = json.dumps(result, ensure_ascii=False, indent=4)
     out.write(unicode(data))
     logger.info('Result has been saved in {}'.format(arguments[
                                                      'output_filepath']))
