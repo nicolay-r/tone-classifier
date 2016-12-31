@@ -76,7 +76,7 @@ class LexiconFeature:
         return self.unique_name
 
     def get_all_tones_from_table(self):
-        print "Caching [%s]..." % (self.unique_name)
+        print "Loading lexicon [%s]..." % (self.unique_name)
 
         sql_request = "SELECT {name}, {value} FROM {table}".format(
                        name=self.term_column_name,

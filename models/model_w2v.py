@@ -24,6 +24,7 @@ w2v_models = []
 for model_name in config[CONFIG_WORD2VEC_MODELS]:
     model_path = os.path.join(os.path.dirname(configs.MODEL_CONFIG),
                               model_name)
+    print "Loading Word2Vec: {}".format(model_path)
     w2v_models.append(Word2Vec.load(model_path))
 
 
