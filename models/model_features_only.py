@@ -24,4 +24,4 @@ def vectorizer(labeled_message, term_voc, doc_voc):
     return utils.feature_vectorizer(labeled_message['features'], term_voc)
 
 
-utils.vectorization_core(vectorizer)
+utils.vectorization_core(vectorizer, init_term_vocabulary=False)

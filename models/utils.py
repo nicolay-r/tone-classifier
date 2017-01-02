@@ -183,6 +183,8 @@ def feature_vectorizer(features, term_voc):
     vector = {}
 
     for feature_name in features.keys():
+        if not term_voc.contains(feature_name):
+            term_voc.insert_term(feature_name)
         index = term_voc.get_term_index(feature_name)
         vector[index] = features[feature_name]
 

@@ -28,6 +28,9 @@ class TermVocabulary:
         elif isinstance(s, unicode):
             return s
 
+    def contains(self, term):
+        return TermVocabulary.to_unicode(term) in self.term_index
+
     def get_terms(self):
         return self.term_index.keys()
 
