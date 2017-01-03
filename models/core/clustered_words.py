@@ -23,6 +23,7 @@ class BagOfClustersFeature:
             base_filepath,
             parameters[BagOfClustersFeature.PARAM_CLUSTERED_WORDS_FILEPATH])
 
+        print "Loading file with clusters of words: {}".format(filepath)
         with io.open(filepath, 'r', encoding='utf-8') as f:
             self.clustered_words = json.load(f, encoding='utf-8')
 

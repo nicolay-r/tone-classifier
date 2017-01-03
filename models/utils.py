@@ -63,7 +63,9 @@ def vectorization_core(vectorizer, init_term_vocabulary=True):
     else:
         term_vocabulary = TermVocabulary()
 
-    features = Features(connection, features_configpath)
+    features = Features(connection,
+                        TwitterMessageParser(message_configpath),
+                        features_configpath)
 
     # Train problem
     train_problem = create_problem(connection,
@@ -144,12 +146,10 @@ def create_problem(connection, task_type, collection_type, table, vectorizer,
             # test.add_row(connection, new_etalon_table, columns, row[2:])
             # feature: name: value
             doc_vocabulary.add_doc(terms)
-            unicode_terms = to_unicode(terms)
             labeled_message = {'score': score,
                                'id': index,
-                               'terms': unicode_terms,
-                               'features': features.vectorize(unicode_terms,
-                                                              text)}
+                               'terms': to_unicode(terms),
+                               'features': features.vectorize(text)}
             labeled_messages.append(labeled_message)
 
             term_vocabulary.insert_terms(

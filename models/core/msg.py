@@ -11,7 +11,6 @@ class TwitterMessageParser:
     INCLUDE_HASHTAGS = 'ht_used'
     INCLUDE_USERS = 'users_used'
     REMOVE_STOP_WORDS = 'use_stop_words'
-    APPLY_BIGRAM_PROCESSOR = 'use_bigram_processor'
     TONE_PREFIXES = 'tone_prefix'
     ABSOLUTE_STOP_WORDS = 'abs_stop_words'
     GARBAGE_CHARS = 'garbage_chars'
@@ -67,21 +66,24 @@ class TwitterMessageParser:
         self.users = users
         self.hash_tags = hash_tags
 
-    def get_terms(self, lemmatize=True):
+    def get_terms(self, lemmatize=True, apply_bigram_processor=False):
         """
         Get terms of twitter message
 
         Returns
         -------
-            terms -- list of twitter words of natural language (with or
-                     without applying lemmatizer) and other metainformation
-                     (such as URL, hashtags, etc.)
+            terms     -- list of twitter words of natural language (with or
+                         without applying lemmatizer) and other metainformation
+                         (such as URL, hashtags, etc.)
+            lemmatize -- apply Mystem lemmatizer or not
+            apply_bigram_processor -- convert unigrams or bigrams with tone
+                                      prefixes '+' or '-'
         """
         terms = [w.strip() for w in
                  self.mystem.lemmatize(' '.join(self.words)) if
                  not(w in ['\n', ' ', '\t', '\r'])]
 
-        terms = self.__transform(terms)
+        terms = self.__transform(terms, apply_bigram_processor)
 
         if (self.settings[TwitterMessageParser.INCLUDE_URLS]):
             terms += self.urls
@@ -92,10 +94,10 @@ class TwitterMessageParser:
 
         return terms
 
-    def __transform(self, terms):
+    def __transform(self, terms, apply_bigram_processor):
         self.__remove_prefix_symbols(terms, self.settings[self.GARBAGE_CHARS])
 
-        if self.settings[self.APPLY_BIGRAM_PROCESSOR]:
+        if apply_bigram_processor:
             terms = self.__sentiment_bigram_filter(
                     terms, self.settings[self.TONE_PREFIXES])
 
@@ -133,9 +135,9 @@ class TwitterMessageParser:
 
         Returns
         -------
-            unicode_terms -- filtered list in which some of terms has been
-                             replaced by '+'/'-' char, which becomes a prefix
-                             of the following term.
+            terms -- filtered list in which some of terms has been replaced by
+                     '+'/'-' char, which becomes a prefix of the following
+                     term.
         """
         to_remove = []
         i = 0

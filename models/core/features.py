@@ -17,17 +17,20 @@ class Features:
     SETTINGS_LEXICONS = 'lexicons'
     SETTINGS_CLUSTERED_WORDS = 'clustered_words'
 
-    def __init__(self, connection, configpath):
+    def __init__(self, connection, message_parser, configpath):
         """
         Arguments
         ---------
-            connection -- PostgreSLQ connection for database which contains
-                          lexicon table
-            configpath -- configuration file for features
+            connection     -- PostgreSLQ connection for database which contains
+                              lexicon table
+            message_parser -- parser from msg.py
+            configpath     -- configuration file for features
         """
 
         with io.open(configpath, 'r') as f:
             self.settings = json.load(f, encoding='utf-8')
+
+        self.message_parser = message_parser
 
         self.lexicons = []
         lexicons = self.settings[Features.SETTINGS_LEXICONS]
@@ -45,7 +48,7 @@ class Features:
                                      os.path.dirname(configpath),
                                      cluster_groups[cluster_group_name]))
 
-    def vectorize(self, terms, text=None):
+    def vectorize(self, text):
         """
         Produce vector of features
 
@@ -55,14 +58,20 @@ class Features:
         """
         features = {}
 
+        self.message_parser.parse(text)
+        clean_terms = self.message_parser.get_terms()
+        prefixed_terms = self.message_parser.get_terms(
+                            apply_bigram_processor=True)
+
         for lexicon in self.lexicons:
-            features.update(lexicon.vectorize(terms))
+            features.update(lexicon.vectorize(prefixed_terms))
 
         for cluster_group in self.cluster_groups:
-            features.update(cluster_group.vectorize(terms))
+            features.update(cluster_group.vectorize(clean_terms))
 
         if self.FEATURE_PREFIX_SUM in self.settings:
-            features[self.FEATURE_PREFIX_SUM] = Features.__prefix_sum(terms)
+            features[self.FEATURE_PREFIX_SUM] = \
+                Features.__prefix_sum(prefixed_terms)
 
         if (text is not None):
             text = utils.to_unicode(text)
