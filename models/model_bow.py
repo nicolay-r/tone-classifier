@@ -3,6 +3,7 @@
 
 # this
 import utils
+import model_features_only
 
 
 def vectorizer(labeled_message, term_voc, doc_voc):
@@ -12,8 +13,8 @@ def vectorizer(labeled_message, term_voc, doc_voc):
     Arguments:
     ---------
         labeled_message -- dictionary with the following fields:
-                           {score, id, terms, features}
-        term_voc -- vocabulary of terms
+                           {score, id, terms, features} term_voc -- vocabulary
+                           of terms
         doc_voc -- vocabulary of documents
 
     Returns
@@ -21,7 +22,7 @@ def vectorizer(labeled_message, term_voc, doc_voc):
         vector -- {index1: value1, ... , indexN: valueN}
     """
     features = labeled_message['features']
-    vector = utils.feature_vectorizer(features, term_voc)
+    vector = model_features_only.feature_vectorizer(features, term_voc)
 
     terms = labeled_message['terms']
     for term in terms:
@@ -38,4 +39,5 @@ def bag_of_words(term, doc_terms):
     return doc_terms.count(term) * 1.0
 
 
-utils.vectorization_core(vectorizer)
+if __name__ == "__main__":
+    utils.vectorization_core(vectorizer)

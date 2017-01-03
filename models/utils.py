@@ -172,25 +172,6 @@ def create_problem(connection, task_type, collection_type, table, vectorizer,
     return problem
 
 
-def feature_vectorizer(features, term_voc):
-    """
-    Produces vector of features
-
-    Returns
-    ------
-        vector -- {index1: value1, ..., indexN: valueN}
-    """
-    vector = {}
-
-    for feature_name in features.keys():
-        if not term_voc.contains(feature_name):
-            term_voc.insert_term(feature_name)
-        index = term_voc.get_term_index(feature_name)
-        vector[index] = features[feature_name]
-
-    return vector
-
-
 def to_unicode(terms):
     """
     Converts list of 'str' into list of 'unicode' strings

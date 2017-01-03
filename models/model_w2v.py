@@ -10,22 +10,10 @@ import numpy as np
 
 # this
 import utils
+import model_features_only
 
 # configs
 import configs
-
-
-CONFIG_WORD2VEC_MODELS = "w2v_models"
-
-with io.open(configs.MODEL_CONFIG, 'r') as f:
-    config = json.load(f, encoding='utf-8')
-
-w2v_models = []
-for model_name in config[CONFIG_WORD2VEC_MODELS]:
-    model_path = os.path.join(os.path.dirname(configs.MODEL_CONFIG),
-                              model_name)
-    print "Loading Word2Vec: {}".format(model_path)
-    w2v_models.append(Word2Vec.load(model_path))
 
 
 def vectorizer(labeled_message, term_voc, doc_voc):
@@ -44,7 +32,7 @@ def vectorizer(labeled_message, term_voc, doc_voc):
         vector -- {index1: value1, ... , indexN: valueN}
     """
     features = labeled_message['features']
-    vector = utils.feature_vectorizer(features, term_voc)
+    vector = model_features_only.feature_vectorizer(features, term_voc)
 
     terms = labeled_message['terms']
     for model_index, w2v_model in enumerate(w2v_models):
@@ -109,5 +97,18 @@ def index2term(model_index, item_index):
     return '$W2V_ITEM_{model}_{item}'.format(model=str(model_index),
                                              item=str(item_index))
 
+if __name__ == "__main__":
 
-utils.vectorization_core(vectorizer, init_term_vocabulary=False)
+    CONFIG_WORD2VEC_MODELS = "w2v_models"
+
+    with io.open(configs.MODEL_CONFIG, 'r') as f:
+        config = json.load(f, encoding='utf-8')
+
+    w2v_models = []
+    for model_name in config[CONFIG_WORD2VEC_MODELS]:
+        model_path = os.path.join(os.path.dirname(configs.MODEL_CONFIG),
+                                  model_name)
+        print "Loading Word2Vec: {}".format(model_path)
+        w2v_models.append(Word2Vec.load(model_path))
+
+    utils.vectorization_core(vectorizer, init_term_vocabulary=False)
