@@ -63,9 +63,10 @@ def vectorization_core(vectorizer, init_term_vocabulary=True):
     else:
         term_vocabulary = TermVocabulary()
 
-    features = Features(connection,
-                        TwitterMessageParser(message_configpath),
-                        features_configpath)
+    features = Features(
+                connection,
+                TwitterMessageParser(message_configpath, config['task_type']),
+                features_configpath)
 
     # Train problem
     train_problem = create_problem(connection,
@@ -111,15 +112,16 @@ def create_problem(connection, task_type, collection_type, table, vectorizer,
     Arguments:
     ---------
         connection -- pgsql connection
-        task_type
+        task_type -- 'bank' or 'tkk' according to SentiRuEval competiiton
         collection_type -- could be 'train' or 'test', it affects on the
                            generated vector prefixes (tone score for 'train'
                            task, and 'id' for 'test' task respectively)
         table -- table name
         vectorizer -- function for producing vector from terms
+        features -- object of Features class
         term_vocabulary -- vocabulary of terms
-        features_configpath
-        messsage_configpath
+        features_configpath -- configuration path for Features class
+        messsage_configpath -- configuration path for TwitterMessageParser
 
     Returns:
     --------
@@ -137,14 +139,11 @@ def create_problem(connection, task_type, collection_type, table, vectorizer,
         request = tweets.tweets_filter_sql_request(task_type, cursor, table,
                                                    score, limit)
         for row in core.utils.table_iterate(connection, request):
-            # row = tweets.next_row(cursor, score, 'test')
             text = row[0]
             index = row[1]
 
             message_parser.parse(text)
             terms = message_parser.get_terms()
-            # test.add_row(connection, new_etalon_table, columns, row[2:])
-            # feature: name: value
             doc_vocabulary.add_doc(terms)
             labeled_message = {'score': score,
                                'id': index,
@@ -154,8 +153,6 @@ def create_problem(connection, task_type, collection_type, table, vectorizer,
 
             term_vocabulary.insert_terms(
                     labeled_message['features'].iterkeys())
-            # next row
-            # row = tweets.next_row(cursor, score, 'test')
 
     # Create vectors
     problem = []
