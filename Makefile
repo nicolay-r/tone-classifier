@@ -27,10 +27,16 @@ install:
 	sudo pip install setuptools
 	sudo pip install pymystem3
 
-	# Downloading and compile SVM library.
-	git clone https://github.com/cjlin1/libsvm
-	make -C libsvm
-	make -C libsvm/python
+	# Downloading classifier libraries.
+
+	mkdir -p models/classifiers
+
+	cd models/classifiers/ && git clone https://github.com/cjlin1/libsvm
+	make -C models/classifiers/libsvm
+	make -C models/classifiers/libsvm/python
+	cd models/classifiers/ && git clone https://github.com/cjlin1/liblinear
+	make -C models/classifiers/liblinear
+	make -C models/classifiers/liblinear/python
 
 	# Install eval package -- script which estimates a model result quality.
 	cd eval && sudo npm install
