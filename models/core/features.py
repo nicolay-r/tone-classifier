@@ -32,14 +32,6 @@ class Features:
 
         self.message_parser = message_parser
 
-        self.lexicons = []
-        lexicons = self.settings[Features.SETTINGS_LEXICONS]
-        for lexicon_name in lexicons.iterkeys():
-            self.lexicons.append(
-                LexiconFeature(connection,
-                               lexicon_name,
-                               lexicons[lexicon_name]))
-
         self.cluster_groups = []
         cluster_groups = self.settings[Features.SETTINGS_CLUSTERED_WORDS]
         for cluster_group_name in cluster_groups.iterkeys():
@@ -47,6 +39,15 @@ class Features:
                 BagOfClustersFeature(cluster_group_name,
                                      os.path.dirname(configpath),
                                      cluster_groups[cluster_group_name]))
+
+        self.lexicons = []
+        lexicons = self.settings[Features.SETTINGS_LEXICONS]
+        for lexicon_name in lexicons.iterkeys():
+            self.lexicons.append(
+                LexiconFeature(connection,
+                               lexicon_name,
+                               lexicons[lexicon_name],
+                               self.cluster_groups))
 
     def vectorize(self, text):
         """

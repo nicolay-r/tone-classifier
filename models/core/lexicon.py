@@ -11,7 +11,8 @@ class LexiconFeature:
     PARAM_APPLY_FOR_TERMS = 'terms_used'
     PARAM_FUNCTIONS = 'functions'
 
-    def __init__(self, connection, unique_name, parameters):
+    def __init__(self, connection, unique_name, parameters,
+                 bag_of_clusters_features):
         """
         Arguments
         ---------
@@ -19,6 +20,7 @@ class LexiconFeature:
                           lexicon table
             keyword_name -- unique lexicon name
             parameters -- lexicon parameters, presented by dictionary
+            bag_of_clusters_features -- list of features
         """
 
         self.cache = {}
@@ -33,6 +35,7 @@ class LexiconFeature:
         self.multiplier = parameters[LexiconFeature.PARAM_MULTIPLIER]
         self.terms_used = parameters[LexiconFeature.PARAM_APPLY_FOR_TERMS]
         self.functions = parameters[LexiconFeature.PARAM_FUNCTIONS]
+        self.bag_of_clusters_features = bag_of_clusters_features
 
         self.get_all_tones_from_table()
 
@@ -70,6 +73,20 @@ class LexiconFeature:
             feature_name = "{}_{}".format(self.get_name(), function_name)
             features[feature_name] = utils.normalize(value)
 
+        #
+        # Calculate sum of cluster scores
+        #
+        for cluster in self.bag_of_clusters_features:
+            cluster_tones = [self.get_cluster_tone(
+                             cluster, cluster.get_cluster_id(word))
+                             for word in terms if cluster.contains_word(word)]
+            if len(cluster_tones) == 0:
+                cluster_tones.append(0)
+
+            feature_name = "{}_score_sum".format(cluster.get_name())
+            value = sum(cluster_tones)
+            features[feature_name] = utils.normalize(value)
+
         return features
 
     def get_name(self):
@@ -87,6 +104,13 @@ class LexiconFeature:
             name = row[0]
             value = row[1]
             self.cache[utils.to_unicode(name.decode('utf-8'))] = float(value)
+
+    def get_cluster_tone(self, cluster, cluster_id):
+        tone = 0
+        for term in cluster.get_words(cluster_id):
+            tone += self.get_tone(term)
+
+        return tone
 
     def get_tone(self, term):
         tone = 0
