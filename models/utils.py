@@ -2,6 +2,7 @@
 
 # global
 import sys
+import json
 import psycopg2
 
 # core
@@ -16,8 +17,6 @@ from core.msg import TwitterMessageParser
 import configs
 
 import tweets
-import prob
-import pconf
 
 
 def vectorization_core(vectorizer, init_term_vocabulary=True):
@@ -95,12 +94,12 @@ def vectorization_core(vectorizer, init_term_vocabulary=True):
     core.utils.create_table_as(connection, config['test_table'], result_table)
 
     # Save
-    prob.save(train_problem, config['train_output'])
-    prob.save(test_problem, config['test_output'])
-    pconf.save(config['database'],
-               tweets.get_score_columns(config['task_type']),
-               result_table,
-               config['pconf_output'])
+    save_problem(train_problem, config['train_output'])
+    save_problem(test_problem, config['test_output'])
+    save_predict_config(config['database'],
+                        tweets.get_score_columns(config['task_type']),
+                        result_table,
+                        config['pconf_output'])
 
 
 def create_problem(connection, task_type, collection_type, table, vectorizer,
@@ -181,3 +180,25 @@ def to_unicode(terms):
             unicode_terms.append(term)
 
     return unicode_terms
+
+
+def save_problem(problem, filepath):
+    """
+    Save problem using the format, supported by classifier libraries
+    """
+    with open(filepath, "w") as out:
+        print "Vectors count: %s" % (len(problem))
+        for vector in problem:
+            out.write("%s " % (vector[0]))
+            for index, value in sorted(vector[1].iteritems()):
+                out.write("%s:%s " % (index, value))
+            out.write("\n")
+
+
+def save_predict_config(database, columns, prediction_table, out_filepath):
+    config = {"database": database,
+              "columns": columns,
+              "prediction_table": prediction_table}
+
+    with open(out_filepath, "w") as out:
+        json.dump(config, out)
