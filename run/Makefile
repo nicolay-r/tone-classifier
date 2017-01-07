@@ -364,7 +364,7 @@ core:
 	# Predicting
 	$(PREDICT)predict.py $(CLASSIFIER_LIBRARY) $(MODEL_TEST) $(MODEL_MODEL) $(MODEL_PCONF)
 	# Exporting Result into XML
-	$(MODEL_CORE)pg2x_data.py $(MODEL_PCONF) $(MODEL_OUT)
+	$(MODEL_ROOT)pg2x_data.py $(MODEL_PCONF) $(MODEL_OUT)
 	# Creating result folder
 	mkdir -p result
 	# Copy result into result directory

@@ -9,7 +9,7 @@ import utils
 
 class BagOfClustersFeature:
 
-    PARAM_CLUSTERED_WORDS_FILEPATH = 'clustered_words_filepath'
+    PARAM_CLUSTERED_WORDS_FILEPATH = 'filepath'
     PARAM_ENABLED = "enabled"
 
     def __init__(self, unique_name, base_filepath, parameters):

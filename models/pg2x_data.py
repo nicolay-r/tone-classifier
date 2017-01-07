@@ -7,8 +7,8 @@ import psycopg2
 import xml.etree.cElementTree as ET
 import xml.dom.minidom as minidom
 
-# this
-import utils
+# configs
+import configs
 
 
 def to_pretty(xml_tree):
@@ -63,11 +63,11 @@ arguments = {'pconf': sys.argv[1],
 with open(arguments['pconf']) as f:
     config = json.load(f)
 
-connectionSettings = "dbname=%s user=%s "\
-                     "password=%s host=%s" % (config['database'],
-                                              utils.PGSQL_USER,
-                                              utils.PGSQL_PWD,
-                                              utils.PGSQL_HOST)
+connectionSettings = "dbname=%s user=%s password=%s host=%s" % (
+                                config['database'],
+                                configs.CONNECTION_SETTINGS['user'],
+                                configs.CONNECTION_SETTINGS['password'],
+                                configs.CONNECTION_SETTINGS['host'])
 connection = psycopg2.connect(connectionSettings)
 
 export_and_save(connection,

@@ -7,6 +7,7 @@ import core.utils
 import sys
 import json
 import psycopg2
+import configs
 from inspect import getsourcefile
 from os.path import abspath, dirname
 # -----------------------------------------------------------------------------
@@ -110,11 +111,11 @@ with open(arguments['config_file']) as f:
     config = json.load(f)
 
 # Database
-connectionSettings = "dbname=%s user=%s "\
-                     "password=%s host=%s" % (config['database'],
-                                              core.utils.PGSQL_USER,
-                                              core.utils.PGSQL_PWD,
-                                              core.utils.PGSQL_HOST)
+connectionSettings = "dbname=%s user=%s password=%s host=%s" % (
+                                config['database'],
+                                configs.CONNECTION_SETTINGS['user'],
+                                configs.CONNECTION_SETTINGS['password'],
+                                configs.CONNECTION_SETTINGS['host'])
 connection = psycopg2.connect(connectionSettings)
 
 # Predict

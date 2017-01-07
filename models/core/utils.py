@@ -6,14 +6,6 @@ File contains necessary utils for module
 
 from math import exp
 
-# -----------------------------------------------------------------------------
-# PostgreSQL connection settings
-# -----------------------------------------------------------------------------
-PGSQL_USER = "postgres"
-PGSQL_PWD = "postgres"
-PGSQL_HOST = "localhost"
-# -----------------------------------------------------------------------------
-
 
 def show_progress(message, current, total):
     print "\r%s: %.2f%% [%d/%d]" % (message, float(current)*100/total, current,

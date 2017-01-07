@@ -3,7 +3,7 @@
 import io
 import json
 import utils
-import os.path
+import configs
 from lexicon import LexiconFeature
 from clustered_words import BagOfClustersFeature
 
@@ -37,7 +37,7 @@ class Features:
         for cluster_group_name in cluster_groups.iterkeys():
             self.cluster_groups.append(
                 BagOfClustersFeature(cluster_group_name,
-                                     os.path.dirname(configpath),
+                                     configs.DATA_ROOT,
                                      cluster_groups[cluster_group_name]))
 
         self.lexicons = []

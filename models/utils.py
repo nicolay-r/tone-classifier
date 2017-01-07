@@ -47,11 +47,11 @@ def vectorization_core(vectorizer, init_term_vocabulary=True):
     features_configpath = configs.FEATURES_CONFIG
 
     # Connect to a database
-    connectionSettings = """dbname=%s user=%s
-                            password=%s host=%s""" % (config['database'],
-                                                      core.utils.PGSQL_USER,
-                                                      core.utils.PGSQL_PWD,
-                                                      core.utils.PGSQL_HOST)
+    connectionSettings = "dbname=%s user=%s password=%s host=%s" % (
+                                config['database'],
+                                configs.CONNECTION_SETTINGS['user'],
+                                configs.CONNECTION_SETTINGS['password'],
+                                configs.CONNECTION_SETTINGS['host'])
     connection = psycopg2.connect(connectionSettings)
 
     # Create vocabulary of terms
