@@ -1,0 +1,29 @@
+# NodeJS evaluation script
+/eval
+
+# LibSVM, external classifier library
+/libsvm
+
+# folder with scripts for testing purposes
+/run
+/test
+
+# Data debug files
+/data/collections/.mysql
+/data/collections/.pgsql
+
+# Documentations
+/doc/aidt/tex/pics
+/doc/aidt/tex/aidt.pdf
+
+# Model outputs
+/models/_aux/*.voc
+/models/bag_of_words/out
+/models/tf_idf/out
+/models/configs/*.conf
+
+# Docs
+/doc/diploma/*.pdf
+
+# Twitter output
+/twitter/out
