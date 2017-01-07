@@ -39,6 +39,9 @@ class BagOfClustersFeature:
                 self.clusters[cluster_id] = []
             self.clusters[cluster_id].append(utils.to_unicode(word))
 
+        print "Feature enabled: {}".format(
+                parameters[BagOfClustersFeature.PARAM_ENABLED])
+
     def vectorize(self, terms):
         """
         Produce features vector, bag of clusters for 'terms'

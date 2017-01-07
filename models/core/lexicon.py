@@ -10,6 +10,7 @@ class LexiconFeature:
     PARAM_MULTIPLIER = 'multiplier'
     PARAM_APPLY_FOR_TERMS = 'terms_used'
     PARAM_FUNCTIONS = 'functions'
+    PARAM_ENABLED = "enabled"
 
     def __init__(self, connection, unique_name, parameters,
                  bag_of_clusters_features):
@@ -25,6 +26,7 @@ class LexiconFeature:
 
         self.cache = {}
 
+        self.parameters = parameters
         self.connection = connection
         self.unique_name = unique_name
         self.table = parameters[LexiconFeature.PARAM_TABLE_NAME]
@@ -37,7 +39,8 @@ class LexiconFeature:
         self.functions = parameters[LexiconFeature.PARAM_FUNCTIONS]
         self.bag_of_clusters_features = bag_of_clusters_features
 
-        self.get_all_tones_from_table()
+        if parameters[LexiconFeature.PARAM_ENABLED] != 'false':
+            self.get_all_tones_from_table()
 
     def vectorize(self, terms):
         """
@@ -48,6 +51,9 @@ class LexiconFeature:
             features -- {feature: value, ...}
         """
         features = {}
+
+        if self.parameters[LexiconFeature.PARAM_ENABLED] == 'false':
+            return features
 
         tones = []
         if (self.terms_used == 'all'):
@@ -76,16 +82,16 @@ class LexiconFeature:
         #
         # Calculate sum of cluster scores
         #
-        for cluster in self.bag_of_clusters_features:
-            cluster_tones = [self.get_cluster_tone(
-                             cluster, cluster.get_cluster_id(word))
-                             for word in terms if cluster.contains_word(word)]
-            if len(cluster_tones) == 0:
-                cluster_tones.append(0)
+        # for cluster in self.bag_of_clusters_features:
+        #     cluster_tones = [self.get_cluster_tone(
+        #                      cluster, cluster.get_cluster_id(word))
+        #                      for word in terms if cluster.contains_word(word)]
+        #     if len(cluster_tones) == 0:
+        #         cluster_tones.append(0)
 
-            feature_name = "{}_score_sum".format(cluster.get_name())
-            value = sum(cluster_tones)
-            features[feature_name] = utils.normalize(value)
+        #     feature_name = "{}_score_sum".format(cluster.get_name())
+        #     value = sum(cluster_tones)
+        #     features[feature_name] = utils.normalize(value)
 
         return features
 
