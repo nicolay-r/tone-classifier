@@ -8,7 +8,7 @@ from nltk.tokenize import TweetTokenizer
 
 class TwitterMessageParser:
     INCLUDE_URLS = 'urls_used'
-    INCLUDE_HASHTAGS = 'ht_used'
+    INCLUDE_HTAGS = 'ht_used'
     INCLUDE_USERS = 'users_used'
     REMOVE_STOP_WORDS = 'use_stop_words'
     TONE_PREFIXES = 'tone_prefix'
@@ -85,11 +85,11 @@ class TwitterMessageParser:
 
         terms = self.__transform(terms, apply_bigram_processor)
 
-        if (self.settings[TwitterMessageParser.INCLUDE_URLS]):
+        if self.__str2bool(self.settings[TwitterMessageParser.INCLUDE_URLS]):
             terms += self.urls
-        if (self.settings[TwitterMessageParser.INCLUDE_HASHTAGS]):
+        if self.__str2bool(self.settings[TwitterMessageParser.INCLUDE_HTAGS]):
             terms += self.hash_tags
-        if (self.settings[TwitterMessageParser.INCLUDE_USERS]):
+        if self.__str2bool(self.settings[TwitterMessageParser.INCLUDE_USERS]):
             terms += self.users
 
         return terms
@@ -107,12 +107,6 @@ class TwitterMessageParser:
                      not(term in self.task_specific_stop_words)]
 
         return terms
-
-    # @staticmethod
-    # def show_terms(terms):
-    #     for t in terms:
-    #         print "<%s>" % (t),
-    #     print
 
     @staticmethod
     def __remove_prefix_symbols(terms, chars_to_remove):
