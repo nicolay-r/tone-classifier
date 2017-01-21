@@ -105,10 +105,12 @@ if __name__ == "__main__":
         config = json.load(f, encoding='utf-8')
 
     w2v_models = []
-    for model_name in config[CONFIG_WORD2VEC_MODELS]:
-        model_path = os.path.join(os.path.dirname(configs.MODEL_CONFIG),
-                                  model_name)
-        print "Loading Word2Vec: {}".format(model_path)
-        w2v_models.append(Word2Vec.load(model_path))
+    for model_params in config[CONFIG_WORD2VEC_MODELS]:
+        if model_params['enabled'] == 'true':
+            model_path = os.path.join(
+                os.path.dirname(configs.DATA_ROOT), model_params['path'])
+            print "Loading Word2Vec model: {} ...".format(model_path)
+            w2v_models.append(Word2Vec.load_word2vec_format(model_path))
+            print 'Model has been loaded.'
 
     utils.vectorization_core(vectorizer, init_term_vocabulary=False)

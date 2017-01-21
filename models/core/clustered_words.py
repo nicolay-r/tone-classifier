@@ -27,6 +27,9 @@ class BagOfClustersFeature:
             base_filepath,
             parameters[BagOfClustersFeature.PARAM_CLUSTERED_WORDS_FILEPATH])
 
+        if parameters[BagOfClustersFeature.PARAM_ENABLED] == 'false':
+            return
+
         print "Loading file with clusters of words: {}".format(filepath)
         with io.open(filepath, 'r', encoding='utf-8') as f:
             self.clustered_words = json.load(f, encoding='utf-8')
@@ -38,9 +41,6 @@ class BagOfClustersFeature:
             if cluster_id not in self.clusters:
                 self.clusters[cluster_id] = []
             self.clusters[cluster_id].append(utils.to_unicode(word))
-
-        print "Feature enabled: {}".format(
-                parameters[BagOfClustersFeature.PARAM_ENABLED])
 
     def vectorize(self, terms):
         """
