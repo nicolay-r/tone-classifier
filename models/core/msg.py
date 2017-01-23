@@ -101,7 +101,7 @@ class TwitterMessageParser:
             terms = self.__sentiment_bigram_filter(
                     terms, self.settings[self.TONE_PREFIXES])
 
-        if (self.settings[self.REMOVE_STOP_WORDS]):
+        if self.__str2bool(self.settings[self.REMOVE_STOP_WORDS]):
             terms = [term for term in terms if
                      not(term in self.settings[self.ABSOLUTE_STOP_WORDS]) and
                      not(term in self.task_specific_stop_words)]
