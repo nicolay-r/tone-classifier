@@ -8,18 +8,12 @@ import model_features_only
 
 def vectorizer(labeled_message, term_voc, doc_voc):
     """
-    Vector builder
-
-    Arguments:
-    ---------
-        labeled_message -- dictionary with the following fields:
-                           {score, id, terms, features} term_voc -- vocabulary
-                           of terms
-        doc_voc -- vocabulary of documents
-
-    Returns
-    ------
-        vector -- {index1: value1, ... , indexN: valueN}
+    labeled_message: dict
+        donary with the following fields: {score, id, terms, features}
+    term_voc : core.TermVocabulary
+    doc_voc : core.DocVocabulary
+    returns : dict
+        vector {index1: value1, ... , indexN: valueN}
     """
     features = labeled_message['features']
     vector = model_features_only.feature_vectorizer(features, term_voc)

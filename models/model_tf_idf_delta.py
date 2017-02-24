@@ -24,24 +24,25 @@ def vectorizer(labeled_message, term_voc, doc_voc):
     terms = labeled_message['terms']
     for term in terms:
         index = term_voc.get_term_index(term)
-        vector[index] = tf(term, terms) * idf(term, term_voc, doc_voc)
+        vector[index] = tf(term, terms) * idf(term, doc_voc, '1') - \
+            tf(term, terms) * idf(term, doc_voc,  '-1')
 
     return vector
 
 
-def tf(term, doc_terms):
+def tf(term, terms):
     """
-    Calculate tf measure for a document
+    Boolean tf
     """
-    return doc_terms.count(term)*1.0/len(doc_terms)
+    return 1 if terms.count(term) > 0 else 0
 
 
-def idf(term, term_voc, doc_voc):
+def idf(term, doc_voc, sentiment):
     """
-    Calculate idf measure for vocabulary
+    sentiment idf measure
     """
-    return math.log(doc_voc.get_docs_count()*1.0 /
-                    doc_voc.get_term_in_docs_count(term))
+    return math.log(doc_voc.get_docs_count(sentiment)*1.0 /
+                    doc_voc.get_term_in_docs_count(term, sentiment))
 
 
 if __name__ == "__main__":

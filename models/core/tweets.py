@@ -13,7 +13,7 @@ def get_score_columns(task_type):
                 'skylink']
 
 
-def tweets_filter_sql_request(task_type, cursor, table, score, limit):
+def tweets_filter_sql_request(task_type, table, score, limit):
     if (task_type == TASKTYPE_BANK):
         return "SELECT text, id, sberbank, vtb, gazprom, alfabank, "\
                "bankmoskvy, raiffeisen, uralsib, rshb FROM %s WHERE "\

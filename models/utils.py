@@ -9,7 +9,7 @@ import psycopg2
 import core
 import core.utils
 import core.indexer
-from core.vocs import TermVocabulary, DocVocabulary
+from core import TermVocabulary, DocVocabulary
 from core.features import Features
 from core.msg import TwitterMessageParser
 
@@ -134,9 +134,8 @@ def create_problem(connection, task_type, collection_type, table, vectorizer,
     for score in [-1, 0, 1]:
         print "Class:\t%s" % (score)
         # getting tweets with the same score
-        cursor = connection.cursor()
-        request = tweets.tweets_filter_sql_request(task_type, cursor, table,
-                                                   score, limit)
+        request = tweets.tweets_filter_sql_request(task_type, table, score,
+                                                   limit)
         for row in core.utils.table_iterate(connection, request):
             text = row[0]
             index = row[1]
