@@ -41,9 +41,9 @@ def idf(term, doc_voc, sentiment):
     """
     sentiment idf measure
     """
-    return math.log(doc_voc.get_docs_count(sentiment)*1.0 /
-                    doc_voc.get_term_in_docs_count(term, sentiment))
+    return math.log(doc_voc.get_docs_count(sentiment)*1.0 + 0.5 /
+                    (doc_voc.get_term_in_docs_count(term, sentiment) + 0.5))
 
 
 if __name__ == "__main__":
-    utils.vectorization_core(vectorizer)
+    utils.vectorization_core(vectorizer, merge_doc_vocabularies=True)

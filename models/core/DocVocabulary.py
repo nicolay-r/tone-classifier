@@ -11,10 +11,7 @@ class DocVocabulary:
         self.terms_info = {}
         self.docs_count = {self.ALL: 0}
 
-    def get_docs_count(self):
-        return self.docs_count
-
-    def get_terms_in_docs_count(self, sentiment=None):
+    def get_docs_count(self, sentiment=None):
         """
         returns : int
             amount of documents at all or in the certain 'sentiment' class
@@ -34,7 +31,11 @@ class DocVocabulary:
         uterm = to_unicode(term)
         term_info = self.terms_info[uterm]
         return term_info[self.ALL] if sentiment is None \
-            else term_info[sentiment]
+            else self.__get_term_info(sentiment)
+
+    def __get_term_info(self, sentiment):
+        return self.terms_info[sentiment] if sentiment in self.terms_info \
+            else 0
 
     def add_doc(self, terms, sentiment=None):
         """

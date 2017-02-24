@@ -9,28 +9,23 @@ import psycopg2
 import core
 import core.utils
 import core.indexer
-from core import TermVocabulary, DocVocabulary
+from core.DocVocabulary import DocVocabulary
+from core.TermVocabulary import TermVocabulary
 from core.features import Features
 from core.msg import TwitterMessageParser
+from core import tweets
 
 # configs
 import configs
 
-import tweets
 
-
-def vectorization_core(vectorizer, init_term_vocabulary=True):
+def vectorization_core(vectorizer, init_term_vocabulary=True,
+                       merge_doc_vocabularies=False):
     """
     Main function of collection vectorization
 
-    Argument
-    --------
-        vectorizer -- message vectorization function
-        init_term_vocabulary --
-
-    Returns
-    -------
-        None
+    vectorizer : message vectorization function
+    returns : None
     """
     if (sys.argv < 8):
         exit(0)
@@ -67,6 +62,7 @@ def vectorization_core(vectorizer, init_term_vocabulary=True):
                 TwitterMessageParser(message_configpath, config['task_type']),
                 features_configpath)
 
+    doc_vocabulary = DocVocabulary()
     # Train problem
     train_problem = create_problem(connection,
                                    config['task_type'],
@@ -75,9 +71,12 @@ def vectorization_core(vectorizer, init_term_vocabulary=True):
                                    vectorizer,
                                    features,
                                    term_vocabulary,
+                                   doc_vocabulary,
                                    features_configpath,
                                    message_configpath)
 
+    if not merge_doc_vocabularies:
+        doc_vocabulary = DocVocabulary()
     # Test problem
     test_problem = create_problem(connection,
                                   config['task_type'],
@@ -86,6 +85,7 @@ def vectorization_core(vectorizer, init_term_vocabulary=True):
                                   vectorizer,
                                   features,
                                   term_vocabulary,
+                                  doc_vocabulary,
                                   features_configpath,
                                   message_configpath)
 
@@ -103,8 +103,8 @@ def vectorization_core(vectorizer, init_term_vocabulary=True):
 
 
 def create_problem(connection, task_type, collection_type, table, vectorizer,
-                   features, term_vocabulary, features_configpath,
-                   message_configpath):
+                   features, term_vocabulary, doc_vocabulary,
+                   features_configpath, message_configpath):
     """
     Creates problem (vectors from messages with additional features)
 
@@ -127,7 +127,6 @@ def create_problem(connection, task_type, collection_type, table, vectorizer,
         problem -- list of vectorized messages
     """
     message_parser = TwitterMessageParser(message_configpath, task_type)
-    doc_vocabulary = DocVocabulary()
     limit = sys.maxint
     labeled_messages = []
 
@@ -142,7 +141,7 @@ def create_problem(connection, task_type, collection_type, table, vectorizer,
 
             message_parser.parse(text)
             terms = message_parser.get_terms()
-            doc_vocabulary.add_doc(terms)
+            doc_vocabulary.add_doc(terms, str(score))
             labeled_message = {'score': score,
                                'id': index,
                                'terms': to_unicode(terms),

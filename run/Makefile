@@ -334,6 +334,15 @@ lr_sre15_tcc_tf-idf_imb: CLASSIFIER_LIBRARY = liblinear
 lr_sre15_tcc_tf-idf_imb: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.xml
 lr_sre15_tcc_tf-idf_imb: core
 
+lr_sre15_tcc_tf-idf-delta_imb: TASK_TYPE = ttk
+lr_sre15_tcc_tf-idf-delta_imb: VOCABULARY_PATH = $(DATA_ROOT)/core/$(TASK_TYPE).voc
+lr_sre15_tcc_tf-idf-delta_imb: TEST_TABLE = ttk_test_noname
+lr_sre15_tcc_tf-idf-delta_imb: TRAIN_TABLE = ttk_train_noname
+lr_sre15_tcc_tf-idf-delta_imb: MODEL_NAME = tf_idf_delta
+lr_sre15_tcc_tf-idf-delta_imb: CLASSIFIER_LIBRARY = liblinear
+lr_sre15_tcc_tf-idf-delta_imb: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.xml
+lr_sre15_tcc_tf-idf-delta_imb: core
+
 sre15_tcc_w2v_imb: TASK_TYPE = ttk
 sre15_tcc_w2v_imb: VOCABULARY_PATH = $(DATA_ROOT)/core/$(TASK_TYPE).voc
 sre15_tcc_w2v_imb: TEST_TABLE = ttk_test_noname
