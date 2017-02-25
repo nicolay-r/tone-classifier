@@ -25,7 +25,7 @@ def vectorizer(labeled_message, term_voc, doc_voc):
     terms = labeled_message['terms']
     for term in terms:
         index = term_voc.get_term_index(term)
-        vector[index] = tf(term, terms) * idf(term, '1', '-1')
+        vector[index] = tf(term, terms) * idf(term, doc_voc, '1', '-1')
 
     return vector
 
