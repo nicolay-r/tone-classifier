@@ -6,7 +6,8 @@ import math
 
 # this
 import utils
-import model_features_only
+from model_features_only import feature_vectorizer
+from model_tf_idf_delta import tf
 
 
 def vectorizer(labeled_message, term_voc, doc_voc):
@@ -19,32 +20,31 @@ def vectorizer(labeled_message, term_voc, doc_voc):
         vector {index1: value1, ... , indexN: valueN}
     """
     features = labeled_message['features']
-    vector = model_features_only.feature_vectorizer(features, term_voc)
+    vector = feature_vectorizer(features, term_voc)
 
     terms = labeled_message['terms']
     for term in terms:
         index = term_voc.get_term_index(term)
-        vector[index] = tf(term, terms) * idf(term, doc_voc, '1') - \
-            tf(term, terms) * idf(term, doc_voc,  '-1')
+        vector[index] = tf(term, terms) * idf(term, '1', '-1')
 
     return vector
 
 
-def tf(term, terms):
+def idf(term, doc_voc, s1, s2):
     """
-    Boolean tf
+    Delta BM25 idf measure
+    doc_voc : core.DocVocabulary
+    s1 : str
+        first sentiment class
+    s2 : str
+        second sentiment class
     """
-    return 1 if terms.count(term) > 0 else 0
-
-
-def idf(term, doc_voc, sentiment):
-    """
-    sentiment idf measure
-    """
-    N = doc_voc.get_docs_count(sentiment)
-    df = doc_voc.get_term_in_docs_count(term, sentiment)
-    return math.log((N + 0.5) / (df + 0.5))
-
+    N1 = doc_voc.get_docs_count(s1)
+    N2 = doc_voc.get_docs_count(s2)
+    df1 = doc_voc.get_term_in_docs_count(term, s1)
+    df2 = doc_voc.get_term_in_docs_count(term, s2)
+    return math.log(((N1 - df1 + 0.5)*df2 + 0.5) /
+                    ((N2 - df2 + 0.5)*df1 + 0.5))
 
 if __name__ == "__main__":
     utils.vectorization_core(vectorizer, merge_doc_vocabularies=True)
