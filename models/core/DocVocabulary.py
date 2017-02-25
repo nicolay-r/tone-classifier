@@ -31,10 +31,10 @@ class DocVocabulary:
         uterm = to_unicode(term)
         term_info = self.terms_info[uterm]
         return term_info[self.ALL] if sentiment is None \
-            else self.__get_term_info(sentiment)
+            else self.__get_term_in_sentiment_docs_count(term_info, sentiment)
 
-    def __get_term_info(self, sentiment):
-        return self.terms_info[sentiment] if sentiment in self.terms_info \
+    def __get_term_in_sentiment_docs_count(self, term_info, sentiment):
+        return term_info[sentiment] if sentiment in term_info \
             else 0
 
     def add_doc(self, terms, sentiment=None):
@@ -62,9 +62,11 @@ class DocVocabulary:
             self.terms_info[uterm] = {self.ALL: 0}
         term_info = self.terms_info[uterm]
         term_info[self.ALL] += 1
-        if sentiment not in term_info:
-            term_info[sentiment] = 0
-        term_info[sentiment] + 1
+
+        if sentiment is not None:
+            if sentiment not in term_info:
+                term_info[sentiment] = 0
+            term_info[sentiment] += 1
 
     def get_terms_info(self, term):
         """

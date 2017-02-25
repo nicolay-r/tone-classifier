@@ -43,8 +43,9 @@ def idf(term, doc_voc, s1, s2):
     N2 = doc_voc.get_docs_count(s2)
     df1 = doc_voc.get_term_in_docs_count(term, s1)
     df2 = doc_voc.get_term_in_docs_count(term, s2)
-    return math.log(((N1 - df1 + 0.5)*df2 + 0.5) /
-                    ((N2 - df2 + 0.5)*df1 + 0.5))
+    print "({}, {})".format(df1, df2)
+    return math.log(((N1 - df1 + 0.5)*(df2 + 0.5)) /
+                    ((N2 - df2 + 0.5)*(df1 + 0.5)))
 
 if __name__ == "__main__":
     utils.vectorization_core(vectorizer, merge_doc_vocabularies=True)
