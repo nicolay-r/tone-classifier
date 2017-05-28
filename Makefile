@@ -23,7 +23,7 @@ balanced_sentiRuEval_2016_8k:
 
 install:
 	# Install all dependecies.
-	sudo apt-get install python-libxml2 python-psycopg2 python-pip postgresql g++ nodejs npm nodejs-legacy unzip
+	sudo apt-get install python-libxml2 python-psycopg2 python-pip postgresql g++ unzip
 	sudo pip install setuptools
 	sudo pip install pymystem3
 
@@ -37,8 +37,3 @@ install:
 	cd models/classifiers/ && git clone https://github.com/cjlin1/liblinear
 	make -C models/classifiers/liblinear
 	make -C models/classifiers/liblinear/python
-
-	# Install eval package -- script which estimates a model result quality.
-	cd eval && sudo npm install
-
-	# Done

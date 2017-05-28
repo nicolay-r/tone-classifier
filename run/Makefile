@@ -36,7 +36,7 @@ svm_sre15_bank_features-only_imb: TEST_TABLE = bank_test_noname
 svm_sre15_bank_features-only_imb: TRAIN_TABLE = bank_train_noname
 svm_sre15_bank_features-only_imb: MODEL_NAME = features_only
 svm_sre15_bank_features-only_imb: CLASSIFIER_LIBRARY = svm
-svm_sre15_bank_features-only_imb: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.xml
+svm_sre15_bank_features-only_imb: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.csv
 svm_sre15_bank_features-only_imb: core
 
 svm_sre15_bank_features-only_bal: TASK_TYPE = bank
@@ -45,7 +45,7 @@ svm_sre15_bank_features-only_bal: TEST_TABLE = bank_test_noname
 svm_sre15_bank_features-only_bal: TRAIN_TABLE = bank_train_balanced
 svm_sre15_bank_features-only_bal: MODEL_NAME = features_only
 svm_sre15_bank_features-only_bal: CLASSIFIER_LIBRARY = svm
-svm_sre15_bank_features-only_bal: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.xml
+svm_sre15_bank_features-only_bal: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.csv
 svm_sre15_bank_features-only_bal: core
 
 lr_sre15_bank_features-only_imb: TASK_TYPE = bank
@@ -54,7 +54,7 @@ lr_sre15_bank_features-only_imb: TEST_TABLE = bank_test_noname
 lr_sre15_bank_features-only_imb: TRAIN_TABLE = bank_train_noname
 lr_sre15_bank_features-only_imb: MODEL_NAME = features_only
 lr_sre15_bank_features-only_imb: CLASSIFIER_LIBRARY = liblinear
-lr_sre15_bank_features-only_imb: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.xml
+lr_sre15_bank_features-only_imb: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.csv
 lr_sre15_bank_features-only_imb: core
 
 lr_sre15_bank_features-only_bal: TASK_TYPE = bank
@@ -63,7 +63,7 @@ lr_sre15_bank_features-only_bal: TEST_TABLE = bank_test_noname
 lr_sre15_bank_features-only_bal: TRAIN_TABLE = bank_train_balanced
 lr_sre15_bank_features-only_bal: MODEL_NAME = features_only
 lr_sre15_bank_features-only_bal: CLASSIFIER_LIBRARY = liblinear
-lr_sre15_bank_features-only_bal: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.xml
+lr_sre15_bank_features-only_bal: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.csv
 lr_sre15_bank_features-only_bal: core
 
 svm_sre15_bank_w2v_imb: TASK_TYPE = bank
@@ -72,7 +72,7 @@ svm_sre15_bank_w2v_imb: TEST_TABLE = bank_test_noname
 svm_sre15_bank_w2v_imb: TRAIN_TABLE = bank_train_noname
 svm_sre15_bank_w2v_imb: MODEL_NAME = w2v
 svm_sre15_bank_w2v_imb: CLASSIFIER_LIBRARY = svm
-svm_sre15_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.xml
+svm_sre15_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.csv
 svm_sre15_bank_w2v_imb: core
 
 svm_sre15_bank_w2v_bal: TASK_TYPE = bank
@@ -81,7 +81,7 @@ svm_sre15_bank_w2v_bal: TEST_TABLE = bank_test_noname
 svm_sre15_bank_w2v_bal: TRAIN_TABLE = bank_train_balanced
 svm_sre15_bank_w2v_bal: MODEL_NAME = w2v
 svm_sre15_bank_w2v_bal: CLASSIFIER_LIBRARY = svm
-svm_sre15_bank_w2v_bal: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.xml
+svm_sre15_bank_w2v_bal: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.csv
 svm_sre15_bank_w2v_bal: core
 
 lr_sre15_bank_w2v_imb: TASK_TYPE = bank
@@ -90,7 +90,7 @@ lr_sre15_bank_w2v_imb: TEST_TABLE = bank_test_noname
 lr_sre15_bank_w2v_imb: TRAIN_TABLE = bank_train_noname
 lr_sre15_bank_w2v_imb: MODEL_NAME = w2v
 lr_sre15_bank_w2v_imb: CLASSIFIER_LIBRARY = liblinear
-lr_sre15_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.xml
+lr_sre15_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.csv
 lr_sre15_bank_w2v_imb: core
 
 lr_sre15_bank_w2v_bal: TASK_TYPE = bank
@@ -99,7 +99,7 @@ lr_sre15_bank_w2v_bal: TEST_TABLE = bank_test_noname
 lr_sre15_bank_w2v_bal: TRAIN_TABLE = bank_train_balanced
 lr_sre15_bank_w2v_bal: MODEL_NAME = w2v
 lr_sre15_bank_w2v_bal: CLASSIFIER_LIBRARY = liblinear
-lr_sre15_bank_w2v_bal: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.xml
+lr_sre15_bank_w2v_bal: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.csv
 lr_sre15_bank_w2v_bal: core
 
 svm_sre15_bank_bow_imb: TASK_TYPE = bank
@@ -108,7 +108,7 @@ svm_sre15_bank_bow_imb: TEST_TABLE = bank_test_noname
 svm_sre15_bank_bow_imb: TRAIN_TABLE = bank_train_noname
 svm_sre15_bank_bow_imb: MODEL_NAME = bow
 svm_sre15_bank_bow_imb: CLASSIFIER_LIBRARY = svm
-svm_sre15_bank_bow_imb: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.xml
+svm_sre15_bank_bow_imb: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.csv
 svm_sre15_bank_bow_imb: core
 
 svm_sre15_bank_bow_bal: TASK_TYPE = bank
@@ -117,7 +117,7 @@ svm_sre15_bank_bow_bal: TEST_TABLE = bank_test_noname
 svm_sre15_bank_bow_bal: TRAIN_TABLE = bank_train_balanced
 svm_sre15_bank_bow_bal: MODEL_NAME = bow
 svm_sre15_bank_bow_bal: CLASSIFIER_LIBRARY = svm
-svm_sre15_bank_bow_bal: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.xml
+svm_sre15_bank_bow_bal: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.csv
 svm_sre15_bank_bow_bal: core
 
 lr_sre15_bank_bow_imb: TASK_TYPE = bank
@@ -126,7 +126,7 @@ lr_sre15_bank_bow_imb: TEST_TABLE = bank_test_noname
 lr_sre15_bank_bow_imb: TRAIN_TABLE = bank_train_noname
 lr_sre15_bank_bow_imb: MODEL_NAME = bow
 lr_sre15_bank_bow_imb: CLASSIFIER_LIBRARY = liblinear
-lr_sre15_bank_bow_imb: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.xml
+lr_sre15_bank_bow_imb: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.csv
 lr_sre15_bank_bow_imb: core
 
 lr_sre15_bank_bow_bal: TASK_TYPE = bank
@@ -135,7 +135,7 @@ lr_sre15_bank_bow_bal: TEST_TABLE = bank_test_noname
 lr_sre15_bank_bow_bal: TRAIN_TABLE = bank_train_balanced
 lr_sre15_bank_bow_bal: MODEL_NAME = bow
 lr_sre15_bank_bow_bal: CLASSIFIER_LIBRARY = liblinear
-lr_sre15_bank_bow_bal: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.xml
+lr_sre15_bank_bow_bal: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.csv
 lr_sre15_bank_bow_bal: core
 
 #sre16_bank_bow_bal: TASK_TYPE = bank
@@ -143,7 +143,7 @@ lr_sre15_bank_bow_bal: core
 #sre16_bank_bow_bal: TEST_TABLE = bank_test_2016
 #sre16_bank_bow_bal: TRAIN_TABLE = bank_train_balanced_2016
 #sre16_bank_bow_bal: MODEL_NAME = bow
-#sre16_bank_bow_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.xml
+#sre16_bank_bow_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.csv
 #sre16_bank_bow_bal: core
 
 svm_sre15_bank_tf-idf_imb: TASK_TYPE = bank
@@ -152,7 +152,7 @@ svm_sre15_bank_tf-idf_imb: TEST_TABLE = bank_test_noname
 svm_sre15_bank_tf-idf_imb: TRAIN_TABLE = bank_train_noname
 svm_sre15_bank_tf-idf_imb: MODEL_NAME = tf_idf
 svm_sre15_bank_tf-idf_imb: CLASSIFIER_LIBRARY = svm
-svm_sre15_bank_tf-idf_imb: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.xml
+svm_sre15_bank_tf-idf_imb: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.csv
 svm_sre15_bank_tf-idf_imb: core
 
 svm_sre15_bank_tf-idf_bal: TASK_TYPE = bank
@@ -161,7 +161,7 @@ svm_sre15_bank_tf-idf_bal: TEST_TABLE = bank_test_noname
 svm_sre15_bank_tf-idf_bal: TRAIN_TABLE = bank_train_balanced
 svm_sre15_bank_tf-idf_bal: MODEL_NAME = tf_idf
 svm_sre15_bank_tf-idf_bal: CLASSIFIER_LIBRARY = svm
-svm_sre15_bank_tf-idf_bal: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.xml
+svm_sre15_bank_tf-idf_bal: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.csv
 svm_sre15_bank_tf-idf_bal: core
 
 lr_sre15_bank_tf-idf_imb: TASK_TYPE = bank
@@ -170,7 +170,7 @@ lr_sre15_bank_tf-idf_imb: TEST_TABLE = bank_test_noname
 lr_sre15_bank_tf-idf_imb: TRAIN_TABLE = bank_train_noname
 lr_sre15_bank_tf-idf_imb: MODEL_NAME = tf_idf
 lr_sre15_bank_tf-idf_imb: CLASSIFIER_LIBRARY = liblinear
-lr_sre15_bank_tf-idf_imb: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.xml
+lr_sre15_bank_tf-idf_imb: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.csv
 lr_sre15_bank_tf-idf_imb: core
 
 lr_sre15_bank_tf-idf_bal: TASK_TYPE = bank
@@ -179,7 +179,7 @@ lr_sre15_bank_tf-idf_bal: TEST_TABLE = bank_test_noname
 lr_sre15_bank_tf-idf_bal: TRAIN_TABLE = bank_train_balanced
 lr_sre15_bank_tf-idf_bal: MODEL_NAME = tf_idf
 lr_sre15_bank_tf-idf_bal: CLASSIFIER_LIBRARY = liblinear
-lr_sre15_bank_tf-idf_bal: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.xml
+lr_sre15_bank_tf-idf_bal: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.csv
 lr_sre15_bank_tf-idf_bal: core
 
 svm_sre16_bank_tf-idf_bal: TASK_TYPE = bank
@@ -188,7 +188,7 @@ svm_sre16_bank_tf-idf_bal: TEST_TABLE = bank_test_2016
 svm_sre16_bank_tf-idf_bal: TRAIN_TABLE = bank_train_balanced_2016
 svm_sre16_bank_tf-idf_bal: MODEL_NAME = tf_idf
 svm_sre16_bank_tf-idf_bal: CLASSIFIER_LIBRARY = svm
-svm_sre16_bank_tf-idf_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.xml
+svm_sre16_bank_tf-idf_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.csv
 svm_sre16_bank_tf-idf_bal: core
 
 svm_sre16_bank_features-only_bal: TASK_TYPE = bank
@@ -197,7 +197,7 @@ svm_sre16_bank_features-only_bal: TEST_TABLE = bank_test_2016
 svm_sre16_bank_features-only_bal: TRAIN_TABLE = bank_train_balanced_2016
 svm_sre16_bank_features-only_bal: MODEL_NAME = features_only
 svm_sre16_bank_features-only_bal: CLASSIFIER_LIBRARY = svm
-svm_sre16_bank_features-only_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.xml
+svm_sre16_bank_features-only_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.csv
 svm_sre16_bank_features-only_bal: core
 
 lr_sre16_bank_features-only_bal: TASK_TYPE = bank
@@ -206,7 +206,7 @@ lr_sre16_bank_features-only_bal: TEST_TABLE = bank_test_2016
 lr_sre16_bank_features-only_bal: TRAIN_TABLE = bank_train_balanced_2016
 lr_sre16_bank_features-only_bal: MODEL_NAME = features_only
 lr_sre16_bank_features-only_bal: CLASSIFIER_LIBRARY = liblinear
-lr_sre16_bank_features-only_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.xml
+lr_sre16_bank_features-only_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.csv
 lr_sre16_bank_features-only_bal: core
 
 lr_sre16_bank_tf-idf_bal: TASK_TYPE = bank
@@ -215,7 +215,7 @@ lr_sre16_bank_tf-idf_bal: TEST_TABLE = bank_test_2016
 lr_sre16_bank_tf-idf_bal: TRAIN_TABLE = bank_train_balanced_2016
 lr_sre16_bank_tf-idf_bal: MODEL_NAME = tf_idf
 lr_sre16_bank_tf-idf_bal: CLASSIFIER_LIBRARY = liblinear
-lr_sre16_bank_tf-idf_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.xml
+lr_sre16_bank_tf-idf_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.csv
 lr_sre16_bank_tf-idf_bal: core
 
 svm_sre16_bank_bow_bal: TASK_TYPE = bank
@@ -224,7 +224,7 @@ svm_sre16_bank_bow_bal: TEST_TABLE = bank_test_2016
 svm_sre16_bank_bow_bal: TRAIN_TABLE = bank_train_balanced_2016
 svm_sre16_bank_bow_bal: MODEL_NAME = bow
 svm_sre16_bank_bow_bal: CLASSIFIER_LIBRARY = svm
-svm_sre16_bank_bow_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.xml
+svm_sre16_bank_bow_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.csv
 svm_sre16_bank_bow_bal: core
 
 lr_sre16_bank_bow_bal: TASK_TYPE = bank
@@ -233,7 +233,7 @@ lr_sre16_bank_bow_bal: TEST_TABLE = bank_test_2016
 lr_sre16_bank_bow_bal: TRAIN_TABLE = bank_train_balanced_2016
 lr_sre16_bank_bow_bal: MODEL_NAME = bow
 lr_sre16_bank_bow_bal: CLASSIFIER_LIBRARY = liblinear
-lr_sre16_bank_bow_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.xml
+lr_sre16_bank_bow_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.csv
 lr_sre16_bank_bow_bal: core
 
 sre16_bank_features_only_bal: TASK_TYPE = bank
@@ -241,7 +241,7 @@ sre16_bank_features_only_bal: VOCABULARY_PATH = $(DATA_ROOT)/core/$(TASK_TYPE).v
 sre16_bank_features_only_bal: TEST_TABLE = bank_test_2016
 sre16_bank_features_only_bal: TRAIN_TABLE = bank_train_balanced_2016
 sre16_bank_features_only_bal: MODEL_NAME = features_only
-sre16_bank_features_only_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.xml
+sre16_bank_features_only_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.csv
 sre16_bank_features_only_bal: core
 
 svm_sre16_tcc_tf-idf_bal: TASK_TYPE = ttk
@@ -250,7 +250,7 @@ svm_sre16_tcc_tf-idf_bal: TEST_TABLE = ttk_test_2016
 svm_sre16_tcc_tf-idf_bal: TRAIN_TABLE = ttk_train_balanced_2016
 svm_sre16_tcc_tf-idf_bal: MODEL_NAME = tf_idf
 svm_sre16_tcc_tf-idf_bal: CLASSIFIER_LIBRARY = svm
-svm_sre16_tcc_tf-idf_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.xml
+svm_sre16_tcc_tf-idf_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.csv
 svm_sre16_tcc_tf-idf_bal: core
 
 lr_sre16_tcc_tf-idf_bal: TASK_TYPE = ttk
@@ -259,7 +259,7 @@ lr_sre16_tcc_tf-idf_bal: TEST_TABLE = ttk_test_2016
 lr_sre16_tcc_tf-idf_bal: TRAIN_TABLE = ttk_train_balanced_2016
 lr_sre16_tcc_tf-idf_bal: MODEL_NAME = tf_idf
 lr_sre16_tcc_tf-idf_bal: CLASSIFIER_LIBRARY = liblinear
-lr_sre16_tcc_tf-idf_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.xml
+lr_sre16_tcc_tf-idf_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.csv
 lr_sre16_tcc_tf-idf_bal: core
 
 lr_sre16_tcc_features-only_bal: TASK_TYPE = ttk
@@ -268,7 +268,7 @@ lr_sre16_tcc_features-only_bal: TEST_TABLE = ttk_test_2016
 lr_sre16_tcc_features-only_bal: TRAIN_TABLE = ttk_train_balanced_2016
 lr_sre16_tcc_features-only_bal: MODEL_NAME = features_only
 lr_sre16_tcc_features-only_bal: CLASSIFIER_LIBRARY = liblinear
-lr_sre16_tcc_features-only_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.xml
+lr_sre16_tcc_features-only_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.csv
 lr_sre16_tcc_features-only_bal: core
 
 svm_sre16_tcc_features-only_bal: TASK_TYPE = ttk
@@ -277,7 +277,7 @@ svm_sre16_tcc_features-only_bal: TEST_TABLE = ttk_test_2016
 svm_sre16_tcc_features-only_bal: TRAIN_TABLE = ttk_train_balanced_2016
 svm_sre16_tcc_features-only_bal: MODEL_NAME = features_only
 svm_sre16_tcc_features-only_bal: CLASSIFIER_LIBRARY = svm
-svm_sre16_tcc_features-only_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.xml
+svm_sre16_tcc_features-only_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.csv
 svm_sre16_tcc_features-only_bal: core
 
 svm_sre16_tcc_bow_bal: TASK_TYPE = ttk
@@ -286,7 +286,7 @@ svm_sre16_tcc_bow_bal: TEST_TABLE = ttk_test_2016
 svm_sre16_tcc_bow_bal: TRAIN_TABLE = ttk_train_balanced_2016
 svm_sre16_tcc_bow_bal: MODEL_NAME = bow
 svm_sre16_tcc_bow_bal: CLASSIFIER_LIBRARY = svm
-svm_sre16_tcc_bow_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.xml
+svm_sre16_tcc_bow_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.csv
 svm_sre16_tcc_bow_bal: core
 
 lr_sre16_tcc_bow_bal: TASK_TYPE = ttk
@@ -295,7 +295,7 @@ lr_sre16_tcc_bow_bal: TEST_TABLE = ttk_test_2016
 lr_sre16_tcc_bow_bal: TRAIN_TABLE = ttk_train_balanced_2016
 lr_sre16_tcc_bow_bal: MODEL_NAME = bow
 lr_sre16_tcc_bow_bal: CLASSIFIER_LIBRARY = liblinear
-lr_sre16_tcc_bow_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.xml
+lr_sre16_tcc_bow_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon_2016.csv
 lr_sre16_tcc_bow_bal: core
 
 svm_sre15_tcc_tf-idf_imb: TASK_TYPE = ttk
@@ -304,7 +304,7 @@ svm_sre15_tcc_tf-idf_imb: TEST_TABLE = ttk_test_noname
 svm_sre15_tcc_tf-idf_imb: TRAIN_TABLE = ttk_train_noname
 svm_sre15_tcc_tf-idf_imb: MODEL_NAME = tf_idf
 svm_sre15_tcc_tf-idf_imb: CLASSIFIER_LIBRARY = svm
-svm_sre15_tcc_tf-idf_imb: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.xml
+svm_sre15_tcc_tf-idf_imb: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.csv
 svm_sre15_tcc_tf-idf_imb: core
 
 svm_sre15_tcc_features-only_imb: TASK_TYPE = ttk
@@ -313,7 +313,7 @@ svm_sre15_tcc_features-only_imb: TEST_TABLE = ttk_test_noname
 svm_sre15_tcc_features-only_imb: TRAIN_TABLE = ttk_train_noname
 svm_sre15_tcc_features-only_imb: MODEL_NAME = features_only
 svm_sre15_tcc_features-only_imb: CLASSIFIER_LIBRARY = svm
-svm_sre15_tcc_features-only_imb: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.xml
+svm_sre15_tcc_features-only_imb: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.csv
 svm_sre15_tcc_features-only_imb: core
 
 lr_sre15_tcc_features-only_imb: TASK_TYPE = ttk
@@ -322,7 +322,7 @@ lr_sre15_tcc_features-only_imb: TEST_TABLE = ttk_test_noname
 lr_sre15_tcc_features-only_imb: TRAIN_TABLE = ttk_train_noname
 lr_sre15_tcc_features-only_imb: MODEL_NAME = features_only
 lr_sre15_tcc_features-only_imb: CLASSIFIER_LIBRARY = liblinear
-lr_sre15_tcc_features-only_imb: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.xml
+lr_sre15_tcc_features-only_imb: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.csv
 lr_sre15_tcc_features-only_imb: core
 
 lr_sre15_tcc_tf-idf_imb: TASK_TYPE = ttk
@@ -331,7 +331,7 @@ lr_sre15_tcc_tf-idf_imb: TEST_TABLE = ttk_test_noname
 lr_sre15_tcc_tf-idf_imb: TRAIN_TABLE = ttk_train_noname
 lr_sre15_tcc_tf-idf_imb: MODEL_NAME = tf_idf
 lr_sre15_tcc_tf-idf_imb: CLASSIFIER_LIBRARY = liblinear
-lr_sre15_tcc_tf-idf_imb: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.xml
+lr_sre15_tcc_tf-idf_imb: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.csv
 lr_sre15_tcc_tf-idf_imb: core
 
 lr_sre15_tcc_tf-idf-delta_imb: TASK_TYPE = ttk
@@ -340,7 +340,7 @@ lr_sre15_tcc_tf-idf-delta_imb: TEST_TABLE = ttk_test_noname
 lr_sre15_tcc_tf-idf-delta_imb: TRAIN_TABLE = ttk_train_noname
 lr_sre15_tcc_tf-idf-delta_imb: MODEL_NAME = tf_idf_delta
 lr_sre15_tcc_tf-idf-delta_imb: CLASSIFIER_LIBRARY = liblinear
-lr_sre15_tcc_tf-idf-delta_imb: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.xml
+lr_sre15_tcc_tf-idf-delta_imb: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.csv
 lr_sre15_tcc_tf-idf-delta_imb: core
 
 sre15_tcc_w2v_imb: TASK_TYPE = ttk
@@ -348,7 +348,7 @@ sre15_tcc_w2v_imb: VOCABULARY_PATH = $(DATA_ROOT)/core/$(TASK_TYPE).voc
 sre15_tcc_w2v_imb: TEST_TABLE = ttk_test_noname
 sre15_tcc_w2v_imb: TRAIN_TABLE = ttk_train_noname
 sre15_tcc_w2v_imb: MODEL_NAME = w2v
-sre15_tcc_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.xml
+sre15_tcc_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.csv
 sre15_tcc_w2v_imb: core
 
 svm_sre15_tcc_bow_imb: TASK_TYPE = ttk
@@ -357,7 +357,7 @@ svm_sre15_tcc_bow_imb: TEST_TABLE = ttk_test_noname
 svm_sre15_tcc_bow_imb: TRAIN_TABLE = ttk_train_noname
 svm_sre15_tcc_bow_imb: MODEL_NAME = bow
 svm_sre15_tcc_bow_imb: CLASSIFIER_LIBRARY = svm
-svm_sre15_tcc_bow_imb: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.xml
+svm_sre15_tcc_bow_imb: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.csv
 svm_sre15_tcc_bow_imb: core
 
 lr_sre15_tcc_bow_imb: TASK_TYPE = ttk
@@ -366,7 +366,7 @@ lr_sre15_tcc_bow_imb: TEST_TABLE = ttk_test_noname
 lr_sre15_tcc_bow_imb: TRAIN_TABLE = ttk_train_noname
 lr_sre15_tcc_bow_imb: MODEL_NAME = bow
 lr_sre15_tcc_bow_imb: CLASSIFIER_LIBRARY = liblinear
-lr_sre15_tcc_bow_imb: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.xml
+lr_sre15_tcc_bow_imb: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.csv
 lr_sre15_tcc_bow_imb: core
 
 svm_sre15_tcc_bow_bal: TASK_TYPE = ttk
@@ -375,7 +375,7 @@ svm_sre15_tcc_bow_bal: TEST_TABLE = ttk_test_noname
 svm_sre15_tcc_bow_bal: TRAIN_TABLE = ttk_train_balanced
 svm_sre15_tcc_bow_bal: MODEL_NAME = bow
 svm_sre15_tcc_bow_bal: CLASSIFIER_LIBRARY = svm
-svm_sre15_tcc_bow_bal: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.xml
+svm_sre15_tcc_bow_bal: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.csv
 svm_sre15_tcc_bow_bal: core
 
 lr_sre15_tcc_bow_bal: TASK_TYPE = ttk
@@ -384,7 +384,7 @@ lr_sre15_tcc_bow_bal: TEST_TABLE = ttk_test_noname
 lr_sre15_tcc_bow_bal: TRAIN_TABLE = ttk_train_balanced
 lr_sre15_tcc_bow_bal: MODEL_NAME = bow
 lr_sre15_tcc_bow_bal: CLASSIFIER_LIBRARY = liblinear
-lr_sre15_tcc_bow_bal: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.xml
+lr_sre15_tcc_bow_bal: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.csv
 lr_sre15_tcc_bow_bal: core
 
 svm_sre15_tcc_tf-idf_bal: TASK_TYPE = ttk
@@ -393,7 +393,7 @@ svm_sre15_tcc_tf-idf_bal: TEST_TABLE = ttk_test_noname
 svm_sre15_tcc_tf-idf_bal: TRAIN_TABLE = ttk_train_balanced
 svm_sre15_tcc_tf-idf_bal: MODEL_NAME = tf_idf
 svm_sre15_tcc_tf-idf_bal: CLASSIFIER_LIBRARY = svm
-svm_sre15_tcc_tf-idf_bal: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.xml
+svm_sre15_tcc_tf-idf_bal: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.csv
 svm_sre15_tcc_tf-idf_bal: core
 
 lr_sre15_tcc_features-only_bal: TASK_TYPE = ttk
@@ -402,7 +402,7 @@ lr_sre15_tcc_features-only_bal: TEST_TABLE = ttk_test_noname
 lr_sre15_tcc_features-only_bal: TRAIN_TABLE = ttk_train_balanced
 lr_sre15_tcc_features-only_bal: MODEL_NAME = features_only
 lr_sre15_tcc_features-only_bal: CLASSIFIER_LIBRARY = liblinear
-lr_sre15_tcc_features-only_bal: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.xml
+lr_sre15_tcc_features-only_bal: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.csv
 lr_sre15_tcc_features-only_bal: core
 
 svm_sre15_tcc_features-only_bal: TASK_TYPE = ttk
@@ -411,7 +411,7 @@ svm_sre15_tcc_features-only_bal: TEST_TABLE = ttk_test_noname
 svm_sre15_tcc_features-only_bal: TRAIN_TABLE = ttk_train_balanced
 svm_sre15_tcc_features-only_bal: MODEL_NAME = features_only
 svm_sre15_tcc_features-only_bal: CLASSIFIER_LIBRARY = svm
-svm_sre15_tcc_features-only_bal: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.xml
+svm_sre15_tcc_features-only_bal: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.csv
 svm_sre15_tcc_features-only_bal: core
 
 lr_sre15_tcc_tf-idf_bal: TASK_TYPE = ttk
@@ -420,7 +420,7 @@ lr_sre15_tcc_tf-idf_bal: TEST_TABLE = ttk_test_noname
 lr_sre15_tcc_tf-idf_bal: TRAIN_TABLE = ttk_train_balanced
 lr_sre15_tcc_tf-idf_bal: MODEL_NAME = tf_idf
 lr_sre15_tcc_tf-idf_bal: CLASSIFIER_LIBRARY = liblinear
-lr_sre15_tcc_tf-idf_bal: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.xml
+lr_sre15_tcc_tf-idf_bal: ETALON_RESULT = $(SENTIRUEVAL2015)/$(TASK_TYPE)_etalon.csv
 lr_sre15_tcc_tf-idf_bal: core
 
 core:
@@ -444,7 +444,7 @@ core:
 	# Copy result into result directory
 	cp $(MODEL_OUT) ./result
 	# Estimating model
-	cd ../eval/ && nodejs calc.js $(TASK_TYPE) ../run/$(MODEL_OUT) ../run/$(ETALON_RESULT)
+	cd ../eval/ && ./calc.py $(TASK_TYPE) ../run/$(MODEL_OUT) ../run/$(ETALON_RESULT)
 
 
 refresh_user_collection:
