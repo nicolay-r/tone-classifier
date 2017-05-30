@@ -438,13 +438,13 @@ core:
 	# Predicting
 	$(PREDICT)predict.py $(CLASSIFIER_LIBRARY) $(MODEL_TEST) $(MODEL_MODEL) $(MODEL_PCONF)
 	# Exporting Result into XML
-	$(MODEL_ROOT)pg2x_data.py $(MODEL_PCONF) $(MODEL_OUT)
+	$(MODEL_ROOT)pg2csv_data.py $(MODEL_PCONF) $(MODEL_OUT)
 	# Creating result folder
 	mkdir -p result
 	# Copy result into result directory
 	cp $(MODEL_OUT) ./result
 	# Estimating model
-	cd ../eval/ && ./calc.py $(TASK_TYPE) ../run/$(MODEL_OUT) ../run/$(ETALON_RESULT)
+	cd ../models/ && ./calc.py $(TASK_TYPE) ../run/$(MODEL_OUT) ../run/$(ETALON_RESULT)
 
 
 refresh_user_collection:

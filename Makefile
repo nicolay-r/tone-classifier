@@ -23,9 +23,8 @@ balanced_sentiRuEval_2016_8k:
 
 install:
 	# Install all dependecies.
-	sudo apt-get install python-libxml2 python-psycopg2 python-pip postgresql g++ unzip
-	sudo pip install setuptools
-	sudo pip install pymystem3
+	sudo apt-get install python-psycopg2 python-pip postgresql g++ unzip
+	# sudo pip install -r requirements.txt
 
 	# Downloading classifier libraries.
 

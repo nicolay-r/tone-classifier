@@ -1,8 +1,10 @@
 # project dependencies
 # pip install -r "requirements.txt"
+setuptools
 gensim==0.13.4
 psycopg2==2.4.5
 lxml==3.3.3
 scikit-learn==0.17.1
 scipy==0.13.3
 pymystem3==0.1.5
+pandas==0.20.1
