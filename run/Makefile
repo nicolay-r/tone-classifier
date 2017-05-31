@@ -19,6 +19,7 @@ MODEL_PROB	=	$(MODEL_OUTDIR)$(MODEL_NAME).prob
 MODEL_TEST	=	$(MODEL_OUTDIR)$(MODEL_NAME).test
 MODEL_PCONF	=	$(MODEL_OUTDIR)$(MODEL_NAME).pconf
 MODEL_OUT	=	$(MODEL_OUTDIR)$(MODEL_NAME).out
+MODEL_ERROR = 	$(MODEL_OUTDIR)$(MODEL_NAME).err.csv
 MODEL_TRAIN	=	$(MODEL_OUTDIR)$(MODEL_NAME).train
 MODEL_MODEL	=	$(MODEL_TRAIN).model
 
@@ -444,7 +445,7 @@ core:
 	# Copy result into result directory
 	cp $(MODEL_OUT) ./result
 	# Estimating model
-	cd ../models/ && ./calc.py $(TASK_TYPE) ../run/$(MODEL_OUT) ../run/$(ETALON_RESULT)
+	cd ../models/ && ./calc.py $(TASK_TYPE) ../run/$(MODEL_OUT) ../run/$(ETALON_RESULT) ../run/$(MODEL_ERROR)
 
 
 refresh_user_collection:

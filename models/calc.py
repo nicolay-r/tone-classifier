@@ -4,6 +4,23 @@ from sys import argv
 import configs
 
 
+def markErrors(errorDf, etalonDf, scoreColumns):
+    """
+    Adds correct answers for values in scoreColumns
+    """
+    for twitID in errorDf['twitid']:
+        errorRow = errorDf[errorDf['twitid'] == twitID]
+        errorRowIndex = errorRow.index[0]
+        for columnName in scoreColumns:
+            row = etalonDf[etalonDf['twitid'] == twitID]
+            rowIndex = row.index[0]
+            if row[columnName].isnull()[rowIndex]:
+                continue
+            errorDf[columnName][errorRowIndex] = \
+                '{}({})'.format(errorRow[columnName][errorRowIndex],
+                                int(row[columnName][rowIndex]))
+
+
 def getScores(df, scoreColumns):
     result = {}
     for rowIndex in range(len(df)):
@@ -36,6 +53,9 @@ def countDiff(rScores, eTwitID, eTwitScores):
                     calculations['positive']['tp'] += 1
                 elif (ev < 0):
                     calculations['negative']['tp'] += 1
+            else:
+                errorTwitIDs.add(eTwitID)
+
             if (ev != rv):
                 if (ev <= 0):
                     if (rv == 1):
@@ -59,13 +79,15 @@ def countDiff(rScores, eTwitID, eTwitScores):
                     calculations['negative']['tn'] += 1
 
 
-if len(argv) < 4:
-    print "Usage %s <task_type> <result.csv> <etalon.csv>" % argv[0]
+if len(argv) < 5:
+    print "Usage %s <task_type> <result.csv> <etalon.csv> <errors.csv>" % \
+            argv[0]
     exit(0)
 
 task = argv[1]
 resultFilepath = argv[2]
 etalonFilepath = argv[3]
+errorFilepath = argv[4]
 
 if (task == 'bank'):
     scoreColumns = configs.DATA_BANK_FIELDS
@@ -76,6 +98,7 @@ else:
     raise "Task is not supported"
     exit(0)
 
+errorTwitIDs = set()
 calculations = {"positive": {'tp': int(0), 'fp': int(0),
                              'tn': int(0), 'fn': int(0)},
                 "negative": {'tp': int(0), 'fp': int(0),
@@ -107,6 +130,11 @@ F = {'positive': 2 * ((precision['positive'] * recall['positive']) /
 
 Fr = (F['positive'] + F['negative']) / 2
 
+errorDf = rdf[rdf['twitid'].isin(list(errorTwitIDs))]
+markErrors(errorDf, edf, scoreColumns)
+errorDf.to_csv(errorFilepath)
+
+print 'Classifer errors has been saved: {}'.format(errorFilepath)
 print 'calculations --', calculations
 print 'precision --', precision
 print 'recall --', recall
