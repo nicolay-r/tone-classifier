@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import pandas as pd
 from sys import argv
+import configs
 
 
 def getScores(df, scoreColumns):
@@ -57,6 +58,7 @@ def countDiff(rScores, eTwitID, eTwitScores):
                 if (rv != -1):
                     calculations['negative']['tn'] += 1
 
+
 if len(argv) < 4:
     print "Usage %s <task_type> <result.csv> <etalon.csv>" % argv[0]
     exit(0)
@@ -66,11 +68,10 @@ resultFilepath = argv[2]
 etalonFilepath = argv[3]
 
 if (task == 'bank'):
-    scoreColumns = ['sberbank', 'vtb', 'alfabank', 'gazprom', 'bankmoskvy',
-                    'raiffeisen', 'uralsib', 'rshb']
+    scoreColumns = configs.DATA_BANK_FIELDS
 elif (task == 'ttk'):
-    scoreColumns = ['beeline', 'mts', 'megafon', 'tele2', 'rostelecom',
-                    'komstar', 'skylink']
+    scoreColumns = configs.DATA_TCC_FIELDS
+
 else:
     raise "Task is not supported"
     exit(0)

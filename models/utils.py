@@ -13,7 +13,6 @@ from core.DocVocabulary import DocVocabulary
 from core.TermVocabulary import TermVocabulary
 from core.features import Features
 from core.msg import TwitterMessageParser
-from core import tweets
 
 # configs
 import configs
@@ -97,7 +96,7 @@ def vectorization_core(vectorizer, init_term_vocabulary=True,
     save_problem(train_problem, config['train_output'])
     save_problem(test_problem, config['test_output'])
     save_predict_config(config['database'],
-                        tweets.get_score_columns(config['task_type']),
+                        get_score_columns(config['task_type']),
                         result_table,
                         config['pconf_output'])
 
@@ -133,8 +132,7 @@ def create_problem(connection, task_type, collection_type, table, vectorizer,
     for score in [-1, 0, 1]:
         print "Class:\t%s" % (score)
         # getting tweets with the same score
-        request = tweets.tweets_filter_sql_request(task_type, table, score,
-                                                   limit)
+        request = tweets_filter_sql_request(task_type, table, score, limit)
         for row in core.utils.table_iterate(connection, request):
             text = row[0]
             index = row[1]
@@ -166,6 +164,11 @@ def create_problem(connection, task_type, collection_type, table, vectorizer,
     return problem
 
 
+def get_score_columns(task_type):
+    return configs.DATA_TCC_FIELDS if task_type == 'tkk' else \
+        configs.DATA_BANK_FIELDS
+
+
 def to_unicode(terms):
     """
     Converts list of 'str' into list of 'unicode' strings
@@ -191,6 +194,29 @@ def save_problem(problem, filepath):
             for index, value in sorted(vector[1].iteritems()):
                 out.write("%s:%s " % (index, value))
             out.write("\n")
+
+
+def tweets_filter_sql_request(task_type, table, score, limit):
+    """
+    task_type: 'ttk' or 'bank'
+        string, name of the task
+    """
+    if (task_type == 'bank'):
+        return "SELECT text, id, sberbank, vtb, gazprom, alfabank, "\
+               "bankmoskvy, raiffeisen, uralsib, rshb FROM %s WHERE "\
+               "(sberbank=\'%d\' OR vtb=\'%d\' OR gazprom=\'%d\' OR "\
+               "alfabank=\'%d\' OR bankmoskvy=\'%d\' OR raiffeisen=\'%d\' "\
+               "OR uralsib=\'%d\' OR rshb=\'%d\') "\
+               "LIMIT(\'%d\');" % (table, score, score, score, score, score,
+                                   score, score, score, limit)
+    elif (task_type == 'bank'):
+        return "SELECT text, id, beeline, mts, megafon, tele2, "\
+               "rostelecom, komstar, skylink FROM %s WHERE "\
+               "(beeline=\'%d\' OR mts=\'%d\' OR megafon=\'%d\' "\
+               "OR tele2=\'%d\' OR rostelecom=\'%d\' OR komstar=\'%d\' "\
+               "OR skylink=\'%d\') LIMIT(\'%d\')" % (table, score, score,
+                                                     score, score, score,
+                                                     score, score, limit)
 
 
 def save_predict_config(database, columns, prediction_table, out_filepath):
