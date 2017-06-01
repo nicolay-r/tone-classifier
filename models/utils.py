@@ -17,6 +17,9 @@ from core.msg import TwitterMessageParser
 # configs
 import configs
 
+TTK_TASK = 'ttk'
+BANK_TASK = 'bank'
+
 
 def vectorization_core(vectorizer, init_term_vocabulary=True,
                        merge_doc_vocabularies=False):
@@ -110,7 +113,7 @@ def create_problem(connection, task_type, collection_type, table, vectorizer,
     Arguments:
     ---------
         connection -- pgsql connection
-        task_type -- 'bank' or 'tkk' according to SentiRuEval competiiton
+        task_type -- BANK_TASK or 'tkk' according to SentiRuEval competiiton
         collection_type -- could be 'train' or 'test', it affects on the
                            generated vector prefixes (tone score for 'train'
                            task, and 'id' for 'test' task respectively)
@@ -165,7 +168,7 @@ def create_problem(connection, task_type, collection_type, table, vectorizer,
 
 
 def get_score_columns(task_type):
-    return configs.DATA_TCC_FIELDS if task_type == 'tkk' else \
+    return configs.DATA_TCC_FIELDS if task_type == TTK_TASK else \
         configs.DATA_BANK_FIELDS
 
 
@@ -198,10 +201,10 @@ def save_problem(problem, filepath):
 
 def tweets_filter_sql_request(task_type, table, score, limit):
     """
-    task_type: 'ttk' or 'bank'
+    task_type: TTK_TASK or BANK_TASK
         string, name of the task
     """
-    if (task_type == 'bank'):
+    if (task_type == BANK_TASK):
         return "SELECT text, id, sberbank, vtb, gazprom, alfabank, "\
                "bankmoskvy, raiffeisen, uralsib, rshb FROM %s WHERE "\
                "(sberbank=\'%d\' OR vtb=\'%d\' OR gazprom=\'%d\' OR "\
@@ -209,7 +212,7 @@ def tweets_filter_sql_request(task_type, table, score, limit):
                "OR uralsib=\'%d\' OR rshb=\'%d\') "\
                "LIMIT(\'%d\');" % (table, score, score, score, score, score,
                                    score, score, score, limit)
-    elif (task_type == 'bank'):
+    elif (task_type == TTK_TASK):
         return "SELECT text, id, beeline, mts, megafon, tele2, "\
                "rostelecom, komstar, skylink FROM %s WHERE "\
                "(beeline=\'%d\' OR mts=\'%d\' OR megafon=\'%d\' "\
