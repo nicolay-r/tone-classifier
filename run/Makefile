@@ -445,7 +445,7 @@ core:
 	# Copy result into result directory
 	cp $(MODEL_OUT) ./result
 	# Estimating model
-	cd ../models/ && ./calc.py $(TASK_TYPE) ../run/$(MODEL_OUT) ../run/$(ETALON_RESULT) ../run/$(MODEL_ERROR)
+	cd ../models/ && ./eval.py $(TASK_TYPE) ../run/$(MODEL_OUT) ../run/$(ETALON_RESULT) ../run/$(MODEL_ERROR)
 
 
 refresh_user_collection:
