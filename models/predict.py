@@ -6,8 +6,7 @@ import core.utils
 # global
 import sys
 import json
-import psycopg2
-import configs
+import pandas as pd
 from inspect import getsourcefile
 from os.path import abspath, dirname
 # -----------------------------------------------------------------------------
@@ -86,56 +85,38 @@ def svm_predict(problem_filepath, model_filepath):
     return (ids, p_label)
 
 
-def set_result(cursor, table, columns, row_index, label):
-    cursor.execute("UPDATE %s SET %s WHERE id=%s" % (
-                   table, ','.join(
-                       map(lambda c: c + '=' + str(label), columns)),
-                   row_index))
-
-
 if len(sys.argv) == 1:
-    print "%s\n%s\n%s\n%s" % (
+    print "%s\n%s\n%s\n%s\n%s" % (
         "usage:./%s <problem_file> <model_file> <config_file>" % (sys.argv[0]),
         "<library_type> -- available 'svm', 'liblinear'",
         "<problem_file> -- file with a problem to predict",
         "<model_file> -- file with a SVM model",
-        "<config_file> -- .pconf file in model folder")
+        "<config_file> -- .pconf file in model folder",
+        "<out_file> -- output file")
     exit(0)
 
 arguments = {'library_type': sys.argv[1],
              'problem_file': sys.argv[2],
              'model_file': sys.argv[3],
-             'config_file': sys.argv[4]}
+             'config_file': sys.argv[4],
+             'out_file' : sys.argv[5]}
 
 with open(arguments['config_file']) as f:
     config = json.load(f)
-
-# Database
-connectionSettings = "dbname=%s user=%s password=%s host=%s" % (
-                                config['database'],
-                                configs.CONNECTION_SETTINGS['user'],
-                                configs.CONNECTION_SETTINGS['password'],
-                                configs.CONNECTION_SETTINGS['host'])
-connection = psycopg2.connect(connectionSettings)
 
 # Predict
 ids, p_label = predict(arguments['library_type'],
                        arguments['problem_file'],
                        arguments['model_file'])
 
+# Filling answers
+print "Filling answers in {} ...".format(config['prediction_table'])
+df = pd.read_csv(config['prediction_table'], sep=',')
+for msg_index, row_index in enumerate(df.index):
+    label = p_label[msg_index]
+    for column in config['columns']:
+        if not df[column].isnull()[row_index]:
+            df.set_value(row_index, column, label)
+
 # Save
-cursor = connection.cursor()
-for message_index in range(0, len(ids)):
-    row_id = ids[message_index]
-    label = p_label[message_index]
-    table = config['prediction_table']
-
-    set_result(cursor, table, config['columns'], row_id, label)
-
-    core.utils.show_progress("Filling answers in \'%s\' table" % (table),
-                             message_index + 1,
-                             len(ids))
-
-cursor.close()
-connection.commit()
-connection.close()
+df.to_csv(arguments['out_file'], sep=',')

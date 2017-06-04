@@ -3,12 +3,13 @@
 # global
 import sys
 import json
-import psycopg2
+import pandas as pd
 
 # core
 import core
 import core.utils
 import core.indexer
+import psycopg2
 from core.DocVocabulary import DocVocabulary
 from core.TermVocabulary import TermVocabulary
 from core.features import Features
@@ -33,7 +34,7 @@ def vectorization_core(vectorizer, init_term_vocabulary=True,
         exit(0)
 
     config = {'task_type': sys.argv[1],
-              'database': sys.argv[2],
+              'database': sys.argv[2],  # save the output results
               'train_table': sys.argv[3],
               'test_table': sys.argv[4],
               'train_output': sys.argv[5],
@@ -53,7 +54,6 @@ def vectorization_core(vectorizer, init_term_vocabulary=True,
     # Create vocabulary of terms
     if init_term_vocabulary is True:
         term_vocabulary = core.indexer.create_term_vocabulary(
-                                connection,
                                 [config['train_table'], config['test_table']],
                                 message_configpath)
     else:
@@ -66,8 +66,7 @@ def vectorization_core(vectorizer, init_term_vocabulary=True,
 
     doc_vocabulary = DocVocabulary()
     # Train problem
-    train_problem = create_problem(connection,
-                                   config['task_type'],
+    train_problem = create_problem(config['task_type'],
                                    'train',
                                    config['train_table'],
                                    vectorizer,
@@ -80,8 +79,7 @@ def vectorization_core(vectorizer, init_term_vocabulary=True,
     if not merge_doc_vocabularies:
         doc_vocabulary = DocVocabulary()
     # Test problem
-    test_problem = create_problem(connection,
-                                  config['task_type'],
+    test_problem = create_problem(config['task_type'],
                                   'test',
                                   config['test_table'],
                                   vectorizer,
@@ -91,20 +89,20 @@ def vectorization_core(vectorizer, init_term_vocabulary=True,
                                   features_configpath,
                                   message_configpath)
 
-    result_table = config['test_table'] + '_problem'
-    core.utils.drop_table(connection, result_table)
-    core.utils.create_table_as(connection, config['test_table'], result_table)
+    result_table = config['test_table'] + '.result.csv'
+    print 'Create a file for classifier results: {}'.format(result_table)
+    result_df = pd.read_csv(config['test_table'], sep=',')
+    result_df.to_csv(result_table, sep=',')
 
     # Save
     save_problem(train_problem, config['train_output'])
     save_problem(test_problem, config['test_output'])
-    save_predict_config(config['database'],
-                        get_score_columns(config['task_type']),
-                        result_table,
-                        config['pconf_output'])
+    save_predict_config(columns=get_score_columns(config['task_type']),
+                        prediction_table=result_table,
+                        out_filepath=config['pconf_output'])
 
 
-def create_problem(connection, task_type, collection_type, table, vectorizer,
+def create_problem(task_type, collection_type, table_filepath, vectorizer,
                    features, term_vocabulary, doc_vocabulary,
                    features_configpath, message_configpath):
     """
@@ -112,33 +110,40 @@ def create_problem(connection, task_type, collection_type, table, vectorizer,
 
     Arguments:
     ---------
-        connection -- pgsql connection
-        task_type -- BANK_TASK or 'tkk' according to SentiRuEval competiiton
-        collection_type -- could be 'train' or 'test', it affects on the
-                           generated vector prefixes (tone score for 'train'
-                           task, and 'id' for 'test' task respectively)
-        table -- table name
-        vectorizer -- function for producing vector from terms
-        features -- object of Features class
-        term_vocabulary -- vocabulary of terms
-        features_configpath -- configuration path for Features class
-        messsage_configpath -- configuration path for TwitterMessageParser
+        task_type : BANK_TASK or TTK_TASK
+            According to SentiRuEval competiiton
+        collection_type : str, 'train' or 'test'
+            It affects on the generated vector prefixes (tone score for 'train'
+            task, and 'id' for 'test' task respectively)
+        table_filepath : str
+            Path to the 'csv' file
+        vectorizer : func
+            Function for producing vector from terms
+        features : core.Features
+            object of Features class
+        term_vocabulary : core.TermVocabulary
+            Vocabulary of terms
+        features_configpath : str
+            Configuration path for Features class
+        messsage_configpath : str
+            Configuration path for TwitterMessageParser
 
     Returns:
-    --------
-        problem -- list of vectorized messages
+    -------
+        List of vectorized messages
     """
     message_parser = TwitterMessageParser(message_configpath, task_type)
-    limit = sys.maxint
     labeled_messages = []
 
+    df = pd.read_csv(table_filepath, sep=',')
     for score in [-1, 0, 1]:
-        print "Class:\t%s" % (score)
+        print "Class:\t[%s, %s]" % (score, table_filepath)
         # getting tweets with the same score
-        request = tweets_filter_sql_request(task_type, table, score, limit)
-        for row in core.utils.table_iterate(connection, request):
-            text = row[0]
-            index = row[1]
+        filtered_df = tweets_filter(df, get_score_columns(task_type), score)
+
+        for row in filtered_df.index:
+            text = filtered_df['text'][row]
+            index = filtered_df['twitid'][row]
 
             message_parser.parse(text)
             terms = message_parser.get_terms()
@@ -199,33 +204,17 @@ def save_problem(problem, filepath):
             out.write("\n")
 
 
-def tweets_filter_sql_request(task_type, table, score, limit):
-    """
-    task_type: TTK_TASK or BANK_TASK
-        string, name of the task
-    """
-    if (task_type == BANK_TASK):
-        return "SELECT text, id, sberbank, vtb, gazprom, alfabank, "\
-               "bankmoskvy, raiffeisen, uralsib, rshb FROM %s WHERE "\
-               "(sberbank=\'%d\' OR vtb=\'%d\' OR gazprom=\'%d\' OR "\
-               "alfabank=\'%d\' OR bankmoskvy=\'%d\' OR raiffeisen=\'%d\' "\
-               "OR uralsib=\'%d\' OR rshb=\'%d\') "\
-               "LIMIT(\'%d\');" % (table, score, score, score, score, score,
-                                   score, score, score, limit)
-    elif (task_type == TTK_TASK):
-        return "SELECT text, id, beeline, mts, megafon, tele2, "\
-               "rostelecom, komstar, skylink FROM %s WHERE "\
-               "(beeline=\'%d\' OR mts=\'%d\' OR megafon=\'%d\' "\
-               "OR tele2=\'%d\' OR rostelecom=\'%d\' OR komstar=\'%d\' "\
-               "OR skylink=\'%d\') LIMIT(\'%d\')" % (table, score, score,
-                                                     score, score, score,
-                                                     score, score, limit)
+def tweets_filter(df, score_columns, score):
+    ids = []
+    for row in range(len(df)):
+        for column in score_columns:
+            if (not df[column].isnull()[row] and df[column][row] == score):
+                ids.append(df['twitid'][row])
 
+    return df[df['twitid'].isin(ids)]
 
-def save_predict_config(database, columns, prediction_table, out_filepath):
-    config = {"database": database,
-              "columns": columns,
-              "prediction_table": prediction_table}
+def save_predict_config(columns, prediction_table, out_filepath):
+    config = {"columns": columns, "prediction_table": prediction_table}
 
     with open(out_filepath, "w") as out:
         json.dump(config, out)
