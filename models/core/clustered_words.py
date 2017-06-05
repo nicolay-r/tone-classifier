@@ -16,9 +16,9 @@ class BagOfClustersFeature:
         """
         Arguments
         ---------
-            keyword_name -- feature unique name
-            base_filepath -- filepath of feature config
-            parameters -- lexicon parameters, presented by dictionary
+            keyword_name : feature unique name
+            base_filepath : filepath of feature config
+            parameters : lexicon parameters, presented by dictionary
         """
         self.unique_name = unique_name
         self.parameters = parameters

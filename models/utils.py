@@ -9,7 +9,6 @@ import pandas as pd
 import core
 import core.utils
 import core.indexer
-import psycopg2
 from core.DocVocabulary import DocVocabulary
 from core.TermVocabulary import TermVocabulary
 from core.features import Features
@@ -43,14 +42,6 @@ def vectorization_core(vectorizer, init_term_vocabulary=True,
     message_configpath = configs.TWITTER_MESSAGE_PARSER_CONFIG
     features_configpath = configs.FEATURES_CONFIG
 
-    # Connect to a database
-    connectionSettings = "dbname=%s user=%s password=%s host=%s" % (
-                                config['database'],
-                                configs.CONNECTION_SETTINGS['user'],
-                                configs.CONNECTION_SETTINGS['password'],
-                                configs.CONNECTION_SETTINGS['host'])
-    connection = psycopg2.connect(connectionSettings)
-
     # Create vocabulary of terms
     if init_term_vocabulary is True:
         term_vocabulary = core.indexer.create_term_vocabulary(
@@ -60,7 +51,6 @@ def vectorization_core(vectorizer, init_term_vocabulary=True,
         term_vocabulary = TermVocabulary()
 
     features = Features(
-                connection,
                 TwitterMessageParser(message_configpath, config['task_type']),
                 features_configpath)
 
@@ -212,6 +202,7 @@ def tweets_filter(df, score_columns, score):
                 ids.append(df['twitid'][row])
 
     return df[df['twitid'].isin(ids)]
+
 
 def save_predict_config(columns, prediction_table, out_filepath):
     config = {"columns": columns, "prediction_table": prediction_table}

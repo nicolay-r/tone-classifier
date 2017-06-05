@@ -20,5 +20,6 @@ with io.open(_data_config, "r") as f:
     _data_settings = json.load(f, encoding='utf-8')
 
 DATA_ROOT = os.path.join(_curr_dir, _data_settings['data_root_filepath'])
+LEXICONS_ROOT = os.path.join(DATA_ROOT, _data_settings['lexicons'])
 DATA_TCC_FIELDS = _data_settings['tcc']
 DATA_BANK_FIELDS = _data_settings['bank']

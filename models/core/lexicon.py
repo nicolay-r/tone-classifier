@@ -1,10 +1,12 @@
 #!/usr/bin/python
 
 import utils
+import pandas as pd
+import os.path
 
 
 class LexiconFeature:
-    PARAM_TABLE_NAME = 'table'
+    PARAM_TABLE_FILEPATH = 'table'
     PARAM_TERM_COLUMN_NAME = 'term_column_name'
     PARAM_VAL_COLUMN_NAME = 'value_column_name'
     PARAM_MULTIPLIER = 'multiplier'
@@ -12,24 +14,29 @@ class LexiconFeature:
     PARAM_FUNCTIONS = 'functions'
     PARAM_ENABLED = "enabled"
 
-    def __init__(self, connection, unique_name, parameters,
+    def __init__(self, data_folder, unique_name, parameters,
                  bag_of_clusters_features):
         """
         Arguments
         ---------
-            connection -- PostgreSLQ connection for database which contains
-                          lexicon table
-            keyword_name -- unique lexicon name
-            parameters -- lexicon parameters, presented by dictionary
-            bag_of_clusters_features -- list of features
+            data_folder: str
+                Root data folder path
+            keyword_name : str
+                Unique lexicon name
+            parameters : dict
+                Lexicon parameters, presented by dictionary with PARAM_* keys
+            bag_of_clusters_features : list
+                List of features (for sum calculation)
         """
 
         self.cache = {}
 
         self.parameters = parameters
-        self.connection = connection
         self.unique_name = unique_name
-        self.table = parameters[LexiconFeature.PARAM_TABLE_NAME]
+        self.table_filepath = os.path.join(
+            data_folder,
+            parameters[LexiconFeature.PARAM_TABLE_FILEPATH])
+
         self.term_column_name = parameters[
                 LexiconFeature.PARAM_TERM_COLUMN_NAME]
         self.value_column_name = parameters[
@@ -99,17 +106,15 @@ class LexiconFeature:
         return self.unique_name
 
     def get_all_tones_from_table(self):
-        print "Loading lexicon [%s]..." % (self.unique_name)
+        print "Loading lexicon '%s': %s ..." % (self.unique_name,
+                                                self.table_filepath)
 
-        sql_request = "SELECT {name}, {value} FROM {table}".format(
-                       name=self.term_column_name,
-                       value=self.value_column_name,
-                       table=self.table)
+        df = pd.read_csv(self.table_filepath, sep=',')
 
-        for row in utils.table_iterate(self.connection, sql_request):
-            name = row[0]
-            value = row[1]
-            self.cache[utils.to_unicode(name.decode('utf-8'))] = float(value)
+        for row in df.index:
+            name = df[self.term_column_name][row]
+            value = df[self.value_column_name][row]
+            self.cache[utils.to_unicode(name)] = float(value)
 
     def get_cluster_tone(self, cluster, cluster_id):
         tone = 0

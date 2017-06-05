@@ -15,14 +15,13 @@ class Features:
     SETTINGS_LEXICONS = 'lexicons'
     SETTINGS_CLUSTERED_WORDS = 'clustered_words'
 
-    def __init__(self, connection, message_parser, configpath):
+    def __init__(self, message_parser, configpath):
         """
         Arguments
         ---------
-            connection     -- PostgreSLQ connection for database which contains
-                              lexicon table
-            message_parser -- parser from msg.py
-            configpath     -- configuration file for features
+            message_parser: TwitterMessageParser
+            configpath:
+                Configuration file for features
         """
 
         with io.open(configpath, 'r') as f:
@@ -42,7 +41,7 @@ class Features:
         lexicons = self.settings[Features.SETTINGS_LEXICONS]
         for lexicon_name in lexicons.iterkeys():
             self.lexicons.append(
-                LexiconFeature(connection,
+                LexiconFeature(configs.LEXICONS_ROOT,
                                lexicon_name,
                                lexicons[lexicon_name],
                                self.cluster_groups))
