@@ -1,12 +1,11 @@
 #!/usr/bin/python
 
-# local
-import core.utils
-
 # global
 import sys
 import json
+import logging
 import pandas as pd
+import utils
 from inspect import getsourcefile
 from os.path import abspath, dirname
 # -----------------------------------------------------------------------------
@@ -27,12 +26,12 @@ def predict(lib_type, problem_filepath, model_filepath):
     else:
         raise ValueError("library '{}' does not support".format(lib_type))
 
-    print "-1: %s (%s%%)" % (p_label.count(-1),
-                             p_label.count(-1) * 100.0 / len(p_label))
-    print "0: %s (%s%%)" % (p_label.count(0),
-                            p_label.count(0) * 100.0 / len(p_label))
-    print "1: %s (%s%%)" % (p_label.count(1),
-                            p_label.count(1) * 100.0 / len(p_label))
+    logging.info("-1: %s (%s%%)" % (p_label.count(-1),
+                             p_label.count(-1) * 100.0 / len(p_label)))
+    logging.info("0: %s (%s%%)" % (p_label.count(0),
+                            p_label.count(0) * 100.0 / len(p_label)))
+    logging.info("1: %s (%s%%)" % (p_label.count(1),
+                            p_label.count(1) * 100.0 / len(p_label)))
 
     return (ids, p_label)
 
@@ -95,11 +94,13 @@ if len(sys.argv) == 1:
         "<out_file> -- output file")
     exit(0)
 
+utils.init_logger()
+
 arguments = {'library_type': sys.argv[1],
              'problem_file': sys.argv[2],
              'model_file': sys.argv[3],
              'config_file': sys.argv[4],
-             'out_file' : sys.argv[5]}
+             'out_file': sys.argv[5]}
 
 with open(arguments['config_file']) as f:
     config = json.load(f)
@@ -110,7 +111,7 @@ ids, p_label = predict(arguments['library_type'],
                        arguments['model_file'])
 
 # Filling answers
-print "Filling answers in {} ...".format(config['prediction_table'])
+logging.info("Filling answers in {} ...".format(config['prediction_table']))
 df = pd.read_csv(config['prediction_table'], sep=',')
 for msg_index, row_index in enumerate(df.index):
     label = p_label[msg_index]

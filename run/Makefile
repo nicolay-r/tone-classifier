@@ -430,9 +430,9 @@ core:
 	$(MODEL_ROOT)/model_$(MODEL_NAME).py $(TASK_TYPE) romipdata $(TRAIN_TABLE) $(TEST_TABLE) $(MODEL_PROB) $(MODEL_TEST) $(MODEL_PCONF)
 	echo "$(CLASSIFIER_LIBRARY)"
 	if [ "$(CLASSIFIER_LIBRARY)" = "liblinear" ]; then \
-		$(LIBLINEAR_ROOT)train $(LIBLINEAR_MODEL_OPTIONS) $(MODEL_PROB) $(MODEL_MODEL) ; \
+		$(LIBLINEAR_ROOT)train -q $(LIBLINEAR_MODEL_OPTIONS) $(MODEL_PROB) $(MODEL_MODEL) ; \
 	elif [ "$(CLASSIFIER_LIBRARY)" = "svm" ]; then \
-		$(SVM_ROOT)svm-train $(SVM_MODEL_OPTIONS) $(MODEL_PROB) $(MODEL_MODEL) ; \
+		$(SVM_ROOT)svm-train -q $(SVM_MODEL_OPTIONS) $(MODEL_PROB) $(MODEL_MODEL) ; \
 	else \
 		exit; \
 	fi

@@ -3,6 +3,7 @@
 # global
 import sys
 import json
+import logging
 import pandas as pd
 
 # core
@@ -19,6 +20,13 @@ import configs
 
 TTK_TASK = 'ttk'
 BANK_TASK = 'bank'
+LOGGER_FORMAT = '[%(asctime)-15s] %(message)s'
+
+
+def init_logger():
+    logging.basicConfig(filemode='w',
+                        format=LOGGER_FORMAT,
+                        level=logging.DEBUG)
 
 
 def vectorization_core(vectorizer, init_term_vocabulary=True,
@@ -29,6 +37,8 @@ def vectorization_core(vectorizer, init_term_vocabulary=True,
     vectorizer : message vectorization function
     returns : None
     """
+    init_logger()
+
     if (sys.argv < 8):
         exit(0)
 
@@ -80,7 +90,8 @@ def vectorization_core(vectorizer, init_term_vocabulary=True,
                                   message_configpath)
 
     result_table = config['test_table'] + '.result.csv'
-    print 'Create a file for classifier results: {}'.format(result_table)
+    logging.info('Create a file for classifier results: {}'.format(
+                 result_table))
     result_df = pd.read_csv(config['test_table'], sep=',')
     result_df.to_csv(result_table, sep=',')
 
@@ -127,7 +138,8 @@ def create_problem(task_type, collection_type, table_filepath, vectorizer,
 
     df = pd.read_csv(table_filepath, sep=',')
     for score in [-1, 0, 1]:
-        print "Class:\t[%s, %s]" % (score, table_filepath)
+        logging.info("Reading tweets: [class: %s, file: %s]" % (
+            score, table_filepath))
         # getting tweets with the same score
         filtered_df = tweets_filter(df, get_score_columns(task_type), score)
 
@@ -186,7 +198,7 @@ def save_problem(problem, filepath):
     Save problem using the format, supported by classifier libraries
     """
     with open(filepath, "w") as out:
-        print "Vectors count: %s" % (len(problem))
+        logging.info("Vectors count: %s" % (len(problem)))
         for vector in problem:
             out.write("%s " % (vector[0]))
             for index, value in sorted(vector[1].iteritems()):

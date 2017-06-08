@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import utils
+import logging
 import pandas as pd
 import os.path
 
@@ -106,8 +107,8 @@ class LexiconFeature:
         return self.unique_name
 
     def get_all_tones_from_table(self):
-        print "Loading lexicon '%s': %s ..." % (self.unique_name,
-                                                self.table_filepath)
+        logging.info("Loading lexicon '%s': %s ..." % (self.unique_name,
+                                                       self.table_filepath))
 
         df = pd.read_csv(self.table_filepath, sep=',')
 
