@@ -61,7 +61,7 @@ def vectorization_core(vectorizer, init_term_vocabulary=True,
         term_vocabulary = TermVocabulary()
 
     features = Features(
-                TwitterMessageParser(message_configpath, config['task_type']),
+               TwitterMessageParser(message_configpath, config['task_type']),
                 features_configpath)
 
     doc_vocabulary = DocVocabulary()
