@@ -35,7 +35,7 @@ def vectorizer(labeled_message, term_voc, doc_voc):
     vector = model_features_only.feature_vectorizer(features, term_voc)
 
     terms = labeled_message['terms']
-    for model_index, w2v_model in enumerate(w2v_models):
+    for model_index, w2v_model in enumerate(W2V_MODELS):
         w2v_vector = w2v_vectorizer(terms, term_voc, w2v_model, model_index)
         vector.update(w2v_vector)
 
@@ -97,20 +97,21 @@ def index2term(model_index, item_index):
     return '$W2V_ITEM_{model}_{item}'.format(model=str(model_index),
                                              item=str(item_index))
 
+# Initialize W2V_MODELS
+CONFIG_WORD2VEC_MODELS = "w2v_models"
+
+with io.open(configs.MODEL_CONFIG, 'r') as f:
+    config = json.load(f, encoding='utf-8')
+
+W2V_MODELS = []
+for model_params in config[CONFIG_WORD2VEC_MODELS]:
+    if model_params['enabled'] == 'true':
+        model_path = os.path.join(
+            os.path.dirname(configs.DATA_ROOT), model_params['path'])
+        print "Loading Word2Vec model: {} ...".format(model_path)
+        W2V_MODELS.append(Word2Vec.load_word2vec_format(model_path))
+        print 'Model has been loaded.'
+
+
 if __name__ == "__main__":
-
-    CONFIG_WORD2VEC_MODELS = "w2v_models"
-
-    with io.open(configs.MODEL_CONFIG, 'r') as f:
-        config = json.load(f, encoding='utf-8')
-
-    w2v_models = []
-    for model_params in config[CONFIG_WORD2VEC_MODELS]:
-        if model_params['enabled'] == 'true':
-            model_path = os.path.join(
-                os.path.dirname(configs.DATA_ROOT), model_params['path'])
-            print "Loading Word2Vec model: {} ...".format(model_path)
-            w2v_models.append(Word2Vec.load_word2vec_format(model_path))
-            print 'Model has been loaded.'
-
     utils.vectorization_core(vectorizer, init_term_vocabulary=False)

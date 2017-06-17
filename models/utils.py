@@ -28,7 +28,6 @@ def init_logger():
                         format=LOGGER_FORMAT,
                         level=logging.DEBUG)
 
-
 def vectorization_core(vectorizer, init_term_vocabulary=True,
                        merge_doc_vocabularies=False):
     """
@@ -129,9 +128,12 @@ def create_problem(task_type, collection_type, table_filepath, vectorizer,
         messsage_configpath : str
             Configuration path for TwitterMessageParser
 
-    Returns:
+    Returns: list
     -------
-        List of vectorized messages
+        List of vectorized messages. Each message presented as list where
+        first element is a 'score' or 'id' (depending on the 'train' or 'score'
+        dataset accordingly) and the secont (latter) is a vector -- embedded
+        sentence.
     """
     message_parser = TwitterMessageParser(message_configpath, task_type)
     labeled_messages = []

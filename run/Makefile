@@ -30,6 +30,10 @@ USERCOLLECTION = ../data/collections/user/
 #
 # SentiRuEval-2015
 #
+rnn_sre16_bank_w2v_imb: TASK_TYPE = bank
+rnn_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2015)/bank_train.csv
+rnn_sre16_bank_w2v_imb: MODEL_NAME = rnn
+rnn_sre16_bank_w2v_imb: rnn_core
 
 svm_sre15_bank_features-only_imb: TASK_TYPE = bank
 svm_sre15_bank_features-only_imb: VOCABULARY_PATH = $(DATA_ROOT)/core/$(TASK_TYPE).voc
@@ -444,6 +448,9 @@ core:
 	cp $(MODEL_OUT) ./result
 	# Estimating model
 	cd ../models/ && ./eval.py $(TASK_TYPE) ../run/$(MODEL_OUT) ../run/$(ETALON_RESULT) ../run/$(MODEL_ERROR)
+
+rnn_core:
+	$(MODEL_ROOT)/model_$(MODEL_NAME).py w2v $(TASK_TYPE) $(TRAIN_TABLE) model_out.zip
 
 
 refresh_user_collection:
