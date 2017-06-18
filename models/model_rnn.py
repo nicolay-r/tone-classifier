@@ -59,17 +59,17 @@ def vectorization_core_rnn_train(vectorizer, task_type, train_table,
                 'embedded vectors has different sizes.'
                 'expected size of each element is {}'.format(embedding_size))
 
-    print "embedding_size: {}".format(embedding_size)
+    logging.info("embedding_size: {}".format(embedding_size))
 
-    # X = np.ndarray((len(problem), embedding_size))
-    # y = np.ndarray(len(problem))
-    # for index, sentence in enumerate(problem):
-    #     X[index] = sentence[vector_index]
+    X = np.ndarray((len(problem), embedding_size))
+    y = np.ndarray(len(problem))
+    for index, sentence in enumerate(problem):
+        y[index] = sentence[0]
+        for key, value in sentence[vector_index].iteritems():
+            X[index][key-1] = value
 
-    # print X
-    # print y
-
-    print problem
+    # TODO
+    logging.info("Training network")
 
 
 if __name__ == "__main__":

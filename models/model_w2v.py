@@ -3,10 +3,10 @@
 
 # global
 import io
-import json
-import os.path
+import json import os.path
 from gensim.models.word2vec import Word2Vec
 import numpy as np
+import logging
 
 # this
 import utils
@@ -97,7 +97,7 @@ def index2term(model_index, item_index):
     return '$W2V_ITEM_{model}_{item}'.format(model=str(model_index),
                                              item=str(item_index))
 
-# Initialize W2V_MODELS
+utils.init_logger()
 CONFIG_WORD2VEC_MODELS = "w2v_models"
 
 with io.open(configs.MODEL_CONFIG, 'r') as f:
@@ -108,9 +108,8 @@ for model_params in config[CONFIG_WORD2VEC_MODELS]:
     if model_params['enabled'] == 'true':
         model_path = os.path.join(
             os.path.dirname(configs.DATA_ROOT), model_params['path'])
-        print "Loading Word2Vec model: {} ...".format(model_path)
+        logging.info("Loading Word2Vec model: {} ...".format(model_path))
         W2V_MODELS.append(Word2Vec.load_word2vec_format(model_path))
-        print 'Model has been loaded.'
 
 
 if __name__ == "__main__":
