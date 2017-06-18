@@ -3,7 +3,8 @@
 
 # global
 import io
-import json import os.path
+import json
+import os.path
 from gensim.models.word2vec import Word2Vec
 import numpy as np
 import logging

@@ -14,6 +14,8 @@ from core.msg import TwitterMessageParser
 from model_w2v import vectorizer as w2v_vectorizer
 from model_features_only import vectorizer as features_only
 
+from networks.theano.rnn import RNNTheano
+
 
 def vectorization_core_rnn_train(vectorizer, task_type, train_table,
                                  train_output):
@@ -62,14 +64,22 @@ def vectorization_core_rnn_train(vectorizer, task_type, train_table,
     logging.info("embedding_size: {}".format(embedding_size))
 
     X = np.ndarray((len(problem), embedding_size))
-    y = np.ndarray(len(problem))
+    y = np.ndarray(len(problem), dtype=np.int32)
     for index, sentence in enumerate(problem):
         y[index] = sentence[0]
         for key, value in sentence[vector_index].iteritems():
             X[index][key-1] = value
 
-    # TODO
-    logging.info("Training network")
+    logging.info("Create RNN network model ...")
+
+    # TODO:
+    # Network setting should be presented in json configuration (apperently
+    # rnn.conf)
+    hidden_layer_size = 400
+    model = RNNTheano(hidden_layer_size, embedding_size)
+    output = "{}_i{}_hl{}_s{}.pkl".format("RNN", embedding_size,
+                                          hidden_layer_size, len(X))
+    utils.train_network(model, X, y, output)
 
 
 if __name__ == "__main__":

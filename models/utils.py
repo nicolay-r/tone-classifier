@@ -3,6 +3,7 @@
 # global
 import sys
 import json
+import pickle
 import logging
 import pandas as pd
 
@@ -27,6 +28,66 @@ def init_logger():
     logging.basicConfig(filemode='w',
                         format=LOGGER_FORMAT,
                         level=logging.DEBUG)
+
+
+# TODO: pass here the output filepath based on the parameter from argv.
+def train_network(model, X, y, output, reg_lambda=0.1, eps=10e-4):
+    """
+    Train neural network model, based on the 'train' set.
+
+    Arguments:
+    ---------
+        model : RNNTheano
+            neural network model which will be trained
+        X : np.ndarray
+            array of sentences. Each sentence presented as embedding vector
+            of the size which corresponds to the 'model' input
+        y : np.array
+            describes the class of each sentence presented in 'X' dataset
+        reg_lambda : float
+            regression parameter for sgd.
+        eps : float
+        output : str
+            output filepath where to store the model.
+    Returns:
+    -------
+        None
+    """
+    i_rl = reg_lambda
+    p_lost = model.calculate_loss(X, y)
+    c_lost = 0
+    rl_div = 0.5
+    unrolled_steps = 0
+    it = 0
+
+    while abs(p_lost - c_lost) > eps:
+        model.sgd_step(X, y, reg_lambda)
+        c_lost = model.calculate_loss(X, y)
+        logging.info("current loss on step %d: %f" % (it, c_lost))
+        unrolled_steps += 1
+        if (c_lost >= p_lost):
+            model.rollback_step(reg_lambda)
+            reg_lambda *= rl_div
+            logging.info("rollback sgd_step, where loss=%f. reg_lambda=%f" %
+                         (model.calculate_loss(X, y), reg_lambda))
+            unrolled_steps = 0
+        else:
+            if (unrolled_steps % 10 == 0 and reg_lambda < i_rl):
+                reg_lambda /= rl_div
+                logging.info("increase reg_lambda: %f" % reg_lambda)
+            p_lost = c_lost
+            c_lost = 0
+
+        # SaveModel(model, output)
+        it += 1
+
+
+def SaveModel(model, filepath):
+    # TODO: move it into base class of all RNN models.
+    with open(filepath, 'wb') as out:
+        pickle.dump(model, out)
+    logging.info("Model has been saved: {out}".format(out=filepath))
+
 
 def vectorization_core(vectorizer, init_term_vocabulary=True,
                        merge_doc_vocabularies=False):
@@ -61,7 +122,7 @@ def vectorization_core(vectorizer, init_term_vocabulary=True,
 
     features = Features(
                TwitterMessageParser(message_configpath, config['task_type']),
-                features_configpath)
+               features_configpath)
 
     doc_vocabulary = DocVocabulary()
     # Train problem
