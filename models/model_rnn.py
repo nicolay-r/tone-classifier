@@ -6,7 +6,6 @@ import numpy as np
 
 import utils
 import configs
-from core import indexer
 from core.features import Features
 from core.DocVocabulary import DocVocabulary
 from core.TermVocabulary import TermVocabulary
@@ -33,13 +32,11 @@ def vectorization_core_rnn_train(vectorizer, task_type, train_table,
     message_configpath = configs.TWITTER_MESSAGE_PARSER_CONFIG
     features_configpath = configs.FEATURES_CONFIG
 
-    term_vocabulary = indexer.create_term_vocabulary([train_table],
-                                                     message_configpath)
-
     features = Features(
             TwitterMessageParser(message_configpath, task_type),
             features_configpath)
 
+    term_vocabulary = TermVocabulary()
     doc_vocabulary = DocVocabulary()
 
     problem = utils.create_problem(task_type,
