@@ -3,7 +3,6 @@
 # global
 import sys
 import json
-import pickle
 import logging
 import pandas as pd
 
@@ -75,18 +74,12 @@ def train_network(model, X, y, output, reg_lambda=0.1, eps=10e-4):
             if (unrolled_steps % 10 == 0 and reg_lambda < i_rl):
                 reg_lambda /= rl_div
                 logging.info("increase reg_lambda: %f" % reg_lambda)
+            logging.info('save model: {}'.format(output))
+            model.save(output)
             p_lost = c_lost
             c_lost = 0
 
-        # SaveModel(model, output)
         it += 1
-
-
-def SaveModel(model, filepath):
-    # TODO: move it into base class of all RNN models.
-    with open(filepath, 'wb') as out:
-        pickle.dump(model, out)
-    logging.info("Model has been saved: {out}".format(out=filepath))
 
 
 def vectorization_core(vectorizer, init_term_vocabulary=True,

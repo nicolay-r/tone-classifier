@@ -1,3 +1,4 @@
+import pickle
 import theano
 import numpy as np
 import theano.tensor as T
@@ -70,3 +71,22 @@ class RNNTheano:
         self.U.set_value(self.U.get_value() + reg_lambda * self.dU.get_value())
         self.W.set_value(self.W.get_value() + reg_lambda * self.dW.get_value())
         self.V.set_value(self.V.get_value() + reg_lambda * self.dV.get_value())
+
+    def save(self, filepath):
+        data = {'U': self.U,
+                'V': self.V,
+                'W': self.W}
+        with open(filepath, 'wb') as out:
+            pickle.dump(data, out)
+
+    @staticmethod
+    def load(filepath):
+        """
+        returns: RNNTheano
+        """
+        with open(filepath, 'r') as f:
+            model = RNNTheano()
+            data = pickle.load(filepath)
+            model.U = data['U']
+            model.W = data['W']
+            model.V = data['V']
