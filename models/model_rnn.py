@@ -111,7 +111,7 @@ def save_embeddings(output):
     with zipfile.ZipFile(output, 'w', zipfile.ZIP_DEFLATED) as zf:
         for dirnames, folders, files in walk(configs.EMBEDINGS_ROOT):
             for f in files:
-                zf.write(join(configs.EMBEDINGS_ROOT, f))
+                zf.write(join(configs.EMBEDINGS_ROOT, f), arcname=f)
 
 
 if __name__ == "__main__":
