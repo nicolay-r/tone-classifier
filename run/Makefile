@@ -27,16 +27,23 @@ SENTIRUEVAL2015 = ../data/collections/SentiRuEval-2015/
 SENTIRUEVAL2016 = ../data/collections/SentiRuEval-2016/
 USERCOLLECTION = ../data/collections/user/
 
+rnn_train_sre16_bank_w2v_imb: TASK_TYPE = bank
+rnn_train_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)/bank_train.csv
+rnn_train_sre16_bank_w2v_imb: MODEL_NAME = rnn
+rnn_train_sre16_bank_w2v_imb: SETTING_NAME = sre16_imb
+rnn_train_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
+rnn_train_sre16_bank_w2v_imb: rnn_core
+
+rnn_test_sre16_bank_w2v_imb: TASK_TYPE = bank
+rnn_test_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)/bank_test.csv
+rnn_test_sre16_bank_w2v_imb: MODEL_NAME = rnn
+rnn_test_sre16_bank_w2v_imb: SETTING_NAME = sre16_imb
+rnn_test_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
+rnn_test_sre16_bank_w2v_imb: rnn_core
+
 #
 # SentiRuEval-2015
 #
-rnn_sre16_bank_w2v_imb: TASK_TYPE = bank
-rnn_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)/bank_train.csv
-rnn_sre16_bank_w2v_imb: MODEL_NAME = rnn
-rnn_sre16_bank_w2v_imb: SETTING_NAME = sre16
-rnn_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
-rnn_sre16_bank_w2v_imb: rnn_core
-
 svm_sre15_bank_features-only_imb: TASK_TYPE = bank
 svm_sre15_bank_features-only_imb: VOCABULARY_PATH = $(DATA_ROOT)/core/$(TASK_TYPE).voc
 svm_sre15_bank_features-only_imb: TEST_TABLE = $(SENTIRUEVAL2015)/bank_test.csv

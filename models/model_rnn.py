@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import os
+from os import walk
+from os.path import join
 import sys
 import logging
 import zipfile
@@ -19,9 +20,9 @@ from model_features_only import vectorizer as features_only
 from networks.theano.rnn import RNNTheano
 
 
-def vectorization_core_train(vectorizer, network_type, task_type, train_table):
+def train_network(vectorizer, network_type, task_type, train_table):
     """
-    Main function of vectorization for rnn
+    Main function of vectorization for neural network
 
     network_type : str
         type of the network, which should be presented in NETWORKS dictionary.
@@ -78,17 +79,26 @@ def vectorization_core_train(vectorizer, network_type, task_type, train_table):
     # rnn.conf)
     hidden_layer_size = 400
     model = NETWORKS[network_type](hidden_layer_size, embedding_size)
+    paths = get_model_paths(task_type, network_type)
 
-    model_name = "{}_{}_{}".format(SETTING_NAME, task_type, network_type)
-    embedding_output = os.path.join(configs.NETWORK_MODELS_ROOT,
-                                    "{}_embedding.zip".format(model_name))
-    model_output = os.path.join(configs.NETWORK_MODELS_ROOT,
-                                "{}_model.pkl".format(model_name))
+    logging.info("Pack embedding settings: {} ...".format(
+        paths['embedding_output']))
+    save_embeddings(paths['embedding_output'])
 
-    logging.info("Pack embedding settings: {} ...".format(embedding_output))
-    save_embeddings(embedding_output)
+    utils.train_network(model, X, y, paths['model_output'])
 
-    utils.train_network(model, X, y, model_output)
+
+def test_network(network_type, task_type, test_table):
+    # TODO:
+    # apply network
+    pass
+
+
+def get_model_paths(task_type, network_type):
+    name = "{}_{}_{}".format(SETTING_NAME, task_type, network_type)
+    e_out = join(configs.NETWORK_MODELS_ROOT, "{}_embedding.zip".format(name))
+    m_out = join(configs.NETWORK_MODELS_ROOT, "{}_model.pkl".format(name))
+    return {"model_output": m_out, "embedding_output": e_out}
 
 
 def save_embeddings(output):
@@ -99,9 +109,9 @@ def save_embeddings(output):
         to vectorize test collection and test saved network 'model' in further.
     """
     with zipfile.ZipFile(output, 'w', zipfile.ZIP_DEFLATED) as zf:
-        for dirnames, folders, files in os.walk(configs.EMBEDINGS_ROOT):
+        for dirnames, folders, files in walk(configs.EMBEDINGS_ROOT):
             for f in files:
-                zf.write(os.path.join(configs.EMBEDINGS_ROOT, f))
+                zf.write(join(configs.EMBEDINGS_ROOT, f))
 
 
 if __name__ == "__main__":
@@ -126,7 +136,7 @@ if __name__ == "__main__":
 
     SETTING_NAME = config['setting_name']
 
-    vectorization_core_train(
+    train_network(
             VECTORIZERS[config['vectorizer_type']],
             config['network_type'],
             config['task_type'],

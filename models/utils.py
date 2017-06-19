@@ -53,18 +53,19 @@ def train_network(model, X, y, output, reg_lambda=0.1, eps=10e-4):
         None
     """
     i_rl = reg_lambda
-    p_lost = model.calculate_loss(X, y)
-    c_lost = 0
+    p_loss = model.calculate_loss(X, y)
+    c_loss = 0
     rl_div = 0.5
     unrolled_steps = 0
     it = 0
+    logging.info("initial loss: %f" % (p_loss))
 
-    while abs(p_lost - c_lost) > eps:
+    while abs(p_loss - c_loss) > eps:
         model.sgd_step(X, y, reg_lambda)
-        c_lost = model.calculate_loss(X, y)
-        logging.info("current loss on step %d: %f" % (it, c_lost))
+        c_loss = model.calculate_loss(X, y)
+        logging.info("current loss on step %d: %f" % (it, c_loss))
         unrolled_steps += 1
-        if (c_lost >= p_lost):
+        if (c_loss >= p_loss):
             model.rollback_step(reg_lambda)
             reg_lambda *= rl_div
             logging.info("rollback sgd_step, where loss=%f. reg_lambda=%f" %
@@ -76,8 +77,8 @@ def train_network(model, X, y, output, reg_lambda=0.1, eps=10e-4):
                 logging.info("increase reg_lambda: %f" % reg_lambda)
             logging.info('save model: {}'.format(output))
             model.save(output)
-            p_lost = c_lost
-            c_lost = 0
+            p_loss = c_loss
+            c_loss = 0
 
         it += 1
 
