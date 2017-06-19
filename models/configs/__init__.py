@@ -17,8 +17,10 @@ DATA_BANK_FIELDS = _data_settings['bank']
 DATA_ROOT = os.path.join(_curr_dir, _data_settings['data_root_filepath'])
 LEXICONS_ROOT = os.path.join(DATA_ROOT, _data_settings['lexicons_folder'])
 EMBEDINGS_ROOT = os.path.join(DATA_ROOT, _data_settings['embeddings_folder'])
+NETWORK_MODELS_ROOT = \
+    os.path.join(DATA_ROOT, _data_settings['network_models_folder'])
 
 # Word embedding configuration files
 TWITTER_MESSAGE_PARSER_CONFIG = os.path.join(EMBEDINGS_ROOT, 'msg.conf')
 FEATURES_CONFIG = os.path.join(EMBEDINGS_ROOT, 'features.conf')
-MODEL_CONFIG = os.path.join(EMBEDINGS_ROOT, 'model.conf')
+W2V_CONFIG = os.path.join(EMBEDINGS_ROOT, 'w2v.conf')

@@ -31,8 +31,10 @@ USERCOLLECTION = ../data/collections/user/
 # SentiRuEval-2015
 #
 rnn_sre16_bank_w2v_imb: TASK_TYPE = bank
-rnn_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2015)/bank_train.csv
+rnn_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)/bank_train.csv
 rnn_sre16_bank_w2v_imb: MODEL_NAME = rnn
+rnn_sre16_bank_w2v_imb: SETTING_NAME = sre16
+rnn_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
 rnn_sre16_bank_w2v_imb: rnn_core
 
 svm_sre15_bank_features-only_imb: TASK_TYPE = bank
@@ -450,7 +452,7 @@ core:
 	cd ../models/ && ./eval.py $(TASK_TYPE) ../run/$(MODEL_OUT) ../run/$(ETALON_RESULT) ../run/$(MODEL_ERROR)
 
 rnn_core:
-	$(MODEL_ROOT)/model_$(MODEL_NAME).py w2v $(TASK_TYPE) $(TRAIN_TABLE) model_out.zip
+	$(MODEL_ROOT)/model_$(MODEL_NAME).py $(SETTING_NAME) $(VECTORIZER_TYPE) $(MODEL_NAME) $(TASK_TYPE) $(TRAIN_TABLE)
 
 
 refresh_user_collection:

@@ -98,10 +98,11 @@ def index2term(model_index, item_index):
     return '$W2V_ITEM_{model}_{item}'.format(model=str(model_index),
                                              item=str(item_index))
 
+
 utils.init_logger()
 CONFIG_WORD2VEC_MODELS = "w2v_models"
 
-with io.open(configs.MODEL_CONFIG, 'r') as f:
+with io.open(configs.W2V_CONFIG, 'r') as f:
     config = json.load(f, encoding='utf-8')
 
 W2V_MODELS = []

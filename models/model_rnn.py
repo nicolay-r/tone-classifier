@@ -1,7 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+import os
 import sys
 import logging
+import zipfile
 import numpy as np
 
 import utils
@@ -17,17 +19,16 @@ from model_features_only import vectorizer as features_only
 from networks.theano.rnn import RNNTheano
 
 
-def vectorization_core_rnn_train(vectorizer, task_type, train_table,
-                                 train_output):
+def vectorization_core_train(vectorizer, network_type, task_type, train_table):
     """
     Main function of vectorization for rnn
 
+    network_type : str
+        type of the network, which should be presented in NETWORKS dictionary.
     task_type : str
         TTK_TASK or BANK_TASK
     train_table : str
         Train table filepath
-    train_output : str
-        Output filepath
 
     returns : None
     """
@@ -76,26 +77,57 @@ def vectorization_core_rnn_train(vectorizer, task_type, train_table,
     # Network setting should be presented in json configuration (apperently
     # rnn.conf)
     hidden_layer_size = 400
-    model = RNNTheano(hidden_layer_size, embedding_size)
-    output = "{}_i{}_hl{}_s{}.pkl".format("RNN", embedding_size,
-                                          hidden_layer_size, len(X))
-    utils.train_network(model, X, y, output)
+    model = NETWORKS[network_type](hidden_layer_size, embedding_size)
+
+    model_name = "{}_{}_{}".format(SETTING_NAME, task_type, network_type)
+    embedding_output = os.path.join(configs.NETWORK_MODELS_ROOT,
+                                    "{}_embedding.zip".format(model_name))
+    model_output = os.path.join(configs.NETWORK_MODELS_ROOT,
+                                "{}_model.pkl".format(model_name))
+
+    logging.info("Pack embedding settings: {} ...".format(embedding_output))
+    save_embeddings(embedding_output)
+
+    utils.train_network(model, X, y, model_output)
+
+
+def save_embeddings(output):
+    """
+    Save embedding configurations.
+    output : str
+        represents a path to the .zip archive which stores all necessary data
+        to vectorize test collection and test saved network 'model' in further.
+    """
+    with zipfile.ZipFile(output, 'w', zipfile.ZIP_DEFLATED) as zf:
+        for dirnames, folders, files in os.walk(configs.EMBEDINGS_ROOT):
+            for f in files:
+                zf.write(os.path.join(configs.EMBEDINGS_ROOT, f))
 
 
 if __name__ == "__main__":
 
     VECTORIZERS = {
-        'w2v': w2v_vectorizer,
-        'features_only': features_only}
+            'w2v': w2v_vectorizer,
+            'features_only': features_only
+        }
+
+    NETWORKS = {
+            'rnn': RNNTheano,
+            'lstm': None,
+            'gru': None
+        }
 
     utils.init_logger()
-    config = {'vectorizer_type': sys.argv[1],
-              'task_type': sys.argv[2],
-              'train_table': sys.argv[3],
-              'train_output': sys.argv[4]}
+    config = {'setting_name': sys.argv[1],
+              'vectorizer_type': sys.argv[2],
+              'network_type': sys.argv[3],
+              'task_type': sys.argv[4],
+              'train_table': sys.argv[5]}
 
-    vectorization_core_rnn_train(
+    SETTING_NAME = config['setting_name']
+
+    vectorization_core_train(
             VECTORIZERS[config['vectorizer_type']],
+            config['network_type'],
             config['task_type'],
-            config['train_table'],
-            config['train_output'])
+            config['train_table'])
