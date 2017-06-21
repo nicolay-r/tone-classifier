@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # global
+import io
 import sys
 import json
 import logging
@@ -103,20 +104,24 @@ def vectorization_core(vectorizer, init_term_vocabulary=True,
               'train_output': sys.argv[5],
               'test_output': sys.argv[6],
               'pconf_output': sys.argv[7]}
-    message_configpath = configs.TWITTER_MESSAGE_PARSER_CONFIG
-    features_configpath = configs.FEATURES_CONFIG
+
+    with io.open(configs.TWITTER_MESSAGE_PARSER_CONFIG, "r") as f:
+        message_settings = json.load(f, encoding='utf-8')
+
+    with io.open(configs.FEATURES_CONFIG, 'r') as f:
+        features_settings = json.load(f, encoding='utf-8')
 
     # Create vocabulary of terms
     if init_term_vocabulary is True:
         term_vocabulary = core.indexer.create_term_vocabulary(
                                 [config['train_table'], config['test_table']],
-                                message_configpath)
+                                message_settings)
     else:
         term_vocabulary = TermVocabulary()
 
     features = Features(
-               TwitterMessageParser(message_configpath, config['task_type']),
-               features_configpath)
+               TwitterMessageParser(message_settings, config['task_type']),
+               features_settings)
 
     doc_vocabulary = DocVocabulary()
     # Train problem
@@ -127,8 +132,7 @@ def vectorization_core(vectorizer, init_term_vocabulary=True,
                                    features,
                                    term_vocabulary,
                                    doc_vocabulary,
-                                   features_configpath,
-                                   message_configpath)
+                                   message_settings)
 
     if not merge_doc_vocabularies:
         doc_vocabulary = DocVocabulary()
@@ -140,8 +144,7 @@ def vectorization_core(vectorizer, init_term_vocabulary=True,
                                   features,
                                   term_vocabulary,
                                   doc_vocabulary,
-                                  features_configpath,
-                                  message_configpath)
+                                  message_settings)
 
     result_table = config['test_table'] + '.result.csv'
     logging.info('Create a file for classifier results: {}'.format(
@@ -159,7 +162,7 @@ def vectorization_core(vectorizer, init_term_vocabulary=True,
 
 def create_problem(task_type, collection_type, table_filepath, vectorizer,
                    features, term_vocabulary, doc_vocabulary,
-                   features_configpath, message_configpath):
+                   message_settings):
     """
     Creates problem (vectors from messages with additional features)
 
@@ -178,10 +181,8 @@ def create_problem(task_type, collection_type, table_filepath, vectorizer,
             object of Features class
         term_vocabulary : core.TermVocabulary
             Vocabulary of terms
-        features_configpath : str
-            Configuration path for Features class
-        messsage_configpath : str
-            Configuration path for TwitterMessageParser
+        messsage_settings : dict
+            Configuration settings for TwitterMessageParser
 
     Returns: list
     -------
@@ -190,7 +191,7 @@ def create_problem(task_type, collection_type, table_filepath, vectorizer,
         dataset accordingly) and the secont (latter) is a vector -- embedded
         sentence.
     """
-    message_parser = TwitterMessageParser(message_configpath, task_type)
+    message_parser = TwitterMessageParser(message_settings, task_type)
     labeled_messages = []
 
     df = pd.read_csv(table_filepath, sep=',')

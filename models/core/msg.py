@@ -15,21 +15,17 @@ class TwitterMessageParser:
     ABSOLUTE_STOP_WORDS = 'abs_stop_words'
     GARBAGE_CHARS = 'garbage_chars'
 
-    def __init__(self, configpath, task_type='none'):
+    def __init__(self, settings, task_type=None):
         """
         Arguments
         ---------
-            mystem
-            configpath
-            task_type
+            settings : dict
+            task_type : str
         """
         self.mystem = pymystem3.Mystem(entire_input=False)
+        self.settings = settings
 
-        # Read config file
-        with io.open(configpath, "r") as f:
-            self.settings = json.load(f, encoding='utf-8')
-
-        if (task_type != 'none'):
+        if (task_type is not None):
             key = task_type + '_stop_words'
             self.task_specific_stop_words = self.settings[key]
         else:

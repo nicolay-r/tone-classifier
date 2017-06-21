@@ -15,7 +15,7 @@ class Features:
     SETTINGS_LEXICONS = 'lexicons'
     SETTINGS_CLUSTERED_WORDS = 'clustered_words'
 
-    def __init__(self, message_parser, configpath):
+    def __init__(self, message_parser, settings):
         """
         Arguments
         ---------
@@ -23,12 +23,8 @@ class Features:
             configpath:
                 Configuration file for features
         """
-
-        with io.open(configpath, 'r') as f:
-            self.settings = json.load(f, encoding='utf-8')
-
+        self.settings = settings
         self.message_parser = message_parser
-
         self.cluster_groups = []
         cluster_groups = self.settings[Features.SETTINGS_CLUSTERED_WORDS]
         for cluster_group_name in cluster_groups.iterkeys():

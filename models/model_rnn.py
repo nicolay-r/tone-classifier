@@ -2,7 +2,9 @@
 # -*- coding: utf-8 -*-
 from os import walk
 from os.path import join
+import io
 import sys
+import json
 import logging
 import zipfile
 import numpy as np
@@ -33,12 +35,15 @@ def train_network(vectorizer, network_type, task_type, train_table):
 
     returns : None
     """
-    message_configpath = configs.TWITTER_MESSAGE_PARSER_CONFIG
-    features_configpath = configs.FEATURES_CONFIG
+    with io.open(configs.TWITTER_MESSAGE_PARSER_CONFIG, "r") as f:
+        message_settings = json.load(f, encoding='utf-8')
+
+    with io.open(configs.FEATURES_CONFIG, 'r') as f:
+        features_settings = json.load(f, encoding='utf-8')
 
     features = Features(
-            TwitterMessageParser(message_configpath, task_type),
-            features_configpath)
+            TwitterMessageParser(message_settings, task_type),
+            features_settings)
 
     term_vocabulary = TermVocabulary()
     doc_vocabulary = DocVocabulary()
@@ -50,8 +55,7 @@ def train_network(vectorizer, network_type, task_type, train_table):
                                    features,
                                    term_vocabulary,
                                    doc_vocabulary,
-                                   features_configpath,
-                                   message_configpath)
+                                   message_settings)
 
     assert(len(problem) > 0)
 
@@ -79,7 +83,7 @@ def train_network(vectorizer, network_type, task_type, train_table):
     # rnn.conf)
     hidden_layer_size = 400
     model = NETWORKS[network_type](hidden_layer_size, embedding_size)
-    paths = get_model_paths(task_type, network_type)
+    paths = get_model_paths(task_type, network_type, SETTING_NAME)
 
     logging.info("Pack embedding settings: {} ...".format(
         paths['embedding_output']))
@@ -88,14 +92,8 @@ def train_network(vectorizer, network_type, task_type, train_table):
     utils.train_network(model, X, y, paths['model_output'])
 
 
-def test_network(network_type, task_type, test_table):
-    # TODO:
-    # apply network
-    pass
-
-
-def get_model_paths(task_type, network_type):
-    name = "{}_{}_{}".format(SETTING_NAME, task_type, network_type)
+def get_model_paths(task_type, network_type, setting_name):
+    name = "{}_{}_{}".format(setting_name, task_type, network_type)
     e_out = join(configs.NETWORK_MODELS_ROOT, "{}_embedding.zip".format(name))
     m_out = join(configs.NETWORK_MODELS_ROOT, "{}_model.pkl".format(name))
     return {"model_output": m_out, "embedding_output": e_out}

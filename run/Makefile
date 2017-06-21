@@ -28,18 +28,18 @@ SENTIRUEVAL2016 = ../data/collections/SentiRuEval-2016/
 USERCOLLECTION = ../data/collections/user/
 
 rnn_train_sre16_bank_w2v_imb: TASK_TYPE = bank
-rnn_train_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)/bank_train.csv
+rnn_train_sre16_bank_w2v_imb: TABLE = $(SENTIRUEVAL2016)/bank_train.csv
 rnn_train_sre16_bank_w2v_imb: MODEL_NAME = rnn
 rnn_train_sre16_bank_w2v_imb: SETTING_NAME = sre16_imb
 rnn_train_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
 rnn_train_sre16_bank_w2v_imb: rnn_core
 
-rnn_test_sre16_bank_w2v_imb: TASK_TYPE = bank
-rnn_test_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)/bank_test.csv
-rnn_test_sre16_bank_w2v_imb: MODEL_NAME = rnn
-rnn_test_sre16_bank_w2v_imb: SETTING_NAME = sre16_imb
-rnn_test_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
-rnn_test_sre16_bank_w2v_imb: rnn_core
+rnn_test_sre16_bank_w2v: TASK_TYPE = bank
+rnn_test_sre16_bank_w2v: TABLE = $(SENTIRUEVAL2016)/bank_test.csv
+rnn_test_sre16_bank_w2v: MODEL_NAME = rnn_test
+rnn_test_sre16_bank_w2v: SETTING_NAME = sre16_imb
+rnn_test_sre16_bank_w2v: VECTORIZER_TYPE = w2v
+rnn_test_sre16_bank_w2v: rnn_core
 
 #
 # SentiRuEval-2015
@@ -459,7 +459,7 @@ core:
 	cd ../models/ && ./eval.py $(TASK_TYPE) ../run/$(MODEL_OUT) ../run/$(ETALON_RESULT) ../run/$(MODEL_ERROR)
 
 rnn_core:
-	$(MODEL_ROOT)/model_$(MODEL_NAME).py $(SETTING_NAME) $(VECTORIZER_TYPE) $(MODEL_NAME) $(TASK_TYPE) $(TRAIN_TABLE)
+	$(MODEL_ROOT)/model_$(MODEL_NAME).py $(SETTING_NAME) $(VECTORIZER_TYPE) 'rnn' $(TASK_TYPE) $(TABLE)
 
 
 refresh_user_collection:
