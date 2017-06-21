@@ -59,23 +59,9 @@ def train_network(vectorizer, network_type, task_type, train_table):
 
     assert(len(problem) > 0)
 
-    vector_index = 1
-    embedding_size = len(problem[0][vector_index])
-    for sentence in problem:
-        if (len(sentence[vector_index]) != embedding_size):
-            logging.error(
-                'embedded vectors has different sizes.'
-                'expected size of each element is {}'.format(embedding_size))
+    X, y, embedding_size = get_X_y_embedding(problem)
 
     logging.info("embedding_size: {}".format(embedding_size))
-
-    X = np.ndarray((len(problem), embedding_size))
-    y = np.ndarray(len(problem), dtype=np.int32)
-    for index, sentence in enumerate(problem):
-        y[index] = sentence[0]
-        for key, value in sentence[vector_index].iteritems():
-            X[index][key-1] = value
-
     logging.info("Create RNN network model ...")
 
     # TODO:
@@ -90,6 +76,24 @@ def train_network(vectorizer, network_type, task_type, train_table):
     save_embeddings(paths['embedding_output'])
 
     utils.train_network(model, X, y, paths['model_output'])
+
+
+def get_X_y_embedding(problem):
+    vector_index = 1
+    embedding_size = len(problem[0][vector_index])
+    for sentence in problem:
+        if (len(sentence[vector_index]) != embedding_size):
+            logging.error(
+                'embedded vectors has different sizes.'
+                'expected size of each element is {}'.format(embedding_size))
+
+    X = np.ndarray((len(problem), embedding_size))
+    y = np.ndarray(len(problem), dtype=np.int32)
+    for index, sentence in enumerate(problem):
+        y[index] = sentence[0]
+        for key, value in sentence[vector_index].iteritems():
+            X[index][key-1] = value
+    return (X, y, embedding_size)
 
 
 def get_model_paths(task_type, network_type, setting_name):
