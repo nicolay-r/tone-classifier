@@ -35,11 +35,12 @@ rnn_train_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
 rnn_train_sre16_bank_w2v_imb: rnn_core
 
 rnn_test_sre16_bank_w2v: TASK_TYPE = bank
-rnn_test_sre16_bank_w2v: TABLE = $(SENTIRUEVAL2016)/bank_test.csv
+rnn_test_sre16_bank_w2v: TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
 rnn_test_sre16_bank_w2v: MODEL_NAME = rnn_test
 rnn_test_sre16_bank_w2v: SETTING_NAME = sre16_imb
 rnn_test_sre16_bank_w2v: VECTORIZER_TYPE = w2v
-rnn_test_sre16_bank_w2v: rnn_core
+rnn_test_sre16_bank_w2v: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.csv
+rnn_test_sre16_bank_w2v: rnn_core_test
 
 #
 # SentiRuEval-2015
@@ -461,6 +462,11 @@ core:
 rnn_core:
 	$(MODEL_ROOT)/model_$(MODEL_NAME).py $(SETTING_NAME) $(VECTORIZER_TYPE) 'rnn' $(TASK_TYPE) $(TABLE)
 
+rnn_core_test:
+	# Predicting
+	$(MODEL_ROOT)/model_$(MODEL_NAME).py $(SETTING_NAME) $(VECTORIZER_TYPE) 'rnn' $(TASK_TYPE) $(TABLE) $(MODEL_OUT)
+	# Estimating model
+	cd ../models/ && ./eval.py $(TASK_TYPE) ../run/$(MODEL_OUT) ../run/$(ETALON_RESULT) ../run/$(MODEL_ERROR)
 
 refresh_user_collection:
 	cd $(USERCOLLECTION) && ./init.sh

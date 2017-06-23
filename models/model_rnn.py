@@ -59,7 +59,7 @@ def train_network(vectorizer, network_type, task_type, train_table):
 
     assert(len(problem) > 0)
 
-    X, y, embedding_size = get_X_y_embedding(problem)
+    X, y, embedding_size = get_problem(problem, 'train')
 
     logging.info("embedding_size: {}".format(embedding_size))
     logging.info("Create RNN network model ...")
@@ -78,7 +78,16 @@ def train_network(vectorizer, network_type, task_type, train_table):
     utils.train_network(model, X, y, paths['model_output'])
 
 
-def get_X_y_embedding(problem):
+def get_problem(problem, problem_type):
+    """
+        It parses problem and providing X, embedding size, and y (Optinal) as a
+        result. Presence of lattest parameter depends on the 'problem_type'
+        argument. Thus, y will be returned in case of 'train' problem type,
+        and will be ommitted in case of 'task' problem type.
+
+        problem_type : str
+            'train' or 'test'
+    """
     vector_index = 1
     embedding_size = len(problem[0][vector_index])
     for sentence in problem:
@@ -88,12 +97,18 @@ def get_X_y_embedding(problem):
                 'expected size of each element is {}'.format(embedding_size))
 
     X = np.ndarray((len(problem), embedding_size))
-    y = np.ndarray(len(problem), dtype=np.int32)
-    for index, sentence in enumerate(problem):
-        y[index] = sentence[0]
-        for key, value in sentence[vector_index].iteritems():
-            X[index][key-1] = value
-    return (X, y, embedding_size)
+
+    if problem_type == 'test':
+        return (X, embedding_size)
+    elif problem_type == 'train':
+        y = np.ndarray(len(problem), dtype=np.int32)
+        for index, sentence in enumerate(problem):
+            y[index] = sentence[0]
+            for key, value in sentence[vector_index].iteritems():
+                X[index][key-1] = value
+        return (X, y, embedding_size)
+    else:
+        logging.error("problem_type '{}' doesn't support".format(problem_type))
 
 
 def get_model_paths(task_type, network_type, setting_name):

@@ -10,6 +10,10 @@ class RNNTheano:
         x = T.matrix(name='x')
         y = T.ivector(name='y')
 
+        self.hl_size = hl_size
+        self.i_size = i_size
+        self.bptt_truncate = bptt_truncate
+
         # Model implementation
         out_size = 3
         U = np.random.uniform(-np.sqrt(1.0/i_size), np.sqrt(1.0/i_size),
@@ -56,7 +60,7 @@ class RNNTheano:
         reg_lambda = T.scalar(name='reg_lambda')
 
         # Functions
-        self.forward_propagation = theano.function(inputs=[x], outputs=[o[-1]])
+        self.forward_propagation = theano.function(inputs=[x], outputs=[o])
         self.calculate_loss = theano.function(inputs=[x, y], outputs=cost)
         self.sgd_step = theano.function(
                 inputs=[x, y, reg_lambda],
@@ -75,7 +79,10 @@ class RNNTheano:
     def save(self, filepath):
         data = {'U': self.U,
                 'V': self.V,
-                'W': self.W}
+                'W': self.W,
+                'i_size': self.i_size,
+                'hl_size': self.hl_size,
+                'bptt_truncate': self.bptt_truncate}
         with open(filepath, 'wb') as out:
             pickle.dump(data, out)
 
@@ -85,8 +92,15 @@ class RNNTheano:
         returns: RNNTheano
         """
         with open(filepath, 'r') as f:
-            model = RNNTheano()
-            data = pickle.load(filepath)
+            data = pickle.load(f)
+
+            model = RNNTheano(
+                i_size=data['i_size'],
+                hl_size=data['hl_size'],
+                bptt_truncate=data['bptt_truncate'])
+
             model.U = data['U']
             model.W = data['W']
             model.V = data['V']
+
+        return model
