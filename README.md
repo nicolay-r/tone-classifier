@@ -22,7 +22,9 @@ the top results of the competition.
 Documentation
 -------------
 
-1. Use of lexicons to improve quality of sentiment classification ([Dialog-2016 article]);
+1. Methods of lexicon integration with machine learning for sentiment analysis system (AIDT Journal 2017/2)
+
+2. Use of lexicons to improve quality of sentiment classification ([Dialog-2016 article]);
 
 2. [Russir-2016 paper];
 
