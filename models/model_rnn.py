@@ -88,6 +88,9 @@ def get_problem(problem, problem_type):
         problem_type : str
             'train' or 'test'
     """
+    if problem_type not in ['train', 'test']:
+        logging.error("problem_type '{}' doesn't support".format(problem_type))
+
     vector_index = 1
     embedding_size = len(problem[0][vector_index])
     for sentence in problem:
@@ -98,17 +101,15 @@ def get_problem(problem, problem_type):
 
     X = np.ndarray((len(problem), embedding_size))
 
-    if problem_type == 'test':
-        return (X, embedding_size)
-    elif problem_type == 'train':
-        y = np.ndarray(len(problem), dtype=np.int32)
-        for index, sentence in enumerate(problem):
+    y = np.ndarray(len(problem), dtype=np.int32)
+    for index, sentence in enumerate(problem):
+        if (problem_type == 'train'):
             y[index] = sentence[0]
-            for key, value in sentence[vector_index].iteritems():
-                X[index][key-1] = value
-        return (X, y, embedding_size)
-    else:
-        logging.error("problem_type '{}' doesn't support".format(problem_type))
+        for key, value in sentence[vector_index].iteritems():
+            X[index][key-1] = value
+
+    return (X, y, embedding_size) if problem_type == 'train' else \
+           (X, embedding_size)
 
 
 def get_model_paths(task_type, network_type, setting_name):
