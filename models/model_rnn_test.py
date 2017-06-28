@@ -39,8 +39,9 @@ def predict(model, X, sentiment_columns, result_table):
     logging.info("Predicting ...")
     y = model.forward_propagation(X)[0]
 
+    import ipdb; ipdb.set_trace() # BREAKPOINT
+
     # TODO: remove duplicated code at predict.py
-    # TODO: fix the bug with all zeros in X
     logging.info("Filling answers in {} ...".format(result_table))
     df = pd.read_csv(result_table, sep=',')
     for msg_index, row_index in enumerate(df.index):
@@ -92,7 +93,7 @@ def test_network(vectorizer, network_type, task_type, test_table,
                                    doc_vocabulary,
                                    message_settings)
 
-    X, embedding_size = get_problem(problem, 'test')
+    X, embedding_size = get_problem(problem, get_results=False)
 
     logging.info('Create a file for classifier results: {}'.format(
             result_table))

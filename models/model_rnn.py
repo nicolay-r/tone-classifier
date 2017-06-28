@@ -59,7 +59,7 @@ def train_network(vectorizer, network_type, task_type, train_table):
 
     assert(len(problem) > 0)
 
-    X, y, embedding_size = get_problem(problem, 'train')
+    X, y, embedding_size = get_problem(problem, get_results=True)
 
     logging.info("embedding_size: {}".format(embedding_size))
     logging.info("Create RNN network model ...")
@@ -78,19 +78,16 @@ def train_network(vectorizer, network_type, task_type, train_table):
     utils.train_network(model, X, y, paths['model_output'])
 
 
-def get_problem(problem, problem_type):
+def get_problem(problem, get_results=True):
     """
         It parses problem and providing X, embedding size, and y (Optinal) as a
-        result. Presence of lattest parameter depends on the 'problem_type'
+        result. Presence of lattest parameter depends on the 'get_results'
         argument. Thus, y will be returned in case of 'train' problem type,
-        and will be ommitted in case of 'task' problem type.
+        where we need a results, and will be ommitted in case of 'test' problem
+        type, where we should predict results.
 
-        problem_type : str
-            'train' or 'test'
+        get_results : bool
     """
-    if problem_type not in ['train', 'test']:
-        logging.error("problem_type '{}' doesn't support".format(problem_type))
-
     vector_index = 1
     embedding_size = len(problem[0][vector_index])
     for sentence in problem:
@@ -103,13 +100,14 @@ def get_problem(problem, problem_type):
 
     y = np.ndarray(len(problem), dtype=np.int32)
     for index, sentence in enumerate(problem):
-        if (problem_type == 'train'):
-            y[index] = sentence[0]
+        if (get_results):
+            # shift classes from {-1, 0, 1} -> {0, 1, 2}, that is why
+            # incrementing value by 1
+            y[index] = sentence[0] + 1
         for key, value in sentence[vector_index].iteritems():
             X[index][key-1] = value
 
-    return (X, y, embedding_size) if problem_type == 'train' else \
-           (X, embedding_size)
+    return (X, y, embedding_size) if get_results else (X, embedding_size)
 
 
 def get_model_paths(task_type, network_type, setting_name):

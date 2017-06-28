@@ -99,8 +99,8 @@ class RNNTheano:
                 hl_size=data['hl_size'],
                 bptt_truncate=data['bptt_truncate'])
 
-            model.U = data['U']
-            model.W = data['W']
-            model.V = data['V']
+            model.U.set_value(data['U'].get_value())
+            model.W.set_value(data['W'].get_value())
+            model.V.set_value(data['V'].get_value())
 
         return model
