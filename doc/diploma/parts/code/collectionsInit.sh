@@ -1,2 +1,0 @@
-make sentiRuEval2015_collection
-make sentiRuEval2016_collection

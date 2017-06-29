@@ -40,7 +40,7 @@ comparation with the other participants.
 
 <!-- Links -->
 [Dialog-2016 article]: http://www.dialog-21.ru/media/3469/rusnachenko.pdf
-[Russir-2016 paper]: https://github.com/nicolay-r/tone-classifier/blob/master/doc/russir_2016/russir_paper.pdf
-[Full documentation]: https://github.com/nicolay-r/tone-classifier/blob/master/doc/diploma/diploma.pdf
+[Russir-2016 paper]: https://github.com/nicolay-r/tone-classifier/blob/master/doc/russir_paper.pdf
+[Full documentation]: https://github.com/nicolay-r/tone-classifier/blob/master/doc/diploma.pdf
 [SentiRuEval-2015]: http://goo.gl/qHeAVo
 [SentiRuEval-2016]: https://drive.google.com/drive/u/0/folders/0BxlA8wH3PTUfV1F1UTBwVTJPd3c
