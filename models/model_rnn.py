@@ -22,7 +22,8 @@ from model_features_only import vectorizer as features_only
 from networks.theano.rnn import RNNTheano
 
 
-def train_network(vectorizer, network_type, task_type, train_table):
+def train_network(vectorizer, network_type, task_type, train_table,
+                  setting_name):
     """
     Main function of vectorization for neural network
 
@@ -35,11 +36,7 @@ def train_network(vectorizer, network_type, task_type, train_table):
 
     returns : None
     """
-    with io.open(configs.TWITTER_MESSAGE_PARSER_CONFIG, "r") as f:
-        message_settings = json.load(f, encoding='utf-8')
-
-    with io.open(configs.FEATURES_CONFIG, 'r') as f:
-        features_settings = json.load(f, encoding='utf-8')
+    message_settings, features_settings = load_embeddings()
 
     features = Features(
             TwitterMessageParser(message_settings, task_type),
@@ -59,8 +56,9 @@ def train_network(vectorizer, network_type, task_type, train_table):
 
     assert(len(problem) > 0)
 
-    X, y, embedding_size = get_problem(problem, get_results=True)
+    X, y = get_problem(problem, get_results=True)
 
+    embedding_size = X.shape[1]
     logging.info("embedding_size: {}".format(embedding_size))
     logging.info("Create RNN network model ...")
 
@@ -69,11 +67,15 @@ def train_network(vectorizer, network_type, task_type, train_table):
     # rnn.conf)
     hidden_layer_size = 400
     model = get_network(network_type)(hidden_layer_size, embedding_size)
-    paths = get_model_paths(task_type, network_type, SETTING_NAME)
+    paths = get_model_paths(task_type, network_type, setting_name)
 
     logging.info("Pack embedding settings: {} ...".format(
         paths['embedding_output']))
     save_embeddings(paths['embedding_output'])
+
+    logging.info("Save term vocabulary: {} ...".format(
+        paths['term_vocabulary']))
+    term_vocabulary.save(paths['term_vocabulary'])
 
     utils.train_network(model, X, y, paths['model_output'])
 
@@ -107,20 +109,25 @@ def get_problem(problem, get_results=True):
         for key, value in sentence[vector_index].iteritems():
             X[index][key-1] = value
 
-    return (X, y, embedding_size) if get_results else (X, embedding_size)
+    return (X, y) if get_results else X
 
 
 def get_model_paths(task_type, network_type, setting_name):
     name = "{}_{}_{}".format(setting_name, task_type, network_type)
     e_out = join(configs.NETWORK_MODELS_ROOT, "{}_embedding.zip".format(name))
     m_out = join(configs.NETWORK_MODELS_ROOT, "{}_model.pkl".format(name))
-    return {"model_output": m_out, "embedding_output": e_out}
+    t_out = join(configs.NETWORK_MODELS_ROOT, "{}.tvoc".format(name))
+    return {"model_output": m_out,
+            "embedding_output": e_out,
+            "term_vocabulary": t_out}
 
 
-# Save vocabularies
 def save_embeddings(output):
     """
     Save embedding configurations.
+
+    termVocabulary : TermVocabulary
+    docVocabulary : DocVocabulary
     output : str
         represents a path to the .zip archive which stores all necessary data
         to vectorize test collection and test saved network 'model' in further.
@@ -129,6 +136,16 @@ def save_embeddings(output):
         for dirnames, folders, files in walk(configs.EMBEDINGS_ROOT):
             for f in files:
                 zf.write(join(configs.EMBEDINGS_ROOT, f), arcname=f)
+
+
+def load_embeddings():
+    with io.open(configs.TWITTER_MESSAGE_PARSER_CONFIG, "r") as f:
+        message_settings = json.load(f, encoding='utf-8')
+
+    with io.open(configs.FEATURES_CONFIG, 'r') as f:
+        features_settings = json.load(f, encoding='utf-8')
+
+    return message_settings, features_settings
 
 
 def get_vectorizer(vectorizer_type):
@@ -158,10 +175,9 @@ if __name__ == "__main__":
               'task_type': sys.argv[4],
               'train_table': sys.argv[5]}
 
-    SETTING_NAME = config['setting_name']
-
     train_network(
             get_vectorizer(config['vectorizer_type']),
             config['network_type'],
             config['task_type'],
-            config['train_table'])
+            config['train_table'],
+            config['setting_name'])

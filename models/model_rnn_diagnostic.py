@@ -1,20 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import io
 import sys
-import json
 import logging
 
 import utils
-import configs
 from core.features import Features
 from core.DocVocabulary import DocVocabulary
 from core.TermVocabulary import TermVocabulary
 from core.msg import TwitterMessageParser
 
+from eval import check
 from model_rnn import get_model_paths, get_problem, save_embeddings, \
-                      get_vectorizer, get_network
-from model_rnn_test import test_network
+                      get_vectorizer, get_network, load_embeddings
+from model_rnn_test import predict, prepare_result_table
 
 
 def train_network(vectorizer, network_type, task_type, train_table,
@@ -22,11 +20,7 @@ def train_network(vectorizer, network_type, task_type, train_table,
     """
     Main function of vectorization for neural network
     """
-    with io.open(configs.TWITTER_MESSAGE_PARSER_CONFIG, "r") as f:
-        message_settings = json.load(f, encoding='utf-8')
-
-    with io.open(configs.FEATURES_CONFIG, 'r') as f:
-        features_settings = json.load(f, encoding='utf-8')
+    message_settings, features_settings = load_embeddings()
 
     features = Features(
             TwitterMessageParser(message_settings, task_type),
@@ -47,9 +41,14 @@ def train_network(vectorizer, network_type, task_type, train_table,
     assert(len(train_problem) > 0 and len(test_problem) > 0)
 
     # Transform into appliable for neural network collections
-    X_test, embedding_size = get_problem(test_problem, get_results=False)
-    X_train, Y, _ = get_problem(train_problem, get_results=True)
+    X_test = get_problem(test_problem, get_results=False)
+    X_train, Y = get_problem(train_problem, get_results=True)
 
+    import ipdb; ipdb.set_trace() # BREAKPOINT
+
+    assert(X_test.shape[1] == X_train.shape[1])
+
+    embedding_size = X_test.shape[1]
     logging.info("embedding_size: {}".format(embedding_size))
     logging.info("Create {} network model ...".format(network_type))
 
@@ -64,13 +63,17 @@ def train_network(vectorizer, network_type, task_type, train_table,
         paths['embedding_output']))
     save_embeddings(paths['embedding_output'])
 
-    # TODO: combine test_network with eval script
-    test_callback = lambda: test_network(paths, vectorizer, network_type,
-                                         task_type, test_table,
-                                         paths['model_output'])
+    def callback(model, X_test, task_type, result_table, etalon_table):
+        predict(model, X_test, task_type, result_table)
+        check(task_type, result_table, etalon_table)
 
-    utils.train_network(model, X_train, Y, paths['model_output'],
-                        callback=test_callback)
+    model_output = paths['model_output']
+
+    output_table = test_table + 'result.csv'
+    prepare_result_table(test_table, output_table)
+    utils.train_network(model, X_train, Y, model_output,
+                        lambda: callback(model, X_test, task_type,
+                                         output_table, etalon_table))
 
 
 if __name__ == "__main__":
