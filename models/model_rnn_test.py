@@ -14,14 +14,7 @@ from core.DocVocabulary import DocVocabulary
 from core.TermVocabulary import TermVocabulary
 from core.msg import TwitterMessageParser
 
-from model_rnn import get_model_paths, get_problem
-
-# Word embeddnig models
-from model_w2v import vectorizer as w2v_vectorizer
-from model_features_only import vectorizer as features_only
-
-# Neural network models
-from networks.theano.rnn import RNNTheano
+from model_rnn import get_model_paths, get_problem, get_network, get_vectorizer
 
 
 def predict(model, X, sentiment_columns, result_table):
@@ -39,8 +32,6 @@ def predict(model, X, sentiment_columns, result_table):
     logging.info("Predicting ...")
     y = model.forward_propagation(X)[0]
 
-    import ipdb; ipdb.set_trace() # BREAKPOINT
-
     # TODO: remove duplicated code at predict.py
     logging.info("Filling answers in {} ...".format(result_table))
     df = pd.read_csv(result_table, sep=',')
@@ -55,13 +46,7 @@ def predict(model, X, sentiment_columns, result_table):
     pass
 
 
-def test_network(vectorizer, network_type, task_type, test_table,
-                 result_table):
-    """
-        result_table : str
-            output filepath
-    """
-    paths = get_model_paths(task_type, network_type, SETTING_NAME)
+def load_model(paths):
     logging.info("Reading: {} ...".format(paths['embedding_output']))
 
     with zipfile.ZipFile(paths['embedding_output'], "r") as zf:
@@ -75,7 +60,15 @@ def test_network(vectorizer, network_type, task_type, test_table,
             zf.read(configs.TWITTER_MESSAGE_PARSER_FILENAME), encoding='utf-8')
 
     logging.info("Reading: {} ...".format(paths['model_output']))
-    model = NETWORKS[network_type].load(paths['model_output'])
+    model = get_network(network_type).load(paths['model_output'])
+
+    return model, features_settings, message_settings
+
+
+def test_network(paths, vectorizer, network_type, task_type, test_table,
+                 result_table):
+
+    model, features_settings, message_settings = load_model(paths)
 
     features = Features(
         TwitterMessageParser(message_settings, task_type),
@@ -105,17 +98,6 @@ def test_network(vectorizer, network_type, task_type, test_table,
 
 if __name__ == "__main__":
 
-    VECTORIZERS = {
-            'w2v': w2v_vectorizer,
-            'features_only': features_only
-        }
-
-    NETWORKS = {
-            'rnn': RNNTheano,
-            'lstm': None,
-            'gru': None
-        }
-
     utils.init_logger()
     config = {'setting_name': sys.argv[1],
               'vectorizer_type': sys.argv[2],
@@ -124,11 +106,13 @@ if __name__ == "__main__":
               'test_table': sys.argv[5],
               'model_out': sys.argv[6]}
 
-    SETTING_NAME = config['setting_name']
-
+    task_type = config['task_type']
+    network_type = config['network_type']
+    paths = get_model_paths(task_type, network_type, config['setting_name'])
     test_network(
-            VECTORIZERS[config['vectorizer_type']],
-            config['network_type'],
-            config['task_type'],
+            paths,
+            get_vectorizer(config['vectorizer_type']),
+            network_type,
+            task_type,
             config['test_table'],
             config['model_out'])

@@ -31,7 +31,8 @@ def init_logger():
 
 
 # TODO: pass here the output filepath based on the parameter from argv.
-def train_network(model, X, y, output, reg_lambda=0.1, eps=10e-4):
+def train_network(model, X, y, output, reg_lambda=0.1, eps=10e-4,
+                  callback=None, epoch_delta = 5):
     """
     Train neural network model, based on the 'train' set.
 
@@ -47,6 +48,10 @@ def train_network(model, X, y, output, reg_lambda=0.1, eps=10e-4):
         reg_lambda : float
             regression parameter for sgd.
         eps : float
+        callback : func
+            callback which calls every certain amount of 'epoch_delta'
+        epoch_delta: int
+            amount of epochs will be passed before 'callback' has been called.
         output : str
             output filepath where to store the model.
     Returns:
@@ -61,6 +66,7 @@ def train_network(model, X, y, output, reg_lambda=0.1, eps=10e-4):
     it = 0
     logging.info("initial loss: %f" % (p_loss))
 
+    epoch = 0
     while abs(p_loss - c_loss) > eps:
         model.sgd_step(X, y, reg_lambda)
         c_loss = model.calculate_loss(X, y)
@@ -80,6 +86,9 @@ def train_network(model, X, y, output, reg_lambda=0.1, eps=10e-4):
             model.save(output)
             p_loss = c_loss
             c_loss = 0
+            epoch += 1
+            if (epoch % epoch_delta == 0 and callback != None):
+                callback()
 
         it += 1
 

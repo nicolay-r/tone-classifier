@@ -42,6 +42,15 @@ rnn_test_sre16_bank_w2v: VECTORIZER_TYPE = w2v
 rnn_test_sre16_bank_w2v: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.csv
 rnn_test_sre16_bank_w2v: rnn_core_test
 
+rnn_diagnostic_sre16_bank_w2v_imb: TASK_TYPE = bank
+rnn_diagnostic_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train.csv
+rnn_diagnostic_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
+rnn_diagnostic_sre16_bank_w2v_imb: MODEL_NAME = rnn_diagnostic
+rnn_diagnostic_sre16_bank_w2v_imb: SETTING_NAME = sre16_imb
+rnn_diagnostic_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.csv
+rnn_diagnostic_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
+rnn_diagnostic_sre16_bank_w2v_imb: rnn_diagnostic
+
 #
 # SentiRuEval-2015
 #
@@ -461,6 +470,9 @@ core:
 
 rnn_core:
 	$(MODEL_ROOT)/model_$(MODEL_NAME).py $(SETTING_NAME) $(VECTORIZER_TYPE) 'rnn' $(TASK_TYPE) $(TABLE)
+
+rnn_diagnostic:
+	$(MODEL_ROOT)/model_$(MODEL_NAME).py $(SETTING_NAME) $(VECTORIZER_TYPE) 'rnn' $(TASK_TYPE) $(TEST_TABLE) $(TRAIN_TABLE) $(ETALON_RESULT)
 
 rnn_core_test:
 	# Predicting

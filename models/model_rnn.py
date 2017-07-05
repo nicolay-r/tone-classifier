@@ -68,7 +68,7 @@ def train_network(vectorizer, network_type, task_type, train_table):
     # Network setting should be presented in json configuration (apperently
     # rnn.conf)
     hidden_layer_size = 400
-    model = NETWORKS[network_type](hidden_layer_size, embedding_size)
+    model = get_network(network_type)(hidden_layer_size, embedding_size)
     paths = get_model_paths(task_type, network_type, SETTING_NAME)
 
     logging.info("Pack embedding settings: {} ...".format(
@@ -117,6 +117,7 @@ def get_model_paths(task_type, network_type, setting_name):
     return {"model_output": m_out, "embedding_output": e_out}
 
 
+# Save vocabularies
 def save_embeddings(output):
     """
     Save embedding configurations.
@@ -130,18 +131,25 @@ def save_embeddings(output):
                 zf.write(join(configs.EMBEDINGS_ROOT, f), arcname=f)
 
 
+def get_vectorizer(vectorizer_type):
+    if (vectorizer_type == 'w2v'):
+        return w2v_vectorizer
+    if (vectorizer_type == 'features_only'):
+        return features_only
+    raise "type {} doesn't supported".format(vectorizer_type)
+
+
+def get_network(network_type):
+    if (network_type == 'rnn'):
+        return RNNTheano
+    if (network_type == 'rnn'):
+        return None
+    if (network_type == 'rnn'):
+        return None
+    raise "type {} doesn't supported".format(network_type)
+
+
 if __name__ == "__main__":
-
-    VECTORIZERS = {
-            'w2v': w2v_vectorizer,
-            'features_only': features_only
-        }
-
-    NETWORKS = {
-            'rnn': RNNTheano,
-            'lstm': None,
-            'gru': None
-        }
 
     utils.init_logger()
     config = {'setting_name': sys.argv[1],
@@ -153,7 +161,7 @@ if __name__ == "__main__":
     SETTING_NAME = config['setting_name']
 
     train_network(
-            VECTORIZERS[config['vectorizer_type']],
+            get_vectorizer(config['vectorizer_type']),
             config['network_type'],
             config['task_type'],
             config['train_table'])
