@@ -80,9 +80,9 @@ def countDiff(rScores, eTwitID, eTwitScores, calculations, errorTwitIDs):
 
 
 def check(task_type, result_table, etalon_table, error_filepath=None):
-    if (task == 'bank'):
+    if (task_type == 'bank'):
         scoreColumns = configs.DATA_BANK_FIELDS
-    elif (task == 'ttk'):
+    elif (task_type == 'ttk'):
         scoreColumns = configs.DATA_TCC_FIELDS
     else:
         raise "Task is not supported"
@@ -103,31 +103,34 @@ def check(task_type, result_table, etalon_table, error_filepath=None):
     for twitID in eScores.iterkeys():
         countDiff(rScores, twitID, eScores[twitID], calculations, errorTwitIDs)
 
+    e = 1e-10
     precision = {'positive': float(calculations['positive']['tp']) /
                  (calculations['positive']['tp'] +
-                 calculations['positive']['fp']),
+                  calculations['positive']['fp'] + e),
                  'negative': float(calculations['negative']['tp']) /
                  (calculations['negative']['tp'] +
-                 calculations['negative']['fp'])}
+                  calculations['negative']['fp'] + e)}
 
     recall = {'positive': float(calculations['positive']['tp']) /
               (calculations['positive']['tp'] +
-               calculations['positive']['fn']),
+               calculations['positive']['fn'] + e),
               'negative': float(calculations['negative']['tp']) /
               (calculations['negative']['tp'] +
-               calculations['negative']['fn'])}
+               calculations['negative']['fn'] + e)}
 
     F = {'positive': 2 * ((precision['positive'] * recall['positive']) /
-         ((precision['positive'] + recall['positive']))),
+         ((precision['positive'] + recall['positive'] + e))),
          'negative': 2 * ((precision['negative'] * recall['negative']) /
-                          ((precision['negative'] + recall['negative'])))}
+                          ((precision['negative'] + recall['negative'] + e)))}
 
     Fr = (F['positive'] + F['negative']) / 2
 
     errorDf = rdf[rdf['twitid'].isin(list(errorTwitIDs))]
-    markErrors(errorDf, edf, scoreColumns)
+
     if (error_filepath is not None):
-        errorDf.to_csv(error_filepath)
+        markErrors(errorDf, edf, scoreColumns)
+        if (error_filepath is not None):
+            errorDf.to_csv(error_filepath)
 
     return {"error_filepath": error_filepath,
             "calculations": calculations,
@@ -143,12 +146,12 @@ if __name__ == "__main__":
                 argv[0]
         exit(0)
 
-    task = argv[1]
+    task_type = argv[1]
     resultFilepath = argv[2]
     etalonFilepath = argv[3]
     errorFilepath = argv[4]
 
-    result = check(task, resultFilepath, etalonFilepath, errorFilepath)
+    result = check(task_type, resultFilepath, etalonFilepath, errorFilepath)
 
     print 'Classifer errors has been saved: {}'.format(
         result['error_filepath'])

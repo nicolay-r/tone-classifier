@@ -38,10 +38,11 @@ def predict(model, X, task_type, result_table):
         label = np.argmax(y[msg_index]) - 1
         for column in sentiment_columns:
             if not df[column].isnull()[row_index]:
-                df.set_value(row_index, column, label)
+                df.loc[row_index, column] = label
 
     # Rewriting table with the filled results
     df.to_csv(result_table, sep=',')
+    del df
 
 
 def load_model(paths):

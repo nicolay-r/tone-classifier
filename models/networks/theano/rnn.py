@@ -30,6 +30,8 @@ class RNNTheano:
         self.dV = theano.shared(V.astype(theano.config.floatX), name='dV')
         self.dW = theano.shared(W.astype(theano.config.floatX), name='dW')
 
+        self.epoch = theano.shared(0)
+
         def forward_prop_step(xt, o, st_prev, U, W, V):
             s_next = T.tanh(U.dot(xt) + W.dot(st_prev))
             o_next = T.nnet.softmax(V.dot(s_next))[0]
@@ -69,7 +71,8 @@ class RNNTheano:
                          (self.V, self.V - reg_lambda * dV),
                          (self.dU, dU),
                          (self.dW, dW),
-                         (self.dV, dV)])
+                         (self.dV, dV),
+                         (self.epoch, self.epoch + 1)])
 
     def rollback_step(self, reg_lambda):
         self.U.set_value(self.U.get_value() + reg_lambda * self.dU.get_value())
@@ -82,7 +85,8 @@ class RNNTheano:
                 'W': self.W,
                 'i_size': self.i_size,
                 'hl_size': self.hl_size,
-                'bptt_truncate': self.bptt_truncate}
+                'bptt_truncate': self.bptt_truncate,
+                'epoch': self.epoch}
         with open(filepath, 'wb') as out:
             pickle.dump(data, out)
 
@@ -102,5 +106,6 @@ class RNNTheano:
             model.U.set_value(data['U'].get_value())
             model.W.set_value(data['W'].get_value())
             model.V.set_value(data['V'].get_value())
+            model.epoch = data['epoch']
 
         return model

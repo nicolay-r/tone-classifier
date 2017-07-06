@@ -2,8 +2,10 @@
 # -*- coding: utf-8 -*-
 import sys
 import logging
+from os.path import join
 
 import utils
+import configs
 from core.features import Features
 from core.DocVocabulary import DocVocabulary
 from core.TermVocabulary import TermVocabulary
@@ -29,7 +31,6 @@ def train_network(vectorizer, network_type, task_type, train_table,
     term_vocabulary = TermVocabulary()
     doc_vocabulary = DocVocabulary()
 
-    # Get problems
     train_problem = utils.create_problem(task_type, 'train', train_table,
                                          vectorizer, features, term_vocabulary,
                                          doc_vocabulary, message_settings)
@@ -44,8 +45,6 @@ def train_network(vectorizer, network_type, task_type, train_table,
     X_test = get_problem(test_problem, get_results=False)
     X_train, Y = get_problem(train_problem, get_results=True)
 
-    import ipdb; ipdb.set_trace() # BREAKPOINT
-
     assert(X_test.shape[1] == X_train.shape[1])
 
     embedding_size = X_test.shape[1]
@@ -59,21 +58,36 @@ def train_network(vectorizer, network_type, task_type, train_table,
     model = get_network(network_type)(hidden_layer_size, embedding_size)
     paths = get_model_paths(task_type, network_type, setting_name)
 
+    diagnostic_output = join(configs.NETWORK_MODELS_ROOT,
+                             "{}.diag".format(setting_name))
+
     logging.info("Pack embedding settings: {} ...".format(
         paths['embedding_output']))
     save_embeddings(paths['embedding_output'])
 
-    def callback(model, X_test, task_type, result_table, etalon_table):
+    def callback(model, X_test, X_train, Y, task_type, result_table,
+                 etalon_table, diagnostic_output):
+        """
+        Test model
+        """
+        logging.info("Testing model ...")
+        loss = model.calculate_loss(X_train, Y)
         predict(model, X_test, task_type, result_table)
-        check(task_type, result_table, etalon_table)
+        result = check(task_type, result_table, etalon_table)
+        logging.info("Appending results: {} ...".format(diagnostic_output))
+        with open(diagnostic_output, 'a') as output:
+            output.writelines("{} {} {}\n".format(
+                model.epoch.get_value(), loss, result["F_macro"]))
 
     model_output = paths['model_output']
 
-    output_table = test_table + 'result.csv'
+    output_table = test_table + '.result.csv'
     prepare_result_table(test_table, output_table)
-    utils.train_network(model, X_train, Y, model_output,
-                        lambda: callback(model, X_test, task_type,
-                                         output_table, etalon_table))
+
+    test = lambda: callback(model, X_test, X_train, Y, task_type,
+                            output_table, etalon_table, diagnostic_output)
+
+    utils.train_network(model, X_train, Y, model_output, callback=test)
 
 
 if __name__ == "__main__":
