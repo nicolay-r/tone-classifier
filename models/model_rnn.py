@@ -20,6 +20,7 @@ from model_w2v import vectorizer as w2v_vectorizer
 from model_features_only import vectorizer as features_only
 
 from networks.theano.rnn import RNNTheano
+from networks.theano.gru import GRU2LTheano
 
 
 def train_network(vectorizer, network_type, task_type, train_table,
@@ -65,8 +66,8 @@ def train_network(vectorizer, network_type, task_type, train_table,
     # TODO:
     # Network setting should be presented in json configuration (apperently
     # rnn.conf)
-    hidden_layer_size = 400
-    model = get_network(network_type)(hidden_layer_size, embedding_size)
+    hidden_size = 400
+    model = get_network(network_type, embedding_size, hidden_size)
     paths = get_model_paths(task_type, network_type, setting_name)
 
     logging.info("Pack embedding settings: {} ...".format(
@@ -156,13 +157,18 @@ def get_vectorizer(vectorizer_type):
     raise "type {} doesn't supported".format(vectorizer_type)
 
 
-def get_network(network_type):
+def get_network(network_type, input_size, hidden_size):
+    """
+    network_type : str
+    input_size : int
+    hidden_size : int
+    returns : networks.theano.*
+        Initial model, based on the function arguments
+    """
     if (network_type == 'rnn'):
-        return RNNTheano
-    if (network_type == 'rnn'):
-        return None
-    if (network_type == 'rnn'):
-        return None
+        return RNNTheano(hidden_size, input_size)
+    if (network_type == 'gru-2l'):
+        return GRU2LTheano(input_size)
     raise "type {} doesn't supported".format(network_type)
 
 

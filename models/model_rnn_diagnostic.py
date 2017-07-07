@@ -55,7 +55,7 @@ def train_network(vectorizer, network_type, task_type, train_table,
     # Network setting should be presented in json configuration (apperently
     # rnn.conf)
     hidden_layer_size = 400
-    model = get_network(network_type)(hidden_layer_size, embedding_size)
+    model = get_network(network_type, embedding_size, hidden_layer_size)
     paths = get_model_paths(task_type, network_type, setting_name)
 
     diagnostic_output = join(configs.NETWORK_MODELS_ROOT,
