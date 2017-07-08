@@ -43,24 +43,34 @@ rnn_test_sre16_bank_w2v: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.c
 rnn_test_sre16_bank_w2v: rnn_core_test
 
 rnn_diagnostic_sre16_bank_w2v_imb: TASK_TYPE = bank
-rnn_diagnostic_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2015)$(TASK_TYPE)_train.csv
-rnn_diagnostic_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2015)$(TASK_TYPE)_test.csv
+rnn_diagnostic_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train.csv
+rnn_diagnostic_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
 rnn_diagnostic_sre16_bank_w2v_imb: MODEL_NAME = rnn_diagnostic
-rnn_diagnostic_sre16_bank_w2v_imb: SETTING_NAME = sre15_imb
+rnn_diagnostic_sre16_bank_w2v_imb: SETTING_NAME = sre16_imb
 rnn_diagnostic_sre16_bank_w2v_imb: NETWORK_TYPE = rnn
-rnn_diagnostic_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.csv
+rnn_diagnostic_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.csv
 rnn_diagnostic_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
 rnn_diagnostic_sre16_bank_w2v_imb: rnn_diagnostic
 
 gru-2l_diagnostic_sre16_bank_w2v_imb: TASK_TYPE = bank
-gru-2l_diagnostic_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2015)$(TASK_TYPE)_train.csv
-gru-2l_diagnostic_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2015)$(TASK_TYPE)_test.csv
+gru-2l_diagnostic_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train.csv
+gru-2l_diagnostic_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
 gru-2l_diagnostic_sre16_bank_w2v_imb: MODEL_NAME = rnn_diagnostic
-gru-2l_diagnostic_sre16_bank_w2v_imb: SETTING_NAME = sre15_imb
+gru-2l_diagnostic_sre16_bank_w2v_imb: SETTING_NAME = sre16_imb
 gru-2l_diagnostic_sre16_bank_w2v_imb: NETWORK_TYPE = gru-2l
-gru-2l_diagnostic_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2015)$(TASK_TYPE)_etalon.csv
+gru-2l_diagnostic_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.csv
 gru-2l_diagnostic_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
 gru-2l_diagnostic_sre16_bank_w2v_imb: rnn_diagnostic
+
+lstm-1l_diagnostic_sre16_bank_w2v_imb: TASK_TYPE = bank
+lstm-1l_diagnostic_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train.csv
+lstm-1l_diagnostic_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
+lstm-1l_diagnostic_sre16_bank_w2v_imb: MODEL_NAME = rnn_diagnostic
+lstm-1l_diagnostic_sre16_bank_w2v_imb: SETTING_NAME = sre16_imb
+lstm-1l_diagnostic_sre16_bank_w2v_imb: NETWORK_TYPE = lstm-1l
+lstm-1l_diagnostic_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.csv
+lstm-1l_diagnostic_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
+lstm-1l_diagnostic_sre16_bank_w2v_imb: rnn_diagnostic
 
 #
 # SentiRuEval-2015
