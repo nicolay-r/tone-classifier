@@ -156,7 +156,7 @@ class LSTM2lTheano:
 
         self.epoch = theano.shared(0)
 
-        def forward_prop_step(x_v, st1_prev, st2_prev, U, W, V, c):
+        def forward_prop_step(x_v, o, st1_prev, st2_prev, U, W, V, c):
 
             # LSTM Layer 1
             i_t1 = T.nnet.hard_sigmoid(U[0].dot(x_v) + W[0].dot(st1_prev))
@@ -179,7 +179,7 @@ class LSTM2lTheano:
             o_next = T.nnet.softmax(V.dot(s_t2))[0]
             return [o_next, s_t1, s_t2]
 
-        [o, s], updates = theano.scan(
+        [o, s_t1, s_t2], updates = theano.scan(
                 forward_prop_step,
                 sequences=x,
                 truncate_gradient=-1,
