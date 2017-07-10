@@ -72,6 +72,16 @@ lstm-1l_diagnostic_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_
 lstm-1l_diagnostic_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
 lstm-1l_diagnostic_sre16_bank_w2v_imb: rnn_diagnostic
 
+lstm-2l_diagnostic_sre16_bank_w2v_imb: TASK_TYPE = bank
+lstm-2l_diagnostic_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train.csv
+lstm-2l_diagnostic_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
+lstm-2l_diagnostic_sre16_bank_w2v_imb: MODEL_NAME = rnn_diagnostic
+lstm-2l_diagnostic_sre16_bank_w2v_imb: SETTING_NAME = sre16_imb
+lstm-2l_diagnostic_sre16_bank_w2v_imb: NETWORK_TYPE = lstm-2l
+lstm-2l_diagnostic_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.csv
+lstm-2l_diagnostic_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
+lstm-2l_diagnostic_sre16_bank_w2v_imb: rnn_diagnostic
+
 #
 # SentiRuEval-2015
 #

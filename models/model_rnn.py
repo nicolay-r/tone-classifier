@@ -21,7 +21,7 @@ from model_features_only import vectorizer as features_only
 
 from networks.theano.rnn import RNNTheano
 from networks.theano.gru import GRU2LTheano
-from networks.theano.lstm import LSTM1lTheano
+from networks.theano.lstm import LSTM1lTheano, LSTM2lTheano
 
 
 def train_network(vectorizer, network_type, task_type, train_table,
@@ -172,6 +172,8 @@ def get_network(network_type, input_size, hidden_size):
         return GRU2LTheano(input_size)
     if (network_type == 'lstm-1l'):
         return LSTM1lTheano(input_size)
+    if (network_type == 'lstm-2l'):
+        return LSTM2lTheano(input_size)
     raise "type {} doesn't supported".format(network_type)
 
 
