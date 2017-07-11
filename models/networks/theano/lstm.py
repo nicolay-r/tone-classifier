@@ -184,7 +184,7 @@ class LSTM2lTheano:
                 sequences=x,
                 truncate_gradient=-1,
                 outputs_info=[
-                    None,
+                    dict(initial=T.zeros(out_size)),
                     dict(initial=T.zeros(hl_size)),
                     dict(initial=T.zeros(hl_size))],
                 non_sequences=[self.U, self.W, self.V, self.c],
