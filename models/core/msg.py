@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import io
-import json
 import pymystem3
 from nltk.tokenize import TweetTokenizer
 

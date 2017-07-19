@@ -6,6 +6,7 @@ import sys
 import json
 import logging
 import pandas as pd
+import numpy as np
 
 # core
 import core
@@ -32,7 +33,7 @@ def init_logger():
 
 # TODO: pass here the output filepath based on the parameter from argv.
 def train_network(model, X, y, output, reg_lambda=0.1, eps=10e-4,
-                  callback=None, epoch_delta = 5):
+                  callback=None, epoch_delta=5):
     """
     Train neural network model, based on the 'train' set.
 
@@ -68,6 +69,11 @@ def train_network(model, X, y, output, reg_lambda=0.1, eps=10e-4,
 
     epoch = 0
     while abs(p_loss - c_loss) > eps:
+
+        p = np.random.permutation(len(X))
+        X = X[p]
+        y = y[p]
+
         model.sgd_step(X, y, reg_lambda)
         c_loss = model.calculate_loss(X, y)
         logging.info("current loss on step %d: %f" % (it, c_loss))
@@ -87,7 +93,7 @@ def train_network(model, X, y, output, reg_lambda=0.1, eps=10e-4,
             p_loss = c_loss
             c_loss = 0
             epoch += 1
-            if (epoch % epoch_delta == 0 and callback != None):
+            if (epoch % epoch_delta == 0 and callback is not None):
                 callback()
 
         it += 1
