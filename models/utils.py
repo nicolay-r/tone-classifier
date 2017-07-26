@@ -32,8 +32,8 @@ def init_logger():
 
 
 # TODO: pass here the output filepath based on the parameter from argv.
-def train_network(model, X, y, output, reg_lambda=0.1, eps=10e-4,
-                  callback=None, epoch_delta=5):
+def train_network(model, X, y, output, reg_lambda=10e-5, eps=10e-4,
+                  callback=None, epoch_delta=40):
     """
     Train neural network model, based on the 'train' set.
 
