@@ -32,8 +32,8 @@ def init_logger():
 
 
 # TODO: pass here the output filepath based on the parameter from argv.
-def train_network(model, X, y, output, reg_lambda=10e-5, eps=10e-4,
-                  callback=None, epoch_delta=40):
+def train_network(model, X, y, output, reg_lambda=10e-4, min_reg_lambda=10e-7,
+                  eps=10e-4, callback=None, epoch_delta=40):
     """
     Train neural network model, based on the 'train' set.
 
@@ -78,23 +78,29 @@ def train_network(model, X, y, output, reg_lambda=10e-5, eps=10e-4,
         c_loss = model.calculate_loss(X, y)
         logging.info("current loss on step %d: %f" % (it, c_loss))
         unrolled_steps += 1
-        if (c_loss >= p_loss):
+
+        if (c_loss >= p_loss and reg_lambda > min_reg_lambda):
             model.rollback_step(reg_lambda)
             reg_lambda *= rl_div
             logging.info("rollback sgd_step, where loss=%f. reg_lambda=%f" %
                          (model.calculate_loss(X, y), reg_lambda))
             unrolled_steps = 0
         else:
-            if (unrolled_steps % 10 == 0 and reg_lambda < i_rl):
+            if (reg_lambda < min_reg_lambda):
+                reg_lambda = i_rl
+                logging.info("reset reg_lambda: %f" % reg_lambda)
+            elif (unrolled_steps % 10 == 0):
                 reg_lambda /= rl_div
                 logging.info("increase reg_lambda: %f" % reg_lambda)
+
             logging.info('save model: {}'.format(output))
             model.save(output)
             p_loss = c_loss
             c_loss = 0
             epoch += 1
-            if (epoch % epoch_delta == 0 and callback is not None):
-                callback()
+
+        if (epoch % epoch_delta == 0 and callback is not None):
+            callback()
 
         it += 1
 
