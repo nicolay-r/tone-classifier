@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import logging
-from os.path import join
+from os.path import join, exists
 
 import utils
 import configs
@@ -80,6 +80,9 @@ def train_network(vectorizer, network_type, task_type, train_table,
                 model.epoch.get_value(), loss, result["F_macro"]))
 
     model_output = paths['model_output']
+    if (exists(model_output)):
+        logging.info("Loading existed model: {} ...".format(model_output))
+        model.load(model_output)
 
     output_table = test_table + '.result.csv'
     prepare_result_table(test_table, output_table)
