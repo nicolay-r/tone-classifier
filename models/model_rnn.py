@@ -19,13 +19,18 @@ from core.msg import TwitterMessageParser
 from model_w2v import vectorizer as w2v_vectorizer
 from model_features_only import vectorizer as features_only
 
+# RNN
 from networks.theano.rnn import RNNTheano
+
+# GRU
 from networks.theano.gru import GRU2LTheano
 
 # LSTM
 from networks.theano.lstm.lstm_1l_vanilla import LSTM1lTheano
-from networks.theano.lstm.lstm_2l_vanilla import LSTM2lTheano
 from networks.theano.lstm.lstm_1l_rmsprop import LSTM1lRmspropTheano
+from networks.theano.lstm.lstm_1l_adam import LSTM1lAdamTheano
+from networks.theano.lstm.lstm_2l_vanilla import LSTM2lTheano
+
 
 def train_network(vectorizer, network_type, task_type, train_table,
                   setting_name):
@@ -177,6 +182,8 @@ def get_network(network_type, input_size, hidden_size):
         return LSTM1lTheano(input_size)
     if (network_type == 'lstm-1l-rmsprop'):
         return LSTM1lRmspropTheano(input_size)
+    if (network_type == 'lstm-1l-adam'):
+        return LSTM1lAdamTheano(input_size)
     if (network_type == 'lstm-2l'):
         return LSTM2lTheano(input_size)
     raise "type {} doesn't supported".format(network_type)
