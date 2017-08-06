@@ -137,10 +137,10 @@ class LSTM1lAdamTheano:
              theano.Param(betta_2, default=0.9)],
             [],
             updates=[
-                (self.U, self.U - reg_lambda * dU * mU_cap / (T.sqrt(vU_cap) + 1e-6)),
-                (self.W, self.W - reg_lambda * dW * mW_cap / (T.sqrt(vW_cap) + 1e-6)),
-                (self.V, self.V - reg_lambda * dV * mV_cap / (T.sqrt(vV_cap) + 1e-6)),
-                (self.c, self.c - reg_lambda * dc * mc_cap / (T.sqrt(vc_cap) + 1e-6)),
+                (self.U, self.U - reg_lambda * dU * mU_cap / (T.sqrt(vU_cap) + 1e-8)),
+                (self.W, self.W - reg_lambda * dW * mW_cap / (T.sqrt(vW_cap) + 1e-8)),
+                (self.V, self.V - reg_lambda * dV * mV_cap / (T.sqrt(vV_cap) + 1e-8)),
+                (self.c, self.c - reg_lambda * dc * mc_cap / (T.sqrt(vc_cap) + 1e-8)),
 
                 (self.eU, eU),
                 (self.eW, eW),
