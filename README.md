@@ -22,9 +22,11 @@ the top results of the competition.
 Documentation
 -------------
 
-1. Methods of lexicon integration with machine learning for sentiment analysis system (AIDT Journal 2017/2)
+1. Methods of lexicon integration with machine learning for sentiment analysis
+   system (AIDT Journal 2017/2)
 
-2. Use of lexicons to improve quality of sentiment classification ([Dialog-2016 article]);
+2. Use of lexicons to improve quality of sentiment classification ([Dialog-2016
+   article]);
 
 2. [Russir-2016 paper];
 
@@ -40,7 +42,8 @@ comparation with the other participants.
 
 <!-- Links -->
 [Dialog-2016 article]: http://www.dialog-21.ru/media/3469/rusnachenko.pdf
-[Russir-2016 paper]: https://github.com/nicolay-r/tone-classifier/blob/master/doc/russir_paper.pdf
-[Full documentation]: https://github.com/nicolay-r/tone-classifier/blob/master/doc/diploma.pdf
+[Russir-2016 paper]: doc/russir_paper.pdf
+[Full documentation]: doc/diploma.pdf
+[AIDT Journal 2017/2]: doc/aidt_2017.pdf
 [SentiRuEval-2015]: http://goo.gl/qHeAVo
 [SentiRuEval-2016]: https://drive.google.com/drive/u/0/folders/0BxlA8wH3PTUfV1F1UTBwVTJPd3c
