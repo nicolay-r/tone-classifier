@@ -109,14 +109,14 @@ class LSTM1lAdamTheano:
         ec = decay * self.ec + (1 - decay) * dc ** 2
 
         mU = betta_1 * self.mU + (1 - betta_1) * dU
-        mV = betta_1 * self.mU + (1 - betta_1) * dV
-        mW = betta_1 * self.mU + (1 - betta_1) * dW
-        mc = betta_1 * self.mU + (1 - betta_1) * dc
+        mV = betta_1 * self.mV + (1 - betta_1) * dV
+        mW = betta_1 * self.mW + (1 - betta_1) * dW
+        mc = betta_1 * self.mc + (1 - betta_1) * dc
 
         vU = betta_2 * self.vU + (1 - betta_2) * dU ** 2
-        vV = betta_2 * self.vU + (1 - betta_2) * dV ** 2
-        vW = betta_2 * self.vU + (1 - betta_2) * dW ** 2
-        vc = betta_2 * self.vU + (1 - betta_2) * dc ** 2
+        vV = betta_2 * self.vV + (1 - betta_2) * dV ** 2
+        vW = betta_2 * self.vW + (1 - betta_2) * dW ** 2
+        vc = betta_2 * self.vc + (1 - betta_2) * dc ** 2
 
         mU_cap = mU / (1 - betta_1 ** self.t)
         mV_cap = mV / (1 - betta_1 ** self.t)
