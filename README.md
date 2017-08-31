@@ -1,36 +1,38 @@
 Description
 -----------
 
-This project describes the application of SVM classifier for sentiment
-classification of Russian Twitter messages in the banking and telecommunications
-domains of SentiRuEval-2016 competition. A variety of features were implemented
-to improve the quality of message classification, especially sentiment score
-features based on a set of sentiment lexicons. We compare the result differences
-between train collection types (balanced/imbalanced) and its volumes, and
-advantages of applying lexicon-based features to each type of the training
-classifier modification. Before SentiRuEval-2016, the classifier was tested on
-the previous year collection of the same competition (SentiRuEval-2015) to
-obtain a better settings set. The created system achieved the third place at
-SentiRuEval-2016 in both tasks. The experiments performed after the
-SentiRuEval-2016 evaluation allowed us to improve our results by searching for a
-better 'Cost' parameter value of SVM classifier and extracting more information
-from lexicons into new features. The final classifier achieved results close to
-the top results of the competition.
+This research project describes the application of SVM classifier and NN
+classifiers for sentiment classification of Russian Twitter messages in the
+banking and telecommunications domains of **SentiRuEval** competition.
 
-**Key words:** Machine Learning, SVM, Sentiment Analysis, Lexicons, SentiRuEval 2016
+Installation
+------------
 
-Documentation
--------------
+All dependencies described in `Makefile` and could be installed as follows:
 
-1. Methods of lexicon integration with machine learning for sentiment analysis
-   system [AIDT Journal 2017/2]
+`make install`
 
-2. Use of lexicons to improve quality of sentiment classification ([Dialog-2016
-   article]);
+Usage
+-----
 
-2. [Russir-2016 paper];
+For research purposes. Use `run/Makefile` to run workflow for
+certain task (`bank` or `tcc`) and classifier, for example:
 
-2. Diploma work ([Full documentation]).
+` cd run && make svm_sre15_bank_w2v_bal `
+
+returns F-macro/micro result for SentiRuEval-2015 bank dataset using
+w2v-based embedding model for balanced test collection.
+
+All embedding classifier settings presented in `data/embedding` folder.
+
+Papers
+------
+
+1. Russir posters ([2017][Russir-2017 poster], [2016][Russir-2016 poster])
+
+1. [AIDT Journal 2017/2];
+
+2. [Dialog-2016][Dialog-2016 article];
 
 References
 ----------
@@ -41,9 +43,11 @@ comparation with the other participants.
 
 
 <!-- Links -->
-[Dialog-2016 article]: http://www.dialog-21.ru/media/3469/rusnachenko.pdf
-[Russir-2016 paper]: doc/russir_paper.pdf
-[Full documentation]: doc/diploma.pdf
+[Russir-2017 poster]: doc/russir_2017_poster.pdf
 [AIDT Journal 2017/2]: doc/aidt_2017.pdf
-[SentiRuEval-2015]: http://goo.gl/qHeAVo
+
+[Russir-2016 poster]: doc/russir_2016_poster.pdf
 [SentiRuEval-2016]: https://drive.google.com/drive/u/0/folders/0BxlA8wH3PTUfV1F1UTBwVTJPd3c
+[Dialog-2016 article]: http://www.dialog-21.ru/media/3469/rusnachenko.pdf
+
+[SentiRuEval-2015]: http://goo.gl/qHeAVo
