@@ -16,7 +16,7 @@ Usage
 -----
 
 For research purposes. Use `run/Makefile` to run workflow for
-certain task (`bank` or `tcc`) and classifier, for example:
+certain task (`bank` or `tcc`) and classifier (`svm`, `lr`), for example:
 
 ` cd run && make svm_sre15_bank_w2v_bal `
 
