@@ -101,6 +101,12 @@ class LSTM2lTheano:
         self.W.set_value(self.W.get_value() + reg_lambda * self.dW.get_value())
         self.V.set_value(self.V.get_value() + reg_lambda * self.dV.get_value())
 
+    def apply_step(self, reg_lambda):
+        self.U.set_value(self.U.get_value() - reg_lambda * self.dU.get_value())
+        self.W.set_value(self.W.get_value() - reg_lambda * self.dW.get_value())
+        self.V.set_value(self.V.get_value() - reg_lambda * self.dV.get_value())
+
+
     @staticmethod
     def load(filepath):
         """

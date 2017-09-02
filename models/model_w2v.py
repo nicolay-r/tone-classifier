@@ -3,11 +3,11 @@
 
 # global
 import io
+import os
 import json
-import os.path
+import logging
 from gensim.models.word2vec import Word2Vec
 import numpy as np
-import logging
 
 # this
 import utils
@@ -63,7 +63,14 @@ def w2v_vectorizer(terms, term_voc, w2v_model, model_index):
     """
     vector = {}
 
-    w2v_vector = sum_w2v_vectors_for_all_terms(w2v_model, terms)
+    union_type = CONFIG_WORD2VEC_UNIONTYPE
+
+    if (union_type == configs.W2V_UNIONTYPE_SUM):
+        w2v_vector = sum_w2v_vectors(w2v_model, terms)
+    elif (union_type == configs.W2V_UNIONTYPE_CONCAT):
+        w2v_vector = concat_w2v_vectors(w2v_model, terms)
+    else:
+        raise Exception("union type '%s' doesn't suppport" % (union_type))
 
     term_voc.insert_terms([index2term(model_index, item_index)
                            for item_index in range(0, w2v_vector.size)])
@@ -76,7 +83,7 @@ def w2v_vectorizer(terms, term_voc, w2v_model, model_index):
     return vector
 
 
-def sum_w2v_vectors_for_all_terms(w2v_model, terms, calculate_middle=False):
+def sum_w2v_vectors(w2v_model, terms, calculate_middle=False):
     """
     Sum all vectors from Word2Vec model for all terms presented in model
     """
@@ -94,16 +101,28 @@ def sum_w2v_vectors_for_all_terms(w2v_model, terms, calculate_middle=False):
     return w2v_vector
 
 
+def concat_w2v_vectors(w2v_model, terms, limit=10):
+    """
+    Concatenate vectors from Word2Vec model for first 'limit' terms, presented
+    in model
+    """
+    vectors = [w2v_model[term] for term in terms if term in w2v_model][:limit]
+    # model size
+    return np.concatenate(vectors)
+
+
 def index2term(model_index, item_index):
     return '$W2V_ITEM_{model}_{item}'.format(model=str(model_index),
                                              item=str(item_index))
 
 
 utils.init_logger()
-CONFIG_WORD2VEC_MODELS = "w2v_models"
 
 with io.open(configs.W2V_CONFIG, 'r') as f:
     config = json.load(f, encoding='utf-8')
+
+CONFIG_WORD2VEC_MODELS = "w2v_models"
+CONFIG_WORD2VEC_UNIONTYPE = config["union_type"]
 
 W2V_MODELS = []
 for model_params in config[CONFIG_WORD2VEC_MODELS]:
@@ -112,7 +131,6 @@ for model_params in config[CONFIG_WORD2VEC_MODELS]:
             os.path.dirname(configs.DATA_ROOT), model_params['path'])
         logging.info("Loading Word2Vec model: {} ...".format(model_path))
         W2V_MODELS.append(Word2Vec.load_word2vec_format(model_path))
-
 
 if __name__ == "__main__":
     utils.vectorization_core(vectorizer, init_term_vocabulary=False)

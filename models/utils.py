@@ -61,48 +61,44 @@ def train_network(model, X, y, output, reg_lambda=10e-4, min_reg_lambda=10e-7,
     """
     i_rl = reg_lambda
     p_loss = model.calculate_loss(X, y)
-    c_loss = 0
     rl_div = 0.5
-    unrolled_steps = 0
-    it = 0
     logging.info("initial loss: %f" % (p_loss))
 
     epoch = 0
-    while abs(p_loss - c_loss) > eps:
+    while epoch < 10000:
+
+        logging.info('epoch: %s' % (epoch))
 
         p = np.random.permutation(len(X))
         X = X[p]
         y = y[p]
 
         model.sgd_step(X, y, reg_lambda)
-        c_loss = model.calculate_loss(X, y)
-        logging.info("current loss on step %d: %f" % (it, c_loss))
-        unrolled_steps += 1
 
-        if (c_loss >= p_loss and reg_lambda > min_reg_lambda):
+        c_loss = model.calculate_loss(X, y)
+        while (c_loss >= p_loss and reg_lambda > min_reg_lambda):
+            logging.info("current_loss: %f" % (c_loss))
+            logging.info("rollback sgd_step, where lost=%f. reg_lambda=%f" %
+                         (c_loss, reg_lambda))
+
             model.rollback_step(reg_lambda)
             reg_lambda *= rl_div
-            logging.info("rollback sgd_step, where loss=%f. reg_lambda=%f" %
-                         (model.calculate_loss(X, y), reg_lambda))
-            unrolled_steps = 0
-        else:
-            if (reg_lambda < min_reg_lambda):
-                reg_lambda = i_rl
-                logging.info("reset reg_lambda: %f" % reg_lambda)
-            elif (unrolled_steps % 10 == 0):
-                reg_lambda /= rl_div
-                logging.info("increase reg_lambda: %f" % reg_lambda)
+            model.apply_step(reg_lambda)
+            c_loss = model.calculate_loss(X, y)
 
-            logging.info('save model: {}'.format(output))
-            model.save(output)
-            p_loss = c_loss
-            c_loss = 0
-            epoch += 1
+        logging.info("current_loss: %f" % (c_loss))
+
+        if (reg_lambda < min_reg_lambda):
+            reg_lambda = i_rl
+            logging.info("reset reg_lambda: %f to %f" % (reg_lambda, i_rl))
+
+        logging.info('save model: %s' % (output))
+        model.save(output)
+        p_loss = c_loss
+        epoch += 1
 
         if (epoch % epoch_delta == 0 and callback is not None):
             callback()
-
-        it += 1
 
 
 def vectorization_core(vectorizer, init_term_vocabulary=True,
