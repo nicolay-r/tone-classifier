@@ -33,7 +33,7 @@ def init_logger():
 
 # TODO: pass here the output filepath based on the parameter from argv.
 def train_network(model, X, y, output, reg_lambda=10e-4, min_reg_lambda=10e-7,
-                  eps=10e-4, callback=None, epoch_delta=40):
+                  callback=None, epoch_delta=5):
     """
     Train neural network model, based on the 'train' set.
 
@@ -48,7 +48,6 @@ def train_network(model, X, y, output, reg_lambda=10e-4, min_reg_lambda=10e-7,
             describes the class of each sentence presented in 'X' dataset
         reg_lambda : float
             regression parameter for sgd.
-        eps : float
         callback : func
             callback which calls every certain amount of 'epoch_delta'
         epoch_delta: int
