@@ -101,13 +101,16 @@ def sum_w2v_vectors(w2v_model, terms, calculate_middle=False):
     return w2v_vector
 
 
-def concat_w2v_vectors(w2v_model, terms, limit=10):
+def concat_w2v_vectors(w2v_model, terms, limit=5):
     """
     Concatenate vectors from Word2Vec model for first 'limit' terms, presented
     in model
     """
     vectors = [w2v_model[term] for term in terms if term in w2v_model][:limit]
-    # model size
+    if len(vectors) < limit:
+        for i in range(limit-len(vectors)):
+            vectors.append(np.zeros(w2v_model.vector_size))
+
     return np.concatenate(vectors)
 
 

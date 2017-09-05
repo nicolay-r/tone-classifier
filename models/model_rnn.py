@@ -27,6 +27,7 @@ from networks.theano.gru import GRU2LTheano
 
 # LSTM
 from networks.theano.lstm.lstm_1l_vanilla import LSTM1lTheano
+from networks.theano.lstm.lstm_1l_e_vanilla import LSTM1leTheano
 from networks.theano.lstm.lstm_1l_rmsprop import LSTM1lRmspropTheano
 from networks.theano.lstm.lstm_1l_adam import LSTM1lAdamTheano
 from networks.theano.lstm.lstm_2l_vanilla import LSTM2lTheano
@@ -180,6 +181,8 @@ def get_network(network_type, input_size, hidden_size):
         return GRU2LTheano(input_size)
     if (network_type == 'lstm-1l'):
         return LSTM1lTheano(input_size)
+    if (network_type == 'lstm-1l-e'):
+        return LSTM1leTheano(input_size)
     if (network_type == 'lstm-1l-rmsprop'):
         return LSTM1lRmspropTheano(input_size)
     if (network_type == 'lstm-1l-adam'):
