@@ -72,6 +72,17 @@ lstm-1le_diagnostic_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK
 lstm-1le_diagnostic_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
 lstm-1le_diagnostic_sre16_bank_w2v_imb: rnn_diagnostic
 
+# This flow allows to define the necessary amount of epochs
+lstm-1l_diagnostic_train_sre16_bank_w2v_imb: TASK_TYPE = bank
+lstm-1l_diagnostic_train_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train_70.csv
+lstm-1l_diagnostic_train_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train_30.csv
+lstm-1l_diagnostic_train_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_train_30.csv
+lstm-1l_diagnostic_train_sre16_bank_w2v_imb: MODEL_NAME = rnn_diagnostic
+lstm-1l_diagnostic_train_sre16_bank_w2v_imb: SETTING_NAME = sre16_imb
+lstm-1l_diagnostic_train_sre16_bank_w2v_imb: NETWORK_TYPE = lstm-1l
+lstm-1l_diagnostic_train_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
+lstm-1l_diagnostic_train_sre16_bank_w2v_imb: rnn_diagnostic
+
 lstm-1l_diagnostic_sre16_bank_w2v_imb: TASK_TYPE = bank
 lstm-1l_diagnostic_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train.csv
 lstm-1l_diagnostic_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
