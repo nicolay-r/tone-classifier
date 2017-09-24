@@ -10,7 +10,7 @@ MODEL_CORE=../models/core/
 #remove TASK_TYPE
 
 # Defining a default model
-SVM_MODEL_OPTIONS=	-t 0 -c 1 -m 200 -e 0.0001 -q
+SVM_MODEL_OPTIONS=	-t 0 -c 0.4 -e 0.01 -q
 LIBLINEAR_MODEL_OPTIONS= -s 7 -c 0.5
 CLASSIFIER_LIBRARY= svm
 MODEL_ROOT	=	$(DATA_ROOT)
@@ -82,6 +82,17 @@ lstm-1l_diagnostic_train_sre16_bank_w2v_imb: SETTING_NAME = sre16_imb
 lstm-1l_diagnostic_train_sre16_bank_w2v_imb: NETWORK_TYPE = lstm-1l
 lstm-1l_diagnostic_train_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
 lstm-1l_diagnostic_train_sre16_bank_w2v_imb: rnn_diagnostic
+
+# This flow allows to define the necessary amount of epochs
+lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: TASK_TYPE = tkk
+lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train_70.csv
+lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train_30.csv
+lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_train_30.csv
+lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: MODEL_NAME = rnn_diagnostic
+lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: SETTING_NAME = sre16_imb
+lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: NETWORK_TYPE = lstm-1l
+lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: VECTORIZER_TYPE = w2v
+lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: rnn_diagnostic
 
 lstm-1l_diagnostic_sre16_bank_w2v_imb: TASK_TYPE = bank
 lstm-1l_diagnostic_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train.csv
@@ -266,6 +277,24 @@ svm_sre16_bank_tf-idf_bal: MODEL_NAME = tf_idf
 svm_sre16_bank_tf-idf_bal: CLASSIFIER_LIBRARY = svm
 svm_sre16_bank_tf-idf_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon.csv
 svm_sre16_bank_tf-idf_bal: core
+
+svm_sre16_bank_w2v_bal: TASK_TYPE = bank
+svm_sre16_bank_w2v_bal: VOCABULARY_PATH = $(DATA_ROOT)/core/$(TASK_TYPE).voc
+svm_sre16_bank_w2v_bal: TEST_TABLE = $(SENTIRUEVAL2016)/bank_test.csv
+svm_sre16_bank_w2v_bal: TRAIN_TABLE = $(SENTIRUEVAL2016)/bank_train_balanced.csv
+svm_sre16_bank_w2v_bal: MODEL_NAME = w2v
+svm_sre16_bank_w2v_bal: CLASSIFIER_LIBRARY = svm
+svm_sre16_bank_w2v_bal: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon.csv
+svm_sre16_bank_w2v_bal: core
+
+svm_sre16_bank_w2v_imb: TASK_TYPE = bank
+svm_sre16_bank_w2v_imb: VOCABULARY_PATH = $(DATA_ROOT)/core/$(TASK_TYPE).voc
+svm_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)/bank_test.csv
+svm_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)/bank_train.csv
+svm_sre16_bank_w2v_imb: MODEL_NAME = w2v
+svm_sre16_bank_w2v_imb: CLASSIFIER_LIBRARY = svm
+svm_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)/$(TASK_TYPE)_etalon.csv
+svm_sre16_bank_w2v_imb: core
 
 svm_sre16_bank_features-only_bal: TASK_TYPE = bank
 svm_sre16_bank_features-only_bal: VOCABULARY_PATH = $(DATA_ROOT)/core/$(TASK_TYPE).voc

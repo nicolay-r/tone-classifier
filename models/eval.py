@@ -159,4 +159,4 @@ if __name__ == "__main__":
     print 'precision --', result['precision']
     print 'recall --', result['recall']
     print 'F --', result['F']
-    print 'F_macro ', result['Fr']
+    print 'F_macro ', result['F_macro']
