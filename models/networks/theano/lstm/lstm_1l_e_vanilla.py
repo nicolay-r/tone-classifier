@@ -6,8 +6,8 @@ import pickle
 
 class LSTM1leTheano:
 
-    def __init__(self, i_size, bptt_truncate=-1, hl_size=50):
-
+    def __init__(self, i_size, bptt_truncate=-1, hl_size=400):
+        self.hl_size = hl_size
         self.i_size = i_size
         self.bptt_truncate = bptt_truncate
 
