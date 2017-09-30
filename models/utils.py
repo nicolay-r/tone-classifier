@@ -32,8 +32,8 @@ def init_logger():
 
 
 # TODO: pass here the output filepath based on the parameter from argv.
-def train_network(model, X, y, output, reg_lambda=10e-4, min_reg_lambda=10e-7,
-                  callback=None, epoch_delta=5, batch_size=8, epochs_count=20):
+def train_network(model, X, y, output, reg_lambda=10e-2, min_reg_lambda=10e-7,
+                  callback=None, epoch_delta=1, batch_size=8, epochs_count=20):
     """
     Train neural network model, based on the 'train' set.
 
@@ -63,7 +63,6 @@ def train_network(model, X, y, output, reg_lambda=10e-4, min_reg_lambda=10e-7,
         None
     """
     i_rl = reg_lambda
-    p_loss = model.calculate_loss(X, y)
     rl_div = 0.5
 
     logging.info("batch size: %f" % (batch_size))
@@ -86,20 +85,20 @@ def train_network(model, X, y, output, reg_lambda=10e-4, min_reg_lambda=10e-7,
             Xb = X[start:(start + batch_size)]
             yb = y[start:(start + batch_size)]
 
+            p_loss = model.calculate_loss(Xb, yb)
             model.sgd_step(Xb, yb, reg_lambda)
-
             c_loss = model.calculate_loss(Xb, yb)
             while (c_loss >= p_loss and reg_lambda > min_reg_lambda):
-                logging.info("current_loss: %f" % (c_loss))
-                logging.info("rollback sgd_step, lost=%f. reg_lambda=%f" %
-                            (c_loss, reg_lambda))
+                # logging.info("current_loss: %f" % (c_loss))
+                # logging.info("rollback sgd_step, lost=%f. reg_lambda=%f" %
+                #             (c_loss, reg_lambda))
 
                 model.rollback_step(reg_lambda)
                 reg_lambda *= rl_div
                 model.apply_step(reg_lambda)
                 c_loss = model.calculate_loss(Xb, yb)
 
-            logging.info("current_loss: %f" % (c_loss))
+            logging.info("reg_lambda: %f" % (reg_lambda))
 
             if (reg_lambda < min_reg_lambda):
                 reg_lambda = i_rl

@@ -76,8 +76,7 @@ def train_network(vectorizer, network_type, task_type, train_table,
         result = check(task_type, result_table, etalon_table)
         logging.info("Appending results: {} ...".format(diagnostic_output))
         with open(diagnostic_output, 'a') as output:
-            output.writelines("{} {} {}\n".format(
-                model.epoch.get_value(), loss, result["F_macro"]))
+            output.writelines("{} {}\n".format(loss, result["F_macro"]))
 
     model_output = paths['model_output']
     if (exists(model_output)):
