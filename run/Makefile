@@ -62,6 +62,13 @@ gru-2l_diagnostic_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_T
 gru-2l_diagnostic_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
 gru-2l_diagnostic_sre16_bank_w2v_imb: rnn_diagnostic
 
+keras-lstm-1le_diagnostic_sre16_bank_w2v_imb: TASK_TYPE = bank
+keras-lstm-1le_diagnostic_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train.csv
+keras-lstm-1le_diagnostic_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
+keras-lstm-1le_diagnostic_sre16_bank_w2v_imb: MODEL_NAME = keras_sequencial
+keras-lstm-1le_diagnostic_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.csv
+keras-lstm-1le_diagnostic_sre16_bank_w2v_imb: rnn_diagnostic
+
 lstm-1le_diagnostic_sre16_bank_w2v_imb: TASK_TYPE = bank
 lstm-1le_diagnostic_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train.csv
 lstm-1le_diagnostic_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
