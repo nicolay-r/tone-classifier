@@ -67,7 +67,7 @@ keras-lstm-1le_diagnostic_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(
 keras-lstm-1le_diagnostic_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
 keras-lstm-1le_diagnostic_sre16_bank_w2v_imb: MODEL_NAME = keras_sequencial
 keras-lstm-1le_diagnostic_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.csv
-keras-lstm-1le_diagnostic_sre16_bank_w2v_imb: rnn_diagnostic
+keras-lstm-1le_diagnostic_sre16_bank_w2v_imb: keras_core
 
 lstm-1le_diagnostic_sre16_bank_w2v_imb: TASK_TYPE = bank
 lstm-1le_diagnostic_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train.csv
@@ -561,6 +561,9 @@ rnn_core:
 
 rnn_diagnostic:
 	$(MODEL_ROOT)/model_$(MODEL_NAME).py $(SETTING_NAME) $(VECTORIZER_TYPE) $(NETWORK_TYPE) $(TASK_TYPE) $(TEST_TABLE) $(TRAIN_TABLE) $(ETALON_RESULT)
+
+keras_core:
+	$(MODEL_ROOT)/model_$(MODEL_NAME).py $(TASK_TYPE) $(TEST_TABLE) $(TRAIN_TABLE) $(ETALON_RESULT)
 
 rnn_core_test:
 	# Predicting
