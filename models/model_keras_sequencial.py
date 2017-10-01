@@ -167,9 +167,8 @@ if __name__ == "__main__":
             config['test_table'],
             config['etalon_table'])
 
-    print X_TRAIN[4]
-    print Y_TRAIN[4]
-
     model.fit(np.vstack(X_TRAIN),
               np.vstack(Y_TRAIN),
               epochs=EPOCHS, batch_size=BATCH_SIZE)
+
+    # model.predict(X_TEST, batch_size=BATCH_SIZE)
