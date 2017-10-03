@@ -151,18 +151,24 @@ def check(task_type, result_table, etalon_table, error_filepath=None):
             "F_macro": Fr}
 
 
-def show(result):
+def show(result, filename=None):
     """
     result : dict
         display results
+    filename : str
+        filepath to output result
     """
-    print 'Classifer errors has been saved: {}'.format(
-        result['error_filepath'])
-    print 'calculations --', result['calculations']
-    print 'precision --', result['precision']
-    print 'recall --', result['recall']
-    print 'F --', result['F']
-    print 'F_macro ', result['F_macro']
+
+    s = 'calculations -- {}\n precision -- {}\nrecall -- {}\nF -- {}\nF_macro -- {}\n'.format(
+        result['calculations'], result['precision'], result['recall'],
+        result['F'], result['F_macro'])
+
+    if filename is None:
+        print s
+    else:
+        with open(filename, "a+") as out:
+            out.write(s)
+
 
 if __name__ == "__main__":
     if len(argv) < 5:

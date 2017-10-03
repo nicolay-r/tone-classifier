@@ -4,12 +4,14 @@
 import sys
 import logging
 import numpy as np
+from os.path import join
 
 # local
 import utils
 import utils_keras as uk
 import model_w2v
 import eval as ev
+import configs
 
 # networks
 from networks.keras import lstm_1l
@@ -56,6 +58,7 @@ if __name__ == "__main__":
     MAX_SEQUENCE_LENGTH = 40
     EPOCHS = 3
     BATCH_SIZE = 8
+    OUTPUT_FILEPATH = join(configs.NETWORK_MODELS_ROOT, "keras_output.txt")
 
     # prepare
     train_problem, test_problem = uk.prepare_problem(
@@ -88,4 +91,4 @@ if __name__ == "__main__":
             config['task_type'],
             result_table,
             config['etalon_table'])
-    ev.show(result)
+    ev.show(result, OUTPUT_FILEPATH)
