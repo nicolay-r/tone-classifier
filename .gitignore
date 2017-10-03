@@ -1,5 +1,5 @@
 # folder with scripts for testing purposes
-/run
+/run/Makefile
 /test
 
 # Model outputs

@@ -128,12 +128,13 @@ CONFIG_WORD2VEC_MODELS = "w2v_models"
 CONFIG_WORD2VEC_UNIONTYPE = config["union_type"]
 
 W2V_MODELS = []
-for model_params in config[CONFIG_WORD2VEC_MODELS]:
-    if model_params['enabled'] == 'true':
-        model_path = os.path.join(
-            os.path.dirname(configs.DATA_ROOT), model_params['path'])
-        logging.info("Loading Word2Vec model: {} ...".format(model_path))
-        W2V_MODELS.append(Word2Vec.load_word2vec_format(model_path))
+for model in config[CONFIG_WORD2VEC_MODELS]:
+        model_params = config[CONFIG_WORD2VEC_MODELS][model]
+        if model_params['enabled'] == 'true':
+            model_path = os.path.join(
+                os.path.dirname(configs.DATA_ROOT), model_params['path'])
+            logging.info("Loading Word2Vec model: {} ...".format(model_path))
+            W2V_MODELS.append(Word2Vec.load_word2vec_format(model_path))
 
 if __name__ == "__main__":
     utils.vectorization_core(vectorizer, init_term_vocabulary=False)
