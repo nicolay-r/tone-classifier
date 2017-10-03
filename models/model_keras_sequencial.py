@@ -1,15 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-from keras.models import Sequential
-from keras.layers import Embedding, Dense
-from keras.layers.recurrent import LSTM
-
+# global
 import sys
-import utils_keras as uk
+import logging
 import numpy as np
-import eval as ev
-import model_w2v
+
+# local
 import utils
+import utils_keras as uk
+import model_w2v
+import eval as ev
+
+# networks
+from networks.keras import lstm_1l
 
 
 def vectorizer(labeled_message, term_voc, doc_voc):
@@ -41,58 +44,6 @@ def vectorizer(labeled_message, term_voc, doc_voc):
     return vector
 
 
-def create_embedding_matrix(w2v_model):
-    """
-    creates matrix (words_count, embedding_size) based on 'w2v_model'
-
-    w2v_model: gensim.models.word2vec.Word2Vec
-        word2vec model
-
-    returns: np.ndarray
-        shape (words_count, embedding_size)
-    """
-    words_count = len(w2v_model.vocab)
-    matrix = np.zeros((words_count, w2v_model.vector_size))
-
-    for word, info in w2v_model.vocab.items():
-        index = info.index
-        matrix[index] = w2v_model.syn0[index]
-
-    return matrix
-
-
-def build_keras_model(w2v_model):
-    """
-    w2v_model : gensim.models.word2vec.Word2Vec
-        word2vec model
-
-    returns : keras.models.Model
-        compiled model
-    """
-    # TODO: support multiple w2v models
-    # input_layer = Input(shape=(MAX_SEQUENCE_LENGTH,), dtype='int32')
-    embedding_layer = Embedding(len(w2v_model.vocab),
-                                w2v_model.vector_size,
-                                weights=[create_embedding_matrix(w2v_model)],
-                                input_length=MAX_SEQUENCE_LENGTH,
-                                trainable=False)
-    lstm_layer = LSTM(200)
-    dense_layer = Dense(3, activation='softmax')
-
-    model = Sequential()
-    model.add(embedding_layer)
-    model.add(lstm_layer)
-    model.add(dense_layer)
-
-    model.compile(loss='binary_crossentropy',
-                  optimizer='adam',
-                  metrics=['accuracy'])
-
-    print model.summary()
-
-    return model
-
-
 W2V_MODEL = model_w2v.W2V_MODELS[0]
 
 if __name__ == "__main__":
@@ -103,7 +54,7 @@ if __name__ == "__main__":
               'etalon_table': sys.argv[4]}
 
     MAX_SEQUENCE_LENGTH = 40
-    EPOCHS = 1
+    EPOCHS = 3
     BATCH_SIZE = 8
 
     # prepare
@@ -118,16 +69,23 @@ if __name__ == "__main__":
     x_test, ids = uk.process_problem(test_problem, 'test')
 
     # create model
-    model = build_keras_model(W2V_MODEL)
+    model = lstm_1l.build(W2V_MODEL, MAX_SEQUENCE_LENGTH)
 
     # fit
     model.fit(x_train, y_train, epochs=EPOCHS, batch_size=BATCH_SIZE)
 
     # predict
+    logging.info("Predicting results ...")
     y_test = model.predict(x_test, batch_size=BATCH_SIZE)
 
     # check
     result_table = config['test_table'] + '.result.csv'
     uk.prepare_result_table(config['test_table'], result_table)
-    result = ev.check(config['task_type'], result_table)
+    uk.fill_test_results(y_test, config['task_type'], result_table)
+
+    logging.info("Check results ...")
+    result = ev.check(
+            config['task_type'],
+            result_table,
+            config['etalon_table'])
     ev.show(result)

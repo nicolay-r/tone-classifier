@@ -49,23 +49,20 @@ def process_problem(problem, collection_type):
     labels = []
     for message in problem:
 
+        vectors.append(message[1])
+
         if (collection_type == 'train'):
             y = np.zeros(3)
             y[message[0] + 1] = 1
             labels.append(y)  # class as a label
-            vectors.append(message[1])
-
         if (collection_type == 'test'):
-            labels = message[0]  # message ID
-            vectors.append(message[1])
+            labels.append(message[0])  # message ID
 
     return np.vstack(vectors), np.vstack(labels)
 
 
-def fill_test_results(model, y_test, task_type, result_table):
+def fill_test_results(y_test, task_type, result_table):
     """
-        X : np.ndarray
-            represents test dataset
         y_test : np.ndarray (None, 3)
             answers
         task_type : str

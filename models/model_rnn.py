@@ -26,6 +26,7 @@ from networks.theano.rnn import RNNTheano
 from networks.theano.gru import GRU2LTheano
 
 # LSTM
+from networks.theano import optimizer
 from networks.theano.lstm.lstm_1l_vanilla import LSTM1lTheano
 from networks.theano.lstm.lstm_1l_e_vanilla import LSTM1leTheano
 from networks.theano.lstm.lstm_1l_rmsprop import LSTM1lRmspropTheano
@@ -88,7 +89,7 @@ def train_network(vectorizer, network_type, task_type, train_table,
         paths['term_vocabulary']))
     term_vocabulary.save(paths['term_vocabulary'])
 
-    utils.train_network(model, X, y, paths['model_output'])
+    optimizer.train_network(model, X, y, paths['model_output'])
 
 
 def get_problem(problem, get_results=True):

@@ -15,6 +15,7 @@ from eval import check
 from model_rnn import get_model_paths, get_problem, save_embeddings, \
                       get_vectorizer, get_network, load_embeddings
 from model_rnn_test import predict, prepare_result_table
+from networks.theano import optimizer
 
 
 def train_network(vectorizer, network_type, task_type, train_table,
@@ -89,7 +90,7 @@ def train_network(vectorizer, network_type, task_type, train_table,
     test = lambda: callback(model, X_test, X_train, Y, task_type,
                             output_table, etalon_table, diagnostic_output)
 
-    utils.train_network(model, X_train, Y, model_output, callback=test)
+    optimizer.train_network(model, X_train, Y, model_output, callback=test)
 
 
 if __name__ == "__main__":

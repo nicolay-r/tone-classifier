@@ -81,9 +81,10 @@ def countDiff(rScores, eTwitID, eTwitScores, calculations, errorTwitIDs):
 
 def check(task_type, result_table, etalon_table, error_filepath=None):
     """
+    tast_type : str
+        'bank' or 'ttk'
     result_table : srt
         path to a csvfile with classifier results
-
     etalon_table : str
         path to a csv file with etalon results
 
@@ -150,6 +151,19 @@ def check(task_type, result_table, etalon_table, error_filepath=None):
             "F_macro": Fr}
 
 
+def show(result):
+    """
+    result : dict
+        display results
+    """
+    print 'Classifer errors has been saved: {}'.format(
+        result['error_filepath'])
+    print 'calculations --', result['calculations']
+    print 'precision --', result['precision']
+    print 'recall --', result['recall']
+    print 'F --', result['F']
+    print 'F_macro ', result['F_macro']
+
 if __name__ == "__main__":
     if len(argv) < 5:
         print "Usage %s <task_type> <result.csv> <etalon.csv> <errors.csv>" % \
@@ -162,11 +176,4 @@ if __name__ == "__main__":
     errorFilepath = argv[4]
 
     result = check(task_type, resultFilepath, etalonFilepath, errorFilepath)
-
-    print 'Classifer errors has been saved: {}'.format(
-        result['error_filepath'])
-    print 'calculations --', result['calculations']
-    print 'precision --', result['precision']
-    print 'recall --', result['recall']
-    print 'F --', result['F']
-    print 'F_macro ', result['F_macro']
+    show(result)
