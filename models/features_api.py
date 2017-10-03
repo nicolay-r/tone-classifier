@@ -6,13 +6,14 @@ from sys import argv
 from os.path import join
 import configs
 
+
 features_file = join(configs.EMBEDINGS_ROOT, configs.FEATURES_FILENAME)
 
 if len(argv) == 1:
     print "usage: ./{} <type> <name> <enabled (0 or 1)>".format(argv[0])
     print "Chages options in {}".format(features_file)
     print "type: 'lexicons' or 'clustered_words'"
-    print "name: feature name"
+    print "name: feature name or 'all'"
     print "enabled: 0 or 1"
     exit()
 
@@ -28,7 +29,11 @@ utils.init_logger()
 logging.info("set {}[{}] = {}".format(feature_type, feature_name, enabled))
 with open(features_file, "r") as ff:
     features = json.load(ff)
-    features[feature_type]['$' + feature_name]['enabled'] = enabled
+    if (feature_name == 'all'):
+        for i in features[feature_type]:
+            features[feature_type][i]['enabled'] = enabled
+    else:
+        features[feature_type]['$' + feature_name]['enabled'] = enabled
 
 logging.info("save: {}".format(features_file))
 with open(features_file, "w") as ff:
