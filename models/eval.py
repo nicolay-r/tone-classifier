@@ -80,6 +80,16 @@ def countDiff(rScores, eTwitID, eTwitScores, calculations, errorTwitIDs):
 
 
 def check(task_type, result_table, etalon_table, error_filepath=None):
+    """
+    result_table : srt
+        path to a csvfile with classifier results
+
+    etalon_table : str
+        path to a csv file with etalon results
+
+    returns : dict
+        result information
+    """
     if (task_type == 'bank'):
         scoreColumns = configs.DATA_BANK_FIELDS
     elif (task_type == 'ttk'):

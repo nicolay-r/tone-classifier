@@ -1,23 +1,15 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from keras.models import Sequential
-from keras.layers import Embedding, Input, Dense
+from keras.layers import Embedding, Dense
 from keras.layers.recurrent import LSTM
 
 import sys
+import utils_keras as uk
 import numpy as np
-import utils
+import eval as ev
 import model_w2v
-from model_rnn import load_embeddings
-
-from core.features import Features
-from core.DocVocabulary import DocVocabulary
-from core.TermVocabulary import TermVocabulary
-from core.msg import TwitterMessageParser
-
-MAX_SEQUENCE_LENGTH = 40
-EPOCHS = 20
-BATCH_SIZE = 8
+import utils
 
 
 def vectorizer(labeled_message, term_voc, doc_voc):
@@ -69,49 +61,6 @@ def create_embedding_matrix(w2v_model):
     return matrix
 
 
-def train_network(vectorizer, task_type, train_table, test_table,
-                  etalon_table):
-    """
-    Main function of vectorization for neural network
-    """
-    message_settings, features_settings = load_embeddings()
-
-    features = Features(
-            TwitterMessageParser(message_settings, task_type),
-            features_settings)
-
-    term_vocabulary = TermVocabulary()
-    doc_vocabulary = DocVocabulary()
-
-    train_problem = utils.create_problem(task_type, 'train', train_table,
-                                         vectorizer, features, term_vocabulary,
-                                         doc_vocabulary, message_settings)
-
-    # test_problem = utils.create_problem(task_type, 'test', test_table,
-    #                                     vectorizer, features, term_vocabulary,
-    #                                     doc_vocabulary, message_settings)
-
-    process_problem(train_problem, 'train')
-
-
-def process_problem(problem, collection_type):
-    """
-    problem: list [{label, vector}, ... ]
-        List of vectorized messages. Each message presented as list where
-        first element is a 'score' or 'id' (depending on the 'train' or 'score'
-        dataset accordingly) and the secont (latter) is a vector -- embedded
-        sentence (obtained by vectorizer)
-    collection_type: str
-        'test' or 'train'
-    """
-    for message in problem:
-        if (collection_type == 'train'):
-            y = np.zeros(3)
-            y[message[0] + 1] = 1
-            Y_TRAIN.append(y)
-            X_TRAIN.append(message[1])
-
-
 def build_keras_model(w2v_model):
     """
     w2v_model : gensim.models.word2vec.Word2Vec
@@ -121,8 +70,6 @@ def build_keras_model(w2v_model):
         compiled model
     """
     # TODO: support multiple w2v models
-    # case for only 1 model
-    # without features
     # input_layer = Input(shape=(MAX_SEQUENCE_LENGTH,), dtype='int32')
     embedding_layer = Embedding(len(w2v_model.vocab),
                                 w2v_model.vector_size,
@@ -155,20 +102,32 @@ if __name__ == "__main__":
               'train_table': sys.argv[3],
               'etalon_table': sys.argv[4]}
 
+    MAX_SEQUENCE_LENGTH = 40
+    EPOCHS = 1
+    BATCH_SIZE = 8
+
+    # prepare
+    train_problem, test_problem = uk.prepare_problem(
+        vectorizer,
+        config['task_type'],
+        config['train_table'],
+        config['test_table'],
+        config['etalon_table'])
+
+    x_train, y_train = uk.process_problem(train_problem, 'train')
+    x_test, ids = uk.process_problem(test_problem, 'test')
+
+    # create model
     model = build_keras_model(W2V_MODEL)
 
-    X_TRAIN = []
-    Y_TRAIN = []
+    # fit
+    model.fit(x_train, y_train, epochs=EPOCHS, batch_size=BATCH_SIZE)
 
-    train_network(
-            vectorizer,
-            config['task_type'],
-            config['train_table'],
-            config['test_table'],
-            config['etalon_table'])
+    # predict
+    y_test = model.predict(x_test, batch_size=BATCH_SIZE)
 
-    model.fit(np.vstack(X_TRAIN),
-              np.vstack(Y_TRAIN),
-              epochs=EPOCHS, batch_size=BATCH_SIZE)
-
-    # model.predict(X_TEST, batch_size=BATCH_SIZE)
+    # check
+    result_table = config['test_table'] + '.result.csv'
+    uk.prepare_result_table(config['test_table'], result_table)
+    result = ev.check(config['task_type'], result_table)
+    ev.show(result)
