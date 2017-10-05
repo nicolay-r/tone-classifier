@@ -2,13 +2,18 @@ import numpy as np
 from keras.models import Model
 from keras.layers import Embedding, Dense, Input, concatenate
 from keras.layers.recurrent import LSTM
+from keras.preprocessing import sequence
 
 
-class KerasLSTM_1L_2i:
+class KerasLSTM_1L_2i_concat:
 
-    def __init__(self, w2v_model, max_sequence_length):
+    def __init__(self, w2v_models, max_sequence_length):
+        """
+        w2v_models : list
+            list of word2vec models
+        """
         self.FEATURES_COUNT = None
-        self.W2V_MODEL = w2v_model
+        self.W2V_MODELS = w2v_models
         self.TERMS_SEQUENCE_LENGTH = max_sequence_length
 
     def message_vectorizer(self, labeled_message, term_voc, doc_voc):
@@ -29,10 +34,16 @@ class KerasLSTM_1L_2i:
         terms = labeled_message['terms']
         terms_vector = np.zeros(self.TERMS_SEQUENCE_LENGTH)
 
-        for i in range(min(len(terms), self.TERMS_SEQUENCE_LENGTH)):
-            term = terms[i]
-            if (term in self.W2V_MODEL.vocab):
-                terms_vector[i] = self.W2V_MODEL.vocab.get(term).index
+        i = 0
+        offset = 0
+        for model in self.W2V_MODELS:
+            for term in terms:
+                if i >= self.TERMS_SEQUENCE_LENGTH:
+                    break
+                if (term in model.vocab):
+                    terms_vector[i] = model.vocab.get(term).index + offset
+                i += 1
+            offset += len(model.vocab)
 
         # features
         features = labeled_message['features']
@@ -51,7 +62,7 @@ class KerasLSTM_1L_2i:
         """
         # initialize model
         self.model = self.__build(
-                self.W2V_MODEL,
+                self.W2V_MODELS,
                 self.TERMS_SEQUENCE_LENGTH,
                 self.FEATURES_COUNT)
 
@@ -111,22 +122,29 @@ class KerasLSTM_1L_2i:
         return np.vstack(terms), np.vstack(features), np.vstack(labels)
 
     @staticmethod
-    def __create_embedding_matrix(w2v_model):
+    def __create_embedding_matrix(w2v_models):
         """
-        creates matrix (words_count, embedding_size) based on 'w2v_model'
+        creates matrix (words_count, embedding_size) based on list of word2vec
+        models
 
-        w2v_model: gensim.models.word2vec.Word2Vec
-            word2vec model
+        w2v_model : list
+            list of gensim.models.word2vec.Word2Vec models
 
         returns: np.ndarray
             shape (words_count, embedding_size)
         """
-        words_count = len(w2v_model.vocab)
-        matrix = np.zeros((words_count, w2v_model.vector_size))
+        vector_size = max(m.vector_size for m in w2v_models)
+        words_count = sum(len(m.vocab) for m in w2v_models)
 
-        for word, info in w2v_model.vocab.items():
-            index = info.index
-            matrix[index] = w2v_model.syn0[index]
+        matrix = np.zeros((words_count, vector_size))
+
+        offset = 0
+        for w2v_model in w2v_models:
+            for word, info in w2v_model.vocab.items():
+                index = info.index
+                matrix[offset + index] = sequence.pad_sequences(
+                    [w2v_model.syn0[index]], vector_size, padding='post')
+            offset += len(w2v_model.vocab)
 
         return matrix
 
@@ -145,21 +163,25 @@ class KerasLSTM_1L_2i:
 
         return vector
 
-    def __build(self, w2v_model, terms_input_length, features_input_length):
+    def __build(self, w2v_models, terms_input_length, features_input_length):
         """
-        w2v_model : gensim.models.word2vec.Word2Vec
-            word2vec model
+        w2v_models : list
+            list of gensim.models.word2vec.Word2Vec models
         """
         input_1 = Input(shape=(terms_input_length,),
                         dtype='int32',
                         name='terms_input')
+
+        weights = self.__create_embedding_matrix(w2v_models)
+
         embedding_layer = Embedding(
-            len(w2v_model.vocab),
-            w2v_model.vector_size,
-            weights=[self.__create_embedding_matrix(w2v_model)],
+            weights.shape[0],
+            weights.shape[1],
+            weights=[weights],
             input_length=terms_input_length,
             trainable=False)(input_1)
-        lstm_layer = LSTM(200)(embedding_layer)
+        lstm_layer_1 = LSTM(200, return_sequences=True)(embedding_layer)
+        lstm_layer_2 = LSTM(200)(lstm_layer_1)
 
         input_2 = Input(shape=(features_input_length,),
                         dtype='float32',
@@ -167,7 +189,7 @@ class KerasLSTM_1L_2i:
 
         dense_layer = Dense(10, activation='tanh')(input_2)
 
-        merged_layer = concatenate([lstm_layer, dense_layer])
+        merged_layer = concatenate([lstm_layer_2, dense_layer])
 
         network_output = Dense(3, activation='softmax')(merged_layer)
 

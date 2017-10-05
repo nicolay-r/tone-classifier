@@ -14,9 +14,10 @@ import configs
 
 # networks
 # from networks.keras.lstm_1l import KerasLSTM_1L as KerasModel
-from networks.keras.lstm_1l_2i import KerasLSTM_1L_2i as KerasModel
-
-W2V_MODEL = model_w2v.W2V_MODELS[0]
+# from networks.keras.lstm_2l_2i_concat \
+#     import KerasLSTM_2L_2i_concat as KerasModel
+from networks.keras.lstm_1l_2i_concat \
+    import KerasLSTM_1L_2i_concat as KerasModel
 
 if __name__ == "__main__":
     utils.init_logger()
@@ -26,11 +27,11 @@ if __name__ == "__main__":
               'etalon_table': sys.argv[4]}
 
     MAX_SEQUENCE_LENGTH = 40
-    EPOCHS = 10
+    EPOCHS = 1
     BATCH_SIZE = 8
     OUTPUT_FILEPATH = join(configs.NETWORK_MODELS_ROOT, "keras_output.txt")
 
-    keras_model = KerasModel(W2V_MODEL, MAX_SEQUENCE_LENGTH)
+    keras_model = KerasModel(model_w2v.W2V_MODELS, MAX_SEQUENCE_LENGTH)
 
     # prepare
     train_problem, test_problem = uk.prepare_problem(
