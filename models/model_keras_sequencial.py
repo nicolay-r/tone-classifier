@@ -13,8 +13,8 @@ import eval as ev
 import configs
 
 # networks
-from networks.keras.lstm_1l import KerasLSTM_1L
-# from networks.keras import lstm_1l_2i
+# from networks.keras.lstm_1l import KerasLSTM_1L as KerasModel
+from networks.keras.lstm_1l_2i import KerasLSTM_1L_2i as KerasModel
 
 W2V_MODEL = model_w2v.W2V_MODELS[0]
 
@@ -26,15 +26,15 @@ if __name__ == "__main__":
               'etalon_table': sys.argv[4]}
 
     MAX_SEQUENCE_LENGTH = 40
-    EPOCHS = 3
+    EPOCHS = 10
     BATCH_SIZE = 8
     OUTPUT_FILEPATH = join(configs.NETWORK_MODELS_ROOT, "keras_output.txt")
 
-    keras_lstm = KerasLSTM_1L(W2V_MODEL, MAX_SEQUENCE_LENGTH)
+    keras_model = KerasModel(W2V_MODEL, MAX_SEQUENCE_LENGTH)
 
     # prepare
     train_problem, test_problem = uk.prepare_problem(
-        keras_lstm.message_vectorizer,
+        keras_model.message_vectorizer,
         config['task_type'],
         config['train_table'],
         config['test_table'],
@@ -42,11 +42,11 @@ if __name__ == "__main__":
 
     # fit
     logging.info("Fitting model ...")
-    keras_lstm.fit(train_problem, EPOCHS, BATCH_SIZE)
+    keras_model.fit(train_problem, EPOCHS, BATCH_SIZE)
 
     # predict
     logging.info("Predicting results ...")
-    y_test, ids = keras_lstm.predict(test_problem, BATCH_SIZE)
+    y_test, ids = keras_model.predict(test_problem, BATCH_SIZE)
 
     # check
     result_table = config['test_table'] + '.result.csv'
