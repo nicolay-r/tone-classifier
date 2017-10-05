@@ -3,7 +3,6 @@
 # global
 import sys
 import logging
-import numpy as np
 from os.path import join
 
 # local
@@ -14,37 +13,8 @@ import eval as ev
 import configs
 
 # networks
-from networks.keras import lstm_1l
-
-
-def vectorizer(labeled_message, term_voc, doc_voc):
-    """
-    Vector builder
-
-    Arguments:
-    ---------
-        labeled_message -- dictionary with the following fields:
-                           {score, id, terms, features}
-        term_voc -- vocabulary of terms
-        doc_voc -- vocabulary of documents
-
-    Returns
-    ------
-        vector: np.array
-    """
-    # features = labeled_message['features']
-    # vector = model_features_only.feature_vectorizer(features, term_voc)
-
-    terms = labeled_message['terms']
-    vector = np.zeros(MAX_SEQUENCE_LENGTH)
-
-    for i in range(min(len(terms), MAX_SEQUENCE_LENGTH)):
-        term = terms[i]
-        if (term in W2V_MODEL.vocab):
-            vector[i] = W2V_MODEL.vocab.get(term).index
-
-    return vector
-
+from networks.keras.lstm_1l import KerasLSTM_1L
+# from networks.keras import lstm_1l_2i
 
 W2V_MODEL = model_w2v.W2V_MODELS[0]
 
@@ -60,26 +30,23 @@ if __name__ == "__main__":
     BATCH_SIZE = 8
     OUTPUT_FILEPATH = join(configs.NETWORK_MODELS_ROOT, "keras_output.txt")
 
+    keras_lstm = KerasLSTM_1L(W2V_MODEL, MAX_SEQUENCE_LENGTH)
+
     # prepare
     train_problem, test_problem = uk.prepare_problem(
-        vectorizer,
+        keras_lstm.message_vectorizer,
         config['task_type'],
         config['train_table'],
         config['test_table'],
         config['etalon_table'])
 
-    x_train, y_train = uk.process_problem(train_problem, 'train')
-    x_test, ids = uk.process_problem(test_problem, 'test')
-
-    # create model
-    model = lstm_1l.build(W2V_MODEL, MAX_SEQUENCE_LENGTH)
-
     # fit
-    model.fit(x_train, y_train, epochs=EPOCHS, batch_size=BATCH_SIZE)
+    logging.info("Fitting model ...")
+    keras_lstm.fit(train_problem, EPOCHS, BATCH_SIZE)
 
     # predict
     logging.info("Predicting results ...")
-    y_test = model.predict(x_test, batch_size=BATCH_SIZE)
+    y_test, ids = keras_lstm.predict(test_problem, BATCH_SIZE)
 
     # check
     result_table = config['test_table'] + '.result.csv'
@@ -91,4 +58,6 @@ if __name__ == "__main__":
             config['task_type'],
             result_table,
             config['etalon_table'])
+
+    # output
     ev.show(result, OUTPUT_FILEPATH)

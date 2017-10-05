@@ -35,32 +35,6 @@ def prepare_problem(vectorizer, task_type, train_table, test_table,
     return (train_problem, test_problem)
 
 
-def process_problem(problem, collection_type):
-    """
-    problem: list [{label, vector}, ... ]
-        List of vectorized messages. Each message presented as list where
-        first element is a 'score' or 'id' (depending on the 'train' or 'score'
-        dataset accordingly) and the secont (latter) is a vector -- embedded
-        sentence (obtained by vectorizer)
-    collection_type: str
-        'test' or 'train'
-    """
-    vectors = []
-    labels = []
-    for message in problem:
-
-        vectors.append(message[1])
-
-        if (collection_type == 'train'):
-            y = np.zeros(3)
-            y[message[0] + 1] = 1
-            labels.append(y)  # class as a label
-        if (collection_type == 'test'):
-            labels.append(message[0])  # message ID
-
-    return np.vstack(vectors), np.vstack(labels)
-
-
 def fill_test_results(y_test, task_type, result_table):
     """
         y_test : np.ndarray (None, 3)
