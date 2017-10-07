@@ -77,7 +77,8 @@ def train_network(vectorizer, network_type, task_type, train_table,
         result = check(task_type, result_table, etalon_table)
         logging.info("Appending results: {} ...".format(diagnostic_output))
         with open(diagnostic_output, 'a') as output:
-            output.writelines("{} {}\n".format(loss, result["F_macro"]))
+            output.writelines("{} {} {}\n".format(
+                loss, result["F_macro"], result["F_micro"]))
 
     model_output = paths['model_output']
     if (exists(model_output)):
@@ -91,6 +92,9 @@ def train_network(vectorizer, network_type, task_type, train_table,
                             output_table, etalon_table, diagnostic_output)
 
     optimizer.train_network(model, X_train, Y, model_output, callback=test)
+
+    with open(diagnostic_output, 'a') as output:
+        output.writelines("-----")
 
 
 if __name__ == "__main__":

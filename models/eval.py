@@ -134,7 +134,24 @@ def check(task_type, result_table, etalon_table, error_filepath=None):
          'negative': 2 * ((precision['negative'] * recall['negative']) /
                           ((precision['negative'] + recall['negative'] + e)))}
 
-    Fr = (F['positive'] + F['negative']) / 2
+    Fr_macro = (F['positive'] + F['negative']) / 2
+
+    precision_micro = ((calculations['positive']['tp'] +
+                       calculations['negative']['tp']) /
+                       (calculations['positive']['tp'] +
+                        calculations['negative']['tp'] +
+                        calculations['positive']['fp'] +
+                        calculations['negative']['fp'] + e))
+
+    recall_micro = ((calculations['positive']['tp'] +
+                     calculations['negative']['tp']) /
+                    (calculations['positive']['tp'] +
+                     calculations['negative']['tp'] +
+                     calculations['positive']['fn'] +
+                     calculations['negative']['fn'] + e))
+
+    Fr_micro = (2 * (precision_micro * recall_micro) /
+                (precision_micro + recall_micro))
 
     errorDf = rdf[rdf['twitid'].isin(list(errorTwitIDs))]
 
@@ -148,7 +165,8 @@ def check(task_type, result_table, etalon_table, error_filepath=None):
             "precision": precision,
             "recall": recall,
             "F": F,
-            "F_macro": Fr}
+            "F_macro": Fr_macro,
+            "F_micro": Fr_micro}
 
 
 def show(result, filename=None):
@@ -159,9 +177,9 @@ def show(result, filename=None):
         filepath to output result
     """
 
-    s = 'calculations -- {}\n precision -- {}\nrecall -- {}\nF -- {}\nF_macro -- {}\n'.format(
+    s = 'calculations -- {}\n precision -- {}\nrecall -- {}\nF -- {}\nF_macro -- {}\nF_micro -- {}\n'.format(
         result['calculations'], result['precision'], result['recall'],
-        result['F'], result['F_macro'])
+        result['F'], result['F_macro'], result['F_micro'])
 
     if filename is None:
         print s

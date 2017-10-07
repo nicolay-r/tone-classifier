@@ -69,15 +69,15 @@ def train_network(model, X, y, output, reg_lambda=10e-2, min_reg_lambda=10e-7,
                 model.apply_step(reg_lambda)
                 c_loss = model.calculate_loss(Xb, yb)
 
-            logging.info("reg_lambda: %f" % (reg_lambda))
+            # logging.info("reg_lambda: %f" % (reg_lambda))
 
             if (reg_lambda < min_reg_lambda):
                 reg_lambda = i_rl
-                logging.info("reset reg_lambda: %f to %f" % (reg_lambda, i_rl))
+                # logging.info("reset reg_lambda: %f to %f" % (reg_lambda, i_rl))
 
             p_loss = c_loss
 
-        logging.info('save model: %s' % (output))
+        # logging.info('save model: %s' % (output))
         model.save(output)
 
         epoch += 1
