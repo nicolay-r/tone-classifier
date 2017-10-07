@@ -14,7 +14,9 @@ from core.DocVocabulary import DocVocabulary
 from core.TermVocabulary import TermVocabulary
 from core.msg import TwitterMessageParser
 
-from model_rnn import get_model_paths, get_problem, get_network, get_vectorizer
+from model_theano import get_model_paths, get_problem, get_network, \
+                         get_vectorizer
+
 
 # TODO: it solves prediction and saving at the same time. Refactor.
 def predict(model, X, task_type, result_table):

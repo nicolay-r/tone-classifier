@@ -12,9 +12,9 @@ from core.TermVocabulary import TermVocabulary
 from core.msg import TwitterMessageParser
 
 from eval import check
-from model_rnn import get_model_paths, get_problem, save_embeddings, \
-                      get_vectorizer, get_network, load_embeddings
-from model_rnn_test import predict, prepare_result_table
+from model_theano import get_model_paths, get_problem, save_embeddings, \
+                         get_vectorizer, get_network
+from model_theano_test import predict, prepare_result_table
 from networks.theano import optimizer
 
 
@@ -23,7 +23,7 @@ def train_network(vectorizer, network_type, task_type, train_table,
     """
     Main function of vectorization for neural network
     """
-    message_settings, features_settings = load_embeddings()
+    message_settings, features_settings = utils.load_embeddings()
 
     features = Features(
             TwitterMessageParser(message_settings, task_type),

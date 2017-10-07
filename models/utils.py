@@ -225,3 +225,18 @@ def save_predict_config(columns, prediction_table, out_filepath):
 
     with open(out_filepath, "w") as out:
         json.dump(config, out)
+
+
+def load_embeddings():
+    """
+    Load configuration files from emeddings folder
+    """
+    with io.open(configs.TWITTER_MESSAGE_PARSER_CONFIG, "r") as f:
+        message_settings = json.load(f, encoding='utf-8')
+
+    with io.open(configs.FEATURES_CONFIG, 'r') as f:
+        features_settings = json.load(f, encoding='utf-8')
+
+    return message_settings, features_settings
+
+

@@ -1,13 +1,14 @@
+# global
+import logging
+import pandas as pd
+import numpy as np
+
+# local
+import utils
 from core.features import Features
 from core.DocVocabulary import DocVocabulary
 from core.TermVocabulary import TermVocabulary
 from core.msg import TwitterMessageParser
-
-import logging
-import utils
-import pandas as pd
-import numpy as np
-from model_rnn import load_embeddings
 
 
 def prepare_problem(vectorizer, task_type, train_table, test_table,
@@ -15,7 +16,7 @@ def prepare_problem(vectorizer, task_type, train_table, test_table,
     """
     Main function of vectorization for neural network
     """
-    message_settings, features_settings = load_embeddings()
+    message_settings, features_settings = utils.load_embeddings()
 
     features = Features(
             TwitterMessageParser(message_settings, task_type),

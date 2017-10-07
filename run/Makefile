@@ -27,106 +27,105 @@ SENTIRUEVAL2015 = ../data/collections/SentiRuEval-2015/
 SENTIRUEVAL2016 = ../data/collections/SentiRuEval-2016/
 USERCOLLECTION = ../data/collections/user/
 
-rnn_train_sre16_bank_w2v_imb: TASK_TYPE = bank
-rnn_train_sre16_bank_w2v_imb: TABLE = $(SENTIRUEVAL2016)/bank_train.csv
-rnn_train_sre16_bank_w2v_imb: MODEL_NAME = rnn
-rnn_train_sre16_bank_w2v_imb: SETTING_NAME = sre16_imb
-rnn_train_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
-rnn_train_sre16_bank_w2v_imb: rnn_core
+theano-train_sre16_bank_w2v_imb: TASK_TYPE = bank
+theano-train_sre16_bank_w2v_imb: TABLE = $(SENTIRUEVAL2016)/bank_train.csv
+theano-train_sre16_bank_w2v_imb: MODEL_NAME = theano
+theano-train_sre16_bank_w2v_imb: SETTING_NAME = sre16_imb
+theano-train_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
+theano-train_sre16_bank_w2v_imb: theano_core
 
-rnn_test_sre16_bank_w2v: TASK_TYPE = bank
-rnn_test_sre16_bank_w2v: TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
-rnn_test_sre16_bank_w2v: MODEL_NAME = rnn_test
-rnn_test_sre16_bank_w2v: SETTING_NAME = sre16_imb
-rnn_test_sre16_bank_w2v: VECTORIZER_TYPE = w2v
-rnn_test_sre16_bank_w2v: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.csv
-rnn_test_sre16_bank_w2v: rnn_core_test
+theano-test_sre16_bank_w2v: TASK_TYPE = bank
+theano-test_sre16_bank_w2v: TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
+theano-test_sre16_bank_w2v: MODEL_NAME = theano_test
+theano-test_sre16_bank_w2v: SETTING_NAME = sre16_imb
+theano-test_sre16_bank_w2v: VECTORIZER_TYPE = w2v
+theano-test_sre16_bank_w2v: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.csv
+theano-test_sre16_bank_w2v: theano_core_test
 
-rnn_diagnostic_sre16_bank_w2v_imb: TASK_TYPE = bank
-rnn_diagnostic_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train.csv
-rnn_diagnostic_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
-rnn_diagnostic_sre16_bank_w2v_imb: MODEL_NAME = rnn_diagnostic
-rnn_diagnostic_sre16_bank_w2v_imb: SETTING_NAME = sre16_imb
-rnn_diagnostic_sre16_bank_w2v_imb: NETWORK_TYPE = rnn
-rnn_diagnostic_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.csv
-rnn_diagnostic_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
-rnn_diagnostic_sre16_bank_w2v_imb: rnn_diagnostic
+theano-diagnostic_sre16_bank_w2v_imb: TASK_TYPE = bank
+theano-diagnostic_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train.csv
+theano-diagnostic_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
+theano-diagnostic_sre16_bank_w2v_imb: MODEL_NAME = theano_diagnostic
+theano-diagnostic_sre16_bank_w2v_imb: SETTING_NAME = sre16_imb
+theano-diagnostic_sre16_bank_w2v_imb: NETWORK_TYPE = rnn
+theano-diagnostic_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.csv
+theano-diagnostic_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
+theano-diagnostic_sre16_bank_w2v_imb: theano_diagnostic
 
 gru-2l_diagnostic_sre16_bank_w2v_imb: TASK_TYPE = bank
 gru-2l_diagnostic_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train.csv
 gru-2l_diagnostic_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
-gru-2l_diagnostic_sre16_bank_w2v_imb: MODEL_NAME = rnn_diagnostic
+gru-2l_diagnostic_sre16_bank_w2v_imb: MODEL_NAME = theano_diagnostic
 gru-2l_diagnostic_sre16_bank_w2v_imb: SETTING_NAME = sre16_imb
 gru-2l_diagnostic_sre16_bank_w2v_imb: NETWORK_TYPE = gru-2l
 gru-2l_diagnostic_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.csv
 gru-2l_diagnostic_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
-gru-2l_diagnostic_sre16_bank_w2v_imb: rnn_diagnostic
+gru-2l_diagnostic_sre16_bank_w2v_imb: theano_diagnostic
 
-keras-lstm-1le_diagnostic_sre16_bank_w2v_imb: TASK_TYPE = bank
-keras-lstm-1le_diagnostic_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train.csv
-keras-lstm-1le_diagnostic_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
-keras-lstm-1le_diagnostic_sre16_bank_w2v_imb: MODEL_NAME = keras_sequencial
-keras-lstm-1le_diagnostic_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.csv
-keras-lstm-1le_diagnostic_sre16_bank_w2v_imb: keras_core
+keras-lstm_diagnostic_sre16_bank_w2v_imb: TASK_TYPE = bank
+keras-lstm_diagnostic_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train.csv
+keras-lstm_diagnostic_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
+keras-lstm_diagnostic_sre16_bank_w2v_imb: MODEL_NAME = keras
+keras-lstm_diagnostic_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.csv
+keras-lstm_diagnostic_sre16_bank_w2v_imb: keras_core
 
-keras-lstm-1le_diagnostic_sre16_tcc_w2v_imb: TASK_TYPE = tkk
-keras-lstm-1le_diagnostic_sre16_tcc_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train.csv
-keras-lstm-1le_diagnostic_sre16_tcc_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
-keras-lstm-1le_diagnostic_sre16_tcc_w2v_imb: MODEL_NAME = keras_sequencial
-keras-lstm-1le_diagnostic_sre16_tcc_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.csv
-keras-lstm-1le_diagnostic_sre16_tcc_w2v_imb: keras_core
+keras-lstm_diagnostic_sre16_tcc_w2v_imb: TASK_TYPE = tkk
+keras-lstm_diagnostic_sre16_tcc_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train.csv
+keras-lstm_diagnostic_sre16_tcc_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
+keras-lstm_diagnostic_sre16_tcc_w2v_imb: MODEL_NAME = keras
+keras-lstm_diagnostic_sre16_tcc_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.csv
+keras-lstm_diagnostic_sre16_tcc_w2v_imb: keras_core
 
-lstm-1le_diagnostic_sre16_bank_w2v_imb: TASK_TYPE = bank
-lstm-1le_diagnostic_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train.csv
-lstm-1le_diagnostic_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
-lstm-1le_diagnostic_sre16_bank_w2v_imb: MODEL_NAME = rnn_diagnostic
-lstm-1le_diagnostic_sre16_bank_w2v_imb: SETTING_NAME = sre16_imb
-lstm-1le_diagnostic_sre16_bank_w2v_imb: NETWORK_TYPE = lstm-1l-e
-lstm-1le_diagnostic_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.csv
-lstm-1le_diagnostic_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
-lstm-1le_diagnostic_sre16_bank_w2v_imb: rnn_diagnostic
-
-# This flow allows to define the necessary amount of epochs
-lstm-1l_diagnostic_train_sre16_bank_w2v_imb: TASK_TYPE = bank
-lstm-1l_diagnostic_train_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train_70.csv
-lstm-1l_diagnostic_train_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train_30.csv
-lstm-1l_diagnostic_train_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_train_30.csv
-lstm-1l_diagnostic_train_sre16_bank_w2v_imb: MODEL_NAME = rnn_diagnostic
-lstm-1l_diagnostic_train_sre16_bank_w2v_imb: SETTING_NAME = sre16_imb
-lstm-1l_diagnostic_train_sre16_bank_w2v_imb: NETWORK_TYPE = lstm-1l
-lstm-1l_diagnostic_train_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
-lstm-1l_diagnostic_train_sre16_bank_w2v_imb: rnn_diagnostic
+theano-lstm-1le_diagnostic_sre16_bank_w2v_imb: TASK_TYPE = bank
+theano-lstm-1le_diagnostic_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train.csv
+theano-lstm-1le_diagnostic_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
+theano-lstm-1le_diagnostic_sre16_bank_w2v_imb: MODEL_NAME = theano_diagnostic
+theano-lstm-1le_diagnostic_sre16_bank_w2v_imb: SETTING_NAME = sre16_imb
+theano-lstm-1le_diagnostic_sre16_bank_w2v_imb: NETWORK_TYPE = lstm-1l-e
+theano-lstm-1le_diagnostic_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.csv
+theano-lstm-1le_diagnostic_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
+theano-lstm-1le_diagnostic_sre16_bank_w2v_imb: theano_diagnostic
 
 # This flow allows to define the necessary amount of epochs
-lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: TASK_TYPE = tkk
-lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train_70.csv
-lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train_30.csv
-lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_train_30.csv
-lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: MODEL_NAME = rnn_diagnostic
-lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: SETTING_NAME = sre16_imb
-lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: NETWORK_TYPE = lstm-1l
-lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: VECTORIZER_TYPE = w2v
-lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: rnn_diagnostic
+theano-lstm-1l_diagnostic_train_sre16_bank_w2v_imb: TASK_TYPE = bank
+theano-lstm-1l_diagnostic_train_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train_70.csv
+theano-lstm-1l_diagnostic_train_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train_30.csv
+theano-lstm-1l_diagnostic_train_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_train_30.csv
+theano-lstm-1l_diagnostic_train_sre16_bank_w2v_imb: MODEL_NAME = theano_diagnostic
+theano-lstm-1l_diagnostic_train_sre16_bank_w2v_imb: SETTING_NAME = sre16_imb
+theano-lstm-1l_diagnostic_train_sre16_bank_w2v_imb: NETWORK_TYPE = lstm-1l
+theano-lstm-1l_diagnostic_train_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
+theano-lstm-1l_diagnostic_train_sre16_bank_w2v_imb: theano_diagnostic
 
-lstm-1l_diagnostic_sre16_bank_w2v_imb: TASK_TYPE = bank
-lstm-1l_diagnostic_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train.csv
-lstm-1l_diagnostic_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
-lstm-1l_diagnostic_sre16_bank_w2v_imb: MODEL_NAME = rnn_diagnostic
-lstm-1l_diagnostic_sre16_bank_w2v_imb: SETTING_NAME = sre16_imb
-lstm-1l_diagnostic_sre16_bank_w2v_imb: NETWORK_TYPE = lstm-1l
-lstm-1l_diagnostic_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.csv
-lstm-1l_diagnostic_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
-lstm-1l_diagnostic_sre16_bank_w2v_imb: rnn_diagnostic
+theano-lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: TASK_TYPE = tkk
+theano-lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train_70.csv
+theano-lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train_30.csv
+theano-lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_train_30.csv
+theano-lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: MODEL_NAME = theano_diagnostic
+theano-lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: SETTING_NAME = sre16_imb
+theano-lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: NETWORK_TYPE = lstm-1l
+theano-lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: VECTORIZER_TYPE = w2v
+theano-lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: theano_diagnostic
 
-lstm-2l_diagnostic_sre16_bank_w2v_imb: TASK_TYPE = bank
-lstm-2l_diagnostic_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train.csv
-lstm-2l_diagnostic_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
-lstm-2l_diagnostic_sre16_bank_w2v_imb: MODEL_NAME = rnn_diagnostic
-lstm-2l_diagnostic_sre16_bank_w2v_imb: SETTING_NAME = sre16_imb
-lstm-2l_diagnostic_sre16_bank_w2v_imb: NETWORK_TYPE = lstm-2l
-lstm-2l_diagnostic_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.csv
-lstm-2l_diagnostic_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
-lstm-2l_diagnostic_sre16_bank_w2v_imb: rnn_diagnostic
+theano-lstm-1l_diagnostic_sre16_bank_w2v_imb: TASK_TYPE = bank
+theano-lstm-1l_diagnostic_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train.csv
+theano-lstm-1l_diagnostic_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
+theano-lstm-1l_diagnostic_sre16_bank_w2v_imb: MODEL_NAME = theano_diagnostic
+theano-lstm-1l_diagnostic_sre16_bank_w2v_imb: SETTING_NAME = sre16_imb
+theano-lstm-1l_diagnostic_sre16_bank_w2v_imb: NETWORK_TYPE = lstm-1l
+theano-lstm-1l_diagnostic_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.csv
+theano-lstm-1l_diagnostic_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
+theano-lstm-1l_diagnostic_sre16_bank_w2v_imb: theano_diagnostic
+
+theano-lstm-2l_diagnostic_sre16_bank_w2v_imb: TASK_TYPE = bank
+theano-lstm-2l_diagnostic_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train.csv
+theano-lstm-2l_diagnostic_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
+theano-lstm-2l_diagnostic_sre16_bank_w2v_imb: MODEL_NAME = theano_diagnostic
+theano-lstm-2l_diagnostic_sre16_bank_w2v_imb: SETTING_NAME = sre16_imb
+theano-lstm-2l_diagnostic_sre16_bank_w2v_imb: NETWORK_TYPE = lstm-2l
+theano-lstm-2l_diagnostic_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.csv
+theano-lstm-2l_diagnostic_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
+theano-lstm-2l_diagnostic_sre16_bank_w2v_imb: theano_diagnostic
 
 #
 # SentiRuEval-2015
@@ -563,16 +562,16 @@ core:
 	# Estimating model
 	cd ../models/ && ./eval.py $(TASK_TYPE) ../run/$(MODEL_OUT) ../run/$(ETALON_RESULT) ../run/$(MODEL_ERROR)
 
-rnn_core:
+theano_core:
 	$(MODEL_ROOT)/model_$(MODEL_NAME).py $(SETTING_NAME) $(VECTORIZER_TYPE) $(NETWORK_TYPE) $(TASK_TYPE) $(TABLE)
 
-rnn_diagnostic:
+theano_diagnostic:
 	$(MODEL_ROOT)/model_$(MODEL_NAME).py $(SETTING_NAME) $(VECTORIZER_TYPE) $(NETWORK_TYPE) $(TASK_TYPE) $(TEST_TABLE) $(TRAIN_TABLE) $(ETALON_RESULT)
 
 keras_core:
 	$(MODEL_ROOT)/model_$(MODEL_NAME).py $(TASK_TYPE) $(TEST_TABLE) $(TRAIN_TABLE) $(ETALON_RESULT)
 
-rnn_core_test:
+theano_core_test:
 	# Predicting
 	$(MODEL_ROOT)/model_$(MODEL_NAME).py $(SETTING_NAME) $(VECTORIZER_TYPE) 'rnn' $(TASK_TYPE) $(TABLE) $(MODEL_OUT)
 	# Estimating model

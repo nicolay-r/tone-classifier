@@ -19,6 +19,9 @@ from core.msg import TwitterMessageParser
 from model_w2v import vectorizer as w2v_vectorizer
 from model_features_only import vectorizer as features_only
 
+# optimizer
+from networks.theano import optimizer
+
 # RNN
 from networks.theano.rnn import RNNTheano
 
@@ -26,7 +29,6 @@ from networks.theano.rnn import RNNTheano
 from networks.theano.gru import GRU2LTheano
 
 # LSTM
-from networks.theano import optimizer
 from networks.theano.lstm.lstm_1l_vanilla import LSTM1lTheano
 from networks.theano.lstm.lstm_1l_e_vanilla import LSTM1leTheano
 from networks.theano.lstm.lstm_1l_rmsprop import LSTM1lRmspropTheano
@@ -48,7 +50,7 @@ def train_network(vectorizer, network_type, task_type, train_table,
 
     returns : None
     """
-    message_settings, features_settings = load_embeddings()
+    message_settings, features_settings = utils.load_embeddings()
 
     features = Features(
             TwitterMessageParser(message_settings, task_type),
@@ -148,16 +150,6 @@ def save_embeddings(output):
         for dirnames, folders, files in walk(configs.EMBEDINGS_ROOT):
             for f in files:
                 zf.write(join(configs.EMBEDINGS_ROOT, f), arcname=f)
-
-
-def load_embeddings():
-    with io.open(configs.TWITTER_MESSAGE_PARSER_CONFIG, "r") as f:
-        message_settings = json.load(f, encoding='utf-8')
-
-    with io.open(configs.FEATURES_CONFIG, 'r') as f:
-        features_settings = json.load(f, encoding='utf-8')
-
-    return message_settings, features_settings
 
 
 def get_vectorizer(vectorizer_type):

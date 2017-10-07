@@ -12,12 +12,11 @@ import model_w2v
 import eval as ev
 import configs
 
-# networks
-# from networks.keras.lstm_1l import KerasLSTM_1L as KerasModel
-# from networks.keras.lstm_2l_2i_concat \
-#     import KerasLSTM_2L_2i_concat as KerasModel
-from networks.keras.lstm_1l_2i_concat \
-    import KerasLSTM_1L_2i_concat as KerasModel
+# network models
+# from networks.keras.lstm_1l import KerasLSTM_1L as K
+# from networks.keras.lstm_2l_2i_concat import KerasLSTM_2L_2i_concat as K
+# from networks.keras.lstm_1l_2i_concat import KerasLSTM_1L_2i_concat as K
+from networks.keras.lstm_1l_sum import KerasLSTM_1L_sum as K
 
 if __name__ == "__main__":
     utils.init_logger()
@@ -31,7 +30,7 @@ if __name__ == "__main__":
     BATCH_SIZE = 8
     OUTPUT_FILEPATH = join(configs.NETWORK_MODELS_ROOT, "keras_output.txt")
 
-    keras_model = KerasModel(model_w2v.W2V_MODELS, MAX_SEQUENCE_LENGTH)
+    keras_model = K(model_w2v.W2V_MODELS, MAX_SEQUENCE_LENGTH)
 
     # prepare
     train_problem, test_problem = uk.prepare_problem(
