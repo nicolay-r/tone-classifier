@@ -117,6 +117,16 @@ theano-lstm-1l_diagnostic_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)
 theano-lstm-1l_diagnostic_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
 theano-lstm-1l_diagnostic_sre16_bank_w2v_imb: theano_diagnostic
 
+theano-lstm-1l_diagnostic_sre16_ttc_w2v_imb: TASK_TYPE = ttk
+theano-lstm-1l_diagnostic_sre16_ttc_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train.csv
+theano-lstm-1l_diagnostic_sre16_ttc_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
+theano-lstm-1l_diagnostic_sre16_ttc_w2v_imb: MODEL_NAME = theano_diagnostic
+theano-lstm-1l_diagnostic_sre16_ttc_w2v_imb: SETTING_NAME = sre16_imb
+theano-lstm-1l_diagnostic_sre16_ttc_w2v_imb: NETWORK_TYPE = lstm-1l
+theano-lstm-1l_diagnostic_sre16_ttc_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.csv
+theano-lstm-1l_diagnostic_sre16_ttc_w2v_imb: VECTORIZER_TYPE = w2v
+theano-lstm-1l_diagnostic_sre16_ttc_w2v_imb: theano_diagnostic
+
 theano-lstm-2l_diagnostic_sre16_bank_w2v_imb: TASK_TYPE = bank
 theano-lstm-2l_diagnostic_sre16_bank_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train.csv
 theano-lstm-2l_diagnostic_sre16_bank_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
@@ -127,6 +137,15 @@ theano-lstm-2l_diagnostic_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)
 theano-lstm-2l_diagnostic_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
 theano-lstm-2l_diagnostic_sre16_bank_w2v_imb: theano_diagnostic
 
+theano-lstm-2l_diagnostic_sre16_tcc_w2v_imb: TASK_TYPE = ttk
+theano-lstm-2l_diagnostic_sre16_tcc_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train.csv
+theano-lstm-2l_diagnostic_sre16_tcc_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
+theano-lstm-2l_diagnostic_sre16_tcc_w2v_imb: MODEL_NAME = theano_diagnostic
+theano-lstm-2l_diagnostic_sre16_tcc_w2v_imb: SETTING_NAME = sre16_imb
+theano-lstm-2l_diagnostic_sre16_tcc_w2v_imb: NETWORK_TYPE = lstm-2l
+theano-lstm-2l_diagnostic_sre16_tcc_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.csv
+theano-lstm-2l_diagnostic_sre16_tcc_w2v_imb: VECTORIZER_TYPE = w2v
+theano-lstm-2l_diagnostic_sre16_tcc_w2v_imb: theano_diagnostic
 #
 # SentiRuEval-2015
 #
