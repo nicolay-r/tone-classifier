@@ -69,7 +69,7 @@ keras-lstm_diagnostic_sre16_bank_w2v_imb: MODEL_NAME = keras
 keras-lstm_diagnostic_sre16_bank_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_etalon.csv
 keras-lstm_diagnostic_sre16_bank_w2v_imb: keras_core
 
-keras-lstm_diagnostic_sre16_tcc_w2v_imb: TASK_TYPE = tkk
+keras-lstm_diagnostic_sre16_tcc_w2v_imb: TASK_TYPE = ttk
 keras-lstm_diagnostic_sre16_tcc_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train.csv
 keras-lstm_diagnostic_sre16_tcc_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_test.csv
 keras-lstm_diagnostic_sre16_tcc_w2v_imb: MODEL_NAME = keras
@@ -97,7 +97,7 @@ theano-lstm-1l_diagnostic_train_sre16_bank_w2v_imb: NETWORK_TYPE = lstm-1l
 theano-lstm-1l_diagnostic_train_sre16_bank_w2v_imb: VECTORIZER_TYPE = w2v
 theano-lstm-1l_diagnostic_train_sre16_bank_w2v_imb: theano_diagnostic
 
-theano-lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: TASK_TYPE = tkk
+theano-lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: TASK_TYPE = ttk
 theano-lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: TRAIN_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train_70.csv
 theano-lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: TEST_TABLE = $(SENTIRUEVAL2016)$(TASK_TYPE)_train_30.csv
 theano-lstm-1l_diagnostic_train_sre16_tcc_w2v_imb: ETALON_RESULT = $(SENTIRUEVAL2016)$(TASK_TYPE)_train_30.csv

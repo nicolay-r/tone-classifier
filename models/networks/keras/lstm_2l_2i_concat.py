@@ -5,7 +5,7 @@ from keras.layers.recurrent import LSTM
 from keras.preprocessing import sequence
 
 
-class KerasLSTM_1L_2i_concat:
+class KerasLSTM_2L_2i_concat:
 
     def __init__(self, w2v_models, max_sequence_length):
         """
