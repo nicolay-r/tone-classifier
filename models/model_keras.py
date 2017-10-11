@@ -16,7 +16,9 @@ import configs
 # from networks.keras.lstm_1l import KerasLSTM_1L as K
 # from networks.keras.lstm_2l_2i_concat import KerasLSTM_2L_2i_concat as K
 # from networks.keras.lstm_1l_2i_concat import KerasLSTM_1L_2i_concat as K
-from networks.keras.lstm_1l_sum import KerasLSTM_1L_sum as K
+# from networks.keras.lstm_1l_sum import KerasLSTM_1L_sum as K
+from networks.keras.lstm_1l_1i_emb_lex import KerasLSTM_1L_1i_emb_lex as K
+
 
 if __name__ == "__main__":
     utils.init_logger()
@@ -26,7 +28,7 @@ if __name__ == "__main__":
               'etalon_table': sys.argv[4]}
 
     MAX_SEQUENCE_LENGTH = 40
-    EPOCHS = 1
+    EPOCHS = 20
     BATCH_SIZE = 8
     OUTPUT_FILEPATH = join(configs.NETWORK_MODELS_ROOT, "keras_output.txt")
 
