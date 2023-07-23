@@ -7,7 +7,7 @@ This project represent a code for paper
 https://github.com/nicolay-r/tone-classifier/raw/master/doc/aidt_2017.pdf)*
 and describes the application of `SVM` classifier and `Neural Networks`
 classifiers for sentiment classification of Russian Twitter messages in the
-banking and telecommunications domains of **SentiRuEval** competition.
+banking and telecommunications domains of **SentiRuEval-2016** competition.
 
 ## Installation
 
@@ -38,11 +38,12 @@ comparation with the other participants.
 
 ## Papers
 
-1. Russir posters ([2017][Russir-2017 poster], [2016][Russir-2016 poster])
+This work has been formed into [AIDT Journal 2017/2] paper publication.
 
-2. [AIDT Journal 2017/2];
+The latter was presented at RUSSIR conference in a form of the following posters: 
+[RUSSIR-2017][Russir-2017 poster], [RUSSIR-2016][Russir-2016 poster];
 
-3. [Dialog-2016][Dialog-2016 article];
+Early publication could be found here: [Dialog-2016][Dialog-2016 article];
 
 ## How to cite
 
