@@ -3,7 +3,7 @@
 setuptools
 gensim==0.13.4
 psycopg2==2.4.5
-lxml==4.6.3
+lxml==4.9.1
 scikit-learn==0.17.1
 scipy==1.10.0
 pymystem3==0.1.5
