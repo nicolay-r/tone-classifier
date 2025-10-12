@@ -9,7 +9,7 @@ and describes the application of `SVM` classifier and `Neural Networks`
 classifiers for sentiment classification of Russian Twitter messages in the
 banking and telecommunications domains of **SentiRuEval-2016** competition.
 
-## Installation
+# Installation
 
 All dependencies described in `Makefile` and could be installed as follows:
 
@@ -17,7 +17,7 @@ All dependencies described in `Makefile` and could be installed as follows:
 make install
 ```
 
-## Usage
+# Usage
 
 For research purposes. Use `run/Makefile` to run workflow for
 certain task (`bank` or `tcc`) and classifier (`svm`, `lr`), for example:
@@ -36,16 +36,15 @@ All embedding classifier settings presented in `data/embedding` folder.
 * [SentiRuEval-2016] contest data & results of this approach (participant #1) in
 comparation with the other participants.
 
-## Papers
+# Papers
 
-This work has been formed into [AIDT Journal 2017/2] paper publication.
-
-The latter was presented at RUSSIR conference in a form of the following posters: 
+* This work has been formed into [AIDT Journal 2017/2] paper publication.
+* The latter was presented at RUSSIR conference in a form of the following posters: 
 [RUSSIR-2017][Russir-2017 poster], [RUSSIR-2016][Russir-2016 poster];
+* **Dialogue2016 Student Session** paper: [Dialog-2016][Dialog-2016 article];
+* **Diploma**: [Diploma work](https://github.com/nicolay-r/tone-classifier/blob/2016_jan_contest/doc/diploma/diploma.pdf)
 
-Early publication could be found here: [Dialog-2016][Dialog-2016 article];
-
-## How to cite
+# How to cite
 
 ```bibtex
 @article{rusnachenko2017methods,
@@ -65,7 +64,7 @@ Early publication could be found here: [Dialog-2016][Dialog-2016 article];
 
 [Russir-2016 poster]: doc/russir_2016_poster.pdf
 [SentiRuEval-2016]: https://drive.google.com/drive/u/0/folders/0BxlA8wH3PTUfV1F1UTBwVTJPd3c
-[Dialog-2016 article]: http://www.dialog-21.ru/media/3469/rusnachenko.pdf
+[Dialog-2016 article]: https://github.com/nicolay-r/tone-classifier/blob/2016_jan_contest/doc/dialog_2016/dialog16_final.pdf
 
 [SentiRuEval-2015]: http://goo.gl/qHeAVo
 
