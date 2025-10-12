@@ -1,35 +1,24 @@
-Description
------------
+# Description
+
+### [⚠️ Please follow the latest version on the `master` branch ⚠️](https://github.com/nicolay-r/tone-classifier) 
 
 This project describes the application of SVM classifier for sentiment
 classification of Russian Twitter messages in the banking and
-telecommunications domains of SentiRuEval-2016 competition. A variety of
-features were implemented to improve the quality of message classification,
-especially sentiment score features based on a set of sentiment lexicons. We
-compare the result differences between train collection types
-(balanced/imbalanced) and its volumes, and advantages of applying lexicon-based
-features to each type of the training classifier modification. Before
-SentiRuEval-2016, the classifier was tested on the previous year collection of
-the same competition (SentiRuEval-2015) to obtain a better settings set. The
-created system achieved the third place at SentiRuEval-2016 in both tasks. The
-experiments performed after the SentiRuEval-2016 evaluation allowed us to
-improve our results by searching for a better 'Cost' parameter value of SVM
-classifier and extracting more information from lexicons into new features. The
-final classifier achieved results close to the top results of the competition.
+telecommunications domains of **SentiRuEval-2016 competition.**
 
 **Key words:** Machine Learning, SVM, Sentiment Analysis, Lexicons, SentiRuEval
 2016
 
-Documentation
--------------
+# Documentation
 
-1. Use of lexicons to improve quality of sentiment classification ([Dialog-2016
-   article]);
+### [⚠️ Please follow the latest version on the `master` branch ⚠️](https://github.com/nicolay-r/tone-classifier) 
 
-2. Diploma work ([Full documentation]).
+1. Use of lexicons to improve quality of sentiment classification
 
-References
-----------
+2. Diploma work
+
+# References
+
 * [SentiRuEval-2015] contest data;
 * [SentiRuEval-2016] contest data & results of this approach (participant #1)
   in comparation with the other participants;
@@ -38,10 +27,9 @@ References
 * LibSVM -- SVM classifier library [libsvm];
 * Lanyrd's MySQL to PostgreSQL conversion script, [lanyrd project].
 
-Installing
-----------
+# Installation
 
-Tested under Ubuntu 14.04.3 x64.
+Tested under `Ubuntu 14.04.3 x64`.
 
 1. Install all dependecies.
 ```
@@ -103,7 +91,7 @@ cd ../pmieval
 
 Using Streaming Twitter API for collecting Twitter messages
 -----------------------------------------------------------
-Install Tweepy
+Install `Tweepy`
 ```
 #!bash
 pip install 'pip>1.5' --upgradeimport urllib
